@@ -1,0 +1,29 @@
+[package]
+name = "alsahwdep-sys"
+version = "0.0.1"
+links = "alsahwdep"
+build = "build.rs"
+[package.metadata.docs.rs]
+features = ["dox"]
+
+[lib]
+name = "alsahwdep_sys"
+
+[dependencies]
+libc = "0.2"
+
+[dependencies.glib-sys]
+git = "https://github.com/gtk-rs/sys"
+
+[dependencies.gobject-sys]
+git = "https://github.com/gtk-rs/sys"
+
+[build-dependencies]
+pkg-config = "0.3.7"
+
+[dev-dependencies]
+shell-words = "0.1.0"
+tempfile = "3"
+
+[features]
+dox = []
