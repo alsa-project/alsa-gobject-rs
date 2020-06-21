@@ -18,6 +18,7 @@ clean:
 	rm -rf alsaseq-sys
 	rm -rf alsaseq/src/auto alsaseq/target alsaseq/Cargo.lock
 	rm -rf alsahwdep-sys
+	rm -rf alsahwdep/src/auto alsahwdep/target alsahwdep/Cargo.lock
 
 gir/Cargo.toml:
 	git submodule update --init gir
@@ -75,4 +76,7 @@ alsahwdep-sys/src: conf/gir-alsahwdep-sys.toml gir-files/ALSAHwdep-0.0.gir $(GIR
 
 alsahwdep-sys: alsahwdep-sys/src
 
-alsahwdep: alsahwdep-sys
+alsahwdep/src/auto: conf/gir-alsahwdep.toml gir-files/ALSAHwdep-0.0.gir $(GIR_EXEC)
+	$(GIR_EXEC) -c conf/gir-alsahwdep.toml -d gir-files -m normal -o alsahwdep
+
+alsahwdep: alsahwdep/src/lib.rs alsahwdep/Cargo.toml alsahwdep-sys alsahwdep/src/auto
