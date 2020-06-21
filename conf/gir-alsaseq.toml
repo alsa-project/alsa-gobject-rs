@@ -1,0 +1,205 @@
+[crate_name_overrides]
+"alsa_seq" = "alsaseq"
+
+[options]
+work_mode = "normal"
+library = "ALSASeq"
+version = "0.0"
+min_cfg_version = "0.0"
+single_version_file = true
+
+manual = [
+    "GLib.Error",
+    "GLib.Source",
+    "ALSASeq.Tstamp",
+]
+
+generate = [
+    "ALSASeq.SpecificAddress",
+    "ALSASeq.SpecificClientId",
+    "ALSASeq.ClientType",
+    "ALSASeq.FilterAttrFlag",
+    "ALSASeq.SpecificPortId",
+    "ALSASeq.PortCapFlag",
+    "ALSASeq.PortAttrFlag",
+    "ALSASeq.EventType",
+    "ALSASeq.EventTimestampMode",
+    "ALSASeq.EventTimeMode",
+    "ALSASeq.EventLengthMode",
+    "ALSASeq.EventPriorityMode",
+    "ALSASeq.SpecificQueueId",
+    "ALSASeq.PortSubscribeFlag",
+    "ALSASeq.QuerySubscribeType",
+    "ALSASeq.QueueTimerType",
+    "ALSASeq.RemoveFilterFlag",
+    "ALSASeq.SystemInfo",
+    "ALSASeq.Addr",
+    "ALSASeq.PortInfo",
+    "ALSASeq.ClientPool",
+    "ALSASeq.EventDataResult",
+    "ALSASeq.EventDataNote",
+    "ALSASeq.EventDataCtl",
+    "ALSASeq.SubscribeData",
+    "ALSASeq.QueueInfo",
+    "ALSASeq.RemoveFilter",
+]
+
+[[object]]
+name = "ALSASeq.*"
+status = "generate"
+
+[[object]]
+name = "ALSASeq.UserClient"
+status = "generate"
+manual_traits = ["UserClientExtManual"]
+    [[object.function]]
+    pattern = "get_protocol_version"
+    ignore = true
+    [[object.function]]
+    pattern = "create_port"
+    ignore = true
+    [[object.function]]
+    pattern = "create_port_at"
+    ignore = true
+    [[object.function]]
+    pattern = "create_queue"
+    ignore = true
+    [[object.function]]
+    pattern = "get_info"
+    ignore = true
+    [[object.function]]
+    pattern = "get_pool"
+    ignore = true
+
+[[object]]
+name = "ALSASeq.EventDataConnect"
+status = "generate"
+    [[object.function]]
+    pattern = "get_src"
+    ignore = true
+    [[object.function]]
+    pattern = "get_dst"
+    ignore = true
+
+[[object]]
+name = "ALSASeq.EventDataQueue"
+status = "generate"
+    [[object.function]]
+    pattern = "get_byte_param"
+    ignore = true
+    [[object.function]]
+    pattern = "set_byte_param"
+    ignore = true
+    [[object.function]]
+    pattern = "set_skew_param"
+    ignore = true
+    [[object.function]]
+    pattern = "get_skew_param"
+    ignore = true
+    [[object.function]]
+    pattern = "get_quadlet_param"
+    ignore = true
+    [[object.function]]
+    pattern = "set_quadlet_param"
+    ignore = true
+    [[object.function]]
+    pattern = "get_tstamp_param"
+    ignore = true
+
+[[object]]
+name = "ALSASeq.ClientInfo"
+status = "generate"
+manual_traits = ["ClientInfoExtManual"]
+    [[object.function]]
+    pattern = "get_event_filter"
+    ignore = true
+    [[object.function]]
+    pattern = "set_event_filter"
+    ignore = true
+
+[[object]]
+name = "ALSASeq.QueueStatus"
+status = "generate"
+manual_traits = ["QueueStatusExtManual"]
+    [[object.function]]
+    pattern = "get_real_time"
+    ignore = true
+
+[[object]]
+name = "ALSASeq.QueueTempo"
+status = "generate"
+manual_traits = ["QueueTempoExtManual"]
+    [[object.function]]
+    pattern = "get_skew"
+    ignore = true
+    [[object.function]]
+    pattern = "set_skew"
+    ignore = true
+
+[[object]]
+name = "ALSASeq.QueueTimer"
+status = "generate"
+manual_traits = ["QueueTimerExtManual"]
+    [[object.function]]
+    pattern = "get_alsa_data"
+    ignore = true
+
+[[object]]
+name = "ALSASeq.QueueTimerDataAlsa"
+status = "generate"
+    [[object.function]]
+    pattern = "get_device_id"
+    ignore = true
+    [[object.function]]
+    pattern = "set_device_id"
+    ignore = true
+
+[[object]]
+name = "ALSASeq.EventCntr"
+status = "generate"
+manual_traits = ["EventCntrExtManual"]
+    [[object.function]]
+    pattern = "get_addr_data"
+    ignore = true
+    [[object.function]]
+    pattern = "get_blob_data"
+    ignore = true
+    [[object.function]]
+    pattern = "get_byte_data"
+    ignore = true
+    [[object.function]]
+    pattern = "get_connect_data"
+    ignore = true
+    [[object.function]]
+    pattern = "get_ctl_data"
+    ignore = true
+    [[object.function]]
+    pattern = "get_dst"
+    ignore = true
+    [[object.function]]
+    pattern = "get_note_data"
+    ignore = true
+    [[object.function]]
+    pattern = "get_quadlet_data"
+    ignore = true
+    [[object.function]]
+    pattern = "get_queue_data"
+    ignore = true
+    [[object.function]]
+    pattern = "get_result_data"
+    ignore = true
+    [[object.function]]
+    pattern = "get_src"
+    ignore = true
+    [[object.function]]
+    pattern = "get_tstamp"
+    ignore = true
+    [[object.function]]
+    pattern = "get_tstamp_data"
+    ignore = true
+    [[object.function]]
+    pattern = "set_byte_data"
+    ignore = true
+    [[object.function]]
+    pattern = "set_quadlet_data"
+    ignore = true
