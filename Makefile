@@ -44,4 +44,7 @@ alsatimer-sys/src: conf/gir-alsatimer-sys.toml gir-files/ALSATimer-0.0.gir $(GIR
 
 alsatimer-sys: alsatimer-sys/src
 
-alsatimer: alsatimer-sys
+alsatimer/src/auto: conf/gir-alsatimer.toml gir-files/ALSATimer-0.0.gir $(GIR_EXEC)
+	$(GIR_EXEC) -c conf/gir-alsatimer.toml -d gir-files -m normal -o alsatimer
+
+alsatimer: alsatimer/src/lib.rs alsatimer/Cargo.toml alsatimer-sys alsatimer/src/auto
