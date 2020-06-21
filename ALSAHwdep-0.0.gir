@@ -1,0 +1,481 @@
+<?xml version="1.0"?>
+<!-- This file was automatically generated from C sources - DO NOT EDIT!
+To affect the contents of this file, edit the original C definitions,
+and/or use gtk-doc annotations.  -->
+<repository version="1.2"
+            xmlns="http://www.gtk.org/introspection/core/1.0"
+            xmlns:c="http://www.gtk.org/introspection/c/1.0"
+            xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
+  <include name="GLib" version="2.0"/>
+  <include name="GObject" version="2.0"/>
+  <package name="alsahwdep"/>
+  <namespace name="ALSAHwdep"
+             version="0.0"
+             shared-library="libalsahwdep.so.0"
+             c:identifier-prefixes="ALSAHwdep"
+             c:symbol-prefixes="alsahwdep_">
+    <function-macro name="DEVICE_INFO"
+                    c:identifier="ALSAHWDEP_DEVICE_INFO"
+                    introspectable="0">
+      <source-position filename="../src/hwdep/device-info.h" line="14"/>
+      <parameters>
+        <parameter name="obj">
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="DEVICE_INFO_CLASS"
+                    c:identifier="ALSAHWDEP_DEVICE_INFO_CLASS"
+                    introspectable="0">
+      <source-position filename="../src/hwdep/device-info.h" line="22"/>
+      <parameters>
+        <parameter name="klass">
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="DEVICE_INFO_GET_CLASS"
+                    c:identifier="ALSAHWDEP_DEVICE_INFO_GET_CLASS"
+                    introspectable="0">
+      <source-position filename="../src/hwdep/device-info.h" line="29"/>
+      <parameters>
+        <parameter name="obj">
+        </parameter>
+      </parameters>
+    </function-macro>
+    <class name="DeviceInfo"
+           c:symbol-prefix="device_info"
+           c:type="ALSAHwdepDeviceInfo"
+           parent="GObject.Object"
+           glib:type-name="ALSAHwdepDeviceInfo"
+           glib:get-type="alsahwdep_device_info_get_type"
+           glib:type-struct="DeviceInfoClass">
+      <source-position filename="../src/hwdep/device-info.h" line="46"/>
+      <property name="card-id" transfer-ownership="none">
+        <type name="gint" c:type="gint"/>
+      </property>
+      <property name="device-id" transfer-ownership="none">
+        <type name="guint" c:type="guint"/>
+      </property>
+      <property name="id" transfer-ownership="none">
+        <type name="utf8" c:type="gchar*"/>
+      </property>
+      <property name="iface" transfer-ownership="none">
+        <type name="IfaceType"/>
+      </property>
+      <property name="name" transfer-ownership="none">
+        <type name="utf8" c:type="gchar*"/>
+      </property>
+      <field name="parent_instance">
+        <type name="GObject.Object" c:type="GObject"/>
+      </field>
+      <field name="priv">
+        <type name="DeviceInfoPrivate" c:type="ALSAHwdepDeviceInfoPrivate*"/>
+      </field>
+    </class>
+    <record name="DeviceInfoClass"
+            c:type="ALSAHwdepDeviceInfoClass"
+            glib:is-gtype-struct-for="DeviceInfo">
+      <source-position filename="../src/hwdep/device-info.h" line="46"/>
+      <field name="parent_class">
+        <type name="GObject.ObjectClass" c:type="GObjectClass"/>
+      </field>
+    </record>
+    <record name="DeviceInfoPrivate"
+            c:type="ALSAHwdepDeviceInfoPrivate"
+            disguised="1">
+      <source-position filename="../src/hwdep/device-info.h" line="36"/>
+    </record>
+    <function-macro name="IS_DEVICE_INFO"
+                    c:identifier="ALSAHWDEP_IS_DEVICE_INFO"
+                    introspectable="0">
+      <source-position filename="../src/hwdep/device-info.h" line="18"/>
+      <parameters>
+        <parameter name="obj">
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="IS_DEVICE_INFO_CLASS"
+                    c:identifier="ALSAHWDEP_IS_DEVICE_INFO_CLASS"
+                    introspectable="0">
+      <source-position filename="../src/hwdep/device-info.h" line="26"/>
+      <parameters>
+        <parameter name="klass">
+        </parameter>
+      </parameters>
+    </function-macro>
+    <enumeration name="IfaceType"
+                 glib:type-name="ALSAHwdepIfaceType"
+                 glib:get-type="alsahwdep_iface_type_get_type"
+                 c:type="ALSAHwdepIfaceType">
+      <doc xml:space="preserve"
+           filename="../src/hwdep/alsahwdep-enum-types.h"
+           line="7">A set of enumerators for the interface of hwdep device.</doc>
+      <member name="opl2"
+              value="0"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_OPL2"
+              glib:nick="opl2">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="9">For OPL2 sound chip.</doc>
+      </member>
+      <member name="opl3"
+              value="1"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_OPL3"
+              glib:nick="opl3">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="10">For OPL3 sound chip.</doc>
+      </member>
+      <member name="opl4"
+              value="2"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_OPL4"
+              glib:nick="opl4">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="11">For OPL4 sound chip.</doc>
+      </member>
+      <member name="sb16csp"
+              value="3"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_SB16CSP"
+              glib:nick="sb16csp">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="12">For Creative Signal Processor.</doc>
+      </member>
+      <member name="emu10k1"
+              value="4"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_EMU10K1"
+              glib:nick="emu10k1">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="13">For FX8010 processor in EMU10K1 chip.</doc>
+      </member>
+      <member name="yss225"
+              value="5"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_YSS225"
+              glib:nick="yss225">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="14">For Yamaha FX processor.</doc>
+      </member>
+      <member name="ics2115"
+              value="6"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_ICS2115"
+              glib:nick="ics2115">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="15">For Wavetable synth.</doc>
+      </member>
+      <member name="sscape"
+              value="7"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_SSCAPE"
+              glib:nick="sscape">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="16">For Ensoniq SoundScape ISA card (MC68EC000).</doc>
+      </member>
+      <member name="vx"
+              value="8"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_VX"
+              glib:nick="vx">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="17">For Digigram VX cards.</doc>
+      </member>
+      <member name="mixart"
+              value="9"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_MIXART"
+              glib:nick="mixart">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="18">For Digigram miXart cards.</doc>
+      </member>
+      <member name="usx2y"
+              value="10"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_USX2Y"
+              glib:nick="usx2y">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="19">For Tascam US122, US224 &amp; US428 usb.</doc>
+      </member>
+      <member name="emux_wavetable"
+              value="11"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_EMUX_WAVETABLE"
+              glib:nick="emux-wavetable">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="20">For EmuX wavetable.</doc>
+      </member>
+      <member name="bluetooth"
+              value="12"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_BLUETOOTH"
+              glib:nick="bluetooth">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="21">For Bluetooth audio.</doc>
+      </member>
+      <member name="usx2y_pcm"
+              value="13"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_USX2Y_PCM"
+              glib:nick="usx2y-pcm">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="22">For Tascam US122, US224 &amp; US428 rawusb pcm.</doc>
+      </member>
+      <member name="pcxhr"
+              value="14"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_PCXHR"
+              glib:nick="pcxhr">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="23">For Digigram PCXHR.</doc>
+      </member>
+      <member name="sb_rc"
+              value="15"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_SB_RC"
+              glib:nick="sb-rc">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="24">For SB Extigy/Audigy2NX remote control.</doc>
+      </member>
+      <member name="hda"
+              value="16"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_HDA"
+              glib:nick="hda">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="25">For HD-audio.</doc>
+      </member>
+      <member name="usb_stream"
+              value="17"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_USB_STREAM"
+              glib:nick="usb-stream">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="26">For direct access to usb stream.</doc>
+      </member>
+      <member name="fw_dice"
+              value="18"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_FW_DICE"
+              glib:nick="fw-dice">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="27">For TC DICE FireWire device.</doc>
+      </member>
+      <member name="fw_fireworks"
+              value="19"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_FW_FIREWORKS"
+              glib:nick="fw-fireworks">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="28">For Echo Audio Fireworks based devices.</doc>
+      </member>
+      <member name="fw_bebob"
+              value="20"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_FW_BEBOB"
+              glib:nick="fw-bebob">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="29">For BridgeCo BeBoB based device.</doc>
+      </member>
+      <member name="fw_oxfw"
+              value="21"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_FW_OXFW"
+              glib:nick="fw-oxfw">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="30">For Oxford OXFW970/971 based devices.</doc>
+      </member>
+      <member name="fw_digi00x"
+              value="22"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_FW_DIGI00X"
+              glib:nick="fw-digi00x">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="31">For Digidesign Digi 002/003 family.</doc>
+      </member>
+      <member name="fw_tascam"
+              value="23"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_FW_TASCAM"
+              glib:nick="fw-tascam">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="32">For TASCAM FireWire series.</doc>
+      </member>
+      <member name="line6"
+              value="24"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_LINE6"
+              glib:nick="line6">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="33">For Line6 USB processors.</doc>
+      </member>
+      <member name="fw_motu"
+              value="25"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_FW_MOTU"
+              glib:nick="fw-motu">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="34">For MOTU FireWire series.</doc>
+      </member>
+      <member name="fw_fireface"
+              value="26"
+              c:identifier="ALSAHWDEP_IFACE_TYPE_FW_FIREFACE"
+              glib:nick="fw-fireface">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="35">For RME Fireface series.</doc>
+      </member>
+    </enumeration>
+    <function name="get_device_id_list"
+              c:identifier="alsahwdep_get_device_id_list"
+              throws="1">
+      <doc xml:space="preserve"
+           filename="../src/hwdep/query.c"
+           line="126">Get the list of numerical ID for available hwdep devices of sound card.
+
+Nodes under sound subsystem in sysfs are used to gather the information.</doc>
+      <source-position filename="../src/hwdep/query.h" line="12"/>
+      <return-value transfer-ownership="none">
+        <type name="none" c:type="void"/>
+      </return-value>
+      <parameters>
+        <parameter name="card_id" transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/hwdep/query.c"
+               line="128">The numerical ID of sound card.</doc>
+          <type name="guint" c:type="guint"/>
+        </parameter>
+        <parameter name="entries"
+                   direction="out"
+                   caller-allocates="0"
+                   transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="../src/hwdep/query.c"
+               line="129">The list of numerical ID for
+          hwdep device.</doc>
+          <array length="2" zero-terminated="0" c:type="guint**">
+            <type name="guint" c:type="guint*"/>
+          </array>
+        </parameter>
+        <parameter name="entry_count"
+                   direction="out"
+                   caller-allocates="0"
+                   transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="../src/hwdep/query.c"
+               line="131">The number of entries.</doc>
+          <type name="gsize" c:type="gsize*"/>
+        </parameter>
+      </parameters>
+    </function>
+    <function name="get_device_info"
+              c:identifier="alsahwdep_get_device_info"
+              throws="1">
+      <doc xml:space="preserve"
+           filename="../src/hwdep/query.c"
+           line="373">Get the information according to given numerical IDs for card and device.
+
+The call of function executes open(2), close(2), and ioctl(2) system call
+with SNDRV_CTL_IOCTL_HWDEP_INFO command for ALSA control character device.</doc>
+      <source-position filename="../src/hwdep/query.h" line="21"/>
+      <return-value transfer-ownership="none">
+        <type name="none" c:type="void"/>
+      </return-value>
+      <parameters>
+        <parameter name="card_id" transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/hwdep/query.c"
+               line="375">The numberical value for sound card to query.</doc>
+          <type name="guint" c:type="guint"/>
+        </parameter>
+        <parameter name="device_id" transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/hwdep/query.c"
+               line="376">The numerical value of hwdep device to query.</doc>
+          <type name="guint" c:type="guint"/>
+        </parameter>
+        <parameter name="device_info"
+                   direction="out"
+                   caller-allocates="0"
+                   transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="../src/hwdep/query.c"
+               line="377">The information of the device.</doc>
+          <type name="DeviceInfo" c:type="ALSAHwdepDeviceInfo**"/>
+        </parameter>
+      </parameters>
+    </function>
+    <function name="get_hwdep_devnode"
+              c:identifier="alsahwdep_get_hwdep_devnode"
+              throws="1">
+      <doc xml:space="preserve"
+           filename="../src/hwdep/query.c"
+           line="262">Allocate devnode string for hwdep device and return it when exists.
+
+Nodes under sound subsystem in sysfs are used to gather the information.</doc>
+      <source-position filename="../src/hwdep/query.h" line="18"/>
+      <return-value transfer-ownership="none">
+        <type name="none" c:type="void"/>
+      </return-value>
+      <parameters>
+        <parameter name="card_id" transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/hwdep/query.c"
+               line="264">The numeridcal ID of sound card.</doc>
+          <type name="guint" c:type="guint"/>
+        </parameter>
+        <parameter name="device_id" transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/hwdep/query.c"
+               line="265">The numerical ID of hwdep device for the sound card.</doc>
+          <type name="guint" c:type="guint"/>
+        </parameter>
+        <parameter name="devnode"
+                   direction="out"
+                   caller-allocates="0"
+                   transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="../src/hwdep/query.c"
+               line="266">The string for devnode of hwdep device.</doc>
+          <type name="utf8" c:type="char**"/>
+        </parameter>
+      </parameters>
+    </function>
+    <function name="get_hwdep_sysname"
+              c:identifier="alsahwdep_get_hwdep_sysname"
+              throws="1">
+      <doc xml:space="preserve"
+           filename="../src/hwdep/query.c"
+           line="215">Allocate sysname for hwdep device and return it when it exists.
+
+Nodes under sound subsystem in sysfs are used to gather the information.</doc>
+      <source-position filename="../src/hwdep/query.h" line="15"/>
+      <return-value transfer-ownership="none">
+        <type name="none" c:type="void"/>
+      </return-value>
+      <parameters>
+        <parameter name="card_id" transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/hwdep/query.c"
+               line="217">The numeridcal ID of sound card.</doc>
+          <type name="guint" c:type="guint"/>
+        </parameter>
+        <parameter name="device_id" transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/hwdep/query.c"
+               line="218">The numerical ID of hwdep device for the sound card.</doc>
+          <type name="guint" c:type="guint"/>
+        </parameter>
+        <parameter name="sysname"
+                   direction="out"
+                   caller-allocates="0"
+                   transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="../src/hwdep/query.c"
+               line="219">The string for sysname of hwdep device.</doc>
+          <type name="utf8" c:type="char**"/>
+        </parameter>
+      </parameters>
+    </function>
+  </namespace>
+</repository>
