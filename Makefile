@@ -4,15 +4,17 @@ GIR_EXEC = gir/target/release/gir
 
 .PHONY: all clean
 
-all: alsactl alsatimer
+all: alsactl alsatimer alsaseq
 
 clean:
 	rm -rf gir-files/ALSACtl-0.0.gir
 	rm -rf gir-files/ALSATimer-0.0.gir
+	rm -rf gir-files/ALSASeq-0.0.gir
 	rm -rf alsactl-sys
 	rm -rf alsactl/src/auto alsactl/target alsactl/Cargo.lock
 	rm -rf alsatimer-sys
 	rm -rf alsatimer/src/auto alsatimer/target alsatimer/Cargo.lock
+	rm -rf alsaseq-sys
 
 gir/Cargo.toml:
 	git submodule update --init gir
@@ -48,3 +50,13 @@ alsatimer/src/auto: conf/gir-alsatimer.toml gir-files/ALSATimer-0.0.gir $(GIR_EX
 	$(GIR_EXEC) -c conf/gir-alsatimer.toml -d gir-files -m normal -o alsatimer
 
 alsatimer: alsatimer/src/lib.rs alsatimer/Cargo.toml alsatimer-sys alsatimer/src/auto
+
+gir-files/ALSASeq-0.0.gir: ALSASeq-0.0.gir gir-files/GLib-2.0.gir
+	cp ALSASeq-0.0.gir gir-files/ALSASeq-0.0.gir
+
+alsaseq-sys/src: conf/gir-alsaseq-sys.toml gir-files/ALSASeq-0.0.gir $(GIR_EXEC)
+	$(GIR_EXEC) -c conf/gir-alsaseq-sys.toml -d gir-files -m sys -o alsaseq-sys
+
+alsaseq-sys: alsaseq-sys/src
+
+alsaseq: alsaseq-sys
