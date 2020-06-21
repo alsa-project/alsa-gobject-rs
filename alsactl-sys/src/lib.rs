@@ -268,7 +268,7 @@ extern "C" {
     pub fn alsactl_card_get_elem_id_list(self_: *mut ALSACtlCard, entries: *mut *mut glib::GList, error: *mut *mut glib::GError);
     pub fn alsactl_card_get_elem_info(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, elem_info: *mut *mut ALSACtlElemInfo, error: *mut *mut glib::GError);
     pub fn alsactl_card_get_info(self_: *mut ALSACtlCard, card_info: *mut *mut ALSACtlCardInfo, error: *mut *mut glib::GError);
-    pub fn alsactl_card_get_protocol_version(self_: *mut ALSACtlCard, proto_ver_triplet: *mut *const [*mut u16; 3], error: *mut *mut glib::GError);
+    pub fn alsactl_card_get_protocol_version(self_: *mut ALSACtlCard, proto_ver_triplet: *mut *const [u16; 3], error: *mut *mut glib::GError);
     pub fn alsactl_card_lock_elem(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, lock: gboolean, error: *mut *mut glib::GError);
     pub fn alsactl_card_open(self_: *mut ALSACtlCard, card_id: c_uint, open_flag: c_int, error: *mut *mut glib::GError);
     pub fn alsactl_card_read_elem_tlv(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, container: *const *mut i32, container_count: *mut size_t, error: *mut *mut glib::GError);
