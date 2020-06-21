@@ -396,7 +396,7 @@ and micro version is 8 bit each.</doc>
                  line="218">The version of
                     protocol currently used.</doc>
             <array zero-terminated="0" c:type="const guint16**" fixed-size="3">
-              <type name="guint16" c:type="guint16*"/>
+              <type name="guint16" c:type="guint16"/>
             </array>
           </parameter>
         </parameters>
