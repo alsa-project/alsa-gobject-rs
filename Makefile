@@ -4,13 +4,14 @@ GIR_EXEC = gir/target/release/gir
 
 .PHONY: all clean
 
-all: alsactl alsatimer alsaseq alsahwdep
+all: alsactl alsatimer alsaseq alsahwdep alsarawmidi
 
 clean:
 	rm -rf gir-files/ALSACtl-0.0.gir
 	rm -rf gir-files/ALSATimer-0.0.gir
 	rm -rf gir-files/ALSASeq-0.0.gir
 	rm -rf gir-files/ALSAHwdep-0.0.gir
+	rm -rf gir-files/ALSARawmidi-0.0.gir
 	rm -rf alsactl-sys
 	rm -rf alsactl/src/auto alsactl/target alsactl/Cargo.lock
 	rm -rf alsatimer-sys
@@ -19,6 +20,7 @@ clean:
 	rm -rf alsaseq/src/auto alsaseq/target alsaseq/Cargo.lock
 	rm -rf alsahwdep-sys
 	rm -rf alsahwdep/src/auto alsahwdep/target alsahwdep/Cargo.lock
+	rm -rf alsarawmidi-sys
 
 gir/Cargo.toml:
 	git submodule update --init gir
@@ -80,3 +82,13 @@ alsahwdep/src/auto: conf/gir-alsahwdep.toml gir-files/ALSAHwdep-0.0.gir $(GIR_EX
 	$(GIR_EXEC) -c conf/gir-alsahwdep.toml -d gir-files -m normal -o alsahwdep
 
 alsahwdep: alsahwdep/src/lib.rs alsahwdep/Cargo.toml alsahwdep-sys alsahwdep/src/auto
+
+gir-files/ALSARawmidi-0.0.gir: ALSARawmidi-0.0.gir gir-files/GLib-2.0.gir
+	cp ALSARawmidi-0.0.gir gir-files/ALSARawmidi-0.0.gir
+
+alsarawmidi-sys/src: conf/gir-alsarawmidi-sys.toml gir-files/ALSARawmidi-0.0.gir $(GIR_EXEC)
+	$(GIR_EXEC) -c conf/gir-alsarawmidi-sys.toml -d gir-files -m sys -o alsarawmidi-sys
+
+alsarawmidi-sys: alsarawmidi-sys/src
+
+alsarawmidi: alsarawmidi-sys
