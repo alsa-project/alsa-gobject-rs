@@ -1,0 +1,33 @@
+[crate_name_overrides]
+"alsa_hwdep" = "alsahwdep"
+
+[options]
+work_mode = "normal"
+library = "ALSAHwdep"
+version = "0.0"
+min_cfg_version = "0.0"
+single_version_file = true
+
+manual = [
+    "GLib.Error",
+    "GLib.Source",
+]
+
+generate = [
+    "ALSAHwdep.IfaceType",
+    "ALSAHwdep.DeviceInfo",
+]
+
+[[object]]
+name = "ALSAHwdep.*"
+status = "generate"
+    [[object.function]]
+    name = "get_device_id_list"
+    [[object.function]]
+    name = "get_hwdep_sysname"
+    [[object.function]]
+    name = "get_hwdep_devnode"
+    [[object.function]]
+    name = "get_device_id_list"
+    [[object.function]]
+    name = "get_device_info"
