@@ -1,0 +1,40 @@
+[crate_name_overrides]
+"alsa_rawmidi" = "alsarawmidi"
+
+[options]
+work_mode = "normal"
+library = "ALSARawmidi"
+version = "0.0"
+min_cfg_version = "0.0"
+single_version_file = true
+
+manual = [
+    "GLib.Error",
+    "GLib.Source",
+]
+
+generate = [
+    "ALSARawmidi.StreamDirection",
+    "ALSARawmidi.StreamPairInfoFlag",
+    "ALSARawmidi.SubstreamInfo",
+    "ALSARawmidi.SubstreamParams",
+    "ALSARawmidi.SubstreamStatus",
+]
+
+[[object]]
+name = "ALSARawmidi.*"
+status = "generate"
+
+[[object]]
+name = "ALSARawmidi.StreamPair"
+status = "generate"
+manual_traits = ["StreamPairExtManual"]
+    [[object.function]]
+    pattern = "get_protocol_version"
+    ignore = true
+    [[object.function]]
+    pattern = "get_substream_status"
+    ignore = true
+    [[object.function]]
+    pattern = "read_from_substream"
+    ignore = true
