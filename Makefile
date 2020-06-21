@@ -9,6 +9,7 @@ all: alsactl
 clean:
 	rm -rf gir-files/ALSACtl-0.0.gir
 	rm -rf alsactl-sys
+	rm -rf alsactl/src/auto alsactl/target alsactl/Cargo.lock
 
 gir/Cargo.toml:
 	git submodule update --init gir
@@ -27,4 +28,7 @@ alsactl-sys/src: conf/gir-alsactl-sys.toml gir-files/ALSACtl-0.0.gir $(GIR_EXEC)
 
 alsactl-sys: alsactl-sys/src
 
-alsactl: alsactl-sys
+alsactl/src/auto: conf/gir-alsactl.toml gir-files/ALSACtl-0.0.gir $(GIR_EXEC)
+	$(GIR_EXEC) -c conf/gir-alsactl.toml -d gir-files -m normal -o alsactl
+
+alsactl: alsactl/src/lib.rs alsactl/Cargo.toml alsactl/src/auto alsactl-sys

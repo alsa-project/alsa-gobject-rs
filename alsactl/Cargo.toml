@@ -1,0 +1,18 @@
+[package]
+name = "alsactl"
+version = "0.0.0"
+authors = ["Takashi Sakamoto <o-takashi@sakamocchi.jp>"]
+
+[lib]
+name = "alsactl"
+
+[dependencies]
+libc = "0.2"
+bitflags = "1.0"
+glib = { git = "https://github.com/gtk-rs/glib" }
+glib-sys = { git = "https://github.com/gtk-rs/sys" }
+gobject-sys = { git = "https://github.com/gtk-rs/sys" }
+alsactl-sys = { path = "../alsactl-sys" }
+
+[dev-dependencies]
+gir-format-check = "^0.1"
