@@ -15,6 +15,7 @@ clean:
 	rm -rf alsatimer-sys
 	rm -rf alsatimer/src/auto alsatimer/target alsatimer/Cargo.lock
 	rm -rf alsaseq-sys
+	rm -rf alsaseq/src/auto alsaseq/target alsaseq/Cargo.lock
 
 gir/Cargo.toml:
 	git submodule update --init gir
@@ -59,4 +60,7 @@ alsaseq-sys/src: conf/gir-alsaseq-sys.toml gir-files/ALSASeq-0.0.gir $(GIR_EXEC)
 
 alsaseq-sys: alsaseq-sys/src
 
-alsaseq: alsaseq-sys
+alsaseq/src/auto: conf/gir-alsaseq.toml gir-files/ALSASeq-0.0.gir $(GIR_EXEC)
+	$(GIR_EXEC) -c conf/gir-alsaseq.toml -d gir-files -m normal -o alsaseq
+
+alsaseq: alsaseq/src/lib.rs alsaseq/Cargo.toml alsaseq-sys alsaseq/src/auto
