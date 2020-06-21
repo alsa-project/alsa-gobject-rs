@@ -1,0 +1,89 @@
+[crate_name_overrides]
+"alsa_timer" = "alsatimer"
+
+[options]
+work_mode = "normal"
+library = "ALSATimer"
+version = "0.0"
+min_cfg_version = "0.0"
+single_version_file = true
+
+manual = [
+    "GLib.Error",
+    "GLib.Source",
+    "ALSATimer.Event",
+]
+
+generate = [
+    "ALSATimer.Class",
+    "ALSATimer.SlaveClass",
+    "ALSATimer.SpecificGlobalDevice",
+    "ALSATimer.DeviceInfoFlag",
+    "ALSATimer.InstanceParamFlag",
+    "ALSATimer.EventType",
+    "ALSATimer.EventDataType",
+    "ALSATimer.DeviceId",
+    "ALSATimer.DeviceInfo",
+    "ALSATimer.DeviceStatus",
+    "ALSATimer.DeviceParams",
+    "ALSATimer.InstanceInfo",
+    "ALSATimer.EventDataTick",
+]
+
+[[object]]
+name = "ALSATimer.*"
+status = "generate"
+    [[object.function]]
+    name = "get_devnode"
+    [[object.function]]
+    name = "get_device_id_list"
+    ignore = true
+    [[object.function]]
+    name = "get_device_info"
+    [[object.function]]
+    name = "get_device_status"
+    [[object.function]]
+    name = "set_device_params"
+    ignore = true
+    [[object.function]]
+    name = "get_tstamp_source"
+
+[[object]]
+name = "ALSATimer.UserInstance"
+status = "generate"
+manual_traits = ["UserInstanceExtManual"]
+    [[object.function]]
+    name = "get_protocol_version"
+    ignore = true
+    [[object.function]]
+    name = "set_params"
+    ignore = true
+    [[object.function]]
+    name = "get_status"
+    ignore = true
+
+[[object]]
+name = "ALSATimer.InstanceParams"
+status = "generate"
+manual_traits = ["InstanceParamsExtManual"]
+    [[object.function]]
+    name = "set_event_filter"
+    ignore = true
+    [[object.function]]
+    name = "get_event_filter"
+    ignore = true
+
+[[object]]
+name = "ALSATimer.InstanceStatus"
+status = "generate"
+manual_traits = ["InstanceStatusExtManual"]
+    [[object.function]]
+    name = "get_tstamp"
+    ignore = true
+
+[[object]]
+name = "ALSATimer.EventDataTstamp"
+status = "generate"
+    [[object.function]]
+    name = "get_tstamp"
+    ignore = true
