@@ -21,6 +21,7 @@ clean:
 	rm -rf alsahwdep-sys
 	rm -rf alsahwdep/src/auto alsahwdep/target alsahwdep/Cargo.lock
 	rm -rf alsarawmidi-sys
+	rm -rf alsarawmidi/src/auto alsarawmidi/target alsarawmidi/Cargo.lock
 
 gir/Cargo.toml:
 	git submodule update --init gir
@@ -91,4 +92,7 @@ alsarawmidi-sys/src: conf/gir-alsarawmidi-sys.toml gir-files/ALSARawmidi-0.0.gir
 
 alsarawmidi-sys: alsarawmidi-sys/src
 
-alsarawmidi: alsarawmidi-sys
+alsarawmidi/src/auto: conf/gir-alsarawmidi.toml gir-files/ALSARawmidi-0.0.gir $(GIR_EXEC)
+	$(GIR_EXEC) -c conf/gir-alsarawmidi.toml -d gir-files -m normal -o alsarawmidi
+
+alsarawmidi: alsarawmidi/src/lib.rs alsarawmidi/Cargo.toml alsarawmidi-sys alsarawmidi/src/auto
