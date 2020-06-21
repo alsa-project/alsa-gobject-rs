@@ -1,0 +1,104 @@
+[crate_name_overrides]
+"alsa_ctl" = "alsactl"
+
+[options]
+work_mode = "normal"
+library = "ALSACtl"
+version = "0.0"
+min_cfg_version = "0.0"
+single_version_file = true
+
+manual = [
+    "GLib.Error",
+    "GLib.Source",
+]
+
+generate = [
+    "ALSACtl.ElemType",
+    "ALSACtl.ElemIfaceType",
+    "ALSACtl.ElemAccessFlag",
+    "ALSACtl.EventType",
+    "ALSACtl.ElemEventMask",
+    "ALSACtl.CardInfo",
+]
+
+[[object]]
+name = "ALSACtl.*"
+status = "generate"
+
+[[object]]
+name = "ALSACtl.Card"
+status = "generate"
+manual_traits = ["CardExtManual"]
+    [[object.function]]
+    pattern = "get_protocol_version"
+    ignore = true
+    [[object.function]]
+    pattern = "read_elem_value"
+    ignore = true
+    [[object.function]]
+    pattern = "command_elem_tlv"
+    ignore = true
+    [[object.function]]
+    pattern = "read_elem_tlv"
+    ignore = true
+    [[object.function]]
+    pattern = "get_elem_id_list"
+    ignore = true
+    [[object.function]]
+    pattern = "add_elems"
+    ignore = true
+    [[object.function]]
+    pattern = "replace_elems"
+    ignore = true
+
+[[object]]
+name = "ALSACtl.ElemId"
+status = "generate"
+concurrency = "send+sync"
+
+[[object]]
+name = "ALSACtl.ElemInfo"
+status = "generate"
+manual_traits = ["ElemInfoExtManual"]
+    [[object.function]]
+    pattern = "get_int_data"
+    ignore = true
+    [[object.function]]
+    pattern = "set_int_data"
+    ignore = true
+    [[object.function]]
+    pattern = "get_int64_data"
+    ignore = true
+    [[object.function]]
+    pattern = "set_int64_data"
+    ignore = true
+
+[[object]]
+name = "ALSACtl.ElemValue"
+status = "generate"
+manual_traits = ["ElemValueExtManual"]
+    [[object.function]]
+    pattern = "set_bool"
+    ignore = true
+    [[object.function]]
+    pattern = "get_bool"
+    ignore = true
+    [[object.function]]
+    pattern = "get_bytes"
+    ignore = true
+    [[object.function]]
+    pattern = "get_int"
+    ignore = true
+    [[object.function]]
+    pattern = "get_enum"
+    ignore = true
+    [[object.function]]
+    pattern = "get_int64"
+    ignore = true
+    [[object.function]]
+    pattern = "get_iec60958_channel_status"
+    ignore = true
+    [[object.function]]
+    pattern = "get_iec60958_user_data"
+    ignore = true
