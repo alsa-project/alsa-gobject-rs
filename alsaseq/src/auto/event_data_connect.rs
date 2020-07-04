@@ -31,3 +31,5 @@ impl EventDataConnect {
         }
     }
 }
+
+unsafe impl Send for EventDataConnect {}

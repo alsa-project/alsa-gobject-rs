@@ -64,3 +64,5 @@ impl EventDataCtl {
         }
     }
 }
+
+unsafe impl Send for EventDataCtl {}

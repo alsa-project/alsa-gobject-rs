@@ -94,3 +94,5 @@ impl EventDataNote {
         }
     }
 }
+
+unsafe impl Send for EventDataNote {}

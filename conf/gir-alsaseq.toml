@@ -33,15 +33,10 @@ generate = [
     "ALSASeq.QueueTimerType",
     "ALSASeq.RemoveFilterFlag",
     "ALSASeq.SystemInfo",
-    "ALSASeq.Addr",
     "ALSASeq.PortInfo",
     "ALSASeq.ClientPool",
-    "ALSASeq.EventDataResult",
-    "ALSASeq.EventDataNote",
-    "ALSASeq.EventDataCtl",
     "ALSASeq.SubscribeData",
     "ALSASeq.QueueInfo",
-    "ALSASeq.RemoveFilter",
 ]
 
 [[object]]
@@ -74,6 +69,7 @@ manual_traits = ["UserClientExtManual"]
 [[object]]
 name = "ALSASeq.EventDataConnect"
 status = "generate"
+concurrency = "send"
     [[object.function]]
     pattern = "get_src"
     ignore = true
@@ -82,8 +78,24 @@ status = "generate"
     ignore = true
 
 [[object]]
+name = "ALSASeq.Addr"
+status = "generate"
+concurrency = "send"
+
+[[object]]
+name = "ALSASeq.EventDataCtl"
+status = "generate"
+concurrency = "send"
+
+[[object]]
+name = "ALSASeq.EventDataNote"
+status = "generate"
+concurrency = "send"
+
+[[object]]
 name = "ALSASeq.EventDataQueue"
 status = "generate"
+concurrency = "send"
     [[object.function]]
     pattern = "get_byte_param"
     ignore = true
@@ -105,6 +117,11 @@ status = "generate"
     [[object.function]]
     pattern = "get_tstamp_param"
     ignore = true
+
+[[object]]
+name = "ALSASeq.EventDataResult"
+status = "generate"
+concurrency = "send"
 
 [[object]]
 name = "ALSASeq.ClientInfo"
@@ -147,6 +164,7 @@ manual_traits = ["QueueTimerExtManual"]
 [[object]]
 name = "ALSASeq.QueueTimerDataAlsa"
 status = "generate"
+concurrency = "send"
     [[object.function]]
     pattern = "get_device_id"
     ignore = true
@@ -203,3 +221,8 @@ manual_traits = ["EventCntrExtManual"]
     [[object.function]]
     pattern = "set_quadlet_data"
     ignore = true
+
+[[object]]
+name = "ALSASeq.RemoveFilter"
+status = "generate"
+concurrency = "send"

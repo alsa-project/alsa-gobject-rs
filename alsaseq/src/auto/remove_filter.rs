@@ -79,3 +79,5 @@ impl RemoveFilter {
         }
     }
 }
+
+unsafe impl Send for RemoveFilter {}

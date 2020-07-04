@@ -58,3 +58,5 @@ impl PartialEq for Addr {
 }
 
 impl Eq for Addr {}
+
+unsafe impl Send for Addr {}
