@@ -22,12 +22,10 @@ generate = [
     "ALSATimer.InstanceParamFlag",
     "ALSATimer.EventType",
     "ALSATimer.EventDataType",
-    "ALSATimer.DeviceId",
     "ALSATimer.DeviceInfo",
     "ALSATimer.DeviceStatus",
     "ALSATimer.DeviceParams",
     "ALSATimer.InstanceInfo",
-    "ALSATimer.EventDataTick",
 ]
 
 [[object]]
@@ -82,8 +80,19 @@ manual_traits = ["InstanceStatusExtManual"]
     ignore = true
 
 [[object]]
+name = "ALSATimer.DeviceId"
+status = "generate"
+concurrency = "send"
+
+[[object]]
+name = "ALSATimer.EventDataTick"
+status = "generate"
+concurrency = "send"
+
+[[object]]
 name = "ALSATimer.EventDataTstamp"
 status = "generate"
+concurrency = "send"
     [[object.function]]
     name = "get_tstamp"
     ignore = true
