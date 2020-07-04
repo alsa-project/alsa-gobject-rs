@@ -38,3 +38,5 @@ impl EventDataTstamp {
         }
     }
 }
+
+unsafe impl Send for EventDataTstamp {}

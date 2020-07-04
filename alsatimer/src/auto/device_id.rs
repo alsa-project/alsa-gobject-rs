@@ -62,3 +62,5 @@ impl DeviceId {
         }
     }
 }
+
+unsafe impl Send for DeviceId {}

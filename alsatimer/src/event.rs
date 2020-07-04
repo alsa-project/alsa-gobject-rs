@@ -45,3 +45,5 @@ impl Event {
         }
     }
 }
+
+unsafe impl Send for Event {}

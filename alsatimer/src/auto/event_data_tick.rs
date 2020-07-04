@@ -37,3 +37,5 @@ impl EventDataTick {
         }
     }
 }
+
+unsafe impl Send for EventDataTick {}
