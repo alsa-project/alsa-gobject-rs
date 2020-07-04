@@ -71,3 +71,5 @@ impl EventDataQueue {
         }
     }
 }
+
+unsafe impl Send for EventDataQueue {}

@@ -34,3 +34,5 @@ impl QueueTimerDataAlsa {
         }
     }
 }
+
+unsafe impl Send for QueueTimerDataAlsa {}

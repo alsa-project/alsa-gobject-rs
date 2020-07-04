@@ -46,6 +46,8 @@ impl Tstamp {
     }
 }
 
+unsafe impl Send for Tstamp {}
+
 #[test]
 fn test_manual_bindings() {
     use EventCntr;

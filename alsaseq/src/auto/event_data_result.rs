@@ -50,3 +50,5 @@ impl EventDataResult {
         }
     }
 }
+
+unsafe impl Send for EventDataResult {}
