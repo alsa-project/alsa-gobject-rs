@@ -3,6 +3,10 @@ name = "alsaseq-sys"
 version = "0.0.1"
 links = "alsaseq"
 build = "build.rs"
+description = "FFI binding for libalsaseq library"
+license = "MIT"
+repository = "https://github.com/alsa-project/alsa-gobject-rs"
+
 [package.metadata.docs.rs]
 features = ["dox"]
 
