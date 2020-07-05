@@ -13,9 +13,10 @@ bitflags = "1.0"
 glib = "0.10"
 glib-sys = "0.10"
 gobject-sys = "0.10"
-alsatimer-sys = { path = "../alsatimer-sys" }
-alsaseq-sys = { path = "../alsaseq-sys" }
-alsatimer = { path = "../alsatimer" }
+
+alsatimer-sys = { path = "../alsatimer-sys", version = "0.0" }
+alsaseq-sys = { path = "../alsaseq-sys", version = "0.0" }
+alsatimer = { path = "../alsatimer", version = "0.0" }
 
 [dev-dependencies]
 gir-format-check = "^0.1"
