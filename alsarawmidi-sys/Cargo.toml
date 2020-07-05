@@ -12,11 +12,8 @@ name = "alsarawmidi_sys"
 [dependencies]
 libc = "0.2"
 
-[dependencies.glib-sys]
-git = "https://github.com/gtk-rs/sys"
-
-[dependencies.gobject-sys]
-git = "https://github.com/gtk-rs/sys"
+glib-sys = "0.10"
+gobject-sys = "0.10"
 
 [build-dependencies]
 pkg-config = "0.3.7"
