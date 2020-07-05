@@ -1,6 +1,6 @@
 [package]
 name = "alsaseq"
-version = "0.0.0"
+version = "0.1.1"
 authors = ["Takashi Sakamoto <o-takashi@sakamocchi.jp>"]
 description = "API binding for libalsaseq library"
 license = "MIT"
@@ -17,9 +17,9 @@ glib = "0.10"
 glib-sys = "0.10"
 gobject-sys = "0.10"
 
-alsatimer-sys = { path = "../alsatimer-sys", version = "0.0" }
-alsaseq-sys = { path = "../alsaseq-sys", version = "0.0" }
-alsatimer = { path = "../alsatimer", version = "0.0" }
+alsatimer-sys = { path = "../alsatimer-sys", version = "0.1" }
+alsaseq-sys = { path = "../alsaseq-sys", version = "0.1" }
+alsatimer = { path = "../alsatimer", version = "0.1" }
 
 [dev-dependencies]
 gir-format-check = "^0.1"
