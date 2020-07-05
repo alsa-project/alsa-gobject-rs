@@ -1,0 +1,21 @@
+[workspace]
+members = [
+    "alsactl-sys",
+    "alsactl",
+    "alsahwdep-sys",
+    "alsahwdep",
+    "alsatimer-sys",
+    "alsatimer",
+    "alsaseq-sys",
+    "alsaseq",
+    "alsarawmidi-sys",
+    "alsarawmidi",
+]
+
+default-members = [
+    "alsactl",
+    "alsahwdep",
+    "alsatimer",
+    "alsaseq",
+    "alsarawmidi",
+]
