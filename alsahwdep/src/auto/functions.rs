@@ -8,8 +8,8 @@ use glib::translate::*;
 use std::mem;
 use std::ptr;
 use DeviceInfo;
-use glib::GString;
 
+use glib::GString;
 
 pub fn get_device_id_list(card_id: u32) -> Result<Vec<u32>, glib::Error> {
     unsafe {

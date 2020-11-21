@@ -44,7 +44,7 @@ pub enum IfaceType {
     Line6,
     FwMotu,
     FwFireface,
-    #[doc(hidden)]
+#[doc(hidden)]
     __Unknown(i32),
 }
 
@@ -116,8 +116,8 @@ impl ToGlib for IfaceType {
             IfaceType::Line6 => alsahwdep_sys::ALSAHWDEP_IFACE_TYPE_LINE6,
             IfaceType::FwMotu => alsahwdep_sys::ALSAHWDEP_IFACE_TYPE_FW_MOTU,
             IfaceType::FwFireface => alsahwdep_sys::ALSAHWDEP_IFACE_TYPE_FW_FIREFACE,
-            IfaceType::__Unknown(value) => value
-        }
+            IfaceType::__Unknown(value) => value,
+}
     }
 }
 
@@ -153,7 +153,7 @@ impl FromGlib<alsahwdep_sys::ALSAHwdepIfaceType> for IfaceType {
             25 => IfaceType::FwMotu,
             26 => IfaceType::FwFireface,
             value => IfaceType::__Unknown(value),
-        }
+}
     }
 }
 

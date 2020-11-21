@@ -108,14 +108,14 @@ and/or use gtk-doc annotations.  -->
                  c:type="ALSAHwdepIfaceType">
       <doc xml:space="preserve"
            filename="../src/hwdep/alsahwdep-enum-types.h"
-           line="7">A set of enumerators for the interface of hwdep device.</doc>
+           line="21">A set of enumerators for the interface of hwdep device.</doc>
       <member name="opl2"
               value="0"
               c:identifier="ALSAHWDEP_IFACE_TYPE_OPL2"
               glib:nick="opl2">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="9">For OPL2 sound chip.</doc>
+             line="23">For OPL2 sound chip.</doc>
       </member>
       <member name="opl3"
               value="1"
@@ -123,7 +123,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="opl3">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="10">For OPL3 sound chip.</doc>
+             line="24">For OPL3 sound chip.</doc>
       </member>
       <member name="opl4"
               value="2"
@@ -131,7 +131,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="opl4">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="11">For OPL4 sound chip.</doc>
+             line="25">For OPL4 sound chip.</doc>
       </member>
       <member name="sb16csp"
               value="3"
@@ -139,7 +139,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="sb16csp">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="12">For Creative Signal Processor.</doc>
+             line="26">For Creative Signal Processor.</doc>
       </member>
       <member name="emu10k1"
               value="4"
@@ -147,7 +147,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="emu10k1">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="13">For FX8010 processor in EMU10K1 chip.</doc>
+             line="27">For FX8010 processor in EMU10K1 chip.</doc>
       </member>
       <member name="yss225"
               value="5"
@@ -155,7 +155,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="yss225">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="14">For Yamaha FX processor.</doc>
+             line="28">For Yamaha FX processor.</doc>
       </member>
       <member name="ics2115"
               value="6"
@@ -163,7 +163,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="ics2115">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="15">For Wavetable synth.</doc>
+             line="29">For Wavetable synth.</doc>
       </member>
       <member name="sscape"
               value="7"
@@ -171,7 +171,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="sscape">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="16">For Ensoniq SoundScape ISA card (MC68EC000).</doc>
+             line="30">For Ensoniq SoundScape ISA card (MC68EC000).</doc>
       </member>
       <member name="vx"
               value="8"
@@ -179,7 +179,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="vx">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="17">For Digigram VX cards.</doc>
+             line="31">For Digigram VX cards.</doc>
       </member>
       <member name="mixart"
               value="9"
@@ -187,7 +187,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="mixart">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="18">For Digigram miXart cards.</doc>
+             line="32">For Digigram miXart cards.</doc>
       </member>
       <member name="usx2y"
               value="10"
@@ -195,7 +195,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="usx2y">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="19">For Tascam US122, US224 &amp; US428 usb.</doc>
+             line="33">For Tascam US122, US224 &amp; US428 usb.</doc>
       </member>
       <member name="emux_wavetable"
               value="11"
@@ -203,7 +203,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="emux-wavetable">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="20">For EmuX wavetable.</doc>
+             line="34">For EmuX wavetable.</doc>
       </member>
       <member name="bluetooth"
               value="12"
@@ -211,7 +211,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="bluetooth">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="21">For Bluetooth audio.</doc>
+             line="35">For Bluetooth audio.</doc>
       </member>
       <member name="usx2y_pcm"
               value="13"
@@ -219,7 +219,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="usx2y-pcm">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="22">For Tascam US122, US224 &amp; US428 rawusb pcm.</doc>
+             line="36">For Tascam US122, US224 &amp; US428 rawusb pcm.</doc>
       </member>
       <member name="pcxhr"
               value="14"
@@ -227,7 +227,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="pcxhr">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="23">For Digigram PCXHR.</doc>
+             line="37">For Digigram PCXHR.</doc>
       </member>
       <member name="sb_rc"
               value="15"
@@ -235,7 +235,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="sb-rc">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="24">For SB Extigy/Audigy2NX remote control.</doc>
+             line="38">For SB Extigy/Audigy2NX remote control.</doc>
       </member>
       <member name="hda"
               value="16"
@@ -243,7 +243,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="hda">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="25">For HD-audio.</doc>
+             line="39">For HD-audio.</doc>
       </member>
       <member name="usb_stream"
               value="17"
@@ -251,7 +251,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="usb-stream">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="26">For direct access to usb stream.</doc>
+             line="40">For direct access to usb stream.</doc>
       </member>
       <member name="fw_dice"
               value="18"
@@ -259,7 +259,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="fw-dice">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="27">For TC DICE FireWire device.</doc>
+             line="41">For TC DICE FireWire device.</doc>
       </member>
       <member name="fw_fireworks"
               value="19"
@@ -267,7 +267,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="fw-fireworks">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="28">For Echo Audio Fireworks based devices.</doc>
+             line="42">For Echo Audio Fireworks based devices.</doc>
       </member>
       <member name="fw_bebob"
               value="20"
@@ -275,7 +275,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="fw-bebob">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="29">For BridgeCo BeBoB based device.</doc>
+             line="43">For BridgeCo BeBoB based device.</doc>
       </member>
       <member name="fw_oxfw"
               value="21"
@@ -283,7 +283,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="fw-oxfw">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="30">For Oxford OXFW970/971 based devices.</doc>
+             line="44">For Oxford OXFW970/971 based devices.</doc>
       </member>
       <member name="fw_digi00x"
               value="22"
@@ -291,7 +291,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="fw-digi00x">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="31">For Digidesign Digi 002/003 family.</doc>
+             line="45">For Digidesign Digi 002/003 family.</doc>
       </member>
       <member name="fw_tascam"
               value="23"
@@ -299,7 +299,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="fw-tascam">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="32">For TASCAM FireWire series.</doc>
+             line="46">For TASCAM FireWire series.</doc>
       </member>
       <member name="line6"
               value="24"
@@ -307,7 +307,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="line6">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="33">For Line6 USB processors.</doc>
+             line="47">For Line6 USB processors. Available in Linux kernel 4.9.0 or later.</doc>
       </member>
       <member name="fw_motu"
               value="25"
@@ -315,7 +315,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="fw-motu">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="34">For MOTU FireWire series.</doc>
+             line="48">For MOTU FireWire series. Available in Linux kernel 4.12.0 or later.</doc>
       </member>
       <member name="fw_fireface"
               value="26"
@@ -323,7 +323,7 @@ and/or use gtk-doc annotations.  -->
               glib:nick="fw-fireface">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="35">For RME Fireface series.</doc>
+             line="49">For RME Fireface series. Available in Linux kernel 4.12.0 or later.</doc>
       </member>
     </enumeration>
     <function name="get_device_id_list"
@@ -331,7 +331,7 @@ and/or use gtk-doc annotations.  -->
               throws="1">
       <doc xml:space="preserve"
            filename="../src/hwdep/query.c"
-           line="126">Get the list of numerical ID for available hwdep devices of sound card.
+           line="129">Get the list of numerical ID for available hwdep devices of sound card.
 
 Nodes under sound subsystem in sysfs are used to gather the information.</doc>
       <source-position filename="../src/hwdep/query.h" line="12"/>
@@ -342,7 +342,7 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
         <parameter name="card_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="128">The numerical ID of sound card.</doc>
+               line="131">The numerical ID of sound card.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="entries"
@@ -351,7 +351,7 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="129">The list of numerical ID for
+               line="132">The list of numerical ID for
           hwdep device.</doc>
           <array length="2" zero-terminated="0" c:type="guint**">
             <type name="guint" c:type="guint*"/>
@@ -363,7 +363,7 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="131">The number of entries.</doc>
+               line="134">The number of entries.</doc>
           <type name="gsize" c:type="gsize*"/>
         </parameter>
       </parameters>
@@ -373,7 +373,7 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/hwdep/query.c"
-           line="373">Get the information according to given numerical IDs for card and device.
+           line="361">Get the information according to given numerical IDs for card and device.
 
 The call of function executes open(2), close(2), and ioctl(2) system call
 with SNDRV_CTL_IOCTL_HWDEP_INFO command for ALSA control character device.</doc>
@@ -385,13 +385,13 @@ with SNDRV_CTL_IOCTL_HWDEP_INFO command for ALSA control character device.</doc>
         <parameter name="card_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="375">The numberical value for sound card to query.</doc>
+               line="363">The numberical value for sound card to query.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="device_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="376">The numerical value of hwdep device to query.</doc>
+               line="364">The numerical value of hwdep device to query.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="device_info"
@@ -400,7 +400,7 @@ with SNDRV_CTL_IOCTL_HWDEP_INFO command for ALSA control character device.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="377">The information of the device.</doc>
+               line="365">The information of the device.</doc>
           <type name="DeviceInfo" c:type="ALSAHwdepDeviceInfo**"/>
         </parameter>
       </parameters>
@@ -410,7 +410,7 @@ with SNDRV_CTL_IOCTL_HWDEP_INFO command for ALSA control character device.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/hwdep/query.c"
-           line="262">Allocate devnode string for hwdep device and return it when exists.
+           line="256">Allocate devnode string for hwdep device and return it when exists.
 
 Nodes under sound subsystem in sysfs are used to gather the information.</doc>
       <source-position filename="../src/hwdep/query.h" line="18"/>
@@ -421,13 +421,13 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
         <parameter name="card_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="264">The numeridcal ID of sound card.</doc>
+               line="258">The numeridcal ID of sound card.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="device_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="265">The numerical ID of hwdep device for the sound card.</doc>
+               line="259">The numerical ID of hwdep device for the sound card.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="devnode"
@@ -436,7 +436,7 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="266">The string for devnode of hwdep device.</doc>
+               line="260">The string for devnode of hwdep device.</doc>
           <type name="utf8" c:type="char**"/>
         </parameter>
       </parameters>
@@ -446,7 +446,7 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/hwdep/query.c"
-           line="215">Allocate sysname for hwdep device and return it when it exists.
+           line="209">Allocate sysname for hwdep device and return it when it exists.
 
 Nodes under sound subsystem in sysfs are used to gather the information.</doc>
       <source-position filename="../src/hwdep/query.h" line="15"/>
@@ -457,13 +457,13 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
         <parameter name="card_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="217">The numeridcal ID of sound card.</doc>
+               line="211">The numeridcal ID of sound card.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="device_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="218">The numerical ID of hwdep device for the sound card.</doc>
+               line="212">The numerical ID of hwdep device for the sound card.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="sysname"
@@ -472,7 +472,7 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="219">The string for sysname of hwdep device.</doc>
+               line="213">The string for sysname of hwdep device.</doc>
           <type name="utf8" c:type="char**"/>
         </parameter>
       </parameters>

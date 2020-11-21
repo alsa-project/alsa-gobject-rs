@@ -3,7 +3,7 @@
 // DO NOT EDIT
 
 mod device_info;
-pub use self::device_info::{DeviceInfo, DeviceInfoClass, NONE_DEVICE_INFO};
+pub use self::device_info::{DeviceInfo, NONE_DEVICE_INFO};
 pub use self::device_info::DeviceInfoExt;
 
 mod enums;

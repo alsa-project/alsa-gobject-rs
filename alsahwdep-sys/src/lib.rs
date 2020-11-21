@@ -4,6 +4,7 @@
 
 #![allow(non_camel_case_types, non_upper_case_globals, non_snake_case)]
 #![allow(clippy::approx_constant, clippy::type_complexity, clippy::unreadable_literal)]
+#![cfg_attr(feature = "dox", feature(doc_cfg))]
 
 extern crate libc;
 extern crate glib_sys as glib;
@@ -84,6 +85,7 @@ impl ::std::fmt::Debug for ALSAHwdepDeviceInfo {
     }
 }
 
+#[link(name = "alsahwdep")]
 extern "C" {
 
     //=========================================================================
