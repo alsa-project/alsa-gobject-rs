@@ -19,3 +19,7 @@ default-members = [
     "alsaseq",
     "alsarawmidi",
 ]
+
+exclude = [
+    "gir",
+]
