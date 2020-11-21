@@ -3,11 +3,13 @@
 // DO NOT EDIT
 
 use alsaseq_sys;
+use glib::error::ErrorDomain;
 use glib::translate::*;
 use glib::value::FromValue;
 use glib::value::FromValueOptional;
 use glib::value::SetValue;
 use glib::value::Value;
+use glib::Quark;
 use glib::StaticType;
 use glib::Type;
 use gobject_sys;
@@ -20,7 +22,7 @@ pub enum ClientType {
     None,
     User,
     Kernel,
-    #[doc(hidden)]
+#[doc(hidden)]
     __Unknown(i32),
 }
 
@@ -44,8 +46,8 @@ impl ToGlib for ClientType {
             ClientType::None => alsaseq_sys::ALSASEQ_CLIENT_TYPE_NONE,
             ClientType::User => alsaseq_sys::ALSASEQ_CLIENT_TYPE_USER,
             ClientType::Kernel => alsaseq_sys::ALSASEQ_CLIENT_TYPE_KERNEL,
-            ClientType::__Unknown(value) => value
-        }
+            ClientType::__Unknown(value) => value,
+}
     }
 }
 
@@ -57,7 +59,7 @@ impl FromGlib<alsaseq_sys::ALSASeqClientType> for ClientType {
             1 => ClientType::User,
             2 => ClientType::Kernel,
             value => ClientType::__Unknown(value),
-        }
+}
     }
 }
 
@@ -92,7 +94,7 @@ pub enum EventLengthMode {
     Fixed,
     Variable,
     Pointer,
-    #[doc(hidden)]
+#[doc(hidden)]
     __Unknown(i32),
 }
 
@@ -116,8 +118,8 @@ impl ToGlib for EventLengthMode {
             EventLengthMode::Fixed => alsaseq_sys::ALSASEQ_EVENT_LENGTH_MODE_FIXED,
             EventLengthMode::Variable => alsaseq_sys::ALSASEQ_EVENT_LENGTH_MODE_VARIABLE,
             EventLengthMode::Pointer => alsaseq_sys::ALSASEQ_EVENT_LENGTH_MODE_POINTER,
-            EventLengthMode::__Unknown(value) => value
-        }
+            EventLengthMode::__Unknown(value) => value,
+}
     }
 }
 
@@ -129,7 +131,7 @@ impl FromGlib<alsaseq_sys::ALSASeqEventLengthMode> for EventLengthMode {
             4 => EventLengthMode::Variable,
             8 => EventLengthMode::Pointer,
             value => EventLengthMode::__Unknown(value),
-        }
+}
     }
 }
 
@@ -163,7 +165,7 @@ impl SetValue for EventLengthMode {
 pub enum EventPriorityMode {
     Normal,
     High,
-    #[doc(hidden)]
+#[doc(hidden)]
     __Unknown(i32),
 }
 
@@ -185,8 +187,8 @@ impl ToGlib for EventPriorityMode {
         match *self {
             EventPriorityMode::Normal => alsaseq_sys::ALSASEQ_EVENT_PRIORITY_MODE_NORMAL,
             EventPriorityMode::High => alsaseq_sys::ALSASEQ_EVENT_PRIORITY_MODE_HIGH,
-            EventPriorityMode::__Unknown(value) => value
-        }
+            EventPriorityMode::__Unknown(value) => value,
+}
     }
 }
 
@@ -197,7 +199,7 @@ impl FromGlib<alsaseq_sys::ALSASeqEventPriorityMode> for EventPriorityMode {
             0 => EventPriorityMode::Normal,
             16 => EventPriorityMode::High,
             value => EventPriorityMode::__Unknown(value),
-        }
+}
     }
 }
 
@@ -231,7 +233,7 @@ impl SetValue for EventPriorityMode {
 pub enum EventTimeMode {
     Abs,
     Rel,
-    #[doc(hidden)]
+#[doc(hidden)]
     __Unknown(i32),
 }
 
@@ -253,8 +255,8 @@ impl ToGlib for EventTimeMode {
         match *self {
             EventTimeMode::Abs => alsaseq_sys::ALSASEQ_EVENT_TIME_MODE_ABS,
             EventTimeMode::Rel => alsaseq_sys::ALSASEQ_EVENT_TIME_MODE_REL,
-            EventTimeMode::__Unknown(value) => value
-        }
+            EventTimeMode::__Unknown(value) => value,
+}
     }
 }
 
@@ -265,7 +267,7 @@ impl FromGlib<alsaseq_sys::ALSASeqEventTimeMode> for EventTimeMode {
             0 => EventTimeMode::Abs,
             2 => EventTimeMode::Rel,
             value => EventTimeMode::__Unknown(value),
-        }
+}
     }
 }
 
@@ -299,7 +301,7 @@ impl SetValue for EventTimeMode {
 pub enum EventTimestampMode {
     Tick,
     Real,
-    #[doc(hidden)]
+#[doc(hidden)]
     __Unknown(i32),
 }
 
@@ -321,8 +323,8 @@ impl ToGlib for EventTimestampMode {
         match *self {
             EventTimestampMode::Tick => alsaseq_sys::ALSASEQ_EVENT_TIMESTAMP_MODE_TICK,
             EventTimestampMode::Real => alsaseq_sys::ALSASEQ_EVENT_TIMESTAMP_MODE_REAL,
-            EventTimestampMode::__Unknown(value) => value
-        }
+            EventTimestampMode::__Unknown(value) => value,
+}
     }
 }
 
@@ -333,7 +335,7 @@ impl FromGlib<alsaseq_sys::ALSASeqEventTimestampMode> for EventTimestampMode {
             0 => EventTimestampMode::Tick,
             1 => EventTimestampMode::Real,
             value => EventTimestampMode::__Unknown(value),
-        }
+}
     }
 }
 
@@ -423,7 +425,7 @@ pub enum EventType {
     UsrVar3,
     UsrVar4,
     None,
-    #[doc(hidden)]
+#[doc(hidden)]
     __Unknown(i32),
 }
 
@@ -557,8 +559,8 @@ impl ToGlib for EventType {
             EventType::UsrVar3 => alsaseq_sys::ALSASEQ_EVENT_TYPE_USR_VAR3,
             EventType::UsrVar4 => alsaseq_sys::ALSASEQ_EVENT_TYPE_USR_VAR4,
             EventType::None => alsaseq_sys::ALSASEQ_EVENT_TYPE_NONE,
-            EventType::__Unknown(value) => value
-        }
+            EventType::__Unknown(value) => value,
+}
     }
 }
 
@@ -625,7 +627,7 @@ impl FromGlib<alsaseq_sys::ALSASeqEventType> for EventType {
             139 => EventType::UsrVar4,
             255 => EventType::None,
             value => EventType::__Unknown(value),
-        }
+}
     }
 }
 
@@ -659,7 +661,7 @@ impl SetValue for EventType {
 pub enum QuerySubscribeType {
     Read,
     Write,
-    #[doc(hidden)]
+#[doc(hidden)]
     __Unknown(i32),
 }
 
@@ -681,8 +683,8 @@ impl ToGlib for QuerySubscribeType {
         match *self {
             QuerySubscribeType::Read => alsaseq_sys::ALSASEQ_QUERY_SUBSCRIBE_TYPE_READ,
             QuerySubscribeType::Write => alsaseq_sys::ALSASEQ_QUERY_SUBSCRIBE_TYPE_WRITE,
-            QuerySubscribeType::__Unknown(value) => value
-        }
+            QuerySubscribeType::__Unknown(value) => value,
+}
     }
 }
 
@@ -693,7 +695,7 @@ impl FromGlib<alsaseq_sys::ALSASeqQuerySubscribeType> for QuerySubscribeType {
             0 => QuerySubscribeType::Read,
             1 => QuerySubscribeType::Write,
             value => QuerySubscribeType::__Unknown(value),
-        }
+}
     }
 }
 
@@ -726,7 +728,7 @@ impl SetValue for QuerySubscribeType {
 #[non_exhaustive]
 pub enum QueueTimerType {
     Alsa,
-    #[doc(hidden)]
+#[doc(hidden)]
     __Unknown(i32),
 }
 
@@ -746,8 +748,8 @@ impl ToGlib for QueueTimerType {
     fn to_glib(&self) -> alsaseq_sys::ALSASeqQueueTimerType {
         match *self {
             QueueTimerType::Alsa => alsaseq_sys::ALSASEQ_QUEUE_TIMER_TYPE_ALSA,
-            QueueTimerType::__Unknown(value) => value
-        }
+            QueueTimerType::__Unknown(value) => value,
+}
     }
 }
 
@@ -757,7 +759,7 @@ impl FromGlib<alsaseq_sys::ALSASeqQueueTimerType> for QueueTimerType {
         match value {
             0 => QueueTimerType::Alsa,
             value => QueueTimerType::__Unknown(value),
-        }
+}
     }
 }
 
@@ -792,7 +794,7 @@ pub enum SpecificAddress {
     Unknown,
     Subscribers,
     Broadcast,
-    #[doc(hidden)]
+#[doc(hidden)]
     __Unknown(i32),
 }
 
@@ -816,8 +818,8 @@ impl ToGlib for SpecificAddress {
             SpecificAddress::Unknown => alsaseq_sys::ALSASEQ_SPECIFIC_ADDRESS_UNKNOWN,
             SpecificAddress::Subscribers => alsaseq_sys::ALSASEQ_SPECIFIC_ADDRESS_SUBSCRIBERS,
             SpecificAddress::Broadcast => alsaseq_sys::ALSASEQ_SPECIFIC_ADDRESS_BROADCAST,
-            SpecificAddress::__Unknown(value) => value
-        }
+            SpecificAddress::__Unknown(value) => value,
+}
     }
 }
 
@@ -829,7 +831,7 @@ impl FromGlib<alsaseq_sys::ALSASeqSpecificAddress> for SpecificAddress {
             254 => SpecificAddress::Subscribers,
             255 => SpecificAddress::Broadcast,
             value => SpecificAddress::__Unknown(value),
-        }
+}
     }
 }
 
@@ -864,7 +866,7 @@ pub enum SpecificClientId {
     System,
     Dummy,
     Oss,
-    #[doc(hidden)]
+#[doc(hidden)]
     __Unknown(i32),
 }
 
@@ -888,8 +890,8 @@ impl ToGlib for SpecificClientId {
             SpecificClientId::System => alsaseq_sys::ALSASEQ_SPECIFIC_CLIENT_ID_SYSTEM,
             SpecificClientId::Dummy => alsaseq_sys::ALSASEQ_SPECIFIC_CLIENT_ID_DUMMY,
             SpecificClientId::Oss => alsaseq_sys::ALSASEQ_SPECIFIC_CLIENT_ID_OSS,
-            SpecificClientId::__Unknown(value) => value
-        }
+            SpecificClientId::__Unknown(value) => value,
+}
     }
 }
 
@@ -901,7 +903,7 @@ impl FromGlib<alsaseq_sys::ALSASeqSpecificClientId> for SpecificClientId {
             14 => SpecificClientId::Dummy,
             15 => SpecificClientId::Oss,
             value => SpecificClientId::__Unknown(value),
-        }
+}
     }
 }
 
@@ -935,7 +937,7 @@ impl SetValue for SpecificClientId {
 pub enum SpecificPortId {
     Timer,
     Announce,
-    #[doc(hidden)]
+#[doc(hidden)]
     __Unknown(i32),
 }
 
@@ -957,8 +959,8 @@ impl ToGlib for SpecificPortId {
         match *self {
             SpecificPortId::Timer => alsaseq_sys::ALSASEQ_SPECIFIC_PORT_ID_SYSTEM_TIMER,
             SpecificPortId::Announce => alsaseq_sys::ALSASEQ_SPECIFIC_PORT_ID_SYSTEM_ANNOUNCE,
-            SpecificPortId::__Unknown(value) => value
-        }
+            SpecificPortId::__Unknown(value) => value,
+}
     }
 }
 
@@ -969,7 +971,7 @@ impl FromGlib<alsaseq_sys::ALSASeqSpecificPortId> for SpecificPortId {
             0 => SpecificPortId::Timer,
             1 => SpecificPortId::Announce,
             value => SpecificPortId::__Unknown(value),
-        }
+}
     }
 }
 
@@ -1002,7 +1004,7 @@ impl SetValue for SpecificPortId {
 #[non_exhaustive]
 pub enum SpecificQueueId {
     Direct,
-    #[doc(hidden)]
+#[doc(hidden)]
     __Unknown(i32),
 }
 
@@ -1022,8 +1024,8 @@ impl ToGlib for SpecificQueueId {
     fn to_glib(&self) -> alsaseq_sys::ALSASeqSpecificQueueId {
         match *self {
             SpecificQueueId::Direct => alsaseq_sys::ALSASEQ_SPECIFIC_QUEUE_ID_DIRECT,
-            SpecificQueueId::__Unknown(value) => value
-        }
+            SpecificQueueId::__Unknown(value) => value,
+}
     }
 }
 
@@ -1033,7 +1035,7 @@ impl FromGlib<alsaseq_sys::ALSASeqSpecificQueueId> for SpecificQueueId {
         match value {
             253 => SpecificQueueId::Direct,
             value => SpecificQueueId::__Unknown(value),
-        }
+}
     }
 }
 
@@ -1056,6 +1058,98 @@ impl<'a> FromValue<'a> for SpecificQueueId {
 }
 
 impl SetValue for SpecificQueueId {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_sys::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Clone, Copy)]
+#[non_exhaustive]
+pub enum UserClientError {
+    Failed,
+    PortPermission,
+    QueuePermission,
+#[doc(hidden)]
+    __Unknown(i32),
+}
+
+impl fmt::Display for UserClientError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "UserClientError::{}", match *self {
+            UserClientError::Failed => "Failed",
+            UserClientError::PortPermission => "PortPermission",
+            UserClientError::QueuePermission => "QueuePermission",
+            _ => "Unknown",
+        })
+    }
+}
+
+#[doc(hidden)]
+impl ToGlib for UserClientError {
+    type GlibType = alsaseq_sys::ALSASeqUserClientError;
+
+    fn to_glib(&self) -> alsaseq_sys::ALSASeqUserClientError {
+        match *self {
+            UserClientError::Failed => alsaseq_sys::ALSASEQ_USER_CLIENT_ERROR_FAILED,
+            UserClientError::PortPermission => alsaseq_sys::ALSASEQ_USER_CLIENT_ERROR_PORT_PERMISSION,
+            UserClientError::QueuePermission => alsaseq_sys::ALSASEQ_USER_CLIENT_ERROR_QUEUE_PERMISSION,
+            UserClientError::__Unknown(value) => value,
+}
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<alsaseq_sys::ALSASeqUserClientError> for UserClientError {
+    fn from_glib(value: alsaseq_sys::ALSASeqUserClientError) -> Self {
+        match value {
+            0 => UserClientError::Failed,
+            1 => UserClientError::PortPermission,
+            2 => UserClientError::QueuePermission,
+            value => UserClientError::__Unknown(value),
+}
+    }
+}
+
+impl ErrorDomain for UserClientError {
+    fn domain() -> Quark {
+        
+        unsafe { from_glib(alsaseq_sys::alsaseq_user_client_error_quark()) }
+    }
+
+    fn code(self) -> i32 {
+        self.to_glib()
+    }
+
+    fn from(code: i32) -> Option<Self> {
+        match code {
+            0 => Some(UserClientError::Failed),
+            1 => Some(UserClientError::PortPermission),
+            2 => Some(UserClientError::QueuePermission),
+            _ => Some(UserClientError::Failed),
+}
+    }
+}
+
+impl StaticType for UserClientError {
+    fn static_type() -> Type {
+        unsafe { from_glib(alsaseq_sys::alsaseq_user_client_error_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for UserClientError {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for UserClientError {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_sys::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for UserClientError {
     unsafe fn set_value(value: &mut Value, this: &Self) {
         gobject_sys::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
     }

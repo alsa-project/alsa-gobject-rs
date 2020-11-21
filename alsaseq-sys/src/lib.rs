@@ -4,6 +4,7 @@
 
 #![allow(non_camel_case_types, non_upper_case_globals, non_snake_case)]
 #![allow(clippy::approx_constant, clippy::type_complexity, clippy::unreadable_literal)]
+#![cfg_attr(feature = "dox", feature(doc_cfg))]
 
 extern crate libc;
 extern crate glib_sys as glib;
@@ -124,6 +125,11 @@ pub const ALSASEQ_SPECIFIC_PORT_ID_SYSTEM_ANNOUNCE: ALSASeqSpecificPortId = 1;
 
 pub type ALSASeqSpecificQueueId = c_int;
 pub const ALSASEQ_SPECIFIC_QUEUE_ID_DIRECT: ALSASeqSpecificQueueId = 253;
+
+pub type ALSASeqUserClientError = c_int;
+pub const ALSASEQ_USER_CLIENT_ERROR_FAILED: ALSASeqUserClientError = 0;
+pub const ALSASEQ_USER_CLIENT_ERROR_PORT_PERMISSION: ALSASeqUserClientError = 1;
+pub const ALSASEQ_USER_CLIENT_ERROR_QUEUE_PERMISSION: ALSASeqUserClientError = 2;
 
 // Flags
 pub type ALSASeqFilterAttrFlag = c_uint;
@@ -645,6 +651,7 @@ impl ::std::fmt::Debug for ALSASeqUserClient {
     }
 }
 
+#[link(name = "alsaseq")]
 extern "C" {
 
     //=========================================================================
@@ -706,6 +713,12 @@ extern "C" {
     // ALSASeqSpecificQueueId
     //=========================================================================
     pub fn alsaseq_specific_queue_id_get_type() -> GType;
+
+    //=========================================================================
+    // ALSASeqUserClientError
+    //=========================================================================
+    pub fn alsaseq_user_client_error_get_type() -> GType;
+    pub fn alsaseq_user_client_error_quark() -> glib::GQuark;
 
     //=========================================================================
     // ALSASeqFilterAttrFlag

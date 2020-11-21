@@ -37,6 +37,7 @@ generate = [
     "ALSASeq.ClientPool",
     "ALSASeq.SubscribeData",
     "ALSASeq.QueueInfo",
+    "ALSASeq.UserClientError",
 ]
 
 [[object]]

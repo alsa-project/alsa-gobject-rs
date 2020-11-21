@@ -188,7 +188,7 @@ and/or use gtk-doc annotations.  -->
       <constructor name="new" c:identifier="alsaseq_client_info_new">
         <doc xml:space="preserve"
              filename="../src/seq/client-info.c"
-             line="196">Allocate and return an instance of ALSASeqClientinfo class.</doc>
+             line="201">Allocate and return an instance of ALSASeqClientinfo class.</doc>
         <source-position filename="../src/seq/client-info.h" line="50"/>
         <return-value transfer-ownership="full">
           <type name="ClientInfo" c:type="ALSASeqClientInfo*"/>
@@ -199,7 +199,7 @@ and/or use gtk-doc annotations.  -->
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/client-info.c"
-             line="242">Get the list of type of events configured to be listen.</doc>
+             line="247">Get the list of type of events configured to be listen.</doc>
         <source-position filename="../src/seq/client-info.h" line="57"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -208,7 +208,7 @@ and/or use gtk-doc annotations.  -->
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/client-info.c"
-                 line="244">A #ALSASeqClientInfo.</doc>
+                 line="249">A #ALSASeqClientInfo.</doc>
             <type name="ClientInfo" c:type="ALSASeqClientInfo*"/>
           </instance-parameter>
           <parameter name="event_types"
@@ -217,7 +217,7 @@ and/or use gtk-doc annotations.  -->
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/seq/client-info.c"
-                 line="245">The array with elements
+                 line="250">The array with elements
               for the type of event to listen.</doc>
             <array length="1" zero-terminated="0" c:type="ALSASeqEventType**">
               <type name="EventType" c:type="ALSASeqEventType*"/>
@@ -229,7 +229,7 @@ and/or use gtk-doc annotations.  -->
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/seq/client-info.c"
-                 line="247">The number of elements for the type of event.</doc>
+                 line="252">The number of elements for the type of event.</doc>
             <type name="gsize" c:type="gsize*"/>
           </parameter>
         </parameters>
@@ -239,7 +239,7 @@ and/or use gtk-doc annotations.  -->
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/client-info.c"
-             line="206">Set the list of type of events configured to be listen.</doc>
+             line="211">Set the list of type of events configured to be listen.</doc>
         <source-position filename="../src/seq/client-info.h" line="52"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -248,13 +248,13 @@ and/or use gtk-doc annotations.  -->
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/client-info.c"
-                 line="208">A #ALSASeqClientInfo.</doc>
+                 line="213">A #ALSASeqClientInfo.</doc>
             <type name="ClientInfo" c:type="ALSASeqClientInfo*"/>
           </instance-parameter>
           <parameter name="event_types" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/client-info.c"
-                 line="209">The array with elements for
+                 line="214">The array with elements for
               the type of event to listen.</doc>
             <array length="1"
                    zero-terminated="0"
@@ -265,7 +265,7 @@ and/or use gtk-doc annotations.  -->
           <parameter name="event_type_count" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/client-info.c"
-                 line="211">The number of elements for the type of event.</doc>
+                 line="216">The number of elements for the type of event.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
         </parameters>
@@ -464,7 +464,7 @@ of events.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="212">Calculate the amount of cells in client pool to be consumed by a part
+             line="215">Calculate the amount of cells in client pool to be consumed by a part
 of events in the container.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="61"/>
         <return-value transfer-ownership="none">
@@ -474,13 +474,13 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="214">A #ALSASeqEventCntr.</doc>
+                 line="217">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="count" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="215">The amount of events for calculation.</doc>
+                 line="218">The amount of events for calculation.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="cells"
@@ -489,7 +489,7 @@ of events in the container.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="216">The amount of cells to be consumed in pool.</doc>
+                 line="219">The amount of cells to be consumed in pool.</doc>
             <type name="gsize" c:type="gsize*"/>
           </parameter>
         </parameters>
@@ -498,7 +498,7 @@ of events in the container.</doc>
               c:identifier="alsaseq_event_cntr_count_events">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="189">count stored events.</doc>
+             line="190">count stored events.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="59"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -507,7 +507,7 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="191">A #ALSASeqEventCntr.</doc>
+                 line="192">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="count"
@@ -516,7 +516,7 @@ of events in the container.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="192">The count of stored events.</doc>
+                 line="193">The count of stored events.</doc>
             <type name="gsize" c:type="gsize*"/>
           </parameter>
         </parameters>
@@ -526,7 +526,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="1364">Get the address data of event pointed by the index.</doc>
+             line="1361">Get the address data of event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="157"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -535,13 +535,13 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1366">A #ALSASeqEventCntr.</doc>
+                 line="1363">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1367">The index of event to set.</doc>
+                 line="1364">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="data"
@@ -550,7 +550,7 @@ of events in the container.</doc>
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1368">The address data of event.</doc>
+                 line="1365">The address data of event.</doc>
             <type name="Addr" c:type="const ALSASeqAddr**"/>
           </parameter>
         </parameters>
@@ -560,7 +560,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="1164">Refer to the blob data of event.</doc>
+             line="1160">Refer to the blob data of event.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="140"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -569,13 +569,13 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1166">A #ALSASeqEventCntr.</doc>
+                 line="1162">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1167">The index of event to set.</doc>
+                 line="1163">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="data"
@@ -584,7 +584,7 @@ of events in the container.</doc>
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1168">The pointer to blob data.</doc>
+                 line="1164">The pointer to blob data.</doc>
             <array length="2" zero-terminated="0" c:type="const guint8**">
               <type name="guint8" c:type="guint8*"/>
             </array>
@@ -595,7 +595,7 @@ of events in the container.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1169">The size of data.</doc>
+                 line="1165">The size of data.</doc>
             <type name="gsize" c:type="gsize*"/>
           </parameter>
         </parameters>
@@ -605,7 +605,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="1038">Get the byte data of event pointed by the index.</doc>
+             line="1034">Get the byte data of event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="130"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -614,13 +614,13 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1040">A #ALSASeqEventCntr.</doc>
+                 line="1036">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1041">The index of event to set.</doc>
+                 line="1037">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="data"
@@ -629,7 +629,7 @@ of events in the container.</doc>
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1042">The byte data of event.</doc>
+                 line="1038">The byte data of event.</doc>
             <array zero-terminated="0" c:type="const guint8**" fixed-size="12">
               <type name="guint8" c:type="guint8"/>
             </array>
@@ -641,7 +641,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="1426">Get the connect data of event pointed by the index.</doc>
+             line="1423">Get the connect data of event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="162"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -650,13 +650,13 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1428">A #ALSASeqEventCntr.</doc>
+                 line="1425">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1429">The index of event to set.</doc>
+                 line="1426">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="data"
@@ -665,7 +665,7 @@ of events in the container.</doc>
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1430">The connect data of event.</doc>
+                 line="1427">The connect data of event.</doc>
             <type name="EventDataConnect"
                   c:type="const ALSASeqEventDataConnect**"/>
           </parameter>
@@ -676,7 +676,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="976">Get the control data of event pointed by the index.</doc>
+             line="972">Get the control data of event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="125"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -685,13 +685,13 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="978">A #ALSASeqEventCntr.</doc>
+                 line="974">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="979">The index of event to set.</doc>
+                 line="975">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="data"
@@ -700,7 +700,7 @@ of events in the container.</doc>
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="980">The control data of event.</doc>
+                 line="976">The control data of event.</doc>
             <type name="EventDataCtl" c:type="const ALSASeqEventDataCtl**"/>
           </parameter>
         </parameters>
@@ -744,7 +744,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="246">Get the type of event pointed by the index.</doc>
+             line="252">Get the type of event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="64"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -753,13 +753,13 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="248">A #ALSASeqEventCntr.</doc>
+                 line="254">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="249">The index of event to refer to.</doc>
+                 line="255">The index of event to refer to.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="ev_type"
@@ -768,7 +768,7 @@ of events in the container.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="250">The type of event.</doc>
+                 line="256">The type of event.</doc>
             <type name="EventType" c:type="ALSASeqEventType*"/>
           </parameter>
         </parameters>
@@ -778,7 +778,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="433">Get the mode of length for the event pointed by the index.</doc>
+             line="436">Get the mode of length for the event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="84"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -787,13 +787,13 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="435">A #ALSASeqEventCntr.</doc>
+                 line="438">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="436">The index of event to set.</doc>
+                 line="439">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="mode"
@@ -802,7 +802,7 @@ of events in the container.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="437">The mode of length, one of #ALSASeqEventLengthMode.</doc>
+                 line="440">The mode of length, one of #ALSASeqEventLengthMode.</doc>
             <type name="EventLengthMode" c:type="ALSASeqEventLengthMode*"/>
           </parameter>
         </parameters>
@@ -812,7 +812,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="914">Get the note data of event pointed by the index.</doc>
+             line="910">Get the note data of event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="120"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -821,13 +821,13 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="916">A #ALSASeqEventCntr.</doc>
+                 line="912">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="917">The index of event to set.</doc>
+                 line="913">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="data"
@@ -836,7 +836,7 @@ of events in the container.</doc>
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="918">The note data of event.</doc>
+                 line="914">The note data of event.</doc>
             <type name="EventDataNote" c:type="const ALSASeqEventDataNote**"/>
           </parameter>
         </parameters>
@@ -846,7 +846,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="464">Get the mode of priority for the event pointed by the index.</doc>
+             line="467">Get the mode of priority for the event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="88"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -855,13 +855,13 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="466">A #ALSASeqEventCntr.</doc>
+                 line="469">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="467">The index of event to set.</doc>
+                 line="470">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="mode"
@@ -870,7 +870,7 @@ of events in the container.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="468">The mode of priority, one of #ALSASeqEventPriorityMode.</doc>
+                 line="471">The mode of priority, one of #ALSASeqEventPriorityMode.</doc>
             <type name="EventPriorityMode" c:type="ALSASeqEventPriorityMode*"/>
           </parameter>
         </parameters>
@@ -880,7 +880,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="1100">Get the quadlet data of event pointed by the index.</doc>
+             line="1096">Get the quadlet data of event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="135"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -889,13 +889,13 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1102">A #ALSASeqEventCntr.</doc>
+                 line="1098">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1103">The index of event to set.</doc>
+                 line="1099">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="data"
@@ -904,7 +904,7 @@ of events in the container.</doc>
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1104">The quadlet data of event.</doc>
+                 line="1100">The quadlet data of event.</doc>
             <array zero-terminated="0" c:type="const guint32**" fixed-size="3">
               <type name="guint32" c:type="guint32"/>
             </array>
@@ -916,7 +916,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="1240">Get the queue data of event pointed by the index.</doc>
+             line="1237">Get the queue data of event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="147"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -925,13 +925,13 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1242">A #ALSASeqEventCntr.</doc>
+                 line="1239">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1243">The index of event to set.</doc>
+                 line="1240">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="data"
@@ -940,7 +940,7 @@ of events in the container.</doc>
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1244">The queue data of event.</doc>
+                 line="1241">The queue data of event.</doc>
             <type name="EventDataQueue"
                   c:type="const ALSASeqEventDataQueue**"/>
           </parameter>
@@ -951,7 +951,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="587">Get the numerical ID of queue to deliver the event.</doc>
+             line="588">Get the numerical ID of queue to deliver the event.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="100"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -960,13 +960,13 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="589">A #ALSASeqEventCntr.</doc>
+                 line="590">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="590">The index of event to set.</doc>
+                 line="591">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="queue_id"
@@ -975,7 +975,7 @@ of events in the container.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="591">The numerical ID of queue to deliver the event. One of
+                 line="592">The numerical ID of queue to deliver the event. One of
                   #ALSASeqSpecificQueueId is available as well.</doc>
             <type name="guint8" c:type="guint8*"/>
           </parameter>
@@ -986,7 +986,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="1488">Get the result data of event pointed by the index.</doc>
+             line="1485">Get the result data of event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="167"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -995,13 +995,13 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1490">A #ALSASeqEventCntr.</doc>
+                 line="1487">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1491">The index of event to set.</doc>
+                 line="1488">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="data"
@@ -1010,7 +1010,7 @@ of events in the container.</doc>
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1492">The result data of event.</doc>
+                 line="1489">The result data of event.</doc>
             <type name="EventDataResult"
                   c:type="const ALSASeqEventDataResult**"/>
           </parameter>
@@ -1055,7 +1055,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="527">Get the tag assignd to the event pointed by the index.</doc>
+             line="529">Get the tag assignd to the event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="95"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1064,13 +1064,13 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="529">A #ALSASeqEventCntr.</doc>
+                 line="531">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="530">The index of event to set.</doc>
+                 line="532">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="tag"
@@ -1079,7 +1079,7 @@ of events in the container.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="531">The tag assigned to the event.</doc>
+                 line="533">The tag assigned to the event.</doc>
             <type name="gint8" c:type="gint8*"/>
           </parameter>
         </parameters>
@@ -1089,7 +1089,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="370">Get the mode of time for the event pointed by the index.</doc>
+             line="374">Get the mode of time for the event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="77"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1098,13 +1098,13 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="372">A #ALSASeqEventCntr.</doc>
+                 line="376">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="373">The index of event to set.</doc>
+                 line="377">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="mode"
@@ -1113,7 +1113,7 @@ of events in the container.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="374">The mode of time, one of #ALSASeqEventTimeMode.</doc>
+                 line="378">The mode of time, one of #ALSASeqEventTimeMode.</doc>
             <type name="EventTimeMode" c:type="ALSASeqEventTimeMode*"/>
           </parameter>
         </parameters>
@@ -1158,7 +1158,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="1302">Get the timestamp data of event pointed by the index.</doc>
+             line="1299">Get the timestamp data of event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="152"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1167,13 +1167,13 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1304">A #ALSASeqEventCntr.</doc>
+                 line="1301">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1305">The index of event to set.</doc>
+                 line="1302">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="data"
@@ -1182,7 +1182,7 @@ of events in the container.</doc>
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1306">The timestamp data of event.</doc>
+                 line="1303">The timestamp data of event.</doc>
             <type name="Tstamp" c:type="const ALSASeqTstamp**"/>
           </parameter>
         </parameters>
@@ -1192,7 +1192,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="307">Get the mode of timestamping for the event pointed by the index.</doc>
+             line="312">Get the mode of timestamping for the event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="70"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1201,13 +1201,13 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="309">A #ALSASeqEventCntr.</doc>
+                 line="314">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="310">The index of event to set.</doc>
+                 line="315">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="mode"
@@ -1216,7 +1216,7 @@ of events in the container.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="311">The mode of timestamping, one of #ALSASeqEventTimestampMode.</doc>
+                 line="316">The mode of timestamping, one of #ALSASeqEventTimestampMode.</doc>
             <type name="EventTimestampMode"
                   c:type="ALSASeqEventTimestampMode*"/>
           </parameter>
@@ -1227,7 +1227,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="1393">Copy the address data to the event pointed by the index.</doc>
+             line="1390">Copy the address data to the event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="159"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1236,19 +1236,19 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1395">A #ALSASeqEventCntr.</doc>
+                 line="1392">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1396">The index of event to set.</doc>
+                 line="1393">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="data" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1397">The address data of event.</doc>
+                 line="1394">The address data of event.</doc>
             <type name="Addr" c:type="const ALSASeqAddr*"/>
           </parameter>
         </parameters>
@@ -1258,7 +1258,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="1209">Copy the quadlet data to the event pointed by the index.</doc>
+             line="1206">Copy the quadlet data to the event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="143"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1267,19 +1267,19 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1211">A #ALSASeqEventCntr.</doc>
+                 line="1208">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1212">The index of event to set.</doc>
+                 line="1209">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="data" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1213">The pointer to blob data for the event.</doc>
+                 line="1210">The pointer to blob data for the event.</doc>
             <array length="2" zero-terminated="0" c:type="const guint8*">
               <type name="guint8" c:type="guint8"/>
             </array>
@@ -1287,7 +1287,7 @@ of events in the container.</doc>
           <parameter name="size" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1214">The size of data.</doc>
+                 line="1211">The size of data.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
         </parameters>
@@ -1297,7 +1297,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="1067">Copy the byte data to the event pointed by the index.</doc>
+             line="1063">Copy the byte data to the event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="132"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1306,19 +1306,19 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1069">A #ALSASeqEventCntr.</doc>
+                 line="1065">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1070">The index of event to set.</doc>
+                 line="1066">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="data" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1071">The byte data of event.</doc>
+                 line="1067">The byte data of event.</doc>
             <array zero-terminated="0" c:type="const guint8*" fixed-size="12">
               <type name="guint8" c:type="guint8"/>
             </array>
@@ -1330,7 +1330,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="1455">Copy the connect data to the event pointed by the index.</doc>
+             line="1452">Copy the connect data to the event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="164"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1339,19 +1339,19 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1457">A #ALSASeqEventCntr.</doc>
+                 line="1454">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1458">The index of event to set.</doc>
+                 line="1455">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="data" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1459">The connect data of event.</doc>
+                 line="1456">The connect data of event.</doc>
             <type name="EventDataConnect"
                   c:type="const ALSASeqEventDataConnect*"/>
           </parameter>
@@ -1362,7 +1362,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="1005">Copy the control data to the event pointed by the index.</doc>
+             line="1001">Copy the control data to the event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="127"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1371,19 +1371,19 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1007">A #ALSASeqEventCntr.</doc>
+                 line="1003">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1008">The index of event to set.</doc>
+                 line="1004">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="data" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1009">The control data of event.</doc>
+                 line="1005">The control data of event.</doc>
             <type name="EventDataCtl" c:type="const ALSASeqEventDataCtl*"/>
           </parameter>
         </parameters>
@@ -1424,7 +1424,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="276">Set the type to event pointed by the index;</doc>
+             line="282">Set the type to event pointed by the index;</doc>
         <source-position filename="../src/seq/event-cntr.h" line="66"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1433,19 +1433,19 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="278">A #ALSASeqEventCntr.</doc>
+                 line="284">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="279">The index of event to set.</doc>
+                 line="285">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="ev_type" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="280">A #ALSASeqEventType.</doc>
+                 line="286">A #ALSASeqEventType.</doc>
             <type name="EventType" c:type="ALSASeqEventType"/>
           </parameter>
         </parameters>
@@ -1455,7 +1455,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="943">Copy the note data to the event pointed by the index.</doc>
+             line="939">Copy the note data to the event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="122"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1464,19 +1464,19 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="945">A #ALSASeqEventCntr.</doc>
+                 line="941">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="946">The index of event to set.</doc>
+                 line="942">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="data" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="947">The note data of event.</doc>
+                 line="943">The note data of event.</doc>
             <type name="EventDataNote" c:type="const ALSASeqEventDataNote*"/>
           </parameter>
         </parameters>
@@ -1486,7 +1486,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="495">Set the mode of priority for the event pointed by the index.</doc>
+             line="498">Set the mode of priority for the event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="91"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1495,19 +1495,19 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="497">A #ALSASeqEventCntr.</doc>
+                 line="500">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="498">The index of event to set.</doc>
+                 line="501">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="mode" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="499">The mode of priority, one of #ALSASeqEventPriorityMode.</doc>
+                 line="502">The mode of priority, one of #ALSASeqEventPriorityMode.</doc>
             <type name="EventPriorityMode" c:type="ALSASeqEventPriorityMode"/>
           </parameter>
         </parameters>
@@ -1517,7 +1517,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="1130">Copy the quadlet data to the event pointed by the index.</doc>
+             line="1126">Copy the quadlet data to the event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="137"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1526,19 +1526,19 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1132">A #ALSASeqEventCntr.</doc>
+                 line="1128">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1133">The index of event to set.</doc>
+                 line="1129">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="data" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1134">The quadlet data of event.</doc>
+                 line="1130">The quadlet data of event.</doc>
             <array zero-terminated="0" c:type="const guint32*" fixed-size="3">
               <type name="guint32" c:type="guint32"/>
             </array>
@@ -1550,7 +1550,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="1269">Copy the queue data to the event pointed by the index.</doc>
+             line="1266">Copy the queue data to the event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="149"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1559,19 +1559,19 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1271">A #ALSASeqEventCntr.</doc>
+                 line="1268">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1272">The index of event to set.</doc>
+                 line="1269">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="data" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1273">The queue data of event.</doc>
+                 line="1270">The queue data of event.</doc>
             <type name="EventDataQueue" c:type="const ALSASeqEventDataQueue*"/>
           </parameter>
         </parameters>
@@ -1581,7 +1581,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="618">Set the numerical ID of queue to deliver the event.</doc>
+             line="619">Set the numerical ID of queue to deliver the event.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="102"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1590,19 +1590,19 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="620">A #ALSASeqEventCntr.</doc>
+                 line="621">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="621">The index of event to set.</doc>
+                 line="622">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="queue_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="622">The numerical ID of queue to deliver the event. One of
+                 line="623">The numerical ID of queue to deliver the event. One of
            #ALSASeqSpecificQueueId is available as well.</doc>
             <type name="guint8" c:type="guint8"/>
           </parameter>
@@ -1613,7 +1613,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="1517">Copy the result data to the event pointed by the index.</doc>
+             line="1514">Copy the result data to the event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="169"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1622,19 +1622,19 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1519">A #ALSASeqEventCntr.</doc>
+                 line="1516">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1520">The index of event to set.</doc>
+                 line="1517">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="data" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1521">The result data of event.</doc>
+                 line="1518">The result data of event.</doc>
             <type name="EventDataResult"
                   c:type="const ALSASeqEventDataResult*"/>
           </parameter>
@@ -1676,7 +1676,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="557">Get the tag assignd to the event pointed by the index.</doc>
+             line="559">Get the tag assignd to the event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="97"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1685,19 +1685,19 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="559">A #ALSASeqEventCntr.</doc>
+                 line="561">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="560">The index of event to set.</doc>
+                 line="562">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="tag" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="561">The tag going to be assignd to the event.</doc>
+                 line="563">The tag going to be assignd to the event.</doc>
             <type name="gint8" c:type="gint8"/>
           </parameter>
         </parameters>
@@ -1707,7 +1707,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="401">Set the mode of time for the event pointed by the index.</doc>
+             line="405">Set the mode of time for the event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="80"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1716,19 +1716,19 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="403">A #ALSASeqEventCntr.</doc>
+                 line="407">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="404">The index of event to set.</doc>
+                 line="408">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="mode" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="405">The mode of time, one of #ALSASeqEventTimeMode.</doc>
+                 line="409">The mode of time, one of #ALSASeqEventTimeMode.</doc>
             <type name="EventTimeMode" c:type="ALSASeqEventTimeMode"/>
           </parameter>
         </parameters>
@@ -1770,7 +1770,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="1331">Copy the timestamp data to the event pointed by the index.</doc>
+             line="1328">Copy the timestamp data to the event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="154"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1779,19 +1779,19 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1333">A #ALSASeqEventCntr.</doc>
+                 line="1330">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1334">The index of event to set.</doc>
+                 line="1331">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="data" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="1335">The timestamp data of event.</doc>
+                 line="1332">The timestamp data of event.</doc>
             <type name="Tstamp" c:type="const ALSASeqTstamp*"/>
           </parameter>
         </parameters>
@@ -1801,7 +1801,7 @@ of events in the container.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/event-cntr.c"
-             line="338">Set the mode of timestamping for the event pointed by the index.</doc>
+             line="343">Set the mode of timestamping for the event pointed by the index.</doc>
         <source-position filename="../src/seq/event-cntr.h" line="73"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1810,19 +1810,19 @@ of events in the container.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="340">A #ALSASeqEventCntr.</doc>
+                 line="345">A #ALSASeqEventCntr.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </instance-parameter>
           <parameter name="index" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="341">The index of event to set.</doc>
+                 line="346">The index of event to set.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="mode" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/event-cntr.c"
-                 line="342">The mode of timestamping, one of #ALSASeqEventTimestampMode.</doc>
+                 line="347">The mode of timestamping, one of #ALSASeqEventTimestampMode.</doc>
             <type name="EventTimestampMode"
                   c:type="ALSASeqEventTimestampMode"/>
           </parameter>
@@ -4177,7 +4177,7 @@ the parameter of queue event.</doc>
               c:identifier="alsaseq_queue_status_get_real_time">
         <doc xml:space="preserve"
              filename="../src/seq/queue-status.c"
-             line="118">Get time as wall-clock time.</doc>
+             line="120">Get time as wall-clock time.</doc>
         <source-position filename="../src/seq/queue-status.h" line="53"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -4186,7 +4186,7 @@ the parameter of queue event.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/queue-status.c"
-                 line="120">A #ALSASeqQueueStatus.</doc>
+                 line="122">A #ALSASeqQueueStatus.</doc>
             <type name="QueueStatus" c:type="ALSASeqQueueStatus*"/>
           </instance-parameter>
           <parameter name="real_time"
@@ -4195,7 +4195,7 @@ the parameter of queue event.</doc>
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/queue-status.c"
-                 line="121">The array with two
+                 line="123">The array with two
             elements for sec part and nsec part of real time.</doc>
             <array zero-terminated="0" c:type="const guint32**" fixed-size="2">
               <type name="guint32" c:type="guint32"/>
@@ -4311,7 +4311,7 @@ the parameter of queue event.</doc>
       <method name="set_skew" c:identifier="alsaseq_queue_tempo_set_skew">
         <doc xml:space="preserve"
              filename="../src/seq/queue-tempo.c"
-             line="145">Copy numerator and denominator of fraction for skew.</doc>
+             line="147">Copy numerator and denominator of fraction for skew.</doc>
         <source-position filename="../src/seq/queue-tempo.h" line="51"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -4320,13 +4320,13 @@ the parameter of queue event.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/queue-tempo.c"
-                 line="147">A #ALSASeqQueueTempo.</doc>
+                 line="149">A #ALSASeqQueueTempo.</doc>
             <type name="QueueTempo" c:type="ALSASeqQueueTempo*"/>
           </instance-parameter>
           <parameter name="skew" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/queue-tempo.c"
-                 line="148">The array with two elements for
+                 line="150">The array with two elements for
        numerator and denominator of fraction for skew.</doc>
             <array zero-terminated="0" c:type="const guint32*" fixed-size="2">
               <type name="guint32" c:type="guint32"/>
@@ -4416,7 +4416,7 @@ drives the timer.</doc>
               c:identifier="alsaseq_queue_timer_set_alsa_data">
         <doc xml:space="preserve"
              filename="../src/seq/queue-timer.c"
-             line="111">Set the data of timer for queue in the case that the device in ALSATimer
+             line="113">Set the data of timer for queue in the case that the device in ALSATimer
 drives the timer.</doc>
         <source-position filename="../src/seq/queue-timer.h" line="55"/>
         <return-value transfer-ownership="none">
@@ -4426,13 +4426,13 @@ drives the timer.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/queue-timer.c"
-                 line="113">A #ALSASeqQueueTimer.</doc>
+                 line="115">A #ALSASeqQueueTimer.</doc>
             <type name="QueueTimer" c:type="ALSASeqQueueTimer*"/>
           </instance-parameter>
           <parameter name="data" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/queue-timer.c"
-                 line="114">A #ALSASeqQueueTimerDataAlsa.</doc>
+                 line="116">A #ALSASeqQueueTimerDataAlsa.</doc>
             <type name="QueueTimerDataAlsa"
                   c:type="const ALSASeqQueueTimerDataAlsa*"/>
           </parameter>
@@ -4649,7 +4649,7 @@ events towards the destination.</doc>
                    throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/remove-filter.c"
-             line="86">Allocate and return a memory object of ALSASeqRemoveFilter to remove queued
+             line="82">Allocate and return a memory object of ALSASeqRemoveFilter to remove queued
 events with the type.</doc>
         <source-position filename="../src/seq/remove-filter.h" line="29"/>
         <return-value transfer-ownership="full">
@@ -4659,20 +4659,20 @@ events with the type.</doc>
           <parameter name="inout" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/remove-filter.c"
-                 line="88">The direction of queue; ALSASEQ_REMOVE_FILTER_FLAG_INPUT or
+                 line="84">The direction of queue; ALSASEQ_REMOVE_FILTER_FLAG_INPUT or
         ALSASEQ_REMOVE_FILTER_FLAG_OUTPUT.</doc>
             <type name="RemoveFilterFlag" c:type="ALSASeqRemoveFilterFlag"/>
           </parameter>
           <parameter name="queue_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/remove-filter.c"
-                 line="90">The numerical ID of queue.</doc>
+                 line="86">The numerical ID of queue.</doc>
             <type name="guint8" c:type="guint8"/>
           </parameter>
           <parameter name="ev_type" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/remove-filter.c"
-                 line="91">The type of event.</doc>
+                 line="87">The type of event.</doc>
             <type name="EventType" c:type="ALSASeqEventType"/>
           </parameter>
         </parameters>
@@ -4682,7 +4682,7 @@ events with the type.</doc>
                    throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/remove-filter.c"
-             line="115">Allocate and return a memory object of ALSASeqRemoveFilter to remove queued
+             line="109">Allocate and return a memory object of ALSASeqRemoveFilter to remove queued
 events for note, except for ALSASEQ_EVENT_TYPE_NOTEOFF.</doc>
         <source-position filename="../src/seq/remove-filter.h" line="33"/>
         <return-value transfer-ownership="full">
@@ -4692,14 +4692,14 @@ events for note, except for ALSASEQ_EVENT_TYPE_NOTEOFF.</doc>
           <parameter name="inout" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/remove-filter.c"
-                 line="117">The direction of queue; ALSASEQ_REMOVE_FILTER_FLAG_INPUT or
+                 line="111">The direction of queue; ALSASEQ_REMOVE_FILTER_FLAG_INPUT or
         ALSASEQ_REMOVE_FILTER_FLAG_OUTPUT.</doc>
             <type name="RemoveFilterFlag" c:type="ALSASeqRemoveFilterFlag"/>
           </parameter>
           <parameter name="queue_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/remove-filter.c"
-                 line="119">The numerical ID of queue.</doc>
+                 line="113">The numerical ID of queue.</doc>
             <type name="guint8" c:type="guint8"/>
           </parameter>
         </parameters>
@@ -4709,7 +4709,7 @@ events for note, except for ALSASEQ_EVENT_TYPE_NOTEOFF.</doc>
                    throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/remove-filter.c"
-             line="57">Allocate and return a memory object of ALSASeqRemoveFilter to remove queued
+             line="55">Allocate and return a memory object of ALSASeqRemoveFilter to remove queued
 events with note type towards the channel.</doc>
         <source-position filename="../src/seq/remove-filter.h" line="25"/>
         <return-value transfer-ownership="full">
@@ -4719,20 +4719,20 @@ events with note type towards the channel.</doc>
           <parameter name="inout" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/remove-filter.c"
-                 line="59">The direction of queue; ALSASEQ_REMOVE_FILTER_FLAG_INPUT or
+                 line="57">The direction of queue; ALSASEQ_REMOVE_FILTER_FLAG_INPUT or
         ALSASEQ_REMOVE_FILTER_FLAG_OUTPUT.</doc>
             <type name="RemoveFilterFlag" c:type="ALSASeqRemoveFilterFlag"/>
           </parameter>
           <parameter name="queue_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/remove-filter.c"
-                 line="61">The numerical ID of queue.</doc>
+                 line="59">The numerical ID of queue.</doc>
             <type name="guint8" c:type="guint8"/>
           </parameter>
           <parameter name="channel" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/remove-filter.c"
-                 line="62">The channel for note event.</doc>
+                 line="60">The channel for note event.</doc>
             <type name="guint8" c:type="guint8"/>
           </parameter>
         </parameters>
@@ -4742,7 +4742,7 @@ events with note type towards the channel.</doc>
                    throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/remove-filter.c"
-             line="207">Allocate and return a memory object of ALSASeqRemoveFilter to remove queued
+             line="195">Allocate and return a memory object of ALSASeqRemoveFilter to remove queued
 events before/after the real time.</doc>
         <source-position filename="../src/seq/remove-filter.h" line="46"/>
         <return-value transfer-ownership="full">
@@ -4752,32 +4752,32 @@ events before/after the real time.</doc>
           <parameter name="inout" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/remove-filter.c"
-                 line="209">The direction of queue; ALSASEQ_REMOVE_FILTER_FLAG_INPUT or
+                 line="197">The direction of queue; ALSASEQ_REMOVE_FILTER_FLAG_INPUT or
         ALSASEQ_REMOVE_FILTER_FLAG_OUTPUT.</doc>
             <type name="RemoveFilterFlag" c:type="ALSASeqRemoveFilterFlag"/>
           </parameter>
           <parameter name="queue_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/remove-filter.c"
-                 line="211">The numerical ID of queue.</doc>
+                 line="199">The numerical ID of queue.</doc>
             <type name="guint8" c:type="guint8"/>
           </parameter>
           <parameter name="tv_sec" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/remove-filter.c"
-                 line="212">The second part of time.</doc>
+                 line="200">The second part of time.</doc>
             <type name="gint32" c:type="gint32"/>
           </parameter>
           <parameter name="tv_nsec" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/remove-filter.c"
-                 line="213">The nanosecond part of time.</doc>
+                 line="201">The nanosecond part of time.</doc>
             <type name="guint32" c:type="guint32"/>
           </parameter>
           <parameter name="after" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/remove-filter.c"
-                 line="214">Remove events after the real time if true, else remove events before
+                 line="202">Remove events after the real time if true, else remove events before
         the real time.</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
@@ -4788,7 +4788,7 @@ events before/after the real time.</doc>
                    throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/remove-filter.c"
-             line="142">Allocate and return a memory object of ALSASeqRemoveFilter to remove queued
+             line="134">Allocate and return a memory object of ALSASeqRemoveFilter to remove queued
 events with the tag.</doc>
         <source-position filename="../src/seq/remove-filter.h" line="37"/>
         <return-value transfer-ownership="full">
@@ -4798,20 +4798,20 @@ events with the tag.</doc>
           <parameter name="inout" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/remove-filter.c"
-                 line="144">The direction of queue; ALSASEQ_REMOVE_FILTER_FLAG_INPUT or
+                 line="136">The direction of queue; ALSASEQ_REMOVE_FILTER_FLAG_INPUT or
         ALSASEQ_REMOVE_FILTER_FLAG_OUTPUT.</doc>
             <type name="RemoveFilterFlag" c:type="ALSASeqRemoveFilterFlag"/>
           </parameter>
           <parameter name="queue_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/remove-filter.c"
-                 line="146">The numerical ID of queue.</doc>
+                 line="138">The numerical ID of queue.</doc>
             <type name="guint8" c:type="guint8"/>
           </parameter>
           <parameter name="tag" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/remove-filter.c"
-                 line="147">The tag of event to remove.</doc>
+                 line="139">The tag of event to remove.</doc>
             <type name="gint8" c:type="gint8"/>
           </parameter>
         </parameters>
@@ -4821,7 +4821,7 @@ events with the tag.</doc>
                    throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/remove-filter.c"
-             line="171">Allocate and return a memory object of ALSASeqRemoveFilter to remove queued
+             line="161">Allocate and return a memory object of ALSASeqRemoveFilter to remove queued
 events before/after the tick time.</doc>
         <source-position filename="../src/seq/remove-filter.h" line="41"/>
         <return-value transfer-ownership="full">
@@ -4831,26 +4831,26 @@ events before/after the tick time.</doc>
           <parameter name="inout" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/remove-filter.c"
-                 line="173">The direction of queue; ALSASEQ_REMOVE_FILTER_FLAG_INPUT or
+                 line="163">The direction of queue; ALSASEQ_REMOVE_FILTER_FLAG_INPUT or
         ALSASEQ_REMOVE_FILTER_FLAG_OUTPUT.</doc>
             <type name="RemoveFilterFlag" c:type="ALSASeqRemoveFilterFlag"/>
           </parameter>
           <parameter name="queue_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/remove-filter.c"
-                 line="175">The numerical ID of queue.</doc>
+                 line="165">The numerical ID of queue.</doc>
             <type name="guint8" c:type="guint8"/>
           </parameter>
           <parameter name="tick_time" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/remove-filter.c"
-                 line="176">The count of tick.</doc>
+                 line="166">The count of tick.</doc>
             <type name="gint32" c:type="gint32"/>
           </parameter>
           <parameter name="after" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/remove-filter.c"
-                 line="177">Remove events after the tick time if true, else remove events before
+                 line="167">Remove events after the tick time if true, else remove events before
         the tick time.</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
@@ -5282,12 +5282,12 @@ events before/after the tick time.</doc>
            glib:type-name="ALSASeqUserClient"
            glib:get-type="alsaseq_user_client_get_type"
            glib:type-struct="UserClientClass">
-      <source-position filename="../src/seq/user-client.h" line="68"/>
+      <source-position filename="../src/seq/user-client.h" line="72"/>
       <constructor name="new" c:identifier="alsaseq_user_client_new">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="132">Allocate and return an instance of ALSASeqUserClient class.</doc>
-        <source-position filename="../src/seq/user-client.h" line="72"/>
+             line="158">Allocate and return an instance of ALSASeqUserClient class.</doc>
+        <source-position filename="../src/seq/user-client.h" line="76"/>
         <return-value transfer-ownership="full">
           <type name="UserClient" c:type="ALSASeqUserClient*"/>
         </return-value>
@@ -5295,11 +5295,11 @@ events before/after the tick time.</doc>
       <virtual-method name="handle_event">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.h"
-             line="55">When event occurs, this signal is emit with the instance of object which
+             line="59">When event occurs, this signal is emit with the instance of object which
 points to a batch of events. The instance should not be passed directly
 to alsaseq_user_client_schedule_event() again because its memory
 alignment is different for events with blob data.</doc>
-        <source-position filename="../src/seq/user-client.h" line="66"/>
+        <source-position filename="../src/seq/user-client.h" line="70"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5307,13 +5307,13 @@ alignment is different for events with blob data.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.h"
-                 line="57">A #ALSASeqUserClient.</doc>
+                 line="61">A #ALSASeqUserClient.</doc>
             <type name="UserClient" c:type="ALSASeqUserClient*"/>
           </instance-parameter>
           <parameter name="ev_cntr" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.h"
-                 line="58">The instance of ALSASeqEventCntr which
+                 line="62">The instance of ALSASeqEventCntr which
             points to the batch of events.</doc>
             <type name="EventCntr" c:type="const ALSASeqEventCntr*"/>
           </parameter>
@@ -5324,11 +5324,11 @@ alignment is different for events with blob data.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="282">Create a port into the client.
+             line="321">Create a port into the client.
 
 The call of function executes ioctl(2) system call with
 SNDRV_SEQ_IOCTL_CREATE_PORT command for ALSA sequencer character device.</doc>
-        <source-position filename="../src/seq/user-client.h" line="88"/>
+        <source-position filename="../src/seq/user-client.h" line="92"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5336,7 +5336,7 @@ SNDRV_SEQ_IOCTL_CREATE_PORT command for ALSA sequencer character device.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="284">A #ALSASeqUserClient.</doc>
+                 line="323">A #ALSASeqUserClient.</doc>
             <type name="UserClient" c:type="ALSASeqUserClient*"/>
           </instance-parameter>
           <parameter name="port_info"
@@ -5345,7 +5345,7 @@ SNDRV_SEQ_IOCTL_CREATE_PORT command for ALSA sequencer character device.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="285">A #ALSASeqPortInfo.</doc>
+                 line="324">A #ALSASeqPortInfo.</doc>
             <type name="PortInfo" c:type="ALSASeqPortInfo* const*"/>
           </parameter>
         </parameters>
@@ -5355,11 +5355,11 @@ SNDRV_SEQ_IOCTL_CREATE_PORT command for ALSA sequencer character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="311">Create a port into the client with the given numerical port ID.
+             line="352">Create a port into the client with the given numerical port ID.
 
 The call of function executes ioctl(2) system call with
 SNDRV_SEQ_IOCTL_CREATE_PORT command for ALSA sequencer character device.</doc>
-        <source-position filename="../src/seq/user-client.h" line="91"/>
+        <source-position filename="../src/seq/user-client.h" line="95"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5367,7 +5367,7 @@ SNDRV_SEQ_IOCTL_CREATE_PORT command for ALSA sequencer character device.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="313">A #ALSASeqUserClient.</doc>
+                 line="354">A #ALSASeqUserClient.</doc>
             <type name="UserClient" c:type="ALSASeqUserClient*"/>
           </instance-parameter>
           <parameter name="port_info"
@@ -5376,13 +5376,13 @@ SNDRV_SEQ_IOCTL_CREATE_PORT command for ALSA sequencer character device.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="314">A #ALSASeqPortInfo.</doc>
+                 line="355">A #ALSASeqPortInfo.</doc>
             <type name="PortInfo" c:type="ALSASeqPortInfo* const*"/>
           </parameter>
           <parameter name="port_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="315">The numerical ID of port to create.</doc>
+                 line="356">The numerical ID of port to create.</doc>
             <type name="guint8" c:type="guint8"/>
           </parameter>
         </parameters>
@@ -5392,12 +5392,12 @@ SNDRV_SEQ_IOCTL_CREATE_PORT command for ALSA sequencer character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="644">Create a new queue owned by the client. The content of information is updated
+             line="701">Create a new queue owned by the client. The content of information is updated
 if success.
 
 The call of function executes ioctl(2) system call with
 SNDRV_SEQ_IOCTL_CREATE_QUEUE command for ALSA sequencer character device.</doc>
-        <source-position filename="../src/seq/user-client.h" line="122"/>
+        <source-position filename="../src/seq/user-client.h" line="126"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5405,7 +5405,7 @@ SNDRV_SEQ_IOCTL_CREATE_QUEUE command for ALSA sequencer character device.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="646">A #ALSASeqUserClient.</doc>
+                 line="703">A #ALSASeqUserClient.</doc>
             <type name="UserClient" c:type="ALSASeqUserClient*"/>
           </instance-parameter>
           <parameter name="queue_info"
@@ -5414,7 +5414,7 @@ SNDRV_SEQ_IOCTL_CREATE_QUEUE command for ALSA sequencer character device.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="647">The information of queue to add.</doc>
+                 line="704">The information of queue to add.</doc>
             <type name="QueueInfo" c:type="ALSASeqQueueInfo* const*"/>
           </parameter>
         </parameters>
@@ -5424,11 +5424,11 @@ SNDRV_SEQ_IOCTL_CREATE_QUEUE command for ALSA sequencer character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="554">Allocate GSource structure to handle events from ALSA seq character device.
+             line="606">Allocate GSource structure to handle events from ALSA seq character device.
 In each iteration of GMainContext, the read(2) system call is exected to
 dispatch sequencer event for 'handle-event' signal, according to the result
 of poll(2) system call.</doc>
-        <source-position filename="../src/seq/user-client.h" line="114"/>
+        <source-position filename="../src/seq/user-client.h" line="118"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5436,7 +5436,7 @@ of poll(2) system call.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="556">A #ALSASeqUserClient.</doc>
+                 line="608">A #ALSASeqUserClient.</doc>
             <type name="UserClient" c:type="ALSASeqUserClient*"/>
           </instance-parameter>
           <parameter name="gsrc"
@@ -5445,7 +5445,7 @@ of poll(2) system call.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="557">A #GSource to handle events from ALSA seq character device.</doc>
+                 line="609">A #GSource to handle events from ALSA seq character device.</doc>
             <type name="GLib.Source" c:type="GSource**"/>
           </parameter>
         </parameters>
@@ -5455,11 +5455,11 @@ of poll(2) system call.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="372">Delete a port from the client.
+             line="416">Delete a port from the client.
 
 The call of function executes ioctl(2) system call with
 SNDRV_SEQ_IOCTL_DELETE_PORT command for ALSA sequencer character device.</doc>
-        <source-position filename="../src/seq/user-client.h" line="99"/>
+        <source-position filename="../src/seq/user-client.h" line="103"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5467,13 +5467,13 @@ SNDRV_SEQ_IOCTL_DELETE_PORT command for ALSA sequencer character device.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="374">A #ALSASeqUserClient.</doc>
+                 line="418">A #ALSASeqUserClient.</doc>
             <type name="UserClient" c:type="ALSASeqUserClient*"/>
           </instance-parameter>
           <parameter name="port_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="375">The numerical ID of port.</doc>
+                 line="419">The numerical ID of port.</doc>
             <type name="guint8" c:type="guint8"/>
           </parameter>
         </parameters>
@@ -5483,11 +5483,11 @@ SNDRV_SEQ_IOCTL_DELETE_PORT command for ALSA sequencer character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="673">Delete the queue owned by the client.
+             line="732">Delete the queue owned by the client.
 
 The call of function executes ioctl(2) system call with
 SNDRV_SEQ_IOCTL_DELETE_QUEUE command for ALSA sequencer character device.</doc>
-        <source-position filename="../src/seq/user-client.h" line="125"/>
+        <source-position filename="../src/seq/user-client.h" line="129"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5495,13 +5495,13 @@ SNDRV_SEQ_IOCTL_DELETE_QUEUE command for ALSA sequencer character device.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="675">A #ALSASeqUserClient.</doc>
+                 line="734">A #ALSASeqUserClient.</doc>
             <type name="UserClient" c:type="ALSASeqUserClient*"/>
           </instance-parameter>
           <parameter name="queue_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="676">The numerical ID of queue, except for one of ALSASeqSpecificQueueId.</doc>
+                 line="735">The numerical ID of queue, except for one of ALSASeqSpecificQueueId.</doc>
             <type name="guint8" c:type="guint8"/>
           </parameter>
         </parameters>
@@ -5511,11 +5511,11 @@ SNDRV_SEQ_IOCTL_DELETE_QUEUE command for ALSA sequencer character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="253">Set client information.
+             line="290">Set client information.
 
 The call of function executes ioctl(2) system call with
 SNDRV_SEQ_IOCTL_GET_CLIENT_INFO command for ALSA sequencer character device.</doc>
-        <source-position filename="../src/seq/user-client.h" line="84"/>
+        <source-position filename="../src/seq/user-client.h" line="88"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5523,7 +5523,7 @@ SNDRV_SEQ_IOCTL_GET_CLIENT_INFO command for ALSA sequencer character device.</do
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="255">A #ALSASeqUserClient.</doc>
+                 line="292">A #ALSASeqUserClient.</doc>
             <type name="UserClient" c:type="ALSASeqUserClient*"/>
           </instance-parameter>
           <parameter name="client_info"
@@ -5532,7 +5532,7 @@ SNDRV_SEQ_IOCTL_GET_CLIENT_INFO command for ALSA sequencer character device.</do
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="256">A #ALSASeqClientInfo.</doc>
+                 line="293">A #ALSASeqClientInfo.</doc>
             <type name="ClientInfo" c:type="ALSASeqClientInfo* const*"/>
           </parameter>
         </parameters>
@@ -5542,11 +5542,11 @@ SNDRV_SEQ_IOCTL_GET_CLIENT_INFO command for ALSA sequencer character device.</do
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="426">Get information of memory pool in the client.
+             line="474">Get information of memory pool in the client.
 
 The call of function executes ioctl(2) system call with
 SNDRV_SEQ_IOCTL_GET_CLIENT_POOL command for ALSA sequencer character device.</doc>
-        <source-position filename="../src/seq/user-client.h" line="106"/>
+        <source-position filename="../src/seq/user-client.h" line="110"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5554,7 +5554,7 @@ SNDRV_SEQ_IOCTL_GET_CLIENT_POOL command for ALSA sequencer character device.</do
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="428">A #ALSASeqUserClient.</doc>
+                 line="476">A #ALSASeqUserClient.</doc>
             <type name="UserClient" c:type="ALSASeqUserClient*"/>
           </instance-parameter>
           <parameter name="client_pool"
@@ -5563,7 +5563,7 @@ SNDRV_SEQ_IOCTL_GET_CLIENT_POOL command for ALSA sequencer character device.</do
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="429">A #ALSASeqClientPool to be configured for the client.</doc>
+                 line="477">A #ALSASeqClientPool to be configured for the client.</doc>
             <type name="ClientPool" c:type="ALSASeqClientPool* const*"/>
           </parameter>
         </parameters>
@@ -5573,11 +5573,11 @@ SNDRV_SEQ_IOCTL_GET_CLIENT_POOL command for ALSA sequencer character device.</do
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="195">Get the version of sequencer protocol currently used. The version is
+             line="231">Get the version of sequencer protocol currently used. The version is
 represented as the array with three elements; major, minor, and micro version
 in the order. The length of major version is 16 bit, the length of minor
 and micro version is 8 bit each.</doc>
-        <source-position filename="../src/seq/user-client.h" line="77"/>
+        <source-position filename="../src/seq/user-client.h" line="81"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5585,7 +5585,7 @@ and micro version is 8 bit each.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="197">A #ALSASeqUserClient.</doc>
+                 line="233">A #ALSASeqUserClient.</doc>
             <type name="UserClient" c:type="ALSASeqUserClient*"/>
           </instance-parameter>
           <parameter name="proto_ver_triplet"
@@ -5594,7 +5594,7 @@ and micro version is 8 bit each.</doc>
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="198">The version of
+                 line="234">The version of
                     protocol currently used.</doc>
             <array zero-terminated="0" c:type="const guint16**" fixed-size="3">
               <type name="guint16" c:type="guint16"/>
@@ -5607,11 +5607,11 @@ and micro version is 8 bit each.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="820">Get the data of tempo for the queue.
+             line="898">Get the data of tempo for the queue.
 
 The call of function executes ioctl(2) system call with
 SNDRV_SEQ_IOCTL_GET_QUEUE_TEMPO command for ALSA sequencer character device.</doc>
-        <source-position filename="../src/seq/user-client.h" line="140"/>
+        <source-position filename="../src/seq/user-client.h" line="144"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5619,13 +5619,13 @@ SNDRV_SEQ_IOCTL_GET_QUEUE_TEMPO command for ALSA sequencer character device.</do
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="822">A #ALSASeqUserClient.</doc>
+                 line="900">A #ALSASeqUserClient.</doc>
             <type name="UserClient" c:type="ALSASeqUserClient*"/>
           </instance-parameter>
           <parameter name="queue_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="823">The numerical ID of queue, except for entries in
+                 line="901">The numerical ID of queue, except for entries in
            ALSASeqSpecificQueueId.</doc>
             <type name="guint8" c:type="guint8"/>
           </parameter>
@@ -5635,7 +5635,7 @@ SNDRV_SEQ_IOCTL_GET_QUEUE_TEMPO command for ALSA sequencer character device.</do
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="825">The data of tempo for queue.</doc>
+                 line="903">The data of tempo for queue.</doc>
             <type name="QueueTempo" c:type="ALSASeqQueueTempo**"/>
           </parameter>
         </parameters>
@@ -5645,11 +5645,11 @@ SNDRV_SEQ_IOCTL_GET_QUEUE_TEMPO command for ALSA sequencer character device.</do
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="896">Get the data of timer for the queue.
+             line="981">Get the data of timer for the queue.
 
 The call of function executes ioctl(2) system call with
 SNDRV_SEQ_IOCTL_GET_QUEUE_TIMER command for ALSA sequencer character device.</doc>
-        <source-position filename="../src/seq/user-client.h" line="148"/>
+        <source-position filename="../src/seq/user-client.h" line="152"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5657,13 +5657,13 @@ SNDRV_SEQ_IOCTL_GET_QUEUE_TIMER command for ALSA sequencer character device.</do
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="898">A #ALSASeqUserClient.</doc>
+                 line="983">A #ALSASeqUserClient.</doc>
             <type name="UserClient" c:type="ALSASeqUserClient*"/>
           </instance-parameter>
           <parameter name="queue_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="899">The numerical ID of queue, except for entries in
+                 line="984">The numerical ID of queue, except for entries in
            ALSASeqSpecificQueueId.</doc>
             <type name="guint8" c:type="guint8"/>
           </parameter>
@@ -5673,7 +5673,7 @@ SNDRV_SEQ_IOCTL_GET_QUEUE_TIMER command for ALSA sequencer character device.</do
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="901">The data of timer for queue.</doc>
+                 line="986">The data of timer for queue.</doc>
             <type name="QueueTimer" c:type="ALSASeqQueueTimer**"/>
           </parameter>
         </parameters>
@@ -5683,11 +5683,11 @@ SNDRV_SEQ_IOCTL_GET_QUEUE_TIMER command for ALSA sequencer character device.</do
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="727">Get usage of the queue by the client.
+             line="794">Get usage of the queue by the client.
 
 The call of function executes ioctl(2) system call with
 SNDRV_SEQ_IOCTL_GET_QUEUE_CLIENT command for ALSA sequencer character device.</doc>
-        <source-position filename="../src/seq/user-client.h" line="130"/>
+        <source-position filename="../src/seq/user-client.h" line="134"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5695,13 +5695,13 @@ SNDRV_SEQ_IOCTL_GET_QUEUE_CLIENT command for ALSA sequencer character device.</d
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="729">A #ALSASeqUserClient.</doc>
+                 line="796">A #ALSASeqUserClient.</doc>
             <type name="UserClient" c:type="ALSASeqUserClient*"/>
           </instance-parameter>
           <parameter name="queue_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="730">The numerical ID of queue, except for entries in
+                 line="797">The numerical ID of queue, except for entries in
            ALSASeqSpecificQueueId.</doc>
             <type name="guint8" c:type="guint8"/>
           </parameter>
@@ -5711,7 +5711,7 @@ SNDRV_SEQ_IOCTL_GET_QUEUE_CLIENT command for ALSA sequencer character device.</d
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="732">Whether the client uses the queue or not.</doc>
+                 line="799">Whether the client uses the queue or not.</doc>
             <type name="gboolean" c:type="gboolean*"/>
           </parameter>
         </parameters>
@@ -5719,12 +5719,12 @@ SNDRV_SEQ_IOCTL_GET_QUEUE_CLIENT command for ALSA sequencer character device.</d
       <method name="open" c:identifier="alsaseq_user_client_open" throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="142">Open ALSA sequencer character device.
+             line="168">Open ALSA sequencer character device.
 
 The call of function executes open(2) system call, then executes ioctl(2)
 system call with SNDRV_SEQ_IOCTL_CLIENT_ID command for ALSA sequencer
 character device.</doc>
-        <source-position filename="../src/seq/user-client.h" line="74"/>
+        <source-position filename="../src/seq/user-client.h" line="78"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5732,13 +5732,13 @@ character device.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="144">A #ALSASeqUserClient.</doc>
+                 line="170">A #ALSASeqUserClient.</doc>
             <type name="UserClient" c:type="ALSASeqUserClient*"/>
           </instance-parameter>
           <parameter name="open_flag" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="145">The flag of open(2) system call. O_RDWR is forced to fulfil internally.</doc>
+                 line="171">The flag of open(2) system call. O_RDWR is forced to fulfil internally.</doc>
             <type name="gint" c:type="gint"/>
           </parameter>
         </parameters>
@@ -5748,12 +5748,12 @@ character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="607">Operate subscription between two ports pointed by the data.
+             line="654">Operate subscription between two ports pointed by the data.
 
 The call of function executes ioctl(2) system call with
 SNDRV_SEQ_IOCTL_SUBSCRIBE_PORT and SNDRV_SEQ_IOCTL_UNSUBSCRIBE_PORT commands
 for ALSA sequencer character device.</doc>
-        <source-position filename="../src/seq/user-client.h" line="117"/>
+        <source-position filename="../src/seq/user-client.h" line="121"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5761,19 +5761,19 @@ for ALSA sequencer character device.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="609">A #ALSASeqUserClient.</doc>
+                 line="656">A #ALSASeqUserClient.</doc>
             <type name="UserClient" c:type="ALSASeqUserClient*"/>
           </instance-parameter>
           <parameter name="subs_data" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="610">A #ALSASeqSubscribeData.</doc>
+                 line="657">A #ALSASeqSubscribeData.</doc>
             <type name="SubscribeData" c:type="ALSASeqSubscribeData*"/>
           </parameter>
           <parameter name="establish" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="611">Whether to establish subscription between two ports, or break it.</doc>
+                 line="658">Whether to establish subscription between two ports, or break it.</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
         </parameters>
@@ -5783,11 +5783,11 @@ for ALSA sequencer character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="944">Remove queued events according to the filter.
+             line="1030">Remove queued events according to the filter.
 
 The call of function executes ioctl(2) system call with
 SNDRV_SEQ_IOCTL_REMOVE_EVENTS command for ALSA sequencer character device.</doc>
-        <source-position filename="../src/seq/user-client.h" line="153"/>
+        <source-position filename="../src/seq/user-client.h" line="157"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5795,13 +5795,13 @@ SNDRV_SEQ_IOCTL_REMOVE_EVENTS command for ALSA sequencer character device.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="946">A #ALSASeqUserClient.</doc>
+                 line="1032">A #ALSASeqUserClient.</doc>
             <type name="UserClient" c:type="ALSASeqUserClient*"/>
           </instance-parameter>
           <parameter name="filter" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="947">A #ALSASeqRemoveFilter.</doc>
+                 line="1033">A #ALSASeqRemoveFilter.</doc>
             <type name="RemoveFilter" c:type="ALSASeqRemoveFilter*"/>
           </parameter>
         </parameters>
@@ -5811,11 +5811,11 @@ SNDRV_SEQ_IOCTL_REMOVE_EVENTS command for ALSA sequencer character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="455">Deliver the event immediately, or schedule it into memory pool of the client.
+             line="504">Deliver the event immediately, or schedule it into memory pool of the client.
 
 The call of function executes write(2) system call for ALSA sequencer
 character device.</doc>
-        <source-position filename="../src/seq/user-client.h" line="110"/>
+        <source-position filename="../src/seq/user-client.h" line="114"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5823,19 +5823,19 @@ character device.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="457">A #ALSASeqUserClient.</doc>
+                 line="506">A #ALSASeqUserClient.</doc>
             <type name="UserClient" c:type="ALSASeqUserClient*"/>
           </instance-parameter>
           <parameter name="ev_cntr" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="458">An instance of #ALSASeqEventCntr pointing to events.</doc>
+                 line="507">An instance of #ALSASeqEventCntr pointing to events.</doc>
             <type name="EventCntr" c:type="ALSASeqEventCntr*"/>
           </parameter>
           <parameter name="count" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="459">The number of events in the ev_cntr to write.</doc>
+                 line="508">The number of events in the ev_cntr to write.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
         </parameters>
@@ -5845,11 +5845,11 @@ character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="224">Get client information.
+             line="259">Get client information.
 
 The call of function executes ioctl(2) system call with
 SNDRV_SEQ_IOCTL_SET_CLIENT_INFO command for ALSA sequencer character device.</doc>
-        <source-position filename="../src/seq/user-client.h" line="81"/>
+        <source-position filename="../src/seq/user-client.h" line="85"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5857,13 +5857,13 @@ SNDRV_SEQ_IOCTL_SET_CLIENT_INFO command for ALSA sequencer character device.</do
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="226">A #ALSASeqUserClient.</doc>
+                 line="261">A #ALSASeqUserClient.</doc>
             <type name="UserClient" c:type="ALSASeqUserClient*"/>
           </instance-parameter>
           <parameter name="client_info" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="227">A #ALSASeqClientInfo.</doc>
+                 line="262">A #ALSASeqClientInfo.</doc>
             <type name="ClientInfo" c:type="ALSASeqClientInfo*"/>
           </parameter>
         </parameters>
@@ -5873,11 +5873,11 @@ SNDRV_SEQ_IOCTL_SET_CLIENT_INFO command for ALSA sequencer character device.</do
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="398">Configure memory pool in the client.
+             line="444">Configure memory pool in the client.
 
 The call of function executes ioctl(2) system call with
 SNDRV_SEQ_IOCTL_SET_CLIENT_POOL command for ALSA sequencer character device.</doc>
-        <source-position filename="../src/seq/user-client.h" line="102"/>
+        <source-position filename="../src/seq/user-client.h" line="106"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5885,13 +5885,13 @@ SNDRV_SEQ_IOCTL_SET_CLIENT_POOL command for ALSA sequencer character device.</do
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="400">A #ALSASeqUserClient.</doc>
+                 line="446">A #ALSASeqUserClient.</doc>
             <type name="UserClient" c:type="ALSASeqUserClient*"/>
           </instance-parameter>
           <parameter name="client_pool" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="401">A #ALSASeqClientPool to be configured for the client.</doc>
+                 line="447">A #ALSASeqClientPool to be configured for the client.</doc>
             <type name="ClientPool" c:type="ALSASeqClientPool*"/>
           </parameter>
         </parameters>
@@ -5901,11 +5901,11 @@ SNDRV_SEQ_IOCTL_SET_CLIENT_POOL command for ALSA sequencer character device.</do
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="790">Set the data of tempo to the queue.
+             line="862">Set the data of tempo to the queue.
 
 The call of function executes ioctl(2) system call with
 SNDRV_SEQ_IOCTL_SET_QUEUE_TEMPO command for ALSA sequencer character device.</doc>
-        <source-position filename="../src/seq/user-client.h" line="137"/>
+        <source-position filename="../src/seq/user-client.h" line="141"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5913,20 +5913,20 @@ SNDRV_SEQ_IOCTL_SET_QUEUE_TEMPO command for ALSA sequencer character device.</do
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="792">A #ALSASeqUserClient.</doc>
+                 line="864">A #ALSASeqUserClient.</doc>
             <type name="UserClient" c:type="ALSASeqUserClient*"/>
           </instance-parameter>
           <parameter name="queue_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="793">The numerical ID of queue, except for entries in
+                 line="865">The numerical ID of queue, except for entries in
            ALSASeqSpecificQueueId.</doc>
             <type name="guint8" c:type="guint8"/>
           </parameter>
           <parameter name="queue_tempo" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="795">The data of tempo for queue.</doc>
+                 line="867">The data of tempo for queue.</doc>
             <type name="QueueTempo" c:type="ALSASeqQueueTempo*"/>
           </parameter>
         </parameters>
@@ -5936,11 +5936,11 @@ SNDRV_SEQ_IOCTL_SET_QUEUE_TEMPO command for ALSA sequencer character device.</do
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="854">Set the data of timer for the queue.
+             line="934">Set the data of timer for the queue.
 
 The call of function executes ioctl(2) system call with
 SNDRV_SEQ_IOCTL_SET_QUEUE_TIMER command for ALSA sequencer character device.</doc>
-        <source-position filename="../src/seq/user-client.h" line="144"/>
+        <source-position filename="../src/seq/user-client.h" line="148"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5948,20 +5948,20 @@ SNDRV_SEQ_IOCTL_SET_QUEUE_TIMER command for ALSA sequencer character device.</do
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="856">A #ALSASeqUserClient.</doc>
+                 line="936">A #ALSASeqUserClient.</doc>
             <type name="UserClient" c:type="ALSASeqUserClient*"/>
           </instance-parameter>
           <parameter name="queue_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="857">The numerical ID of queue, except for entries in
+                 line="937">The numerical ID of queue, except for entries in
            ALSASeqSpecificQueueId.</doc>
             <type name="guint8" c:type="guint8"/>
           </parameter>
           <parameter name="queue_timer" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="859">The data of timer for queue.</doc>
+                 line="939">The data of timer for queue.</doc>
             <type name="QueueTimer" c:type="ALSASeqQueueTimer*"/>
           </parameter>
         </parameters>
@@ -5971,11 +5971,11 @@ SNDRV_SEQ_IOCTL_SET_QUEUE_TIMER command for ALSA sequencer character device.</do
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="759">Start the queue to use or not.
+             line="829">Start the queue to use or not.
 
 The call of function executes ioctl(2) system call with
 SNDRV_SEQ_IOCTL_SET_QUEUE_CLIENT command for ALSA sequencer character device.</doc>
-        <source-position filename="../src/seq/user-client.h" line="133"/>
+        <source-position filename="../src/seq/user-client.h" line="137"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5983,20 +5983,20 @@ SNDRV_SEQ_IOCTL_SET_QUEUE_CLIENT command for ALSA sequencer character device.</d
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="761">A #ALSASeqUserClient.</doc>
+                 line="831">A #ALSASeqUserClient.</doc>
             <type name="UserClient" c:type="ALSASeqUserClient*"/>
           </instance-parameter>
           <parameter name="queue_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="762">The numerical ID of queue, except for entries in
+                 line="832">The numerical ID of queue, except for entries in
            ALSASeqSpecificQueueId.</doc>
             <type name="guint8" c:type="guint8"/>
           </parameter>
           <parameter name="use" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="764">Whether to use the queue or not.</doc>
+                 line="834">Whether to use the queue or not.</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
         </parameters>
@@ -6006,11 +6006,11 @@ SNDRV_SEQ_IOCTL_SET_QUEUE_CLIENT command for ALSA sequencer character device.</d
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="340">Update port information.
+             line="382">Update port information.
 
 The call of function executes ioctl(2) system call with
 SNDRV_SEQ_IOCTL_SET_PORT_INFO command for ALSA sequencer character device.</doc>
-        <source-position filename="../src/seq/user-client.h" line="95"/>
+        <source-position filename="../src/seq/user-client.h" line="99"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -6018,19 +6018,19 @@ SNDRV_SEQ_IOCTL_SET_PORT_INFO command for ALSA sequencer character device.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="342">A #ALSASeqUserClient.</doc>
+                 line="384">A #ALSASeqUserClient.</doc>
             <type name="UserClient" c:type="ALSASeqUserClient*"/>
           </instance-parameter>
           <parameter name="port_info" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="343">A #ALSASeqPortInfo.</doc>
+                 line="385">A #ALSASeqPortInfo.</doc>
             <type name="PortInfo" c:type="ALSASeqPortInfo*"/>
           </parameter>
           <parameter name="port_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="344">The numerical ID of port.</doc>
+                 line="386">The numerical ID of port.</doc>
             <type name="guint8" c:type="guint8"/>
           </parameter>
         </parameters>
@@ -6040,11 +6040,11 @@ SNDRV_SEQ_IOCTL_SET_PORT_INFO command for ALSA sequencer character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="699">Update owned queue according to the information.
+             line="760">Update owned queue according to the information.
 
 The call of function executes ioctl(2) system call with
 SNDRV_SEQ_IOCTL_SET_QUEUE_INFO command for ALSA sequencer character device.</doc>
-        <source-position filename="../src/seq/user-client.h" line="127"/>
+        <source-position filename="../src/seq/user-client.h" line="131"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -6052,13 +6052,13 @@ SNDRV_SEQ_IOCTL_SET_QUEUE_INFO command for ALSA sequencer character device.</doc
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="701">A #ALSASeqUserClient.</doc>
+                 line="762">A #ALSASeqUserClient.</doc>
             <type name="UserClient" c:type="ALSASeqUserClient*"/>
           </instance-parameter>
           <parameter name="queue_info" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="702">The information of queue to add.</doc>
+                 line="763">The information of queue to add.</doc>
             <type name="QueueInfo" c:type="ALSASeqQueueInfo*"/>
           </parameter>
         </parameters>
@@ -6075,7 +6075,7 @@ SNDRV_SEQ_IOCTL_SET_QUEUE_INFO command for ALSA sequencer character device.</doc
       <glib:signal name="handle-event" when="last">
         <doc xml:space="preserve"
              filename="../src/seq/user-client.c"
-             line="104">When event occurs, this signal is emit with the instance of object which
+             line="130">When event occurs, this signal is emit with the instance of object which
 points to a batch of events. The instance should not be passed directly
 to alsaseq_user_client_schedule_event() again because its memory
 alignment is different for events with blob data.</doc>
@@ -6086,7 +6086,7 @@ alignment is different for events with blob data.</doc>
           <parameter name="ev_cntr" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/seq/user-client.c"
-                 line="107">The instance of ALSASeqEventCntr which
+                 line="133">The instance of ALSASeqEventCntr which
             points to the batch of events.</doc>
             <type name="EventCntr"/>
           </parameter>
@@ -6096,13 +6096,13 @@ alignment is different for events with blob data.</doc>
     <record name="UserClientClass"
             c:type="ALSASeqUserClientClass"
             glib:is-gtype-struct-for="UserClient">
-      <source-position filename="../src/seq/user-client.h" line="68"/>
+      <source-position filename="../src/seq/user-client.h" line="72"/>
       <field name="parent_class">
         <type name="GObject.ObjectClass" c:type="GObjectClass"/>
       </field>
       <field name="handle_event">
         <callback name="handle_event">
-          <source-position filename="../src/seq/user-client.h" line="66"/>
+          <source-position filename="../src/seq/user-client.h" line="70"/>
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
           </return-value>
@@ -6110,13 +6110,13 @@ alignment is different for events with blob data.</doc>
             <parameter name="self" transfer-ownership="none">
               <doc xml:space="preserve"
                    filename="../src/seq/user-client.h"
-                   line="57">A #ALSASeqUserClient.</doc>
+                   line="61">A #ALSASeqUserClient.</doc>
               <type name="UserClient" c:type="ALSASeqUserClient*"/>
             </parameter>
             <parameter name="ev_cntr" transfer-ownership="none">
               <doc xml:space="preserve"
                    filename="../src/seq/user-client.h"
-                   line="58">The instance of ALSASeqEventCntr which
+                   line="62">The instance of ALSASeqEventCntr which
             points to the batch of events.</doc>
               <type name="EventCntr" c:type="const ALSASeqEventCntr*"/>
             </parameter>
@@ -6124,17 +6124,61 @@ alignment is different for events with blob data.</doc>
         </callback>
       </field>
     </record>
+    <enumeration name="UserClientError"
+                 glib:type-name="ALSASeqUserClientError"
+                 glib:get-type="alsaseq_user_client_error_get_type"
+                 c:type="ALSASeqUserClientError"
+                 glib:error-domain="alsaseq-user-client-error-quark">
+      <doc xml:space="preserve"
+           filename="../src/seq/alsaseq-enum-types.h"
+           line="365">A set of error code for GError with domain which equals to #alsaseq_user_client_error_quark()</doc>
+      <member name="failed"
+              value="0"
+              c:identifier="ALSASEQ_USER_CLIENT_ERROR_FAILED"
+              glib:nick="failed">
+        <doc xml:space="preserve"
+             filename="../src/seq/alsaseq-enum-types.h"
+             line="367">The system call failed.</doc>
+      </member>
+      <member name="port_permission"
+              value="1"
+              c:identifier="ALSASEQ_USER_CLIENT_ERROR_PORT_PERMISSION"
+              glib:nick="port-permission">
+        <doc xml:space="preserve"
+             filename="../src/seq/alsaseq-enum-types.h"
+             line="368">The operation fails due to access permission of port.</doc>
+      </member>
+      <member name="queue_permission"
+              value="2"
+              c:identifier="ALSASEQ_USER_CLIENT_ERROR_QUEUE_PERMISSION"
+              glib:nick="queue-permission">
+        <doc xml:space="preserve"
+             filename="../src/seq/alsaseq-enum-types.h"
+             line="369">The operation fails due to access permission of queue.</doc>
+      </member>
+      <function name="quark" c:identifier="alsaseq_user_client_error_quark">
+        <doc xml:space="preserve"
+             filename="../src/seq/user-client.c"
+             line="37">Return the GQuark for error domain of GError which has code in #ALSASeqUserClientError enumerations.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/seq/user-client.c"
+               line="42">A #GQuark.</doc>
+          <type name="GLib.Quark" c:type="GQuark"/>
+        </return-value>
+      </function>
+    </enumeration>
     <record name="UserClientPrivate"
             c:type="ALSASeqUserClientPrivate"
             disguised="1">
-      <source-position filename="../src/seq/user-client.h" line="44"/>
+      <source-position filename="../src/seq/user-client.h" line="48"/>
     </record>
     <function name="get_client_id_list"
               c:identifier="alsaseq_get_client_id_list"
               throws="1">
       <doc xml:space="preserve"
            filename="../src/seq/query.c"
-           line="160">Get the list of clients as the numerical ID.
+           line="178">Get the list of clients as the numerical ID.
 
 The call of function executes open(2), close(2), and ioctl(2) system calls
 with SNDRV_SEQ_IOCTL_CLIENT_ID, SNDRV_SEQ_IOCTL_SYSTEM_INFO, and
@@ -6151,7 +6195,7 @@ device.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="162">The array with elements for
+               line="180">The array with elements for
           numerical ID of client. One of ALSASeqSpecificClientId can be
           included in result as well as any numerical value.</doc>
           <array length="1" zero-terminated="0" c:type="guint8**">
@@ -6164,7 +6208,7 @@ device.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="165">The number of entries.</doc>
+               line="183">The number of entries.</doc>
           <type name="gsize" c:type="gsize*"/>
         </parameter>
       </parameters>
@@ -6174,7 +6218,7 @@ device.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/seq/query.c"
-           line="248">Get the information of client according to the numerical ID.
+           line="260">Get the information of client according to the numerical ID.
 
 The call of function executes open(2), close(2), and ioctl(2) system calls
 with SNDRV_SEQ_IOCTL_GET_CLIENT_INFO command for ALSA sequencer character
@@ -6187,7 +6231,7 @@ device.</doc>
         <parameter name="client_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="250">The numerical ID of client to query. One of
+               line="262">The numerical ID of client to query. One of
             ALSASeqSpecificClientId is available as well as any numerical
             value.</doc>
           <type name="guint8" c:type="guint8"/>
@@ -6198,7 +6242,7 @@ device.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="253">A #ALSASeqClientInfo for the client.</doc>
+               line="265">A #ALSASeqClientInfo for the client.</doc>
           <type name="ClientInfo" c:type="ALSASeqClientInfo**"/>
         </parameter>
       </parameters>
@@ -6208,7 +6252,7 @@ device.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/seq/query.c"
-           line="422">Get statistical information of memory pool for the given client.
+           line="416">Get statistical information of memory pool for the given client.
 
 The call of function executes open(2), close(2), and ioctl(2) system calls
 with SNDRV_SEQ_IOCTL_GET_CLIENT_POOL command for ALSA sequencer character
@@ -6221,7 +6265,7 @@ device.</doc>
         <parameter name="client_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="424">The numerical ID of client to query. One of
+               line="418">The numerical ID of client to query. One of
             ALSASeqSpecificClientId is available as well as any numerical
             value.</doc>
           <type name="guint8" c:type="guint8"/>
@@ -6232,7 +6276,7 @@ device.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="427">The information of memory pool for the client.</doc>
+               line="421">The information of memory pool for the client.</doc>
           <type name="ClientPool" c:type="ALSASeqClientPool**"/>
         </parameter>
       </parameters>
@@ -6242,7 +6286,7 @@ device.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/seq/query.c"
-           line="295">Get the list of numerical IDs for port added by the client.
+           line="300">Get the list of numerical IDs for port added by the client.
 
 The call of function executes open(2), close(2), and ioctl(2) system calls
 with SNDRV_SEQ_IOCTL_GET_CLIENT_INFO and SNDRV_SEQ_IOCTL_QUERY_NEXT_PORT
@@ -6255,7 +6299,7 @@ commands for ALSA sequencer character device.</doc>
         <parameter name="client_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="297">The numerical ID of client to query. One of
+               line="302">The numerical ID of client to query. One of
             ALSASeqSpecificClientId is available as well as any numerical
             value.</doc>
           <type name="guint8" c:type="guint8"/>
@@ -6266,7 +6310,7 @@ commands for ALSA sequencer character device.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="300">The array with elements for
+               line="305">The array with elements for
           numerical ID of port. One of ALSASeqSpecificPortId is available as
           well as any numerical value.</doc>
           <array length="2" zero-terminated="0" c:type="guint8**">
@@ -6279,7 +6323,7 @@ commands for ALSA sequencer character device.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="303">The number of entries in the array.</doc>
+               line="308">The number of entries in the array.</doc>
           <type name="gsize" c:type="gsize*"/>
         </parameter>
       </parameters>
@@ -6289,7 +6333,7 @@ commands for ALSA sequencer character device.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/seq/query.c"
-           line="372">Get the information of port in client.
+           line="373">Get the information of port in client.
 
 The call of function executes open(2), close(2), and ioctl(2) system calls
 with SNDRV_SEQ_IOCTL_GET_PORT_INFO command for ALSA sequencer character
@@ -6302,7 +6346,7 @@ device.</doc>
         <parameter name="client_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="374">The numerical ID of client to query. One of
+               line="375">The numerical ID of client to query. One of
             ALSASeqSpecificClientId is available as well as any numerica
             value.</doc>
           <type name="guint8" c:type="guint8"/>
@@ -6310,7 +6354,7 @@ device.</doc>
         <parameter name="port_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="377">The numerical ID of port in the client. One of
+               line="378">The numerical ID of port in the client. One of
           ALSASeqSpecificPortId is available as well as any numerical value.</doc>
           <type name="guint8" c:type="guint8"/>
         </parameter>
@@ -6320,7 +6364,7 @@ device.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="379">A #ALSASeqPortInfo for the port.</doc>
+               line="380">A #ALSASeqPortInfo for the port.</doc>
           <type name="PortInfo" c:type="ALSASeqPortInfo**"/>
         </parameter>
       </parameters>
@@ -6330,7 +6374,7 @@ device.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/seq/query.c"
-           line="557">Get the list of queue in ALSA Sequencer.
+           line="538">Get the list of queue in ALSA Sequencer.
 
 The call of function executes open(2), close(2), and ioctl(2) system calls
 with SNDRV_SEQ_IOCTL_SYSTEM_INFO and SNDRV_SEQ_IOCTL_GET_QUEUE_INFO commands
@@ -6346,7 +6390,7 @@ for ALSA sequencer character device.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="559">The array of elements for
+               line="540">The array of elements for
           numerical ID of queue.</doc>
           <array length="1" zero-terminated="0" c:type="guint8**">
             <type name="guint8" c:type="guint8*"/>
@@ -6358,7 +6402,7 @@ for ALSA sequencer character device.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="561">The number of entries.</doc>
+               line="542">The number of entries.</doc>
           <type name="gsize" c:type="gsize*"/>
         </parameter>
       </parameters>
@@ -6368,7 +6412,7 @@ for ALSA sequencer character device.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/seq/query.c"
-           line="636">Get the information of queue, according to the numerical ID.
+           line="603">Get the information of queue, according to the numerical ID.
 
 The call of function executes open(2), close(2), and ioctl(2) system calls
 with SNDRV_SEQ_IOCTL_GET_QUEUE_INFO command for ALSA sequencer character
@@ -6381,7 +6425,7 @@ device.</doc>
         <parameter name="queue_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="638">The numerical ID of queue, except for one of
+               line="605">The numerical ID of queue, except for one of
            ALSASeqSpecificQueueId.</doc>
           <type name="guint8" c:type="guint8"/>
         </parameter>
@@ -6391,7 +6435,7 @@ device.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="640">The information of queue.</doc>
+               line="607">The information of queue.</doc>
           <type name="QueueInfo" c:type="ALSASeqQueueInfo**"/>
         </parameter>
       </parameters>
@@ -6401,7 +6445,7 @@ device.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/seq/query.c"
-           line="681">Get the information of queue, according to the name string.
+           line="641">Get the information of queue, according to the name string.
 
 The call of function executes open(2), close(2), and ioctl(2) system calls
 with SNDRV_SEQ_IOCTL_GET_NAMED_QUEUE command for ALSA sequencer character
@@ -6414,7 +6458,7 @@ device.</doc>
         <parameter name="name" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="683">The name string of queue to query.</doc>
+               line="643">The name string of queue to query.</doc>
           <type name="utf8" c:type="const gchar*"/>
         </parameter>
         <parameter name="queue_info"
@@ -6423,7 +6467,7 @@ device.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="684">The information of queue.</doc>
+               line="644">The information of queue.</doc>
           <type name="QueueInfo" c:type="ALSASeqQueueInfo**"/>
         </parameter>
       </parameters>
@@ -6433,7 +6477,7 @@ device.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/seq/query.c"
-           line="726">Get current status of queue.
+           line="679">Get current status of queue.
 
 The call of function executes open(2), close(2), and ioctl(2) system calls
 with SNDRV_SEQ_IOCTL_GET_QUEUE_STATUS command for ALSA sequencer character
@@ -6446,7 +6490,7 @@ device.</doc>
         <parameter name="queue_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="728">The numerical ID of queue, except for entries in
+               line="681">The numerical ID of queue, except for entries in
            ALSASeqSpecificQueueId.</doc>
           <type name="guint8" c:type="guint8"/>
         </parameter>
@@ -6456,7 +6500,7 @@ device.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="730">The current status of queue.</doc>
+               line="683">The current status of queue.</doc>
           <type name="QueueStatus" c:type="ALSASeqQueueStatus* const*"/>
         </parameter>
       </parameters>
@@ -6466,7 +6510,7 @@ device.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/seq/query.c"
-           line="71">Allocate devnode string for ALSA Sequencer and return it when exists.
+           line="75">Allocate devnode string for ALSA Sequencer and return it when exists.
 
 Nodes under sound subsystem in sysfs are used to gather the information.</doc>
       <source-position filename="../src/seq/query.h" line="20"/>
@@ -6480,7 +6524,7 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="73">The devnode of ALSA Sequencer.</doc>
+               line="77">The devnode of ALSA Sequencer.</doc>
           <type name="utf8" c:type="gchar**"/>
         </parameter>
       </parameters>
@@ -6490,7 +6534,7 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/seq/query.c"
-           line="27">Allocate sysname string for ALSA sequencer and return it when exists.
+           line="30">Allocate sysname string for ALSA sequencer and return it when exists.
 
 Nodes under sound subsystem in sysfs are used to gather the information.</doc>
       <source-position filename="../src/seq/query.h" line="18"/>
@@ -6504,7 +6548,7 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="29">The sysname of ALSA Sequencer.</doc>
+               line="32">The sysname of ALSA Sequencer.</doc>
           <type name="utf8" c:type="gchar**"/>
         </parameter>
       </parameters>
@@ -6514,7 +6558,7 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/seq/query.c"
-           line="482">Get the list of subscription for given address and query type.
+           line="469">Get the list of subscription for given address and query type.
 
 The call of function executes open(2), close(2), and ioctl(2) system calls
 with SNDRV_SEQ_IOCTL_QUERY_SUBS command for ALSA sequencer character device.</doc>
@@ -6526,13 +6570,13 @@ with SNDRV_SEQ_IOCTL_QUERY_SUBS command for ALSA sequencer character device.</do
         <parameter name="addr" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="484">A #ALSASeqAddr to query.</doc>
+               line="471">A #ALSASeqAddr to query.</doc>
           <type name="Addr" c:type="const ALSASeqAddr*"/>
         </parameter>
         <parameter name="query_type" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="485">The type of query, one of #ALSASeqQuerySubscribeType.</doc>
+               line="472">The type of query, one of #ALSASeqQuerySubscribeType.</doc>
           <type name="QuerySubscribeType" c:type="ALSASeqQuerySubscribeType"/>
         </parameter>
         <parameter name="entries"
@@ -6541,7 +6585,7 @@ with SNDRV_SEQ_IOCTL_QUERY_SUBS command for ALSA sequencer character device.</do
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="486">The array with element
+               line="473">The array with element
           for subscription data.</doc>
           <type name="GLib.List" c:type="GList**">
             <type name="SubscribeData"/>
@@ -6554,7 +6598,7 @@ with SNDRV_SEQ_IOCTL_QUERY_SUBS command for ALSA sequencer character device.</do
               throws="1">
       <doc xml:space="preserve"
            filename="../src/seq/query.c"
-           line="115">Get information of ALSA Sequencer.
+           line="140">Get information of ALSA Sequencer.
 
 The call of function executes open(2), close(2), and ioctl(2) system calls
 with SNDRV_SEQ_IOCTL_SYSTEM_INFO command for ALSA sequencer character device.</doc>
@@ -6569,10 +6613,23 @@ with SNDRV_SEQ_IOCTL_SYSTEM_INFO command for ALSA sequencer character device.</d
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/seq/query.c"
-               line="117">The information of ALSA Sequencer.</doc>
+               line="142">The information of ALSA Sequencer.</doc>
           <type name="SystemInfo" c:type="ALSASeqSystemInfo**"/>
         </parameter>
       </parameters>
+    </function>
+    <function name="user_client_error_quark"
+              c:identifier="alsaseq_user_client_error_quark"
+              moved-to="UserClientError.quark">
+      <doc xml:space="preserve"
+           filename="../src/seq/user-client.c"
+           line="37">Return the GQuark for error domain of GError which has code in #ALSASeqUserClientError enumerations.</doc>
+      <return-value transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/seq/user-client.c"
+             line="42">A #GQuark.</doc>
+        <type name="GLib.Quark" c:type="GQuark"/>
+      </return-value>
     </function>
   </namespace>
 </repository>

@@ -278,6 +278,7 @@ const RUST_LAYOUTS: &[(&str, Layout)] = &[
     ("ALSASeqSystemInfoClass", Layout {size: size_of::<ALSASeqSystemInfoClass>(), alignment: align_of::<ALSASeqSystemInfoClass>()}),
     ("ALSASeqUserClient", Layout {size: size_of::<ALSASeqUserClient>(), alignment: align_of::<ALSASeqUserClient>()}),
     ("ALSASeqUserClientClass", Layout {size: size_of::<ALSASeqUserClientClass>(), alignment: align_of::<ALSASeqUserClientClass>()}),
+    ("ALSASeqUserClientError", Layout {size: size_of::<ALSASeqUserClientError>(), alignment: align_of::<ALSASeqUserClientError>()}),
 ];
 
 const RUST_CONSTANTS: &[(&str, &str)] = &[
@@ -389,6 +390,9 @@ const RUST_CONSTANTS: &[(&str, &str)] = &[
     ("(gint) ALSASEQ_SPECIFIC_PORT_ID_SYSTEM_ANNOUNCE", "1"),
     ("(gint) ALSASEQ_SPECIFIC_PORT_ID_SYSTEM_TIMER", "0"),
     ("(gint) ALSASEQ_SPECIFIC_QUEUE_ID_DIRECT", "253"),
+    ("(gint) ALSASEQ_USER_CLIENT_ERROR_FAILED", "0"),
+    ("(gint) ALSASEQ_USER_CLIENT_ERROR_PORT_PERMISSION", "1"),
+    ("(gint) ALSASEQ_USER_CLIENT_ERROR_QUEUE_PERMISSION", "2"),
 ];
 
 
