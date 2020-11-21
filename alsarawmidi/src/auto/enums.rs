@@ -3,11 +3,13 @@
 // DO NOT EDIT
 
 use alsarawmidi_sys;
+use glib::error::ErrorDomain;
 use glib::translate::*;
 use glib::value::FromValue;
 use glib::value::FromValueOptional;
 use glib::value::SetValue;
 use glib::value::Value;
+use glib::Quark;
 use glib::StaticType;
 use glib::Type;
 use gobject_sys;
@@ -19,7 +21,7 @@ use std::fmt;
 pub enum StreamDirection {
     Output,
     Input,
-    #[doc(hidden)]
+#[doc(hidden)]
     __Unknown(i32),
 }
 
@@ -41,8 +43,8 @@ impl ToGlib for StreamDirection {
         match *self {
             StreamDirection::Output => alsarawmidi_sys::ALSARAWMIDI_STREAM_DIRECTION_OUTPUT,
             StreamDirection::Input => alsarawmidi_sys::ALSARAWMIDI_STREAM_DIRECTION_INPUT,
-            StreamDirection::__Unknown(value) => value
-        }
+            StreamDirection::__Unknown(value) => value,
+}
     }
 }
 
@@ -53,7 +55,7 @@ impl FromGlib<alsarawmidi_sys::ALSARawmidiStreamDirection> for StreamDirection {
             0 => StreamDirection::Output,
             1 => StreamDirection::Input,
             value => StreamDirection::__Unknown(value),
-        }
+}
     }
 }
 
@@ -76,6 +78,98 @@ impl<'a> FromValue<'a> for StreamDirection {
 }
 
 impl SetValue for StreamDirection {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_sys::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Clone, Copy)]
+#[non_exhaustive]
+pub enum StreamPairError {
+    Failed,
+    Disconnected,
+    Unreadable,
+#[doc(hidden)]
+    __Unknown(i32),
+}
+
+impl fmt::Display for StreamPairError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "StreamPairError::{}", match *self {
+            StreamPairError::Failed => "Failed",
+            StreamPairError::Disconnected => "Disconnected",
+            StreamPairError::Unreadable => "Unreadable",
+            _ => "Unknown",
+        })
+    }
+}
+
+#[doc(hidden)]
+impl ToGlib for StreamPairError {
+    type GlibType = alsarawmidi_sys::ALSARawmidiStreamPairError;
+
+    fn to_glib(&self) -> alsarawmidi_sys::ALSARawmidiStreamPairError {
+        match *self {
+            StreamPairError::Failed => alsarawmidi_sys::ALSARAWMIDI_STREAM_PAIR_ERROR_FAILED,
+            StreamPairError::Disconnected => alsarawmidi_sys::ALSARAWMIDI_STREAM_PAIR_ERROR_DISCONNECTED,
+            StreamPairError::Unreadable => alsarawmidi_sys::ALSARAWMIDI_STREAM_PAIR_ERROR_UNREADABLE,
+            StreamPairError::__Unknown(value) => value,
+}
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<alsarawmidi_sys::ALSARawmidiStreamPairError> for StreamPairError {
+    fn from_glib(value: alsarawmidi_sys::ALSARawmidiStreamPairError) -> Self {
+        match value {
+            0 => StreamPairError::Failed,
+            1 => StreamPairError::Disconnected,
+            2 => StreamPairError::Unreadable,
+            value => StreamPairError::__Unknown(value),
+}
+    }
+}
+
+impl ErrorDomain for StreamPairError {
+    fn domain() -> Quark {
+        
+        unsafe { from_glib(alsarawmidi_sys::alsarawmidi_stream_pair_error_quark()) }
+    }
+
+    fn code(self) -> i32 {
+        self.to_glib()
+    }
+
+    fn from(code: i32) -> Option<Self> {
+        match code {
+            0 => Some(StreamPairError::Failed),
+            1 => Some(StreamPairError::Disconnected),
+            2 => Some(StreamPairError::Unreadable),
+            _ => Some(StreamPairError::Failed),
+}
+    }
+}
+
+impl StaticType for StreamPairError {
+    fn static_type() -> Type {
+        unsafe { from_glib(alsarawmidi_sys::alsarawmidi_stream_pair_error_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for StreamPairError {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for StreamPairError {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_sys::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for StreamPairError {
     unsafe fn set_value(value: &mut Value, this: &Self) {
         gobject_sys::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
     }

@@ -19,6 +19,7 @@ generate = [
     "ALSARawmidi.SubstreamInfo",
     "ALSARawmidi.SubstreamParams",
     "ALSARawmidi.SubstreamStatus",
+    "ALSARawmidi.StreamPairError",
 ]
 
 [[object]]

@@ -242,6 +242,7 @@ const RUST_LAYOUTS: &[(&str, Layout)] = &[
     ("ALSARawmidiStreamDirection", Layout {size: size_of::<ALSARawmidiStreamDirection>(), alignment: align_of::<ALSARawmidiStreamDirection>()}),
     ("ALSARawmidiStreamPair", Layout {size: size_of::<ALSARawmidiStreamPair>(), alignment: align_of::<ALSARawmidiStreamPair>()}),
     ("ALSARawmidiStreamPairClass", Layout {size: size_of::<ALSARawmidiStreamPairClass>(), alignment: align_of::<ALSARawmidiStreamPairClass>()}),
+    ("ALSARawmidiStreamPairError", Layout {size: size_of::<ALSARawmidiStreamPairError>(), alignment: align_of::<ALSARawmidiStreamPairError>()}),
     ("ALSARawmidiStreamPairInfoFlag", Layout {size: size_of::<ALSARawmidiStreamPairInfoFlag>(), alignment: align_of::<ALSARawmidiStreamPairInfoFlag>()}),
     ("ALSARawmidiSubstreamInfo", Layout {size: size_of::<ALSARawmidiSubstreamInfo>(), alignment: align_of::<ALSARawmidiSubstreamInfo>()}),
     ("ALSARawmidiSubstreamInfoClass", Layout {size: size_of::<ALSARawmidiSubstreamInfoClass>(), alignment: align_of::<ALSARawmidiSubstreamInfoClass>()}),
@@ -254,6 +255,9 @@ const RUST_LAYOUTS: &[(&str, Layout)] = &[
 const RUST_CONSTANTS: &[(&str, &str)] = &[
     ("(gint) ALSARAWMIDI_STREAM_DIRECTION_INPUT", "1"),
     ("(gint) ALSARAWMIDI_STREAM_DIRECTION_OUTPUT", "0"),
+    ("(gint) ALSARAWMIDI_STREAM_PAIR_ERROR_DISCONNECTED", "1"),
+    ("(gint) ALSARAWMIDI_STREAM_PAIR_ERROR_FAILED", "0"),
+    ("(gint) ALSARAWMIDI_STREAM_PAIR_ERROR_UNREADABLE", "2"),
     ("(guint) ALSARAWMIDI_STREAM_PAIR_INFO_FLAG_DUPLEX", "4"),
     ("(guint) ALSARAWMIDI_STREAM_PAIR_INFO_FLAG_INPUT", "2"),
     ("(guint) ALSARAWMIDI_STREAM_PAIR_INFO_FLAG_OUTPUT", "1"),

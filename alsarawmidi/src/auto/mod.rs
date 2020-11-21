@@ -3,23 +3,24 @@
 // DO NOT EDIT
 
 mod stream_pair;
-pub use self::stream_pair::{StreamPair, StreamPairClass, NONE_STREAM_PAIR};
+pub use self::stream_pair::{StreamPair, NONE_STREAM_PAIR};
 pub use self::stream_pair::StreamPairExt;
 
 mod substream_info;
-pub use self::substream_info::{SubstreamInfo, SubstreamInfoClass, NONE_SUBSTREAM_INFO};
+pub use self::substream_info::{SubstreamInfo, NONE_SUBSTREAM_INFO};
 pub use self::substream_info::SubstreamInfoExt;
 
 mod substream_params;
-pub use self::substream_params::{SubstreamParams, SubstreamParamsClass, NONE_SUBSTREAM_PARAMS};
+pub use self::substream_params::{SubstreamParams, NONE_SUBSTREAM_PARAMS};
 pub use self::substream_params::SubstreamParamsExt;
 
 mod substream_status;
-pub use self::substream_status::{SubstreamStatus, SubstreamStatusClass, NONE_SUBSTREAM_STATUS};
+pub use self::substream_status::{SubstreamStatus, NONE_SUBSTREAM_STATUS};
 pub use self::substream_status::SubstreamStatusExt;
 
 mod enums;
 pub use self::enums::StreamDirection;
+pub use self::enums::StreamPairError;
 
 mod flags;
 pub use self::flags::StreamPairInfoFlag;

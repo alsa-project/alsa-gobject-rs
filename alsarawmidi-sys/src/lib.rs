@@ -4,6 +4,7 @@
 
 #![allow(non_camel_case_types, non_upper_case_globals, non_snake_case)]
 #![allow(clippy::approx_constant, clippy::type_complexity, clippy::unreadable_literal)]
+#![cfg_attr(feature = "dox", feature(doc_cfg))]
 
 extern crate libc;
 extern crate glib_sys as glib;
@@ -21,6 +22,11 @@ use glib::{gboolean, gconstpointer, gpointer, GType};
 pub type ALSARawmidiStreamDirection = c_int;
 pub const ALSARAWMIDI_STREAM_DIRECTION_OUTPUT: ALSARawmidiStreamDirection = 0;
 pub const ALSARAWMIDI_STREAM_DIRECTION_INPUT: ALSARawmidiStreamDirection = 1;
+
+pub type ALSARawmidiStreamPairError = c_int;
+pub const ALSARAWMIDI_STREAM_PAIR_ERROR_FAILED: ALSARawmidiStreamPairError = 0;
+pub const ALSARAWMIDI_STREAM_PAIR_ERROR_DISCONNECTED: ALSARawmidiStreamPairError = 1;
+pub const ALSARAWMIDI_STREAM_PAIR_ERROR_UNREADABLE: ALSARawmidiStreamPairError = 2;
 
 // Flags
 pub type ALSARawmidiStreamPairInfoFlag = c_uint;
@@ -174,12 +180,19 @@ impl ::std::fmt::Debug for ALSARawmidiSubstreamStatus {
     }
 }
 
+#[link(name = "alsarawmidi")]
 extern "C" {
 
     //=========================================================================
     // ALSARawmidiStreamDirection
     //=========================================================================
     pub fn alsarawmidi_stream_direction_get_type() -> GType;
+
+    //=========================================================================
+    // ALSARawmidiStreamPairError
+    //=========================================================================
+    pub fn alsarawmidi_stream_pair_error_get_type() -> GType;
+    pub fn alsarawmidi_stream_pair_error_quark() -> glib::GQuark;
 
     //=========================================================================
     // ALSARawmidiStreamPairInfoFlag

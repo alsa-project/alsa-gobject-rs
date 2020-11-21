@@ -1,6 +1,6 @@
 [package]
 name = "alsarawmidi"
-version = "0.1.1"
+version = "0.2.0"
 authors = ["Takashi Sakamoto <o-takashi@sakamocchi.jp>"]
 description = "API binding for libalsarawmidi library"
 license = "MIT"
@@ -17,7 +17,7 @@ glib = "0.10"
 glib-sys = "0.10"
 gobject-sys = "0.10"
 
-alsarawmidi-sys = { path = "../alsarawmidi-sys", version = "0.1" }
+alsarawmidi-sys = { path = "../alsarawmidi-sys", version = "0.2" }
 
 [dev-dependencies]
 gir-format-check = "^0.1"
