@@ -3,25 +3,26 @@
 // DO NOT EDIT
 
 mod card;
-pub use self::card::{Card, CardClass, NONE_CARD};
+pub use self::card::{Card, NONE_CARD};
 pub use self::card::CardExt;
 
 mod card_info;
-pub use self::card_info::{CardInfo, CardInfoClass, NONE_CARD_INFO};
+pub use self::card_info::{CardInfo, NONE_CARD_INFO};
 pub use self::card_info::CardInfoExt;
 
 mod elem_info;
-pub use self::elem_info::{ElemInfo, ElemInfoClass, NONE_ELEM_INFO};
+pub use self::elem_info::{ElemInfo, NONE_ELEM_INFO};
 pub use self::elem_info::ElemInfoExt;
 
 mod elem_value;
-pub use self::elem_value::{ElemValue, ElemValueClass, NONE_ELEM_VALUE};
+pub use self::elem_value::{ElemValue, NONE_ELEM_VALUE};
 pub use self::elem_value::ElemValueExt;
 
 mod elem_id;
 pub use self::elem_id::ElemId;
 
 mod enums;
+pub use self::enums::CardError;
 pub use self::enums::ElemIfaceType;
 pub use self::enums::ElemType;
 pub use self::enums::EventType;

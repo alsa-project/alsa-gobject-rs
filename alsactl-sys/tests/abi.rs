@@ -241,6 +241,7 @@ fn get_c_value(dir: &Path, cc: &Compiler, name: &str) -> Result<String, Box<dyn 
 const RUST_LAYOUTS: &[(&str, Layout)] = &[
     ("ALSACtlCard", Layout {size: size_of::<ALSACtlCard>(), alignment: align_of::<ALSACtlCard>()}),
     ("ALSACtlCardClass", Layout {size: size_of::<ALSACtlCardClass>(), alignment: align_of::<ALSACtlCardClass>()}),
+    ("ALSACtlCardError", Layout {size: size_of::<ALSACtlCardError>(), alignment: align_of::<ALSACtlCardError>()}),
     ("ALSACtlCardInfo", Layout {size: size_of::<ALSACtlCardInfo>(), alignment: align_of::<ALSACtlCardInfo>()}),
     ("ALSACtlCardInfoClass", Layout {size: size_of::<ALSACtlCardInfoClass>(), alignment: align_of::<ALSACtlCardInfoClass>()}),
     ("ALSACtlElemAccessFlag", Layout {size: size_of::<ALSACtlElemAccessFlag>(), alignment: align_of::<ALSACtlElemAccessFlag>()}),
@@ -255,6 +256,12 @@ const RUST_LAYOUTS: &[(&str, Layout)] = &[
 ];
 
 const RUST_CONSTANTS: &[(&str, &str)] = &[
+    ("(gint) ALSACTL_CARD_ERROR_DISCONNECTED", "1"),
+    ("(gint) ALSACTL_CARD_ERROR_ELEM_EXIST", "5"),
+    ("(gint) ALSACTL_CARD_ERROR_ELEM_NOT_FOUND", "2"),
+    ("(gint) ALSACTL_CARD_ERROR_ELEM_NOT_SUPPORTED", "3"),
+    ("(gint) ALSACTL_CARD_ERROR_ELEM_OWNED", "4"),
+    ("(gint) ALSACTL_CARD_ERROR_FAILED", "0"),
     ("(guint) ALSACTL_ELEM_ACCESS_FLAG_INACTIVE", "256"),
     ("(guint) ALSACTL_ELEM_ACCESS_FLAG_LOCK", "512"),
     ("(guint) ALSACTL_ELEM_ACCESS_FLAG_OWNER", "1024"),

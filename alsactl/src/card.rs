@@ -14,10 +14,10 @@ pub trait CardExtManual {
     fn command_elem_tlv(
         &self,
         elem_id: &ElemId,
-        container: &mut [i32],
+        container: &mut [u32],
     ) -> Result<(), glib::Error>;
 
-    fn read_elem_tlv(&self, elem_id: &ElemId, container: &mut [i32]) -> Result<(), glib::Error>;
+    fn read_elem_tlv(&self, elem_id: &ElemId, container: &mut [u32]) -> Result<(), glib::Error>;
 
     fn read_elem_value<P: IsA<ElemValue>>(
         &self,
@@ -105,7 +105,7 @@ impl<O: IsA<Card>> CardExtManual for O {
     fn command_elem_tlv(
         &self,
         elem_id: &ElemId,
-        container: &mut [i32],
+        container: &mut [u32],
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut container_size = container.len();
@@ -127,7 +127,7 @@ impl<O: IsA<Card>> CardExtManual for O {
         }
     }
 
-    fn read_elem_tlv(&self, elem_id: &ElemId, container: &mut [i32]) -> Result<(), glib::Error> {
+    fn read_elem_tlv(&self, elem_id: &ElemId, container: &mut [u32]) -> Result<(), glib::Error> {
         unsafe {
             let mut container_size = container.len() as usize;
             let mut error = std::ptr::null_mut();

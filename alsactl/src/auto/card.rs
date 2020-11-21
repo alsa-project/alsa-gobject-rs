@@ -61,7 +61,7 @@ pub trait CardExt: 'static {
 
     fn remove_elems(&self, elem_id: &ElemId) -> Result<(), glib::Error>;
 
-    fn write_elem_tlv(&self, elem_id: &ElemId, container: &[i32]) -> Result<(), glib::Error>;
+    fn write_elem_tlv(&self, elem_id: &ElemId, container: &[u32]) -> Result<(), glib::Error>;
 
     fn write_elem_value<P: IsA<ElemValue>>(&self, elem_id: &ElemId, elem_value: &P) -> Result<(), glib::Error>;
 
@@ -130,7 +130,7 @@ impl<O: IsA<Card>> CardExt for O {
         }
     }
 
-    fn write_elem_tlv(&self, elem_id: &ElemId, container: &[i32]) -> Result<(), glib::Error> {
+    fn write_elem_tlv(&self, elem_id: &ElemId, container: &[u32]) -> Result<(), glib::Error> {
         let container_count = container.len() as usize;
         unsafe {
             let mut error = ptr::null_mut();

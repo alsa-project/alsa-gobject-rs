@@ -20,6 +20,7 @@ generate = [
     "ALSACtl.EventType",
     "ALSACtl.ElemEventMask",
     "ALSACtl.CardInfo",
+    "ALSACtl.CardError",
 ]
 
 [[object]]

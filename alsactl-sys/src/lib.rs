@@ -4,6 +4,7 @@
 
 #![allow(non_camel_case_types, non_upper_case_globals, non_snake_case)]
 #![allow(clippy::approx_constant, clippy::type_complexity, clippy::unreadable_literal)]
+#![cfg_attr(feature = "dox", feature(doc_cfg))]
 
 extern crate libc;
 extern crate glib_sys as glib;
@@ -18,6 +19,14 @@ use libc::{c_int, c_char, c_uchar, c_float, c_uint, c_double,
 use glib::{gboolean, gconstpointer, gpointer, GType};
 
 // Enums
+pub type ALSACtlCardError = c_int;
+pub const ALSACTL_CARD_ERROR_FAILED: ALSACtlCardError = 0;
+pub const ALSACTL_CARD_ERROR_DISCONNECTED: ALSACtlCardError = 1;
+pub const ALSACTL_CARD_ERROR_ELEM_NOT_FOUND: ALSACtlCardError = 2;
+pub const ALSACTL_CARD_ERROR_ELEM_NOT_SUPPORTED: ALSACtlCardError = 3;
+pub const ALSACTL_CARD_ERROR_ELEM_OWNED: ALSACtlCardError = 4;
+pub const ALSACTL_CARD_ERROR_ELEM_EXIST: ALSACtlCardError = 5;
+
 pub type ALSACtlElemIfaceType = c_int;
 pub const ALSACTL_ELEM_IFACE_TYPE_CARD: ALSACtlElemIfaceType = 0;
 pub const ALSACTL_ELEM_IFACE_TYPE_HWDEP: ALSACtlElemIfaceType = 1;
@@ -216,7 +225,14 @@ impl ::std::fmt::Debug for ALSACtlElemValue {
     }
 }
 
+#[link(name = "alsactl")]
 extern "C" {
+
+    //=========================================================================
+    // ALSACtlCardError
+    //=========================================================================
+    pub fn alsactl_card_error_get_type() -> GType;
+    pub fn alsactl_card_error_quark() -> glib::GQuark;
 
     //=========================================================================
     // ALSACtlElemIfaceType
@@ -263,7 +279,7 @@ extern "C" {
     pub fn alsactl_card_get_type() -> GType;
     pub fn alsactl_card_new() -> *mut ALSACtlCard;
     pub fn alsactl_card_add_elems(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, elem_count: c_uint, elem_info: *mut ALSACtlElemInfo, entries: *mut *mut glib::GList, error: *mut *mut glib::GError);
-    pub fn alsactl_card_command_elem_tlv(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, container: *const *mut i32, container_count: *mut size_t, error: *mut *mut glib::GError);
+    pub fn alsactl_card_command_elem_tlv(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, container: *const *mut u32, container_count: *mut size_t, error: *mut *mut glib::GError);
     pub fn alsactl_card_create_source(self_: *mut ALSACtlCard, gsrc: *mut *mut glib::GSource, error: *mut *mut glib::GError);
     pub fn alsactl_card_get_elem_id_list(self_: *mut ALSACtlCard, entries: *mut *mut glib::GList, error: *mut *mut glib::GError);
     pub fn alsactl_card_get_elem_info(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, elem_info: *mut *mut ALSACtlElemInfo, error: *mut *mut glib::GError);
@@ -271,11 +287,11 @@ extern "C" {
     pub fn alsactl_card_get_protocol_version(self_: *mut ALSACtlCard, proto_ver_triplet: *mut *const [u16; 3], error: *mut *mut glib::GError);
     pub fn alsactl_card_lock_elem(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, lock: gboolean, error: *mut *mut glib::GError);
     pub fn alsactl_card_open(self_: *mut ALSACtlCard, card_id: c_uint, open_flag: c_int, error: *mut *mut glib::GError);
-    pub fn alsactl_card_read_elem_tlv(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, container: *const *mut i32, container_count: *mut size_t, error: *mut *mut glib::GError);
+    pub fn alsactl_card_read_elem_tlv(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, container: *const *mut u32, container_count: *mut size_t, error: *mut *mut glib::GError);
     pub fn alsactl_card_read_elem_value(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, elem_value: *const *mut ALSACtlElemValue, error: *mut *mut glib::GError);
     pub fn alsactl_card_remove_elems(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, error: *mut *mut glib::GError);
     pub fn alsactl_card_replace_elems(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, elem_count: c_uint, elem_info: *mut ALSACtlElemInfo, entries: *mut *mut glib::GList, error: *mut *mut glib::GError);
-    pub fn alsactl_card_write_elem_tlv(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, container: *const i32, container_count: size_t, error: *mut *mut glib::GError);
+    pub fn alsactl_card_write_elem_tlv(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, container: *const u32, container_count: size_t, error: *mut *mut glib::GError);
     pub fn alsactl_card_write_elem_value(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, elem_value: *const ALSACtlElemValue, error: *mut *mut glib::GError);
 
     //=========================================================================
