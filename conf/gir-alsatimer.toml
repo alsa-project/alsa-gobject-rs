@@ -26,6 +26,7 @@ generate = [
     "ALSATimer.DeviceStatus",
     "ALSATimer.DeviceParams",
     "ALSATimer.InstanceInfo",
+    "ALSATimer.UserInstanceError",
 ]
 
 [[object]]

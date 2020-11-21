@@ -260,6 +260,7 @@ const RUST_LAYOUTS: &[(&str, Layout)] = &[
     ("ALSATimerSpecificGlobalDevice", Layout {size: size_of::<ALSATimerSpecificGlobalDevice>(), alignment: align_of::<ALSATimerSpecificGlobalDevice>()}),
     ("ALSATimerUserInstance", Layout {size: size_of::<ALSATimerUserInstance>(), alignment: align_of::<ALSATimerUserInstance>()}),
     ("ALSATimerUserInstanceClass", Layout {size: size_of::<ALSATimerUserInstanceClass>(), alignment: align_of::<ALSATimerUserInstanceClass>()}),
+    ("ALSATimerUserInstanceError", Layout {size: size_of::<ALSATimerUserInstanceError>(), alignment: align_of::<ALSATimerUserInstanceError>()}),
 ];
 
 const RUST_CONSTANTS: &[(&str, &str)] = &[
@@ -293,6 +294,10 @@ const RUST_CONSTANTS: &[(&str, &str)] = &[
     ("(gint) ALSATIMER_SLAVE_CLASS_SEQUENCER", "2"),
     ("(gint) ALSATIMER_SPECIFIC_GLOBAL_DEVICE_HRTIMER", "3"),
     ("(gint) ALSATIMER_SPECIFIC_GLOBAL_DEVICE_SYSTEM", "0"),
+    ("(gint) ALSATIMER_USER_INSTANCE_ERROR_ATTACHED", "3"),
+    ("(gint) ALSATIMER_USER_INSTANCE_ERROR_FAILED", "0"),
+    ("(gint) ALSATIMER_USER_INSTANCE_ERROR_NOT_ATTACHED", "2"),
+    ("(gint) ALSATIMER_USER_INSTANCE_ERROR_TIMER_NOT_FOUND", "1"),
 ];
 
 

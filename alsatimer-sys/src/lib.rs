@@ -4,6 +4,7 @@
 
 #![allow(non_camel_case_types, non_upper_case_globals, non_snake_case)]
 #![allow(clippy::approx_constant, clippy::type_complexity, clippy::unreadable_literal)]
+#![cfg_attr(feature = "dox", feature(doc_cfg))]
 
 extern crate libc;
 extern crate glib_sys as glib;
@@ -53,6 +54,12 @@ pub const ALSATIMER_SLAVE_CLASS_SEQUENCER: ALSATimerSlaveClass = 2;
 pub type ALSATimerSpecificGlobalDevice = c_int;
 pub const ALSATIMER_SPECIFIC_GLOBAL_DEVICE_SYSTEM: ALSATimerSpecificGlobalDevice = 0;
 pub const ALSATIMER_SPECIFIC_GLOBAL_DEVICE_HRTIMER: ALSATimerSpecificGlobalDevice = 3;
+
+pub type ALSATimerUserInstanceError = c_int;
+pub const ALSATIMER_USER_INSTANCE_ERROR_FAILED: ALSATimerUserInstanceError = 0;
+pub const ALSATIMER_USER_INSTANCE_ERROR_TIMER_NOT_FOUND: ALSATimerUserInstanceError = 1;
+pub const ALSATIMER_USER_INSTANCE_ERROR_NOT_ATTACHED: ALSATimerUserInstanceError = 2;
+pub const ALSATIMER_USER_INSTANCE_ERROR_ATTACHED: ALSATimerUserInstanceError = 3;
 
 // Flags
 pub type ALSATimerDeviceInfoFlag = c_uint;
@@ -355,6 +362,7 @@ impl ::std::fmt::Debug for ALSATimerUserInstance {
     }
 }
 
+#[link(name = "alsatimer")]
 extern "C" {
 
     //=========================================================================
@@ -381,6 +389,12 @@ extern "C" {
     // ALSATimerSpecificGlobalDevice
     //=========================================================================
     pub fn alsatimer_specific_global_device_get_type() -> GType;
+
+    //=========================================================================
+    // ALSATimerUserInstanceError
+    //=========================================================================
+    pub fn alsatimer_user_instance_error_get_type() -> GType;
+    pub fn alsatimer_user_instance_error_quark() -> glib::GQuark;
 
     //=========================================================================
     // ALSATimerDeviceInfoFlag
