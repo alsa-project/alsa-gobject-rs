@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 use crate::*;
 
 pub trait EventCntrExtManual {
