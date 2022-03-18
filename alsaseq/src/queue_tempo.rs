@@ -1,7 +1,4 @@
-use glib::object::IsA;
-use glib::translate::*;
-
-use QueueTempo;
+use crate::*;
 
 pub trait QueueTempoExtManual {
     fn get_skew(&self) -> &[u32; 2];
@@ -29,8 +26,7 @@ impl<O: IsA<QueueTempo>> QueueTempoExtManual for O {
 
 #[cfg(test)]
 mod test {
-    use QueueTempo;
-    use QueueTempoExtManual;
+    use crate::*;
 
     #[test]
     fn test_manual_bindings() {

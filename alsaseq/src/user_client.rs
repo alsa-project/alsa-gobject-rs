@@ -1,11 +1,4 @@
-use glib::object::IsA;
-use glib::translate::*;
-
-use ClientInfo;
-use ClientPool;
-use PortInfo;
-use QueueInfo;
-use UserClient;
+use crate::*;
 
 pub trait UserClientExtManual {
     fn get_protocol_version(&self) -> Result<&[u16;3], glib::Error>;

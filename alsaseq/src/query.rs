@@ -1,10 +1,4 @@
-use glib::translate::*;
-use glib::IsA;
-
-use Addr;
-use QuerySubscribeType;
-use SubscribeData;
-use QueueStatus;
+use crate::*;
 
 pub fn get_subscription_list(
     addr: &Addr,

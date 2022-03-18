@@ -1,17 +1,12 @@
-use glib::object::IsA;
-use glib::translate::*;
-use glib::Error;
-
-use ClientInfo;
-use EventType;
+use crate::*;
 
 pub trait ClientInfoExtManual {
-    fn get_event_filter(&self) -> Result<Vec<EventType>, Error>;
-    fn set_event_filter(&self, entries: &[EventType]) -> Result<(), Error>;
+    fn get_event_filter(&self) -> Result<Vec<EventType>, glib::Error>;
+    fn set_event_filter(&self, entries: &[EventType]) -> Result<(), glib::Error>;
 }
 
 impl<O: IsA<ClientInfo>> ClientInfoExtManual for O {
-    fn get_event_filter(&self) -> Result<Vec<EventType>, Error> {
+    fn get_event_filter(&self) -> Result<Vec<EventType>, glib::Error> {
         unsafe {
             let mut ptr = std::ptr::null_mut() as *mut alsaseq_sys::ALSASeqEventType;
             let mut len = 0 as usize;
@@ -37,7 +32,7 @@ impl<O: IsA<ClientInfo>> ClientInfoExtManual for O {
         }
     }
 
-    fn set_event_filter(&self, entries: &[EventType]) -> Result<(), Error> {
+    fn set_event_filter(&self, entries: &[EventType]) -> Result<(), glib::Error> {
         unsafe {
             let mut array = Vec::new();
             let mut error = std::ptr::null_mut();
@@ -64,9 +59,7 @@ impl<O: IsA<ClientInfo>> ClientInfoExtManual for O {
 
 #[cfg(test)]
 mod test {
-    use ClientInfo;
-    use ClientInfoExtManual;
-    use EventType;
+    use crate::*;
 
     #[test]
     fn test_manual_bindings() {
