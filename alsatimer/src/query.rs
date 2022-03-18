@@ -1,9 +1,4 @@
-use alsatimer_sys;
-use glib::translate::*;
-use glib::IsA;
-use DeviceId;
-use DeviceParams;
-use DeviceStatus;
+use crate::*;
 
 pub fn get_device_id_list() -> Result<Vec<DeviceId>, glib::Error> {
     unsafe {

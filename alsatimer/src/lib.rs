@@ -8,22 +8,16 @@ extern crate gobject_sys;
 extern crate libc;
 
 mod auto;
-pub use auto::*;
-
-mod query;
-pub use query::*;
-
-mod user_instance;
-pub use user_instance::*;
-
-mod instance_params;
-pub use instance_params::*;
-
-mod instance_status;
-pub use instance_status::*;
-
 mod event;
-pub use event::*;
-
 mod event_data_tstamp;
-pub use event_data_tstamp::*;
+mod instance_params;
+mod instance_status;
+mod query;
+mod user_instance;
+
+pub use crate::{
+    auto::*, event::*, event_data_tstamp::*, instance_params::*, instance_status::*, query::*,
+    user_instance::*,
+};
+
+use glib::{object::IsA, translate::*};

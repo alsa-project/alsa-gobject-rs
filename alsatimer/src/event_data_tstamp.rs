@@ -1,8 +1,4 @@
-use glib::translate::*;
-
-use alsatimer_sys;
-
-use EventDataTstamp;
+use crate::*;
 
 impl EventDataTstamp {
     pub fn get_tstamp(&mut self, tstamp: &mut [i64;2]) {
@@ -18,7 +14,7 @@ impl EventDataTstamp {
 
 #[cfg(test)]
 mod test {
-    use Event;
+    use crate::*;
 
     #[test]
     fn test_manual_bindings() {

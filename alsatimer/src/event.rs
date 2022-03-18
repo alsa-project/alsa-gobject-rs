@@ -1,9 +1,4 @@
-use glib::translate::*;
-
-use alsatimer_sys;
-
-use EventDataTick;
-use EventDataTstamp;
+use crate::*;
 
 glib_wrapper! {
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
