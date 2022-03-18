@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 use crate::*;
 
 pub fn get_device_id_list() -> Result<Vec<DeviceId>, glib::Error> {
