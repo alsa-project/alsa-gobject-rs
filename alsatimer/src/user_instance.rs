@@ -1,15 +1,11 @@
-use glib::object::IsA;
-use glib::translate::*;
-
-use InstanceParams;
-use UserInstance;
-use InstanceStatus;
+use crate::*;
 
 pub trait UserInstanceExtManual {
     fn get_protocol_version(&self) -> Result<&[u16;3], glib::Error>;
     fn set_params<P: IsA<InstanceParams>>(&self, params: &mut P) -> Result<(), glib::Error>;
     fn get_status<P: IsA<InstanceStatus>>(&self, status: &mut P) -> Result<(), glib::Error>;
 }
+
 impl<O: IsA<UserInstance>> UserInstanceExtManual for O {
     fn get_protocol_version(&self) -> Result<&[u16;3], glib::Error> {
         unsafe {

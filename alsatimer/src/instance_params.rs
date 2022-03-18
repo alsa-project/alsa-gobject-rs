@@ -1,9 +1,4 @@
-use alsatimer_sys;
-use glib::object::IsA;
-use glib::translate::*;
-
-use EventType;
-use InstanceParams;
+use crate::*;
 
 pub trait InstanceParamsExtManual {
     fn set_event_filter(&self, event_filter: &Vec<EventType>) -> Result<(), glib::Error>;
@@ -66,24 +61,25 @@ impl<O: IsA<InstanceParams>> InstanceParamsExtManual for O {
     }
 }
 
-#[test]
-fn test_manual_bindings() {
-    use EventType;
-    use InstanceParams;
-    use InstanceParamsExtManual;
+#[cfg(test)]
+mod test {
+    use crate::*;
 
-    let filter_expected = vec![
-        EventType::Tick,
-        EventType::Start,
-        EventType::Stop,
-        EventType::Suspend,
-        EventType::Resume,
-    ];
+    #[test]
+    fn test_manual_bindings() {
+        let filter_expected = vec![
+            EventType::Tick,
+            EventType::Start,
+            EventType::Stop,
+            EventType::Suspend,
+            EventType::Resume,
+        ];
 
-    let params = InstanceParams::new();
-    let filter_orig = params.get_event_filter().unwrap();
-    params.set_event_filter(&filter_expected).unwrap();
-    let filter_target = params.get_event_filter().unwrap();
-    assert_ne!(filter_expected, filter_orig);
-    assert_eq!(filter_expected, filter_target);
+        let params = InstanceParams::new();
+        let filter_orig = params.get_event_filter().unwrap();
+        params.set_event_filter(&filter_expected).unwrap();
+        let filter_target = params.get_event_filter().unwrap();
+        assert_ne!(filter_expected, filter_orig);
+        assert_eq!(filter_expected, filter_target);
+    }
 }

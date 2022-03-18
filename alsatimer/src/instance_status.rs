@@ -1,8 +1,4 @@
-use alsatimer_sys;
-use glib::object::IsA;
-use glib::translate::*;
-
-use InstanceStatus;
+use crate::*;
 
 pub trait InstanceStatusExtManual {
     fn get_tstamp(&self) -> &[i64;2];
