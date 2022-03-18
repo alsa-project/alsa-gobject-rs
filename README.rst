@@ -28,6 +28,13 @@ Dependencies
   * ``glib-sys`` >= 0.15
   * ``gobject-sys`` >= 0.15
 
+* API crate (``alsactl``)
+
+  * ``libc`` >= 0.2
+  * ``bitflags`` >= 1.0
+  * ``glib`` >= 0.15
+  * FFI crate (``alsactl-sys``)
+
 Sample code
 ===========
 
