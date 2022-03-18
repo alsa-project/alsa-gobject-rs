@@ -10,14 +10,14 @@ impl<O: IsA<InstanceParams>> InstanceParamsExtManual for O {
     fn set_event_filter(&self, event_filter: &Vec<EventType>) -> Result<(), glib::Error> {
         unsafe {
             let entry_count = event_filter.len();
-            let mut entries = Vec::<alsatimer_sys::ALSATimerEventType>::with_capacity(entry_count);
+            let mut entries = Vec::<ffi::ALSATimerEventType>::with_capacity(entry_count);
             let mut error = std::ptr::null_mut();
 
             for entry in event_filter {
-                entries.push(EventType::to_glib(entry))
+                entries.push(EventType::into_glib(*entry))
             }
 
-            alsatimer_sys::alsatimer_instance_params_set_event_filter(
+            ffi::alsatimer_instance_params_set_event_filter(
                 self.as_ref().to_glib_none().0,
                 entries.as_ptr(),
                 entry_count,
@@ -38,7 +38,7 @@ impl<O: IsA<InstanceParams>> InstanceParamsExtManual for O {
             let mut entry_count = 0 as usize;
             let mut error = std::ptr::null_mut();
 
-            alsatimer_sys::alsatimer_instance_params_get_event_filter(
+            ffi::alsatimer_instance_params_get_event_filter(
                 self.as_ref().to_glib_none().0,
                 &mut entries,
                 &mut entry_count,
@@ -46,7 +46,7 @@ impl<O: IsA<InstanceParams>> InstanceParamsExtManual for O {
             );
 
             if error.is_null() {
-                let entries: Vec<alsatimer_sys::ALSATimerEventType> =
+                let entries: Vec<ffi::ALSATimerEventType> =
                     FromGlibContainer::from_glib_full_num(entries, entry_count);
                 let mut return_entries = Vec::<EventType>::with_capacity(entries.len());
 
