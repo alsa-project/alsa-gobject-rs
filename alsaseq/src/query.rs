@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 use crate::*;
 
 pub fn get_subscription_list(
