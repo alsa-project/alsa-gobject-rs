@@ -2,9 +2,11 @@
 "alsa_hwdep" = "alsahwdep"
 
 [options]
+girs_directories = ["../gir-files", ".."]
 work_mode = "normal"
 library = "ALSAHwdep"
 version = "0.0"
+use_gi_docgen = true
 min_cfg_version = "0.0"
 single_version_file = true
 
