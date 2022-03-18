@@ -1,6 +1,4 @@
-use glib::translate::*;
-
-use QueueTimerDataAlsa;
+use crate::*;
 
 impl QueueTimerDataAlsa {
     pub fn get_device_id(&mut self) -> alsatimer::DeviceId {
@@ -26,9 +24,7 @@ impl QueueTimerDataAlsa {
 
 #[cfg(test)]
 mod test {
-    use QueueTimer;
-    use QueueTimerExt;
-    use QueueTimerExtManual;
+    use crate::*;
 
     #[test]
     fn test_manual_bindings() {

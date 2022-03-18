@@ -1,6 +1,4 @@
-use alsaseq_sys;
-use glib::translate::*;
-use gobject_sys;
+use crate::*;
 
 glib_wrapper! {
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -48,25 +46,26 @@ impl Tstamp {
 
 unsafe impl Send for Tstamp {}
 
-#[test]
-fn test_manual_bindings() {
-    use EventCntr;
-    use EventCntrExtManual;
+#[cfg(test)]
+mod test {
+    use crate::*;
+    #[test]
+    fn test_manual_bindings() {
+        let cntr = EventCntr::new(1).unwrap();
+        let mut tstamp = cntr.get_tstamp_data(0).unwrap();
 
-    let cntr = EventCntr::new(1).unwrap();
-    let mut tstamp = cntr.get_tstamp_data(0).unwrap();
+        let real_time_expected = [4321, 9876];
+        let real_time_orig = tstamp.get_real_time().clone();
+        tstamp.set_real_time(&real_time_expected);
+        let real_time_target = tstamp.get_real_time().clone();
+        assert_ne!(real_time_expected, real_time_orig);
+        assert_eq!(real_time_expected, real_time_target);
 
-    let real_time_expected = [4321, 9876];
-    let real_time_orig = tstamp.get_real_time().clone();
-    tstamp.set_real_time(&real_time_expected);
-    let real_time_target = tstamp.get_real_time().clone();
-    assert_ne!(real_time_expected, real_time_orig);
-    assert_eq!(real_time_expected, real_time_target);
-
-    let tick_time_expected = 968275;
-    let tick_time_orig = tstamp.get_tick_time();
-    tstamp.set_tick_time(tick_time_expected);
-    let tick_time_target = tstamp.get_tick_time().clone();
-    assert_ne!(tick_time_expected, tick_time_orig);
-    assert_eq!(tick_time_expected, tick_time_target);
+        let tick_time_expected = 968275;
+        let tick_time_orig = tstamp.get_tick_time();
+        tstamp.set_tick_time(tick_time_expected);
+        let tick_time_target = tstamp.get_tick_time().clone();
+        assert_ne!(tick_time_expected, tick_time_orig);
+        assert_eq!(tick_time_expected, tick_time_target);
+    }
 }

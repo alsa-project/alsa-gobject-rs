@@ -1,14 +1,4 @@
-use glib::object::IsA;
-use glib::translate::*;
-
-use EventCntr;
-use Addr;
-use EventDataConnect;
-use EventDataCtl;
-use EventDataNote;
-use EventDataQueue;
-use EventDataResult;
-use Tstamp;
+use crate::*;
 
 pub trait EventCntrExtManual {
     fn get_addr_data(&self, index: usize) -> Result<Addr, glib::Error>;
@@ -330,10 +320,7 @@ impl<O: IsA<EventCntr>> EventCntrExtManual for O {
 
 #[cfg(test)]
 mod test {
-    use Addr;
-    use EventCntr;
-    use EventCntrExt;
-    use EventCntrExtManual;
+    use crate::*;
 
     #[test]
     fn test_manual_bindings() {

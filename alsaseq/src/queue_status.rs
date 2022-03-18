@@ -1,7 +1,4 @@
-use glib::object::IsA;
-use glib::translate::*;
-
-use QueueStatus;
+use crate::*;
 
 pub trait QueueStatusExtManual {
     fn get_real_time(&self) -> &[u32; 2];

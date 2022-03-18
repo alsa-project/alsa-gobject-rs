@@ -1,7 +1,4 @@
-use glib::translate::*;
-
-use EventDataQueue;
-use Tstamp;
+use crate::*;
 
 impl EventDataQueue {
     pub fn get_byte_param(&mut self) -> &[u8; 8] {
@@ -72,9 +69,7 @@ impl EventDataQueue {
 
 #[cfg(test)]
 mod test {
-    use EventCntr;
-    use EventCntrExt;
-    use EventCntrExtManual;
+    use crate::*;
 
     #[test]
     fn test_manual_bindings() {

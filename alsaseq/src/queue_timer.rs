@@ -1,8 +1,4 @@
-use glib::object::IsA;
-use glib::translate::*;
-
-use QueueTimer;
-use QueueTimerDataAlsa;
+use crate::*;
 
 pub trait QueueTimerExtManual {
     fn get_alsa_data(&self) -> QueueTimerDataAlsa;

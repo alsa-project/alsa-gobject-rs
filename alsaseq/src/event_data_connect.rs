@@ -1,7 +1,4 @@
-use glib::translate::*;
-
-use Addr;
-use EventDataConnect;
+use crate::*;
 
 impl EventDataConnect {
     pub fn get_dst(&mut self) -> Addr {
@@ -23,10 +20,7 @@ impl EventDataConnect {
 
 #[cfg(test)]
 mod test {
-    use Addr;
-    use EventCntr;
-    use EventCntrExt;
-    use EventCntrExtManual;
+    use crate::*;
 
     #[test]
     fn test_manual_bindings() {
