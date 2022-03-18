@@ -20,3 +20,4 @@ ffi = {package = "alsaseq-sys", path = "../alsaseq-sys", version = "0.2"}
 
 [dev-dependencies]
 gir-format-check = "^0.1"
+nix = "0.17"
