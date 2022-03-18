@@ -22,18 +22,18 @@ Dependencies
 
 * Rust version 1.57 or later (edition 2021)
 * `alsa-gobject <https://github.com/alsa-project/alsa-gobject/>`_
-* FFI crate (``alsactl-sys`, `alsahwdep-sys`)
+* FFI crates (``alsactl-sys`, `alsahwdep-sys`)
 
   * ``libc`` >= 0.2
   * ``glib-sys`` >= 0.15
   * ``gobject-sys`` >= 0.15
 
-* API crate (``alsactl``)
+* API crates (``alsactl``, ``alsahwdep``)
 
   * ``libc`` >= 0.2
   * ``bitflags`` >= 1.0
   * ``glib`` >= 0.15
-  * FFI crate (``alsactl-sys``)
+  * FFI crate per each (``alsactl-sys``, ``alsahwdep-sys``)
 
 Sample code
 ===========
