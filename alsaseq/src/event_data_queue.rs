@@ -5,7 +5,7 @@ impl EventDataQueue {
     pub fn get_byte_param(&mut self) -> &[u8; 8] {
         unsafe {
             let mut ptr = std::ptr::null_mut() as *const [u8; 8];
-            alsaseq_sys::alsaseq_event_data_queue_get_byte_param(
+            ffi::alsaseq_event_data_queue_get_byte_param(
                 self.to_glib_none_mut().0,
                 &mut ptr as *mut *const [u8; 8],
             );
@@ -16,7 +16,7 @@ impl EventDataQueue {
     pub fn get_skew_param(&mut self) -> &[u32; 2] {
         unsafe {
             let mut ptr = std::ptr::null_mut() as *const [u32; 2];
-            alsaseq_sys::alsaseq_event_data_queue_get_skew_param(
+            ffi::alsaseq_event_data_queue_get_skew_param(
                 self.to_glib_none_mut().0,
                 &mut ptr as *mut *const [u32; 2],
             );
@@ -27,7 +27,7 @@ impl EventDataQueue {
     pub fn get_quadlet_param(&mut self) -> &[u32; 2] {
         unsafe {
             let mut ptr = std::ptr::null_mut() as *const [u32; 2];
-            alsaseq_sys::alsaseq_event_data_queue_get_quadlet_param(
+            ffi::alsaseq_event_data_queue_get_quadlet_param(
                 self.to_glib_none_mut().0,
                 &mut ptr as *mut *const [u32; 2],
             );
@@ -37,19 +37,19 @@ impl EventDataQueue {
 
     pub fn set_byte_param(&mut self, bytes: &[u8; 8]) {
         unsafe {
-            alsaseq_sys::alsaseq_event_data_queue_set_byte_param(self.to_glib_none_mut().0, bytes);
+            ffi::alsaseq_event_data_queue_set_byte_param(self.to_glib_none_mut().0, bytes);
         }
     }
 
     pub fn set_skew_param(&mut self, skew: &[u32; 2]) {
         unsafe {
-            alsaseq_sys::alsaseq_event_data_queue_set_skew_param(self.to_glib_none_mut().0, skew);
+            ffi::alsaseq_event_data_queue_set_skew_param(self.to_glib_none_mut().0, skew);
         }
     }
 
     pub fn set_quadlet_param(&mut self, quadlets: &[u32; 2]) {
         unsafe {
-            alsaseq_sys::alsaseq_event_data_queue_set_quadlet_param(
+            ffi::alsaseq_event_data_queue_set_quadlet_param(
                 self.to_glib_none_mut().0,
                 quadlets as *const [u32; 2],
             );
@@ -58,11 +58,8 @@ impl EventDataQueue {
 
     pub fn get_tstamp_param(&mut self) -> Tstamp {
         unsafe {
-            let mut tstamp = std::ptr::null_mut() as *const alsaseq_sys::ALSASeqTstamp;
-            alsaseq_sys::alsaseq_event_data_queue_get_tstamp_param(
-                self.to_glib_none_mut().0,
-                &mut tstamp,
-            );
+            let mut tstamp = std::ptr::null_mut() as *const ffi::ALSASeqTstamp;
+            ffi::alsaseq_event_data_queue_get_tstamp_param(self.to_glib_none_mut().0, &mut tstamp);
             from_glib_none(tstamp)
         }
     }
