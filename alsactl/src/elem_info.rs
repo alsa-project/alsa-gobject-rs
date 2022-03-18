@@ -1,8 +1,4 @@
-use alsactl_sys;
-use glib::object::IsA;
-use glib::translate::*;
-
-use ElemInfo;
+use crate::*;
 
 pub trait ElemInfoExtManual {
     fn get_int_data(&self) -> Result<&[i32;3], glib::Error>;
@@ -90,10 +86,7 @@ impl<O: IsA<ElemInfo>> ElemInfoExtManual for O {
 
 #[cfg(test)]
 mod test {
-    use ElemType;
-
-    use ElemInfo;
-    use ElemInfoExtManual;
+    use crate::*;
 
     #[test]
     fn test_manual_bindings() {
