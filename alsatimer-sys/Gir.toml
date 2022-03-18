@@ -1,4 +1,5 @@
 [options]
+girs_directories = ["../gir-files", ".."]
 work_mode = "sys"
 library = "ALSATimer"
 version = "0.0"
