@@ -8,7 +8,8 @@ extern crate gobject_sys;
 extern crate libc;
 
 mod auto;
-pub use auto::*;
-
 mod stream_pair;
-pub use stream_pair::*;
+
+pub use crate::{auto::*, stream_pair::*};
+
+use glib::{object::IsA, translate::*};

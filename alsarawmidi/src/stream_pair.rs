@@ -1,9 +1,4 @@
-use glib::object::IsA;
-use glib::translate::*;
-
-use StreamDirection;
-use StreamPair;
-use SubstreamStatus;
+use crate::*;
 
 pub trait StreamPairExtManual {
     fn get_protocol_version(&self) -> Result<&[u16;3], glib::Error>;
