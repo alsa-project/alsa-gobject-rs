@@ -9,9 +9,9 @@ pub fn get_subscription_list(
         let mut entries = std::ptr::null_mut();
         let mut error = std::ptr::null_mut();
 
-        alsaseq_sys::alsaseq_get_subscription_list(
+        ffi::alsaseq_get_subscription_list(
             addr.to_glib_none().0,
-            query_type.to_glib(),
+            query_type.into_glib(),
             &mut entries,
             &mut error,
         );
@@ -24,11 +24,14 @@ pub fn get_subscription_list(
     }
 }
 
-pub fn get_queue_status<P: IsA<QueueStatus>>(queue_id: u8, queue_status: &mut P) -> Result<(), glib::Error> {
+pub fn get_queue_status<P: IsA<QueueStatus>>(
+    queue_id: u8,
+    queue_status: &mut P,
+) -> Result<(), glib::Error> {
     unsafe {
         let mut error = std::ptr::null_mut();
 
-        alsaseq_sys::alsaseq_get_queue_status(
+        ffi::alsaseq_get_queue_status(
             queue_id,
             &mut queue_status.as_ref().to_glib_none().0,
             &mut error,

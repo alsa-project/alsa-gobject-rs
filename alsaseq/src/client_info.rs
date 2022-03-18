@@ -9,11 +9,11 @@ pub trait ClientInfoExtManual {
 impl<O: IsA<ClientInfo>> ClientInfoExtManual for O {
     fn get_event_filter(&self) -> Result<Vec<EventType>, glib::Error> {
         unsafe {
-            let mut ptr = std::ptr::null_mut() as *mut alsaseq_sys::ALSASeqEventType;
+            let mut ptr = std::ptr::null_mut() as *mut ffi::ALSASeqEventType;
             let mut len = 0 as usize;
             let mut error = std::ptr::null_mut();
 
-            alsaseq_sys::alsaseq_client_info_get_event_filter(
+            ffi::alsaseq_client_info_get_event_filter(
                 self.as_ref().to_glib_none().0,
                 &mut ptr,
                 &mut len,
@@ -39,10 +39,10 @@ impl<O: IsA<ClientInfo>> ClientInfoExtManual for O {
             let mut error = std::ptr::null_mut();
 
             for &entry in entries {
-                array.push(entry.to_glib());
+                array.push(entry.into_glib());
             }
 
-            alsaseq_sys::alsaseq_client_info_set_event_filter(
+            ffi::alsaseq_client_info_set_event_filter(
                 self.as_ref().to_glib_none().0,
                 array.as_ptr(),
                 array.len(),

@@ -4,28 +4,28 @@ use crate::*;
 pub trait EventCntrExtManual {
     fn get_addr_data(&self, index: usize) -> Result<Addr, glib::Error>;
     fn get_blob_data(&self, index: usize) -> Result<&[u8], glib::Error>;
-    fn get_byte_data(&self, index: usize) -> Result<&[u8;12], glib::Error>;
+    fn get_byte_data(&self, index: usize) -> Result<&[u8; 12], glib::Error>;
     fn get_connect_data(&self, index: usize) -> Result<EventDataConnect, glib::Error>;
     fn get_ctl_data(&self, index: usize) -> Result<EventDataCtl, glib::Error>;
     fn get_dst(&self, index: usize) -> Result<Addr, glib::Error>;
     fn get_src(&self, index: usize) -> Result<Addr, glib::Error>;
-    fn get_note_data(&self, index: usize) -> Result<EventDataNote, glib::Error>;
-    fn get_quadlet_data(&self, index: usize) -> Result<&[u32;3], glib::Error>;
+    fn note_data(&self, index: usize) -> Result<EventDataNote, glib::Error>;
+    fn get_quadlet_data(&self, index: usize) -> Result<&[u32; 3], glib::Error>;
     fn get_queue_data(&self, index: usize) -> Result<EventDataQueue, glib::Error>;
-    fn get_result_data(&self, index: usize) -> Result<EventDataResult, glib::Error>;
+    fn result_data(&self, index: usize) -> Result<EventDataResult, glib::Error>;
     fn get_tstamp(&self, index: usize) -> Result<Tstamp, glib::Error>;
     fn get_tstamp_data(&self, index: usize) -> Result<Tstamp, glib::Error>;
-    fn set_byte_data(&self, index: usize, data: &[u8;12]) -> Result<(), glib::Error>;
-    fn set_quadlet_data(&self, index: usize, data: &[u32;3]) -> Result<(), glib::Error>;
+    fn set_byte_data(&self, index: usize, data: &[u8; 12]) -> Result<(), glib::Error>;
+    fn set_quadlet_data(&self, index: usize, data: &[u32; 3]) -> Result<(), glib::Error>;
 }
 
 impl<O: IsA<EventCntr>> EventCntrExtManual for O {
     fn get_addr_data(&self, index: usize) -> Result<Addr, glib::Error> {
         unsafe {
-            let mut data = std::ptr::null_mut() as *const alsaseq_sys::ALSASeqAddr;
+            let mut data = std::ptr::null_mut() as *const ffi::ALSASeqAddr;
             let mut error = std::ptr::null_mut();
 
-            let _ = alsaseq_sys::alsaseq_event_cntr_get_addr_data(
+            let _ = ffi::alsaseq_event_cntr_get_addr_data(
                 self.as_ref().to_glib_none().0,
                 index,
                 &mut data,
@@ -46,7 +46,7 @@ impl<O: IsA<EventCntr>> EventCntrExtManual for O {
             let mut size = 0 as usize;
             let mut error = std::ptr::null_mut();
 
-            let _ = alsaseq_sys::alsaseq_event_cntr_get_blob_data(
+            let _ = ffi::alsaseq_event_cntr_get_blob_data(
                 self.as_ref().to_glib_none().0,
                 index,
                 &mut data,
@@ -62,12 +62,12 @@ impl<O: IsA<EventCntr>> EventCntrExtManual for O {
         }
     }
 
-    fn get_byte_data(&self, index: usize) -> Result<&[u8;12], glib::Error> {
+    fn get_byte_data(&self, index: usize) -> Result<&[u8; 12], glib::Error> {
         unsafe {
-            let mut ptr = std::ptr::null_mut() as *const [u8;12];
+            let mut ptr = std::ptr::null_mut() as *const [u8; 12];
             let mut error = std::ptr::null_mut();
 
-            alsaseq_sys::alsaseq_event_cntr_get_byte_data(
+            ffi::alsaseq_event_cntr_get_byte_data(
                 self.as_ref().to_glib_none().0,
                 index,
                 &mut ptr,
@@ -84,10 +84,10 @@ impl<O: IsA<EventCntr>> EventCntrExtManual for O {
 
     fn get_connect_data(&self, index: usize) -> Result<EventDataConnect, glib::Error> {
         unsafe {
-            let mut data = std::ptr::null_mut() as *const alsaseq_sys::ALSASeqEventDataConnect;
+            let mut data = std::ptr::null_mut() as *const ffi::ALSASeqEventDataConnect;
             let mut error = std::ptr::null_mut();
 
-            let _ = alsaseq_sys::alsaseq_event_cntr_get_connect_data(
+            let _ = ffi::alsaseq_event_cntr_get_connect_data(
                 self.as_ref().to_glib_none().0,
                 index,
                 &mut data,
@@ -104,10 +104,10 @@ impl<O: IsA<EventCntr>> EventCntrExtManual for O {
 
     fn get_ctl_data(&self, index: usize) -> Result<EventDataCtl, glib::Error> {
         unsafe {
-            let mut data = std::ptr::null_mut() as *const alsaseq_sys::ALSASeqEventDataCtl;
+            let mut data = std::ptr::null_mut() as *const ffi::ALSASeqEventDataCtl;
             let mut error = std::ptr::null_mut();
 
-            let _ = alsaseq_sys::alsaseq_event_cntr_get_ctl_data(
+            let _ = ffi::alsaseq_event_cntr_get_ctl_data(
                 self.as_ref().to_glib_none().0,
                 index,
                 &mut data,
@@ -124,10 +124,10 @@ impl<O: IsA<EventCntr>> EventCntrExtManual for O {
 
     fn get_dst(&self, index: usize) -> Result<Addr, glib::Error> {
         unsafe {
-            let mut dst = std::ptr::null_mut() as *const alsaseq_sys::ALSASeqAddr;
+            let mut dst = std::ptr::null_mut() as *const ffi::ALSASeqAddr;
             let mut error = std::ptr::null_mut();
 
-            let _ = alsaseq_sys::alsaseq_event_cntr_get_dst(
+            let _ = ffi::alsaseq_event_cntr_get_dst(
                 self.as_ref().to_glib_none().0,
                 index,
                 &mut dst,
@@ -144,10 +144,10 @@ impl<O: IsA<EventCntr>> EventCntrExtManual for O {
 
     fn get_src(&self, index: usize) -> Result<Addr, glib::Error> {
         unsafe {
-            let mut src = std::ptr::null_mut() as *const alsaseq_sys::ALSASeqAddr;
+            let mut src = std::ptr::null_mut() as *const ffi::ALSASeqAddr;
             let mut error = std::ptr::null_mut();
 
-            let _ = alsaseq_sys::alsaseq_event_cntr_get_src(
+            let _ = ffi::alsaseq_event_cntr_get_src(
                 self.as_ref().to_glib_none().0,
                 index,
                 &mut src,
@@ -162,12 +162,12 @@ impl<O: IsA<EventCntr>> EventCntrExtManual for O {
         }
     }
 
-    fn get_note_data(&self, index: usize) -> Result<EventDataNote, glib::Error> {
+    fn note_data(&self, index: usize) -> Result<EventDataNote, glib::Error> {
         unsafe {
-            let mut data = std::ptr::null_mut() as *const alsaseq_sys::ALSASeqEventDataNote;
+            let mut data = std::ptr::null_mut() as *const ffi::ALSASeqEventDataNote;
             let mut error = std::ptr::null_mut();
 
-            let _ = alsaseq_sys::alsaseq_event_cntr_get_note_data(
+            let _ = ffi::alsaseq_event_cntr_get_note_data(
                 self.as_ref().to_glib_none().0,
                 index,
                 &mut data,
@@ -182,12 +182,12 @@ impl<O: IsA<EventCntr>> EventCntrExtManual for O {
         }
     }
 
-    fn get_quadlet_data(&self, index: usize) -> Result<&[u32;3], glib::Error> {
+    fn get_quadlet_data(&self, index: usize) -> Result<&[u32; 3], glib::Error> {
         unsafe {
-            let mut ptr = std::ptr::null_mut() as *const [u32;3];
+            let mut ptr = std::ptr::null_mut() as *const [u32; 3];
             let mut error = std::ptr::null_mut();
 
-            alsaseq_sys::alsaseq_event_cntr_get_quadlet_data(
+            ffi::alsaseq_event_cntr_get_quadlet_data(
                 self.as_ref().to_glib_none().0,
                 index,
                 &mut ptr,
@@ -204,10 +204,10 @@ impl<O: IsA<EventCntr>> EventCntrExtManual for O {
 
     fn get_queue_data(&self, index: usize) -> Result<EventDataQueue, glib::Error> {
         unsafe {
-            let mut data = std::ptr::null_mut() as *const alsaseq_sys::ALSASeqEventDataQueue;
+            let mut data = std::ptr::null_mut() as *const ffi::ALSASeqEventDataQueue;
             let mut error = std::ptr::null_mut();
 
-            let _ = alsaseq_sys::alsaseq_event_cntr_get_queue_data(
+            let _ = ffi::alsaseq_event_cntr_get_queue_data(
                 self.as_ref().to_glib_none().0,
                 index,
                 &mut data,
@@ -222,12 +222,12 @@ impl<O: IsA<EventCntr>> EventCntrExtManual for O {
         }
     }
 
-    fn get_result_data(&self, index: usize) -> Result<EventDataResult, glib::Error> {
+    fn result_data(&self, index: usize) -> Result<EventDataResult, glib::Error> {
         unsafe {
-            let mut data = std::ptr::null_mut() as *const alsaseq_sys::ALSASeqEventDataResult;
+            let mut data = std::ptr::null_mut() as *const ffi::ALSASeqEventDataResult;
             let mut error = std::ptr::null_mut();
 
-            let _ = alsaseq_sys::alsaseq_event_cntr_get_result_data(
+            let _ = ffi::alsaseq_event_cntr_get_result_data(
                 self.as_ref().to_glib_none().0,
                 index,
                 &mut data,
@@ -244,14 +244,15 @@ impl<O: IsA<EventCntr>> EventCntrExtManual for O {
 
     fn get_tstamp(&self, index: usize) -> Result<Tstamp, glib::Error> {
         unsafe {
-            let mut data = std::ptr::null_mut() as *const alsaseq_sys::ALSASeqTstamp;
+            let mut data = std::ptr::null_mut() as *const ffi::ALSASeqTstamp;
             let mut error = std::ptr::null_mut();
 
-            let _ = alsaseq_sys::alsaseq_event_cntr_get_tstamp(
+            let _ = ffi::alsaseq_event_cntr_get_tstamp(
                 self.as_ref().to_glib_none().0,
                 index,
                 &mut data,
-                &mut error);
+                &mut error,
+            );
 
             if error.is_null() {
                 Ok(from_glib_none(data))
@@ -263,14 +264,15 @@ impl<O: IsA<EventCntr>> EventCntrExtManual for O {
 
     fn get_tstamp_data(&self, index: usize) -> Result<Tstamp, glib::Error> {
         unsafe {
-            let mut data = std::ptr::null_mut() as *const alsaseq_sys::ALSASeqTstamp;
+            let mut data = std::ptr::null_mut() as *const ffi::ALSASeqTstamp;
             let mut error = std::ptr::null_mut();
 
-            let _ = alsaseq_sys::alsaseq_event_cntr_get_tstamp_data(
+            let _ = ffi::alsaseq_event_cntr_get_tstamp_data(
                 self.as_ref().to_glib_none().0,
                 index,
                 &mut data,
-                &mut error);
+                &mut error,
+            );
 
             if error.is_null() {
                 Ok(from_glib_none(data))
@@ -280,11 +282,11 @@ impl<O: IsA<EventCntr>> EventCntrExtManual for O {
         }
     }
 
-    fn set_byte_data(&self, index: usize, data: &[u8;12]) -> Result<(), glib::Error> {
+    fn set_byte_data(&self, index: usize, data: &[u8; 12]) -> Result<(), glib::Error> {
         unsafe {
             let mut error = std::ptr::null_mut();
 
-            alsaseq_sys::alsaseq_event_cntr_set_byte_data(
+            ffi::alsaseq_event_cntr_set_byte_data(
                 self.as_ref().to_glib_none().0,
                 index,
                 data,
@@ -299,11 +301,11 @@ impl<O: IsA<EventCntr>> EventCntrExtManual for O {
         }
     }
 
-    fn set_quadlet_data(&self, index: usize, data: &[u32;3]) -> Result<(), glib::Error> {
+    fn set_quadlet_data(&self, index: usize, data: &[u32; 3]) -> Result<(), glib::Error> {
         unsafe {
             let mut error = std::ptr::null_mut();
 
-            alsaseq_sys::alsaseq_event_cntr_set_quadlet_data(
+            ffi::alsaseq_event_cntr_set_quadlet_data(
                 self.as_ref().to_glib_none().0,
                 index,
                 data,
@@ -365,9 +367,9 @@ mod test {
         ctl.set_value(254);
         cntr.set_ctl_data(0, &ctl).unwrap();
         let data = cntr.get_ctl_data(0).unwrap();
-        assert_eq!(data.get_channel(), ctl.get_channel());
-        assert_eq!(data.get_param(), ctl.get_param());
-        assert_eq!(data.get_value(), ctl.get_value());
+        assert_eq!(data.channel(), ctl.channel());
+        assert_eq!(data.param(), ctl.param());
+        assert_eq!(data.value(), ctl.value());
 
         // Destination data.
         let dst = Addr::new(102, 57);
@@ -382,7 +384,7 @@ mod test {
         assert_eq!(src, data);
 
         // Note data.
-        let data = cntr.get_note_data(0).unwrap();
+        let data = cntr.note_data(0).unwrap();
         let mut note = data.clone();
         note.set_channel(11);
         note.set_note(12);
@@ -390,12 +392,12 @@ mod test {
         note.set_off_velocity(14);
         note.set_duration(15);
         cntr.set_note_data(0, &note).unwrap();
-        let data = cntr.get_note_data(0).unwrap();
-        assert_eq!(data.get_channel(), note.get_channel());
-        assert_eq!(data.get_note(), note.get_note());
-        assert_eq!(data.get_velocity(), note.get_velocity());
-        assert_eq!(data.get_off_velocity(), note.get_off_velocity());
-        assert_eq!(data.get_duration(), note.get_duration());
+        let data = cntr.note_data(0).unwrap();
+        assert_eq!(data.channel(), note.channel());
+        assert_eq!(data.note(), note.note());
+        assert_eq!(data.velocity(), note.velocity());
+        assert_eq!(data.off_velocity(), note.off_velocity());
+        assert_eq!(data.duration(), note.duration());
 
         // Quadlet data.
         let quadlets = [11111, 22222, 33333];
@@ -409,15 +411,15 @@ mod test {
         queue_ctl.set_position_param(793);
         cntr.set_queue_data(0, &queue_ctl).unwrap();
         let data = cntr.get_queue_data(0).unwrap();
-        assert_eq!(queue_ctl.get_position_param(), data.get_position_param());
+        assert_eq!(queue_ctl.position_param(), data.position_param());
 
         // Result data.
-        let data = cntr.get_result_data(0).unwrap();
+        let data = cntr.result_data(0).unwrap();
         let mut result = data.clone();
         result.set_result(-123);
         cntr.set_result_data(0, &result).unwrap();
-        let data = cntr.get_result_data(0).unwrap();
-        assert_eq!(data.get_result(), result.get_result());
+        let data = cntr.result_data(0).unwrap();
+        assert_eq!(data.result(), result.result());
 
         // Timestamp.
         let data = cntr.get_tstamp(0).unwrap();
