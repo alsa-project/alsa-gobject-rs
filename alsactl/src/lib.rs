@@ -8,13 +8,10 @@ extern crate gobject_sys;
 extern crate libc;
 
 mod auto;
-pub use auto::*;
-
 mod card;
-pub use card::*;
-
 mod elem_info;
-pub use elem_info::*;
-
 mod elem_value;
-pub use elem_value::*;
+
+pub use crate::{auto::*, card::*, elem_info::*, elem_value::*};
+
+use glib::{object::IsA, translate::*};

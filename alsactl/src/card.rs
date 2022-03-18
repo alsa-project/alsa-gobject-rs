@@ -1,10 +1,4 @@
-use glib::object::IsA;
-use glib::translate::*;
-
-use Card;
-use ElemId;
-use ElemInfo;
-use ElemValue;
+use crate::*;
 
 pub trait CardExtManual {
     fn get_protocol_version(&self) -> Result<&[u16;3], glib::Error>;

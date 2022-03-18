@@ -1,8 +1,4 @@
-use alsactl_sys;
-use glib::object::IsA;
-use glib::translate::*;
-
-use ElemValue;
+use crate::*;
 
 pub trait ElemValueExtManual {
     fn set_bool(&self, values: &[bool]);
@@ -135,9 +131,7 @@ impl<O: IsA<ElemValue>> ElemValueExtManual for O {
 
 #[cfg(test)]
 mod test {
-    use ElemValue;
-    use ElemValueExt;
-    use ElemValueExtManual;
+    use crate::*;
 
     #[test]
     fn test_manual_bindings() {
