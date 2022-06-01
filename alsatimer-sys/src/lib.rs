@@ -3,17 +3,22 @@
 // DO NOT EDIT
 
 #![allow(non_camel_case_types, non_upper_case_globals, non_snake_case)]
-#![allow(clippy::approx_constant, clippy::type_complexity, clippy::unreadable_literal)]
+#![allow(
+    clippy::approx_constant,
+    clippy::type_complexity,
+    clippy::unreadable_literal
+)]
 #![cfg_attr(feature = "dox", feature(doc_cfg))]
 
-extern crate libc;
 extern crate glib_sys as glib;
 extern crate gobject_sys as gobject;
+extern crate libc;
 
 #[allow(unused_imports)]
-use libc::{c_int, c_char, c_uchar, c_float, c_uint, c_double,
-    c_short, c_ushort, c_long, c_ulong,
-    c_void, size_t, ssize_t, intptr_t, uintptr_t, time_t, FILE};
+use libc::{
+    c_char, c_double, c_float, c_int, c_long, c_short, c_uchar, c_uint, c_ulong, c_ushort, c_void,
+    intptr_t, size_t, ssize_t, time_t, uintptr_t, FILE,
+};
 
 #[allow(unused_imports)]
 use glib::{gboolean, gconstpointer, gpointer, GType};
@@ -77,7 +82,7 @@ pub struct ALSATimerEvent(c_void);
 impl ::std::fmt::Debug for ALSATimerEvent {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSATimerEvent @ {:?}", self as *const _))
-         .finish()
+            .finish()
     }
 }
 
@@ -88,7 +93,7 @@ pub struct ALSATimerDeviceId(c_void);
 impl ::std::fmt::Debug for ALSATimerDeviceId {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSATimerDeviceId @ {:?}", self as *const _))
-         .finish()
+            .finish()
     }
 }
 
@@ -100,9 +105,12 @@ pub struct ALSATimerDeviceInfoClass {
 
 impl ::std::fmt::Debug for ALSATimerDeviceInfoClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerDeviceInfoClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .finish()
+        f.debug_struct(&format!(
+            "ALSATimerDeviceInfoClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .finish()
     }
 }
 
@@ -119,9 +127,12 @@ pub struct ALSATimerDeviceParamsClass {
 
 impl ::std::fmt::Debug for ALSATimerDeviceParamsClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerDeviceParamsClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .finish()
+        f.debug_struct(&format!(
+            "ALSATimerDeviceParamsClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .finish()
     }
 }
 
@@ -138,9 +149,12 @@ pub struct ALSATimerDeviceStatusClass {
 
 impl ::std::fmt::Debug for ALSATimerDeviceStatusClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerDeviceStatusClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .finish()
+        f.debug_struct(&format!(
+            "ALSATimerDeviceStatusClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .finish()
     }
 }
 
@@ -155,7 +169,7 @@ pub struct ALSATimerEventDataTick(c_void);
 impl ::std::fmt::Debug for ALSATimerEventDataTick {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSATimerEventDataTick @ {:?}", self as *const _))
-         .finish()
+            .finish()
     }
 }
 
@@ -164,8 +178,11 @@ pub struct ALSATimerEventDataTstamp(c_void);
 
 impl ::std::fmt::Debug for ALSATimerEventDataTstamp {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerEventDataTstamp @ {:?}", self as *const _))
-         .finish()
+        f.debug_struct(&format!(
+            "ALSATimerEventDataTstamp @ {:?}",
+            self as *const _
+        ))
+        .finish()
     }
 }
 
@@ -177,9 +194,12 @@ pub struct ALSATimerInstanceInfoClass {
 
 impl ::std::fmt::Debug for ALSATimerInstanceInfoClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerInstanceInfoClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .finish()
+        f.debug_struct(&format!(
+            "ALSATimerInstanceInfoClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .finish()
     }
 }
 
@@ -196,9 +216,12 @@ pub struct ALSATimerInstanceParamsClass {
 
 impl ::std::fmt::Debug for ALSATimerInstanceParamsClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerInstanceParamsClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .finish()
+        f.debug_struct(&format!(
+            "ALSATimerInstanceParamsClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .finish()
     }
 }
 
@@ -215,9 +238,12 @@ pub struct ALSATimerInstanceStatusClass {
 
 impl ::std::fmt::Debug for ALSATimerInstanceStatusClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerInstanceStatusClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .finish()
+        f.debug_struct(&format!(
+            "ALSATimerInstanceStatusClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .finish()
     }
 }
 
@@ -230,17 +256,21 @@ pub type ALSATimerInstanceStatusPrivate = *mut _ALSATimerInstanceStatusPrivate;
 #[derive(Copy, Clone)]
 pub struct ALSATimerUserInstanceClass {
     pub parent_class: gobject::GObjectClass,
-    pub handle_event: Option<unsafe extern "C" fn(*mut ALSATimerUserInstance, *const ALSATimerEvent)>,
+    pub handle_event:
+        Option<unsafe extern "C" fn(*mut ALSATimerUserInstance, *const ALSATimerEvent)>,
     pub handle_disconnection: Option<unsafe extern "C" fn(*mut ALSATimerUserInstance)>,
 }
 
 impl ::std::fmt::Debug for ALSATimerUserInstanceClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerUserInstanceClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .field("handle_event", &self.handle_event)
-         .field("handle_disconnection", &self.handle_disconnection)
-         .finish()
+        f.debug_struct(&format!(
+            "ALSATimerUserInstanceClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .field("handle_event", &self.handle_event)
+        .field("handle_disconnection", &self.handle_disconnection)
+        .finish()
     }
 }
 
@@ -260,9 +290,9 @@ pub struct ALSATimerDeviceInfo {
 impl ::std::fmt::Debug for ALSATimerDeviceInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSATimerDeviceInfo @ {:?}", self as *const _))
-         .field("parent_instance", &self.parent_instance)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent_instance", &self.parent_instance)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -276,9 +306,9 @@ pub struct ALSATimerDeviceParams {
 impl ::std::fmt::Debug for ALSATimerDeviceParams {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSATimerDeviceParams @ {:?}", self as *const _))
-         .field("parent_instance", &self.parent_instance)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent_instance", &self.parent_instance)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -292,9 +322,9 @@ pub struct ALSATimerDeviceStatus {
 impl ::std::fmt::Debug for ALSATimerDeviceStatus {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSATimerDeviceStatus @ {:?}", self as *const _))
-         .field("parent_instance", &self.parent_instance)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent_instance", &self.parent_instance)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -308,9 +338,9 @@ pub struct ALSATimerInstanceInfo {
 impl ::std::fmt::Debug for ALSATimerInstanceInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSATimerInstanceInfo @ {:?}", self as *const _))
-         .field("parent_instance", &self.parent_instance)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent_instance", &self.parent_instance)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -324,9 +354,9 @@ pub struct ALSATimerInstanceParams {
 impl ::std::fmt::Debug for ALSATimerInstanceParams {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSATimerInstanceParams @ {:?}", self as *const _))
-         .field("parent_instance", &self.parent_instance)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent_instance", &self.parent_instance)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -340,9 +370,9 @@ pub struct ALSATimerInstanceStatus {
 impl ::std::fmt::Debug for ALSATimerInstanceStatus {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSATimerInstanceStatus @ {:?}", self as *const _))
-         .field("parent_instance", &self.parent_instance)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent_instance", &self.parent_instance)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -356,9 +386,9 @@ pub struct ALSATimerUserInstance {
 impl ::std::fmt::Debug for ALSATimerUserInstance {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSATimerUserInstance @ {:?}", self as *const _))
-         .field("parent_instance", &self.parent_instance)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent_instance", &self.parent_instance)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -411,33 +441,68 @@ extern "C" {
     //=========================================================================
     pub fn alsatimer_event_get_type() -> GType;
     pub fn alsatimer_event_new() -> *mut ALSATimerEvent;
-    pub fn alsatimer_event_get_tick_data(self_: *mut ALSATimerEvent, tick: *mut *const ALSATimerEventDataTick);
-    pub fn alsatimer_event_get_tstamp_data(self_: *mut ALSATimerEvent, tstamp: *mut *const ALSATimerEventDataTstamp);
+    pub fn alsatimer_event_get_tick_data(
+        self_: *mut ALSATimerEvent,
+        tick: *mut *const ALSATimerEventDataTick,
+    );
+    pub fn alsatimer_event_get_tstamp_data(
+        self_: *mut ALSATimerEvent,
+        tstamp: *mut *const ALSATimerEventDataTstamp,
+    );
 
     //=========================================================================
     // ALSATimerDeviceId
     //=========================================================================
     pub fn alsatimer_device_id_get_type() -> GType;
-    pub fn alsatimer_device_id_new(class: ALSATimerClass, card_id: c_int, device_id: c_int, subdevice_id: c_int) -> *mut ALSATimerDeviceId;
+    pub fn alsatimer_device_id_new(
+        class: ALSATimerClass,
+        card_id: c_int,
+        device_id: c_int,
+        subdevice_id: c_int,
+    ) -> *mut ALSATimerDeviceId;
     pub fn alsatimer_device_id_get_card_id(self_: *const ALSATimerDeviceId, card_id: *mut c_int);
-    pub fn alsatimer_device_id_get_class(self_: *const ALSATimerDeviceId, class: *mut ALSATimerClass);
-    pub fn alsatimer_device_id_get_device_id(self_: *const ALSATimerDeviceId, device_id: *mut c_int);
-    pub fn alsatimer_device_id_get_subdevice_id(self_: *const ALSATimerDeviceId, subdevice_id: *mut c_int);
+    pub fn alsatimer_device_id_get_class(
+        self_: *const ALSATimerDeviceId,
+        class: *mut ALSATimerClass,
+    );
+    pub fn alsatimer_device_id_get_device_id(
+        self_: *const ALSATimerDeviceId,
+        device_id: *mut c_int,
+    );
+    pub fn alsatimer_device_id_get_subdevice_id(
+        self_: *const ALSATimerDeviceId,
+        subdevice_id: *mut c_int,
+    );
 
     //=========================================================================
     // ALSATimerEventDataTick
     //=========================================================================
     pub fn alsatimer_event_data_tick_get_type() -> GType;
-    pub fn alsatimer_event_data_tick_get_resolution(self_: *const ALSATimerEventDataTick, resolution: *mut c_uint);
-    pub fn alsatimer_event_data_tick_get_ticks(self_: *const ALSATimerEventDataTick, ticks: *mut c_uint);
+    pub fn alsatimer_event_data_tick_get_resolution(
+        self_: *const ALSATimerEventDataTick,
+        resolution: *mut c_uint,
+    );
+    pub fn alsatimer_event_data_tick_get_ticks(
+        self_: *const ALSATimerEventDataTick,
+        ticks: *mut c_uint,
+    );
 
     //=========================================================================
     // ALSATimerEventDataTstamp
     //=========================================================================
     pub fn alsatimer_event_data_tstamp_get_type() -> GType;
-    pub fn alsatimer_event_data_tstamp_get_event(self_: *const ALSATimerEventDataTstamp, event: *mut ALSATimerEventType);
-    pub fn alsatimer_event_data_tstamp_get_tstamp(self_: *const ALSATimerEventDataTstamp, tstamp: *const *mut [i64; 2]);
-    pub fn alsatimer_event_data_tstamp_get_val(self_: *const ALSATimerEventDataTstamp, val: *mut c_uint);
+    pub fn alsatimer_event_data_tstamp_get_event(
+        self_: *const ALSATimerEventDataTstamp,
+        event: *mut ALSATimerEventType,
+    );
+    pub fn alsatimer_event_data_tstamp_get_tstamp(
+        self_: *const ALSATimerEventDataTstamp,
+        tstamp: *const *mut [i64; 2],
+    );
+    pub fn alsatimer_event_data_tstamp_get_val(
+        self_: *const ALSATimerEventDataTstamp,
+        val: *mut c_uint,
+    );
 
     //=========================================================================
     // ALSATimerDeviceInfo
@@ -466,44 +531,121 @@ extern "C" {
     //=========================================================================
     pub fn alsatimer_instance_params_get_type() -> GType;
     pub fn alsatimer_instance_params_new() -> *mut ALSATimerInstanceParams;
-    pub fn alsatimer_instance_params_get_event_filter(self_: *mut ALSATimerInstanceParams, entries: *mut *mut ALSATimerEventType, entry_count: *mut size_t, error: *mut *mut glib::GError);
-    pub fn alsatimer_instance_params_set_event_filter(self_: *mut ALSATimerInstanceParams, entries: *const ALSATimerEventType, entry_count: size_t, error: *mut *mut glib::GError);
+    pub fn alsatimer_instance_params_get_event_filter(
+        self_: *mut ALSATimerInstanceParams,
+        entries: *mut *mut ALSATimerEventType,
+        entry_count: *mut size_t,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsatimer_instance_params_set_event_filter(
+        self_: *mut ALSATimerInstanceParams,
+        entries: *const ALSATimerEventType,
+        entry_count: size_t,
+        error: *mut *mut glib::GError,
+    );
 
     //=========================================================================
     // ALSATimerInstanceStatus
     //=========================================================================
     pub fn alsatimer_instance_status_get_type() -> GType;
     pub fn alsatimer_instance_status_new() -> *mut ALSATimerInstanceStatus;
-    pub fn alsatimer_instance_status_get_tstamp(self_: *mut ALSATimerInstanceStatus, tstamp: *mut *const [i64; 2]);
+    pub fn alsatimer_instance_status_get_tstamp(
+        self_: *mut ALSATimerInstanceStatus,
+        tstamp: *mut *const [i64; 2],
+    );
 
     //=========================================================================
     // ALSATimerUserInstance
     //=========================================================================
     pub fn alsatimer_user_instance_get_type() -> GType;
     pub fn alsatimer_user_instance_new() -> *mut ALSATimerUserInstance;
-    pub fn alsatimer_user_instance_attach(self_: *mut ALSATimerUserInstance, device_id: *mut ALSATimerDeviceId, error: *mut *mut glib::GError);
-    pub fn alsatimer_user_instance_attach_as_slave(self_: *mut ALSATimerUserInstance, slave_class: ALSATimerSlaveClass, slave_id: c_int, error: *mut *mut glib::GError);
-    pub fn alsatimer_user_instance_choose_event_data_type(self_: *mut ALSATimerUserInstance, event_data_type: ALSATimerEventDataType, error: *mut *mut glib::GError);
-    pub fn alsatimer_user_instance_continue(self_: *mut ALSATimerUserInstance, error: *mut *mut glib::GError);
-    pub fn alsatimer_user_instance_create_source(self_: *mut ALSATimerUserInstance, gsrc: *mut *mut glib::GSource, error: *mut *mut glib::GError);
-    pub fn alsatimer_user_instance_get_info(self_: *mut ALSATimerUserInstance, instance_info: *mut *mut ALSATimerInstanceInfo, error: *mut *mut glib::GError);
-    pub fn alsatimer_user_instance_get_protocol_version(self_: *mut ALSATimerUserInstance, proto_ver_triplet: *mut *const [u16; 3], error: *mut *mut glib::GError);
-    pub fn alsatimer_user_instance_get_status(self_: *mut ALSATimerUserInstance, instance_status: *const *mut ALSATimerInstanceStatus, error: *mut *mut glib::GError);
-    pub fn alsatimer_user_instance_open(self_: *mut ALSATimerUserInstance, open_flag: c_int, error: *mut *mut glib::GError);
-    pub fn alsatimer_user_instance_pause(self_: *mut ALSATimerUserInstance, error: *mut *mut glib::GError);
-    pub fn alsatimer_user_instance_set_params(self_: *mut ALSATimerUserInstance, instance_params: *const *mut ALSATimerInstanceParams, error: *mut *mut glib::GError);
-    pub fn alsatimer_user_instance_start(self_: *mut ALSATimerUserInstance, error: *mut *mut glib::GError);
-    pub fn alsatimer_user_instance_stop(self_: *mut ALSATimerUserInstance, error: *mut *mut glib::GError);
+    pub fn alsatimer_user_instance_attach(
+        self_: *mut ALSATimerUserInstance,
+        device_id: *mut ALSATimerDeviceId,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsatimer_user_instance_attach_as_slave(
+        self_: *mut ALSATimerUserInstance,
+        slave_class: ALSATimerSlaveClass,
+        slave_id: c_int,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsatimer_user_instance_choose_event_data_type(
+        self_: *mut ALSATimerUserInstance,
+        event_data_type: ALSATimerEventDataType,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsatimer_user_instance_continue(
+        self_: *mut ALSATimerUserInstance,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsatimer_user_instance_create_source(
+        self_: *mut ALSATimerUserInstance,
+        gsrc: *mut *mut glib::GSource,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsatimer_user_instance_get_info(
+        self_: *mut ALSATimerUserInstance,
+        instance_info: *mut *mut ALSATimerInstanceInfo,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsatimer_user_instance_get_protocol_version(
+        self_: *mut ALSATimerUserInstance,
+        proto_ver_triplet: *mut *const [u16; 3],
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsatimer_user_instance_get_status(
+        self_: *mut ALSATimerUserInstance,
+        instance_status: *const *mut ALSATimerInstanceStatus,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsatimer_user_instance_open(
+        self_: *mut ALSATimerUserInstance,
+        open_flag: c_int,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsatimer_user_instance_pause(
+        self_: *mut ALSATimerUserInstance,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsatimer_user_instance_set_params(
+        self_: *mut ALSATimerUserInstance,
+        instance_params: *const *mut ALSATimerInstanceParams,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsatimer_user_instance_start(
+        self_: *mut ALSATimerUserInstance,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsatimer_user_instance_stop(
+        self_: *mut ALSATimerUserInstance,
+        error: *mut *mut glib::GError,
+    );
 
     //=========================================================================
     // Other functions
     //=========================================================================
-    pub fn alsatimer_get_device_id_list(entries: *mut *mut glib::GList, error: *mut *mut glib::GError);
-    pub fn alsatimer_get_device_info(device_id: *mut ALSATimerDeviceId, device_info: *mut *mut ALSATimerDeviceInfo, error: *mut *mut glib::GError);
-    pub fn alsatimer_get_device_status(device_id: *mut ALSATimerDeviceId, device_status: *const *mut ALSATimerDeviceStatus, error: *mut *mut glib::GError);
+    pub fn alsatimer_get_device_id_list(
+        entries: *mut *mut glib::GList,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsatimer_get_device_info(
+        device_id: *mut ALSATimerDeviceId,
+        device_info: *mut *mut ALSATimerDeviceInfo,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsatimer_get_device_status(
+        device_id: *mut ALSATimerDeviceId,
+        device_status: *const *mut ALSATimerDeviceStatus,
+        error: *mut *mut glib::GError,
+    );
     pub fn alsatimer_get_devnode(devnode: *mut *mut c_char, error: *mut *mut glib::GError);
     pub fn alsatimer_get_sysname(sysname: *mut *mut c_char, error: *mut *mut glib::GError);
     pub fn alsatimer_get_tstamp_source(clock_id: *mut c_int, error: *mut *mut glib::GError);
-    pub fn alsatimer_set_device_params(device_id: *mut ALSATimerDeviceId, device_params: *const ALSATimerDeviceParams, error: *mut *mut glib::GError);
+    pub fn alsatimer_set_device_params(
+        device_id: *mut ALSATimerDeviceId,
+        device_params: *const ALSATimerDeviceParams,
+        error: *mut *mut glib::GError,
+    );
 
 }

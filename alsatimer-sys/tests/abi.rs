@@ -5,14 +5,14 @@
 extern crate alsatimer_sys;
 extern crate shell_words;
 extern crate tempfile;
+use alsatimer_sys::*;
 use std::env;
 use std::error::Error;
-use std::path::Path;
 use std::mem::{align_of, size_of};
+use std::path::Path;
 use std::process::Command;
 use std::str;
 use tempfile::Builder;
-use alsatimer_sys::*;
 
 static PACKAGES: &[&str] = &["alsatimer"];
 
@@ -48,8 +48,7 @@ impl Compiler {
         cmd.arg(out);
         let status = cmd.spawn()?.wait()?;
         if !status.success() {
-            return Err(format!("compilation command {:?} failed, {}",
-                               &cmd, status).into());
+            return Err(format!("compilation command {:?} failed, {}", &cmd, status).into());
         }
         Ok(())
     }
@@ -78,13 +77,11 @@ fn pkg_config_cflags(packages: &[&str]) -> Result<Vec<String>, Box<dyn Error>> {
     cmd.args(packages);
     let out = cmd.output()?;
     if !out.status.success() {
-        return Err(format!("command {:?} returned {}",
-                           &cmd, out.status).into());
+        return Err(format!("command {:?} returned {}", &cmd, out.status).into());
     }
     let stdout = str::from_utf8(&out.stdout)?;
     Ok(shell_words::split(stdout.trim())?)
 }
-
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
 struct Layout {
@@ -116,9 +113,8 @@ impl Results {
     fn summary(&self) -> String {
         format!(
             "{} passed; {} failed (compilation errors: {})",
-            self.passed,
-            self.failed,
-            self.failed_to_compile)
+            self.passed, self.failed, self.failed_to_compile
+        )
     }
     fn expect_total_success(&self) {
         if self.failed == 0 {
@@ -131,27 +127,34 @@ impl Results {
 
 #[test]
 fn cross_validate_constants_with_c() {
-    let tmpdir = Builder::new().prefix("abi").tempdir().expect("temporary directory");
+    let tmpdir = Builder::new()
+        .prefix("abi")
+        .tempdir()
+        .expect("temporary directory");
     let cc = Compiler::new().expect("configured compiler");
 
-    assert_eq!("1",
-               get_c_value(tmpdir.path(), &cc, "1").expect("C constant"),
-               "failed to obtain correct constant value for 1");
+    assert_eq!(
+        "1",
+        get_c_value(tmpdir.path(), &cc, "1").expect("C constant"),
+        "failed to obtain correct constant value for 1"
+    );
 
-    let mut results : Results = Default::default();
+    let mut results: Results = Default::default();
     for (i, &(name, rust_value)) in RUST_CONSTANTS.iter().enumerate() {
         match get_c_value(tmpdir.path(), &cc, name) {
             Err(e) => {
                 results.record_failed_to_compile();
                 eprintln!("{}", e);
-            },
+            }
             Ok(ref c_value) => {
                 if rust_value == c_value {
                     results.record_passed();
                 } else {
                     results.record_failed();
-                    eprintln!("Constant value mismatch for {}\nRust: {:?}\nC:    {:?}",
-                              name, rust_value, c_value);
+                    eprintln!(
+                        "Constant value mismatch for {}\nRust: {:?}\nC:    {:?}",
+                        name, rust_value, c_value
+                    );
                 }
             }
         };
@@ -164,27 +167,37 @@ fn cross_validate_constants_with_c() {
 
 #[test]
 fn cross_validate_layout_with_c() {
-    let tmpdir = Builder::new().prefix("abi").tempdir().expect("temporary directory");
+    let tmpdir = Builder::new()
+        .prefix("abi")
+        .tempdir()
+        .expect("temporary directory");
     let cc = Compiler::new().expect("configured compiler");
 
-    assert_eq!(Layout {size: 1, alignment: 1},
-               get_c_layout(tmpdir.path(), &cc, "char").expect("C layout"),
-               "failed to obtain correct layout for char type");
+    assert_eq!(
+        Layout {
+            size: 1,
+            alignment: 1
+        },
+        get_c_layout(tmpdir.path(), &cc, "char").expect("C layout"),
+        "failed to obtain correct layout for char type"
+    );
 
-    let mut results : Results = Default::default();
+    let mut results: Results = Default::default();
     for (i, &(name, rust_layout)) in RUST_LAYOUTS.iter().enumerate() {
         match get_c_layout(tmpdir.path(), &cc, name) {
             Err(e) => {
                 results.record_failed_to_compile();
                 eprintln!("{}", e);
-            },
+            }
             Ok(c_layout) => {
                 if rust_layout == c_layout {
                     results.record_passed();
                 } else {
                     results.record_failed();
-                    eprintln!("Layout mismatch for {}\nRust: {:?}\nC:    {:?}",
-                              name, rust_layout, &c_layout);
+                    eprintln!(
+                        "Layout mismatch for {}\nRust: {:?}\nC:    {:?}",
+                        name, rust_layout, &c_layout
+                    );
                 }
             }
         };
@@ -204,15 +217,14 @@ fn get_c_layout(dir: &Path, cc: &Compiler, name: &str) -> Result<Layout, Box<dyn
     let mut abi_cmd = Command::new(exe);
     let output = abi_cmd.output()?;
     if !output.status.success() {
-        return Err(format!("command {:?} failed, {:?}",
-                           &abi_cmd, &output).into());
+        return Err(format!("command {:?} failed, {:?}", &abi_cmd, &output).into());
     }
 
     let stdout = str::from_utf8(&output.stdout)?;
     let mut words = stdout.trim().split_whitespace();
     let size = words.next().unwrap().parse().unwrap();
     let alignment = words.next().unwrap().parse().unwrap();
-    Ok(Layout {size, alignment})
+    Ok(Layout { size, alignment })
 }
 
 fn get_c_value(dir: &Path, cc: &Compiler, name: &str) -> Result<String, Box<dyn Error>> {
@@ -224,43 +236,176 @@ fn get_c_value(dir: &Path, cc: &Compiler, name: &str) -> Result<String, Box<dyn 
     let mut abi_cmd = Command::new(exe);
     let output = abi_cmd.output()?;
     if !output.status.success() {
-        return Err(format!("command {:?} failed, {:?}",
-                           &abi_cmd, &output).into());
+        return Err(format!("command {:?} failed, {:?}", &abi_cmd, &output).into());
     }
 
     let output = str::from_utf8(&output.stdout)?.trim();
-    if !output.starts_with("###gir test###") ||
-       !output.ends_with("###gir test###") {
-        return Err(format!("command {:?} return invalid output, {:?}",
-                           &abi_cmd, &output).into());
+    if !output.starts_with("###gir test###") || !output.ends_with("###gir test###") {
+        return Err(format!(
+            "command {:?} return invalid output, {:?}",
+            &abi_cmd, &output
+        )
+        .into());
     }
 
     Ok(String::from(&output[14..(output.len() - 14)]))
 }
 
 const RUST_LAYOUTS: &[(&str, Layout)] = &[
-    ("ALSATimerClass", Layout {size: size_of::<ALSATimerClass>(), alignment: align_of::<ALSATimerClass>()}),
-    ("ALSATimerDeviceInfo", Layout {size: size_of::<ALSATimerDeviceInfo>(), alignment: align_of::<ALSATimerDeviceInfo>()}),
-    ("ALSATimerDeviceInfoClass", Layout {size: size_of::<ALSATimerDeviceInfoClass>(), alignment: align_of::<ALSATimerDeviceInfoClass>()}),
-    ("ALSATimerDeviceInfoFlag", Layout {size: size_of::<ALSATimerDeviceInfoFlag>(), alignment: align_of::<ALSATimerDeviceInfoFlag>()}),
-    ("ALSATimerDeviceParams", Layout {size: size_of::<ALSATimerDeviceParams>(), alignment: align_of::<ALSATimerDeviceParams>()}),
-    ("ALSATimerDeviceParamsClass", Layout {size: size_of::<ALSATimerDeviceParamsClass>(), alignment: align_of::<ALSATimerDeviceParamsClass>()}),
-    ("ALSATimerDeviceStatus", Layout {size: size_of::<ALSATimerDeviceStatus>(), alignment: align_of::<ALSATimerDeviceStatus>()}),
-    ("ALSATimerDeviceStatusClass", Layout {size: size_of::<ALSATimerDeviceStatusClass>(), alignment: align_of::<ALSATimerDeviceStatusClass>()}),
-    ("ALSATimerEventDataType", Layout {size: size_of::<ALSATimerEventDataType>(), alignment: align_of::<ALSATimerEventDataType>()}),
-    ("ALSATimerEventType", Layout {size: size_of::<ALSATimerEventType>(), alignment: align_of::<ALSATimerEventType>()}),
-    ("ALSATimerInstanceInfo", Layout {size: size_of::<ALSATimerInstanceInfo>(), alignment: align_of::<ALSATimerInstanceInfo>()}),
-    ("ALSATimerInstanceInfoClass", Layout {size: size_of::<ALSATimerInstanceInfoClass>(), alignment: align_of::<ALSATimerInstanceInfoClass>()}),
-    ("ALSATimerInstanceParamFlag", Layout {size: size_of::<ALSATimerInstanceParamFlag>(), alignment: align_of::<ALSATimerInstanceParamFlag>()}),
-    ("ALSATimerInstanceParams", Layout {size: size_of::<ALSATimerInstanceParams>(), alignment: align_of::<ALSATimerInstanceParams>()}),
-    ("ALSATimerInstanceParamsClass", Layout {size: size_of::<ALSATimerInstanceParamsClass>(), alignment: align_of::<ALSATimerInstanceParamsClass>()}),
-    ("ALSATimerInstanceStatus", Layout {size: size_of::<ALSATimerInstanceStatus>(), alignment: align_of::<ALSATimerInstanceStatus>()}),
-    ("ALSATimerInstanceStatusClass", Layout {size: size_of::<ALSATimerInstanceStatusClass>(), alignment: align_of::<ALSATimerInstanceStatusClass>()}),
-    ("ALSATimerSlaveClass", Layout {size: size_of::<ALSATimerSlaveClass>(), alignment: align_of::<ALSATimerSlaveClass>()}),
-    ("ALSATimerSpecificGlobalDevice", Layout {size: size_of::<ALSATimerSpecificGlobalDevice>(), alignment: align_of::<ALSATimerSpecificGlobalDevice>()}),
-    ("ALSATimerUserInstance", Layout {size: size_of::<ALSATimerUserInstance>(), alignment: align_of::<ALSATimerUserInstance>()}),
-    ("ALSATimerUserInstanceClass", Layout {size: size_of::<ALSATimerUserInstanceClass>(), alignment: align_of::<ALSATimerUserInstanceClass>()}),
-    ("ALSATimerUserInstanceError", Layout {size: size_of::<ALSATimerUserInstanceError>(), alignment: align_of::<ALSATimerUserInstanceError>()}),
+    (
+        "ALSATimerClass",
+        Layout {
+            size: size_of::<ALSATimerClass>(),
+            alignment: align_of::<ALSATimerClass>(),
+        },
+    ),
+    (
+        "ALSATimerDeviceInfo",
+        Layout {
+            size: size_of::<ALSATimerDeviceInfo>(),
+            alignment: align_of::<ALSATimerDeviceInfo>(),
+        },
+    ),
+    (
+        "ALSATimerDeviceInfoClass",
+        Layout {
+            size: size_of::<ALSATimerDeviceInfoClass>(),
+            alignment: align_of::<ALSATimerDeviceInfoClass>(),
+        },
+    ),
+    (
+        "ALSATimerDeviceInfoFlag",
+        Layout {
+            size: size_of::<ALSATimerDeviceInfoFlag>(),
+            alignment: align_of::<ALSATimerDeviceInfoFlag>(),
+        },
+    ),
+    (
+        "ALSATimerDeviceParams",
+        Layout {
+            size: size_of::<ALSATimerDeviceParams>(),
+            alignment: align_of::<ALSATimerDeviceParams>(),
+        },
+    ),
+    (
+        "ALSATimerDeviceParamsClass",
+        Layout {
+            size: size_of::<ALSATimerDeviceParamsClass>(),
+            alignment: align_of::<ALSATimerDeviceParamsClass>(),
+        },
+    ),
+    (
+        "ALSATimerDeviceStatus",
+        Layout {
+            size: size_of::<ALSATimerDeviceStatus>(),
+            alignment: align_of::<ALSATimerDeviceStatus>(),
+        },
+    ),
+    (
+        "ALSATimerDeviceStatusClass",
+        Layout {
+            size: size_of::<ALSATimerDeviceStatusClass>(),
+            alignment: align_of::<ALSATimerDeviceStatusClass>(),
+        },
+    ),
+    (
+        "ALSATimerEventDataType",
+        Layout {
+            size: size_of::<ALSATimerEventDataType>(),
+            alignment: align_of::<ALSATimerEventDataType>(),
+        },
+    ),
+    (
+        "ALSATimerEventType",
+        Layout {
+            size: size_of::<ALSATimerEventType>(),
+            alignment: align_of::<ALSATimerEventType>(),
+        },
+    ),
+    (
+        "ALSATimerInstanceInfo",
+        Layout {
+            size: size_of::<ALSATimerInstanceInfo>(),
+            alignment: align_of::<ALSATimerInstanceInfo>(),
+        },
+    ),
+    (
+        "ALSATimerInstanceInfoClass",
+        Layout {
+            size: size_of::<ALSATimerInstanceInfoClass>(),
+            alignment: align_of::<ALSATimerInstanceInfoClass>(),
+        },
+    ),
+    (
+        "ALSATimerInstanceParamFlag",
+        Layout {
+            size: size_of::<ALSATimerInstanceParamFlag>(),
+            alignment: align_of::<ALSATimerInstanceParamFlag>(),
+        },
+    ),
+    (
+        "ALSATimerInstanceParams",
+        Layout {
+            size: size_of::<ALSATimerInstanceParams>(),
+            alignment: align_of::<ALSATimerInstanceParams>(),
+        },
+    ),
+    (
+        "ALSATimerInstanceParamsClass",
+        Layout {
+            size: size_of::<ALSATimerInstanceParamsClass>(),
+            alignment: align_of::<ALSATimerInstanceParamsClass>(),
+        },
+    ),
+    (
+        "ALSATimerInstanceStatus",
+        Layout {
+            size: size_of::<ALSATimerInstanceStatus>(),
+            alignment: align_of::<ALSATimerInstanceStatus>(),
+        },
+    ),
+    (
+        "ALSATimerInstanceStatusClass",
+        Layout {
+            size: size_of::<ALSATimerInstanceStatusClass>(),
+            alignment: align_of::<ALSATimerInstanceStatusClass>(),
+        },
+    ),
+    (
+        "ALSATimerSlaveClass",
+        Layout {
+            size: size_of::<ALSATimerSlaveClass>(),
+            alignment: align_of::<ALSATimerSlaveClass>(),
+        },
+    ),
+    (
+        "ALSATimerSpecificGlobalDevice",
+        Layout {
+            size: size_of::<ALSATimerSpecificGlobalDevice>(),
+            alignment: align_of::<ALSATimerSpecificGlobalDevice>(),
+        },
+    ),
+    (
+        "ALSATimerUserInstance",
+        Layout {
+            size: size_of::<ALSATimerUserInstance>(),
+            alignment: align_of::<ALSATimerUserInstance>(),
+        },
+    ),
+    (
+        "ALSATimerUserInstanceClass",
+        Layout {
+            size: size_of::<ALSATimerUserInstanceClass>(),
+            alignment: align_of::<ALSATimerUserInstanceClass>(),
+        },
+    ),
+    (
+        "ALSATimerUserInstanceError",
+        Layout {
+            size: size_of::<ALSATimerUserInstanceError>(),
+            alignment: align_of::<ALSATimerUserInstanceError>(),
+        },
+    ),
 ];
 
 const RUST_CONSTANTS: &[(&str, &str)] = &[
@@ -299,5 +444,3 @@ const RUST_CONSTANTS: &[(&str, &str)] = &[
     ("(gint) ALSATIMER_USER_INSTANCE_ERROR_NOT_ATTACHED", "2"),
     ("(gint) ALSATIMER_USER_INSTANCE_ERROR_TIMER_NOT_FOUND", "1"),
 ];
-
-
