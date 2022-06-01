@@ -34,9 +34,7 @@ glib_wrapper! {
 
 impl Card {
     pub fn new() -> Card {
-        unsafe {
-            from_glib_full(alsactl_sys::alsactl_card_new())
-        }
+        unsafe { from_glib_full(alsactl_sys::alsactl_card_new()) }
     }
 }
 
@@ -63,7 +61,11 @@ pub trait CardExt: 'static {
 
     fn write_elem_tlv(&self, elem_id: &ElemId, container: &[u32]) -> Result<(), glib::Error>;
 
-    fn write_elem_value<P: IsA<ElemValue>>(&self, elem_id: &ElemId, elem_value: &P) -> Result<(), glib::Error>;
+    fn write_elem_value<P: IsA<ElemValue>>(
+        &self,
+        elem_id: &ElemId,
+        elem_value: &P,
+    ) -> Result<(), glib::Error>;
 
     fn get_property_devnode(&self) -> Option<GString>;
 
@@ -71,7 +73,10 @@ pub trait CardExt: 'static {
 
     fn connect_handle_disconnection<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
-    fn connect_handle_elem_event<F: Fn(&Self, &ElemId, ElemEventMask) + 'static>(&self, f: F) -> SignalHandlerId;
+    fn connect_handle_elem_event<F: Fn(&Self, &ElemId, ElemEventMask) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId;
 
     fn connect_property_devnode_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
@@ -83,8 +88,16 @@ impl<O: IsA<Card>> CardExt for O {
         unsafe {
             let mut gsrc = ptr::null_mut();
             let mut error = ptr::null_mut();
-            let _ = alsactl_sys::alsactl_card_create_source(self.as_ref().to_glib_none().0, &mut gsrc, &mut error);
-            if error.is_null() { Ok(from_glib_full(gsrc)) } else { Err(from_glib_full(error)) }
+            let _ = alsactl_sys::alsactl_card_create_source(
+                self.as_ref().to_glib_none().0,
+                &mut gsrc,
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(from_glib_full(gsrc))
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
@@ -92,8 +105,17 @@ impl<O: IsA<Card>> CardExt for O {
         unsafe {
             let mut elem_info = ptr::null_mut();
             let mut error = ptr::null_mut();
-            let _ = alsactl_sys::alsactl_card_get_elem_info(self.as_ref().to_glib_none().0, elem_id.to_glib_none().0, &mut elem_info, &mut error);
-            if error.is_null() { Ok(from_glib_full(elem_info)) } else { Err(from_glib_full(error)) }
+            let _ = alsactl_sys::alsactl_card_get_elem_info(
+                self.as_ref().to_glib_none().0,
+                elem_id.to_glib_none().0,
+                &mut elem_info,
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(from_glib_full(elem_info))
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
@@ -101,32 +123,66 @@ impl<O: IsA<Card>> CardExt for O {
         unsafe {
             let mut card_info = ptr::null_mut();
             let mut error = ptr::null_mut();
-            let _ = alsactl_sys::alsactl_card_get_info(self.as_ref().to_glib_none().0, &mut card_info, &mut error);
-            if error.is_null() { Ok(from_glib_full(card_info)) } else { Err(from_glib_full(error)) }
+            let _ = alsactl_sys::alsactl_card_get_info(
+                self.as_ref().to_glib_none().0,
+                &mut card_info,
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(from_glib_full(card_info))
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
     fn lock_elem(&self, elem_id: &ElemId, lock: bool) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = alsactl_sys::alsactl_card_lock_elem(self.as_ref().to_glib_none().0, elem_id.to_glib_none().0, lock.to_glib(), &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = alsactl_sys::alsactl_card_lock_elem(
+                self.as_ref().to_glib_none().0,
+                elem_id.to_glib_none().0,
+                lock.to_glib(),
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
     fn open(&self, card_id: u32, open_flag: i32) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = alsactl_sys::alsactl_card_open(self.as_ref().to_glib_none().0, card_id, open_flag, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = alsactl_sys::alsactl_card_open(
+                self.as_ref().to_glib_none().0,
+                card_id,
+                open_flag,
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
     fn remove_elems(&self, elem_id: &ElemId) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = alsactl_sys::alsactl_card_remove_elems(self.as_ref().to_glib_none().0, elem_id.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = alsactl_sys::alsactl_card_remove_elems(
+                self.as_ref().to_glib_none().0,
+                elem_id.to_glib_none().0,
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
@@ -134,88 +190,174 @@ impl<O: IsA<Card>> CardExt for O {
         let container_count = container.len() as usize;
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = alsactl_sys::alsactl_card_write_elem_tlv(self.as_ref().to_glib_none().0, elem_id.to_glib_none().0, container.to_glib_none().0, container_count, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = alsactl_sys::alsactl_card_write_elem_tlv(
+                self.as_ref().to_glib_none().0,
+                elem_id.to_glib_none().0,
+                container.to_glib_none().0,
+                container_count,
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
-    fn write_elem_value<P: IsA<ElemValue>>(&self, elem_id: &ElemId, elem_value: &P) -> Result<(), glib::Error> {
+    fn write_elem_value<P: IsA<ElemValue>>(
+        &self,
+        elem_id: &ElemId,
+        elem_value: &P,
+    ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = alsactl_sys::alsactl_card_write_elem_value(self.as_ref().to_glib_none().0, elem_id.to_glib_none().0, elem_value.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = alsactl_sys::alsactl_card_write_elem_value(
+                self.as_ref().to_glib_none().0,
+                elem_id.to_glib_none().0,
+                elem_value.as_ref().to_glib_none().0,
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
     fn get_property_devnode(&self) -> Option<GString> {
         unsafe {
             let mut value = Value::from_type(<GString as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"devnode\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `devnode` getter")
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"devnode\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `devnode` getter")
         }
     }
 
     fn get_property_subscribed(&self) -> bool {
         unsafe {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"subscribed\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `subscribed` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"subscribed\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `subscribed` getter")
+                .unwrap()
         }
     }
 
     fn connect_handle_disconnection<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn handle_disconnection_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsactl_sys::ALSACtlCard, f: glib_sys::gpointer)
-            where P: IsA<Card>
+        unsafe extern "C" fn handle_disconnection_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsactl_sys::ALSACtlCard,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<Card>,
         {
             let f: &F = &*(f as *const F);
             f(&Card::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"handle-disconnection\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(handle_disconnection_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"handle-disconnection\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    handle_disconnection_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
-    fn connect_handle_elem_event<F: Fn(&Self, &ElemId, ElemEventMask) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn handle_elem_event_trampoline<P, F: Fn(&P, &ElemId, ElemEventMask) + 'static>(this: *mut alsactl_sys::ALSACtlCard, elem_id: *mut alsactl_sys::ALSACtlElemId, events: alsactl_sys::ALSACtlElemEventMask, f: glib_sys::gpointer)
-            where P: IsA<Card>
+    fn connect_handle_elem_event<F: Fn(&Self, &ElemId, ElemEventMask) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn handle_elem_event_trampoline<
+            P,
+            F: Fn(&P, &ElemId, ElemEventMask) + 'static,
+        >(
+            this: *mut alsactl_sys::ALSACtlCard,
+            elem_id: *mut alsactl_sys::ALSACtlElemId,
+            events: alsactl_sys::ALSACtlElemEventMask,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<Card>,
         {
             let f: &F = &*(f as *const F);
-            f(&Card::from_glib_borrow(this).unsafe_cast_ref(), &from_glib_borrow(elem_id), from_glib(events))
+            f(
+                &Card::from_glib_borrow(this).unsafe_cast_ref(),
+                &from_glib_borrow(elem_id),
+                from_glib(events),
+            )
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"handle-elem-event\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(handle_elem_event_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"handle-elem-event\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    handle_elem_event_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_devnode_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_devnode_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsactl_sys::ALSACtlCard, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<Card>
+        unsafe extern "C" fn notify_devnode_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsactl_sys::ALSACtlCard,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<Card>,
         {
             let f: &F = &*(f as *const F);
             f(&Card::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::devnode\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_devnode_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::devnode\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_devnode_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_subscribed_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_subscribed_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsactl_sys::ALSACtlCard, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<Card>
+        unsafe extern "C" fn notify_subscribed_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsactl_sys::ALSACtlCard,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<Card>,
         {
             let f: &F = &*(f as *const F);
             f(&Card::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::subscribed\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_subscribed_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::subscribed\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_subscribed_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 }

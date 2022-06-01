@@ -23,28 +23,44 @@ glib_wrapper! {
 }
 
 impl ElemId {
-    pub fn new_by_name(iface: ElemIfaceType, device_id: u32, subdevice_id: u32, name: &str, index: u32) -> ElemId {
+    pub fn new_by_name(
+        iface: ElemIfaceType,
+        device_id: u32,
+        subdevice_id: u32,
+        name: &str,
+        index: u32,
+    ) -> ElemId {
         unsafe {
-            from_glib_full(alsactl_sys::alsactl_elem_id_new_by_name(iface.to_glib(), device_id, subdevice_id, name.to_glib_none().0, index))
+            from_glib_full(alsactl_sys::alsactl_elem_id_new_by_name(
+                iface.to_glib(),
+                device_id,
+                subdevice_id,
+                name.to_glib_none().0,
+                index,
+            ))
         }
     }
 
     pub fn new_by_numid(numid: u32) -> ElemId {
-        unsafe {
-            from_glib_full(alsactl_sys::alsactl_elem_id_new_by_numid(numid))
-        }
+        unsafe { from_glib_full(alsactl_sys::alsactl_elem_id_new_by_numid(numid)) }
     }
 
     fn equal(&self, target: &ElemId) -> bool {
         unsafe {
-            from_glib(alsactl_sys::alsactl_elem_id_equal(self.to_glib_none().0, target.to_glib_none().0))
+            from_glib(alsactl_sys::alsactl_elem_id_equal(
+                self.to_glib_none().0,
+                target.to_glib_none().0,
+            ))
         }
     }
 
     pub fn get_device_id(&self) -> u32 {
         unsafe {
             let mut device_id = mem::MaybeUninit::uninit();
-            alsactl_sys::alsactl_elem_id_get_device_id(self.to_glib_none().0, device_id.as_mut_ptr());
+            alsactl_sys::alsactl_elem_id_get_device_id(
+                self.to_glib_none().0,
+                device_id.as_mut_ptr(),
+            );
             let device_id = device_id.assume_init();
             device_id
         }
@@ -88,7 +104,10 @@ impl ElemId {
     pub fn get_subdevice_id(&self) -> u32 {
         unsafe {
             let mut subdevice_id = mem::MaybeUninit::uninit();
-            alsactl_sys::alsactl_elem_id_get_subdevice_id(self.to_glib_none().0, subdevice_id.as_mut_ptr());
+            alsactl_sys::alsactl_elem_id_get_subdevice_id(
+                self.to_glib_none().0,
+                subdevice_id.as_mut_ptr(),
+            );
             let subdevice_id = subdevice_id.assume_init();
             subdevice_id
         }

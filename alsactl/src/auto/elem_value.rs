@@ -27,9 +27,7 @@ glib_wrapper! {
 
 impl ElemValue {
     pub fn new() -> ElemValue {
-        unsafe {
-            from_glib_full(alsactl_sys::alsactl_elem_value_new())
-        }
+        unsafe { from_glib_full(alsactl_sys::alsactl_elem_value_new()) }
     }
 }
 
@@ -64,71 +62,114 @@ pub trait ElemValueExt: 'static {
 impl<O: IsA<ElemValue>> ElemValueExt for O {
     fn equal<P: IsA<ElemValue>>(&self, target: &P) -> bool {
         unsafe {
-            from_glib(alsactl_sys::alsactl_elem_value_equal(const_override(self.as_ref().to_glib_none().0), target.as_ref().to_glib_none().0))
+            from_glib(alsactl_sys::alsactl_elem_value_equal(
+                const_override(self.as_ref().to_glib_none().0),
+                target.as_ref().to_glib_none().0,
+            ))
         }
     }
 
     fn set_bytes(&self, values: &[u8]) {
         let value_count = values.len() as usize;
         unsafe {
-            alsactl_sys::alsactl_elem_value_set_bytes(self.as_ref().to_glib_none().0, values.to_glib_none().0, value_count);
+            alsactl_sys::alsactl_elem_value_set_bytes(
+                self.as_ref().to_glib_none().0,
+                values.to_glib_none().0,
+                value_count,
+            );
         }
     }
 
     fn set_enum(&self, values: &[u32]) {
         let value_count = values.len() as usize;
         unsafe {
-            alsactl_sys::alsactl_elem_value_set_enum(self.as_ref().to_glib_none().0, values.to_glib_none().0, value_count);
+            alsactl_sys::alsactl_elem_value_set_enum(
+                self.as_ref().to_glib_none().0,
+                values.to_glib_none().0,
+                value_count,
+            );
         }
     }
 
     fn set_iec60958_channel_status(&self, status: &[u8]) {
         let length = status.len() as usize;
         unsafe {
-            alsactl_sys::alsactl_elem_value_set_iec60958_channel_status(self.as_ref().to_glib_none().0, status.to_glib_none().0, length);
+            alsactl_sys::alsactl_elem_value_set_iec60958_channel_status(
+                self.as_ref().to_glib_none().0,
+                status.to_glib_none().0,
+                length,
+            );
         }
     }
 
     fn set_iec60958_user_data(&self, data: &[u8]) {
         let length = data.len() as usize;
         unsafe {
-            alsactl_sys::alsactl_elem_value_set_iec60958_user_data(self.as_ref().to_glib_none().0, data.to_glib_none().0, length);
+            alsactl_sys::alsactl_elem_value_set_iec60958_user_data(
+                self.as_ref().to_glib_none().0,
+                data.to_glib_none().0,
+                length,
+            );
         }
     }
 
     fn set_int(&self, values: &[i32]) {
         let value_count = values.len() as usize;
         unsafe {
-            alsactl_sys::alsactl_elem_value_set_int(self.as_ref().to_glib_none().0, values.to_glib_none().0, value_count);
+            alsactl_sys::alsactl_elem_value_set_int(
+                self.as_ref().to_glib_none().0,
+                values.to_glib_none().0,
+                value_count,
+            );
         }
     }
 
     fn set_int64(&self, values: &[i64]) {
         let value_count = values.len() as usize;
         unsafe {
-            alsactl_sys::alsactl_elem_value_set_int64(self.as_ref().to_glib_none().0, values.to_glib_none().0, value_count);
+            alsactl_sys::alsactl_elem_value_set_int64(
+                self.as_ref().to_glib_none().0,
+                values.to_glib_none().0,
+                value_count,
+            );
         }
     }
 
     fn get_property_elem_id(&self) -> Option<ElemId> {
         unsafe {
             let mut value = Value::from_type(<ElemId as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"elem-id\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `elem-id` getter")
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"elem-id\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `elem-id` getter")
         }
     }
 
     fn connect_property_elem_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_elem_id_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsactl_sys::ALSACtlElemValue, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<ElemValue>
+        unsafe extern "C" fn notify_elem_id_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsactl_sys::ALSACtlElemValue,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<ElemValue>,
         {
             let f: &F = &*(f as *const F);
             f(&ElemValue::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::elem-id\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_elem_id_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::elem-id\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_elem_id_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 }
