@@ -3,17 +3,22 @@
 // DO NOT EDIT
 
 #![allow(non_camel_case_types, non_upper_case_globals, non_snake_case)]
-#![allow(clippy::approx_constant, clippy::type_complexity, clippy::unreadable_literal)]
+#![allow(
+    clippy::approx_constant,
+    clippy::type_complexity,
+    clippy::unreadable_literal
+)]
 #![cfg_attr(feature = "dox", feature(doc_cfg))]
 
-extern crate libc;
 extern crate glib_sys as glib;
 extern crate gobject_sys as gobject;
+extern crate libc;
 
 #[allow(unused_imports)]
-use libc::{c_int, c_char, c_uchar, c_float, c_uint, c_double,
-    c_short, c_ushort, c_long, c_ulong,
-    c_void, size_t, ssize_t, intptr_t, uintptr_t, time_t, FILE};
+use libc::{
+    c_char, c_double, c_float, c_int, c_long, c_short, c_uchar, c_uint, c_ulong, c_ushort, c_void,
+    intptr_t, size_t, ssize_t, time_t, uintptr_t, FILE,
+};
 
 #[allow(unused_imports)]
 use glib::{gboolean, gconstpointer, gpointer, GType};
@@ -57,9 +62,12 @@ pub struct ALSAHwdepDeviceInfoClass {
 
 impl ::std::fmt::Debug for ALSAHwdepDeviceInfoClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSAHwdepDeviceInfoClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .finish()
+        f.debug_struct(&format!(
+            "ALSAHwdepDeviceInfoClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .finish()
     }
 }
 
@@ -79,9 +87,9 @@ pub struct ALSAHwdepDeviceInfo {
 impl ::std::fmt::Debug for ALSAHwdepDeviceInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSAHwdepDeviceInfo @ {:?}", self as *const _))
-         .field("parent_instance", &self.parent_instance)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent_instance", &self.parent_instance)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -101,9 +109,29 @@ extern "C" {
     //=========================================================================
     // Other functions
     //=========================================================================
-    pub fn alsahwdep_get_device_id_list(card_id: c_uint, entries: *mut *mut c_uint, entry_count: *mut size_t, error: *mut *mut glib::GError);
-    pub fn alsahwdep_get_device_info(card_id: c_uint, device_id: c_uint, device_info: *mut *mut ALSAHwdepDeviceInfo, error: *mut *mut glib::GError);
-    pub fn alsahwdep_get_hwdep_devnode(card_id: c_uint, device_id: c_uint, devnode: *mut *mut c_char, error: *mut *mut glib::GError);
-    pub fn alsahwdep_get_hwdep_sysname(card_id: c_uint, device_id: c_uint, sysname: *mut *mut c_char, error: *mut *mut glib::GError);
+    pub fn alsahwdep_get_device_id_list(
+        card_id: c_uint,
+        entries: *mut *mut c_uint,
+        entry_count: *mut size_t,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsahwdep_get_device_info(
+        card_id: c_uint,
+        device_id: c_uint,
+        device_info: *mut *mut ALSAHwdepDeviceInfo,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsahwdep_get_hwdep_devnode(
+        card_id: c_uint,
+        device_id: c_uint,
+        devnode: *mut *mut c_char,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsahwdep_get_hwdep_sysname(
+        card_id: c_uint,
+        device_id: c_uint,
+        sysname: *mut *mut c_char,
+        error: *mut *mut glib::GError,
+    );
 
 }
