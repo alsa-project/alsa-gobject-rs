@@ -1,5 +1,4 @@
 [options]
-girs_directories = ["../gir-files", ".."]
 work_mode = "sys"
 library = "ALSACtl"
 version = "0.0"
