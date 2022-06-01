@@ -1,14 +1,11 @@
 [package]
-authors = ["Takashi Sakamoto <o-takashi@sakamocchi.jp>"]
+name = "alsaseq-sys"
+version = "0.2.0"
+links = "alsaseq"
 build = "build.rs"
 description = "FFI binding for libalsaseq library"
-edition = "2021"
 license = "MIT"
-links = "alsaseq"
-name = "alsaseq-sys"
 repository = "https://github.com/alsa-project/alsa-gobject-rs"
-rust-version = "1.57"
-version = "0.2.0"
 [package.metadata.docs.rs]
 features = ["dox"]
 [package.metadata.system-deps.alsaseq]
@@ -18,25 +15,18 @@ version = "0.0"
 [lib]
 name = "alsaseq_sys"
 
-[build-dependencies]
-pkg-config = "0.3.7"
-system-deps = "6"
-
 [dependencies]
 libc = "0.2"
+glib-sys = "0.10"
+gobject-sys = "0.10"
 
-[dependencies.glib]
-package = "glib-sys"
-version = "0.15"
-
-[dependencies.gobject]
-package = "gobject-sys"
-version = "0.15"
-
-[dependencies.alsatimer]
-package = "alsatimer-sys"
+[dependencies.alsatimer-sys]
 path = "../alsatimer-sys"
 version = "0.2"
+
+[build-dependencies]
+pkg-config = "0.3.7"
+system-deps = "2.0"
 
 [dev-dependencies]
 shell-words = "1.0.0"
