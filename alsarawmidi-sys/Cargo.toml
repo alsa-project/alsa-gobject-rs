@@ -1,14 +1,11 @@
 [package]
-authors = ["Takashi Sakamoto <o-takashi@sakamocchi.jp>"]
+name = "alsarawmidi-sys"
+version = "0.2.0"
+links = "alsarawmidi"
 build = "build.rs"
 description = "FFI binding for libalsarawmidi library"
-edition = "2021"
 license = "MIT"
-links = "alsarawmidi"
-name = "alsarawmidi-sys"
 repository = "https://github.com/alsa-project/alsa-gobject-rs"
-rust-version = "1.57"
-version = "0.2.0"
 [package.metadata.docs.rs]
 features = ["dox"]
 [package.metadata.system-deps.alsarawmidi]
@@ -18,20 +15,14 @@ version = "0.0"
 [lib]
 name = "alsarawmidi_sys"
 
-[build-dependencies]
-pkg-config = "0.3.7"
-system-deps = "6"
-
 [dependencies]
 libc = "0.2"
+glib-sys = "0.10"
+gobject-sys = "0.10"
 
-[dependencies.glib]
-package = "glib-sys"
-version = "0.15"
-
-[dependencies.gobject]
-package = "gobject-sys"
-version = "0.15"
+[build-dependencies]
+pkg-config = "0.3.7"
+system-deps = "2.0"
 
 [dev-dependencies]
 shell-words = "1.0.0"
