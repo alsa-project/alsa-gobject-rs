@@ -35,64 +35,64 @@ gir-files/GLib-2.0.gir:
 gir-files/ALSACtl-0.0.gir: ALSACtl-0.0.gir gir-files/GLib-2.0.gir
 	cp ALSACtl-0.0.gir gir-files/ALSACtl-0.0.gir
 
-alsactl-sys/src: conf/gir-alsactl-sys.toml gir-files/ALSACtl-0.0.gir $(GIR_EXEC)
-	$(GIR_EXEC) -c conf/gir-alsactl-sys.toml -d gir-files -m sys -o alsactl-sys
+alsactl-sys/src: alsactl-sys/Gir.toml gir-files/ALSACtl-0.0.gir $(GIR_EXEC)
+	$(GIR_EXEC) -c $< -d gir-files -m sys -o alsactl-sys
 
 alsactl-sys: alsactl-sys/src
 
-alsactl/src/auto: conf/gir-alsactl.toml gir-files/ALSACtl-0.0.gir $(GIR_EXEC)
-	$(GIR_EXEC) -c conf/gir-alsactl.toml -d gir-files -m normal -o alsactl
+alsactl/src/auto: alsactl/Gir.toml gir-files/ALSACtl-0.0.gir $(GIR_EXEC)
+	$(GIR_EXEC) -c $< -d gir-files -m normal -o alsactl
 
 alsactl: alsactl/src/lib.rs alsactl/Cargo.toml alsactl/src/auto alsactl-sys
 
 gir-files/ALSATimer-0.0.gir: ALSATimer-0.0.gir gir-files/GLib-2.0.gir
 	cp ALSATimer-0.0.gir gir-files/ALSATimer-0.0.gir
 
-alsatimer-sys/src: conf/gir-alsatimer-sys.toml gir-files/ALSATimer-0.0.gir $(GIR_EXEC)
-	$(GIR_EXEC) -c conf/gir-alsatimer-sys.toml -d gir-files -m sys -o alsatimer-sys
+alsatimer-sys/src: alsatimer-sys/Gir.toml gir-files/ALSATimer-0.0.gir $(GIR_EXEC)
+	$(GIR_EXEC) -c $< -d gir-files -m sys -o alsatimer-sys
 
 alsatimer-sys: alsatimer-sys/src
 
-alsatimer/src/auto: conf/gir-alsatimer.toml gir-files/ALSATimer-0.0.gir $(GIR_EXEC)
-	$(GIR_EXEC) -c conf/gir-alsatimer.toml -d gir-files -m normal -o alsatimer
+alsatimer/src/auto: alsatimer/Gir.toml gir-files/ALSATimer-0.0.gir $(GIR_EXEC)
+	$(GIR_EXEC) -c $< -d gir-files -m normal -o alsatimer
 
 alsatimer: alsatimer/src/lib.rs alsatimer/Cargo.toml alsatimer-sys alsatimer/src/auto
 
 gir-files/ALSASeq-0.0.gir: ALSASeq-0.0.gir gir-files/GLib-2.0.gir
 	cp ALSASeq-0.0.gir gir-files/ALSASeq-0.0.gir
 
-alsaseq-sys/src: conf/gir-alsaseq-sys.toml gir-files/ALSASeq-0.0.gir $(GIR_EXEC)
-	$(GIR_EXEC) -c conf/gir-alsaseq-sys.toml -d gir-files -m sys -o alsaseq-sys
+alsaseq-sys/src: alsaseq-sys/Gir.toml gir-files/ALSASeq-0.0.gir $(GIR_EXEC)
+	$(GIR_EXEC) -c $< -d gir-files -m sys -o alsaseq-sys
 
 alsaseq-sys: alsaseq-sys/src
 
-alsaseq/src/auto: conf/gir-alsaseq.toml gir-files/ALSASeq-0.0.gir $(GIR_EXEC)
-	$(GIR_EXEC) -c conf/gir-alsaseq.toml -d gir-files -m normal -o alsaseq
+alsaseq/src/auto: alsaseq/Gir.toml gir-files/ALSASeq-0.0.gir $(GIR_EXEC)
+	$(GIR_EXEC) -c $< -d gir-files -m normal -o alsaseq
 
 alsaseq: alsaseq/src/lib.rs alsaseq/Cargo.toml alsaseq-sys alsaseq/src/auto
 
 gir-files/ALSAHwdep-0.0.gir: ALSAHwdep-0.0.gir gir-files/GLib-2.0.gir
 	cp ALSAHwdep-0.0.gir gir-files/ALSAHwdep-0.0.gir
 
-alsahwdep-sys/src: conf/gir-alsahwdep-sys.toml gir-files/ALSAHwdep-0.0.gir $(GIR_EXEC)
-	$(GIR_EXEC) -c conf/gir-alsahwdep-sys.toml -d gir-files -m sys -o alsahwdep-sys
+alsahwdep-sys/src: alsahwdep-sys/Gir.toml gir-files/ALSAHwdep-0.0.gir $(GIR_EXEC)
+	$(GIR_EXEC) -c $< -d gir-files -m sys -o alsahwdep-sys
 
 alsahwdep-sys: alsahwdep-sys/src
 
-alsahwdep/src/auto: conf/gir-alsahwdep.toml gir-files/ALSAHwdep-0.0.gir $(GIR_EXEC)
-	$(GIR_EXEC) -c conf/gir-alsahwdep.toml -d gir-files -m normal -o alsahwdep
+alsahwdep/src/auto: alsahwdep/Gir.toml gir-files/ALSAHwdep-0.0.gir $(GIR_EXEC)
+	$(GIR_EXEC) -c $< -d gir-files -m normal -o alsahwdep
 
 alsahwdep: alsahwdep/src/lib.rs alsahwdep/Cargo.toml alsahwdep-sys alsahwdep/src/auto
 
 gir-files/ALSARawmidi-0.0.gir: ALSARawmidi-0.0.gir gir-files/GLib-2.0.gir
 	cp ALSARawmidi-0.0.gir gir-files/ALSARawmidi-0.0.gir
 
-alsarawmidi-sys/src: conf/gir-alsarawmidi-sys.toml gir-files/ALSARawmidi-0.0.gir $(GIR_EXEC)
-	$(GIR_EXEC) -c conf/gir-alsarawmidi-sys.toml -d gir-files -m sys -o alsarawmidi-sys
+alsarawmidi-sys/src: alsarawmidi-sys/Gir.toml gir-files/ALSARawmidi-0.0.gir $(GIR_EXEC)
+	$(GIR_EXEC) -c $< -d gir-files -m sys -o alsarawmidi-sys
 
 alsarawmidi-sys: alsarawmidi-sys/src
 
-alsarawmidi/src/auto: conf/gir-alsarawmidi.toml gir-files/ALSARawmidi-0.0.gir $(GIR_EXEC)
-	$(GIR_EXEC) -c conf/gir-alsarawmidi.toml -d gir-files -m normal -o alsarawmidi
+alsarawmidi/src/auto: alsarawmidi/Gir.toml gir-files/ALSARawmidi-0.0.gir $(GIR_EXEC)
+	$(GIR_EXEC) -c $< -d gir-files -m normal -o alsarawmidi
 
 alsarawmidi: alsarawmidi/src/lib.rs alsarawmidi/Cargo.toml alsarawmidi-sys alsarawmidi/src/auto
