@@ -10,7 +10,7 @@ impl<O: IsA<QueueTempo>> QueueTempoExtManual for O {
     fn get_skew(&self) -> &[u32; 2] {
         unsafe {
             let mut ptr = std::ptr::null_mut() as *const [u32; 2];
-            ffi::alsaseq_queue_tempo_get_skew(
+            alsaseq_sys::alsaseq_queue_tempo_get_skew(
                 self.as_ref().to_glib_none().0,
                 &mut ptr as *mut *const [u32; 2],
             );
@@ -20,7 +20,7 @@ impl<O: IsA<QueueTempo>> QueueTempoExtManual for O {
 
     fn set_skew(&self, skew: &[u32; 2]) {
         unsafe {
-            ffi::alsaseq_queue_tempo_set_skew(self.as_ref().to_glib_none().0, skew);
+            alsaseq_sys::alsaseq_queue_tempo_set_skew(self.as_ref().to_glib_none().0, skew);
         }
     }
 }

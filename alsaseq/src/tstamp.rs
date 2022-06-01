@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MIT
 use crate::*;
 
-glib::wrapper! {
+glib_wrapper! {
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
-    pub struct Tstamp(Boxed<ffi::ALSASeqTstamp>);
+    pub struct Tstamp(Boxed<alsaseq_sys::ALSASeqTstamp>);
 
     match fn {
-        copy => |ptr| glib::gobject_ffi::g_boxed_copy(ffi::alsaseq_tstamp_get_type(), ptr as *mut _) as *mut ffi::ALSASeqTstamp,
-        free => |ptr| glib::gobject_ffi::g_boxed_free(ffi::alsaseq_tstamp_get_type(), ptr as *mut _),
-        type_ => || ffi::alsaseq_tstamp_get_type(),
+        copy => |ptr| gobject_sys::g_boxed_copy(alsaseq_sys::alsaseq_tstamp_get_type(), ptr as *mut _) as *mut alsaseq_sys::ALSASeqTstamp,
+        free => |ptr| gobject_sys::g_boxed_free(alsaseq_sys::alsaseq_tstamp_get_type(), ptr as *mut _),
+        get_type => || alsaseq_sys::alsaseq_tstamp_get_type(),
     }
 }
 
@@ -16,21 +16,21 @@ impl Tstamp {
     pub fn get_tick_time(&self) -> u32 {
         unsafe {
             let mut tick_time = 0;
-            ffi::alsaseq_tstamp_get_tick_time(self.to_glib_none().0, &mut tick_time);
+            alsaseq_sys::alsaseq_tstamp_get_tick_time(self.to_glib_none().0, &mut tick_time);
             tick_time
         }
     }
 
     pub fn set_tick_time(&mut self, tick_time: u32) {
         unsafe {
-            ffi::alsaseq_tstamp_set_tick_time(self.to_glib_none_mut().0, tick_time);
+            alsaseq_sys::alsaseq_tstamp_set_tick_time(self.to_glib_none_mut().0, tick_time);
         }
     }
 
     pub fn get_real_time(&self) -> &[u32; 2] {
         unsafe {
             let mut ptr = std::ptr::null_mut() as *const [u32; 2];
-            ffi::alsaseq_tstamp_get_real_time(
+            alsaseq_sys::alsaseq_tstamp_get_real_time(
                 self.to_glib_none().0,
                 &mut ptr as *mut *const [u32; 2],
             );
@@ -40,7 +40,7 @@ impl Tstamp {
 
     pub fn set_real_time(&mut self, real_time: &[u32; 2]) {
         unsafe {
-            ffi::alsaseq_tstamp_set_real_time(self.to_glib_none_mut().0, real_time);
+            alsaseq_sys::alsaseq_tstamp_set_real_time(self.to_glib_none_mut().0, real_time);
         }
     }
 }
@@ -50,7 +50,6 @@ unsafe impl Send for Tstamp {}
 #[cfg(test)]
 mod test {
     use crate::*;
-
     #[test]
     fn test_manual_bindings() {
         let cntr = EventCntr::new(1).unwrap();

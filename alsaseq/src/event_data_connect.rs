@@ -4,16 +4,16 @@ use crate::*;
 impl EventDataConnect {
     pub fn get_dst(&mut self) -> Addr {
         unsafe {
-            let mut dst = std::ptr::null_mut() as *const ffi::ALSASeqAddr;
-            ffi::alsaseq_event_data_connect_get_dst(self.to_glib_none_mut().0, &mut dst);
+            let mut dst = std::ptr::null_mut() as *const alsaseq_sys::ALSASeqAddr;
+            alsaseq_sys::alsaseq_event_data_connect_get_dst(self.to_glib_none_mut().0, &mut dst);
             from_glib_none(dst)
         }
     }
 
     pub fn get_src(&mut self) -> Addr {
         unsafe {
-            let mut src = std::ptr::null_mut() as *const ffi::ALSASeqAddr;
-            ffi::alsaseq_event_data_connect_get_src(self.to_glib_none_mut().0, &mut src);
+            let mut src = std::ptr::null_mut() as *const alsaseq_sys::ALSASeqAddr;
+            alsaseq_sys::alsaseq_event_data_connect_get_src(self.to_glib_none_mut().0, &mut src);
             from_glib_none(src)
         }
     }

@@ -9,7 +9,7 @@ impl<O: IsA<QueueStatus>> QueueStatusExtManual for O {
     fn get_real_time(&self) -> &[u32; 2] {
         unsafe {
             let mut ptr = std::ptr::null_mut() as *const [u32; 2];
-            ffi::alsaseq_queue_status_get_real_time(
+            alsaseq_sys::alsaseq_queue_status_get_real_time(
                 self.as_ref().to_glib_none().0,
                 &mut ptr as *mut *const [u32; 2],
             );

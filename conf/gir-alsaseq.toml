@@ -1,20 +1,16 @@
 [crate_name_overrides]
 "alsa_seq" = "alsaseq"
-"alsa_timer" = "alsatimer"
 
 [options]
-girs_directories = ["../gir-files", ".."]
 work_mode = "normal"
 library = "ALSASeq"
 version = "0.0"
-use_gi_docgen = true
 min_cfg_version = "0.0"
 single_version_file = true
 
 manual = [
     "GLib.Error",
     "GLib.Source",
-    "ALSATimer.DeviceId",
     "ALSASeq.Tstamp",
 ]
 
@@ -172,6 +168,9 @@ status = "generate"
 concurrency = "send"
     [[object.function]]
     pattern = "get_device_id"
+    ignore = true
+    [[object.function]]
+    pattern = "set_device_id"
     ignore = true
 
 [[object]]
