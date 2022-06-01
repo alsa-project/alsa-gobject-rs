@@ -1,12 +1,10 @@
 [package]
+name = "alsarawmidi"
+version = "0.2.0"
 authors = ["Takashi Sakamoto <o-takashi@sakamocchi.jp>"]
 description = "API binding for libalsarawmidi library"
-edition = "2021"
 license = "MIT"
-name = "alsarawmidi"
 repository = "https://github.com/alsa-project/alsa-gobject-rs"
-rust-version = "1.57"
-version = "0.2.0"
 
 [lib]
 name = "alsarawmidi"
@@ -14,8 +12,12 @@ name = "alsarawmidi"
 [dependencies]
 libc = "0.2"
 bitflags = "1.0"
-glib = "0.15"
-ffi = {package = "alsarawmidi-sys", path = "../alsarawmidi-sys", version = "0.2" }
+
+glib = "0.10"
+glib-sys = "0.10"
+gobject-sys = "0.10"
+
+alsarawmidi-sys = { path = "../alsarawmidi-sys", version = "0.2" }
 
 [dev-dependencies]
 gir-format-check = "^0.1"
