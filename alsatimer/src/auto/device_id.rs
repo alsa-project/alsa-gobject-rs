@@ -22,14 +22,22 @@ glib_wrapper! {
 impl DeviceId {
     pub fn new(class: Class, card_id: i32, device_id: i32, subdevice_id: i32) -> DeviceId {
         unsafe {
-            from_glib_full(alsatimer_sys::alsatimer_device_id_new(class.to_glib(), card_id, device_id, subdevice_id))
+            from_glib_full(alsatimer_sys::alsatimer_device_id_new(
+                class.to_glib(),
+                card_id,
+                device_id,
+                subdevice_id,
+            ))
         }
     }
 
     pub fn get_card_id(&self) -> i32 {
         unsafe {
             let mut card_id = mem::MaybeUninit::uninit();
-            alsatimer_sys::alsatimer_device_id_get_card_id(self.to_glib_none().0, card_id.as_mut_ptr());
+            alsatimer_sys::alsatimer_device_id_get_card_id(
+                self.to_glib_none().0,
+                card_id.as_mut_ptr(),
+            );
             let card_id = card_id.assume_init();
             card_id
         }
@@ -47,7 +55,10 @@ impl DeviceId {
     pub fn get_device_id(&self) -> i32 {
         unsafe {
             let mut device_id = mem::MaybeUninit::uninit();
-            alsatimer_sys::alsatimer_device_id_get_device_id(self.to_glib_none().0, device_id.as_mut_ptr());
+            alsatimer_sys::alsatimer_device_id_get_device_id(
+                self.to_glib_none().0,
+                device_id.as_mut_ptr(),
+            );
             let device_id = device_id.assume_init();
             device_id
         }
@@ -56,7 +67,10 @@ impl DeviceId {
     pub fn get_subdevice_id(&self) -> i32 {
         unsafe {
             let mut subdevice_id = mem::MaybeUninit::uninit();
-            alsatimer_sys::alsatimer_device_id_get_subdevice_id(self.to_glib_none().0, subdevice_id.as_mut_ptr());
+            alsatimer_sys::alsatimer_device_id_get_subdevice_id(
+                self.to_glib_none().0,
+                subdevice_id.as_mut_ptr(),
+            );
             let subdevice_id = subdevice_id.assume_init();
             subdevice_id
         }

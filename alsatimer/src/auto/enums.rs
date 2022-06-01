@@ -15,27 +15,30 @@ use glib::Type;
 use gobject_sys;
 use std::fmt;
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum Class {
     None,
     Global,
     Card,
     Pcm,
-#[doc(hidden)]
+    #[doc(hidden)]
     __Unknown(i32),
 }
 
 impl fmt::Display for Class {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "Class::{}", match *self {
-            Class::None => "None",
-            Class::Global => "Global",
-            Class::Card => "Card",
-            Class::Pcm => "Pcm",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "Class::{}",
+            match *self {
+                Class::None => "None",
+                Class::Global => "Global",
+                Class::Card => "Card",
+                Class::Pcm => "Pcm",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -50,7 +53,7 @@ impl ToGlib for Class {
             Class::Card => alsatimer_sys::ALSATIMER_CLASS_CARD,
             Class::Pcm => alsatimer_sys::ALSATIMER_CLASS_PCM,
             Class::__Unknown(value) => value,
-}
+        }
     }
 }
 
@@ -63,7 +66,7 @@ impl FromGlib<alsatimer_sys::ALSATimerClass> for Class {
             2 => Class::Card,
             3 => Class::Pcm,
             value => Class::__Unknown(value),
-}
+        }
     }
 }
 
@@ -91,23 +94,26 @@ impl SetValue for Class {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum EventDataType {
     Tick,
     Tstamp,
-#[doc(hidden)]
+    #[doc(hidden)]
     __Unknown(i32),
 }
 
 impl fmt::Display for EventDataType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "EventDataType::{}", match *self {
-            EventDataType::Tick => "Tick",
-            EventDataType::Tstamp => "Tstamp",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "EventDataType::{}",
+            match *self {
+                EventDataType::Tick => "Tick",
+                EventDataType::Tstamp => "Tstamp",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -120,7 +126,7 @@ impl ToGlib for EventDataType {
             EventDataType::Tick => alsatimer_sys::ALSATIMER_EVENT_DATA_TYPE_TICK,
             EventDataType::Tstamp => alsatimer_sys::ALSATIMER_EVENT_DATA_TYPE_TSTAMP,
             EventDataType::__Unknown(value) => value,
-}
+        }
     }
 }
 
@@ -131,7 +137,7 @@ impl FromGlib<alsatimer_sys::ALSATimerEventDataType> for EventDataType {
             0 => EventDataType::Tick,
             1 => EventDataType::Tstamp,
             value => EventDataType::__Unknown(value),
-}
+        }
     }
 }
 
@@ -159,8 +165,7 @@ impl SetValue for EventDataType {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum EventType {
     Resolution,
@@ -178,30 +183,34 @@ pub enum EventType {
     Mpause,
     Msuspend,
     Mresume,
-#[doc(hidden)]
+    #[doc(hidden)]
     __Unknown(i32),
 }
 
 impl fmt::Display for EventType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "EventType::{}", match *self {
-            EventType::Resolution => "Resolution",
-            EventType::Tick => "Tick",
-            EventType::Start => "Start",
-            EventType::Stop => "Stop",
-            EventType::Continue => "Continue",
-            EventType::Pause => "Pause",
-            EventType::Early => "Early",
-            EventType::Suspend => "Suspend",
-            EventType::Resume => "Resume",
-            EventType::Mstart => "Mstart",
-            EventType::Mstop => "Mstop",
-            EventType::Mcontinue => "Mcontinue",
-            EventType::Mpause => "Mpause",
-            EventType::Msuspend => "Msuspend",
-            EventType::Mresume => "Mresume",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "EventType::{}",
+            match *self {
+                EventType::Resolution => "Resolution",
+                EventType::Tick => "Tick",
+                EventType::Start => "Start",
+                EventType::Stop => "Stop",
+                EventType::Continue => "Continue",
+                EventType::Pause => "Pause",
+                EventType::Early => "Early",
+                EventType::Suspend => "Suspend",
+                EventType::Resume => "Resume",
+                EventType::Mstart => "Mstart",
+                EventType::Mstop => "Mstop",
+                EventType::Mcontinue => "Mcontinue",
+                EventType::Mpause => "Mpause",
+                EventType::Msuspend => "Msuspend",
+                EventType::Mresume => "Mresume",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -227,7 +236,7 @@ impl ToGlib for EventType {
             EventType::Msuspend => alsatimer_sys::ALSATIMER_EVENT_TYPE_MSUSPEND,
             EventType::Mresume => alsatimer_sys::ALSATIMER_EVENT_TYPE_MRESUME,
             EventType::__Unknown(value) => value,
-}
+        }
     }
 }
 
@@ -251,7 +260,7 @@ impl FromGlib<alsatimer_sys::ALSATimerEventType> for EventType {
             17 => EventType::Msuspend,
             18 => EventType::Mresume,
             value => EventType::__Unknown(value),
-}
+        }
     }
 }
 
@@ -279,25 +288,28 @@ impl SetValue for EventType {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum SlaveClass {
     None,
     Application,
     Sequencer,
-#[doc(hidden)]
+    #[doc(hidden)]
     __Unknown(i32),
 }
 
 impl fmt::Display for SlaveClass {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "SlaveClass::{}", match *self {
-            SlaveClass::None => "None",
-            SlaveClass::Application => "Application",
-            SlaveClass::Sequencer => "Sequencer",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "SlaveClass::{}",
+            match *self {
+                SlaveClass::None => "None",
+                SlaveClass::Application => "Application",
+                SlaveClass::Sequencer => "Sequencer",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -311,7 +323,7 @@ impl ToGlib for SlaveClass {
             SlaveClass::Application => alsatimer_sys::ALSATIMER_SLAVE_CLASS_APPLICATION,
             SlaveClass::Sequencer => alsatimer_sys::ALSATIMER_SLAVE_CLASS_SEQUENCER,
             SlaveClass::__Unknown(value) => value,
-}
+        }
     }
 }
 
@@ -323,7 +335,7 @@ impl FromGlib<alsatimer_sys::ALSATimerSlaveClass> for SlaveClass {
             1 => SlaveClass::Application,
             2 => SlaveClass::Sequencer,
             value => SlaveClass::__Unknown(value),
-}
+        }
     }
 }
 
@@ -351,23 +363,26 @@ impl SetValue for SlaveClass {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum SpecificGlobalDevice {
     System,
     Hrtimer,
-#[doc(hidden)]
+    #[doc(hidden)]
     __Unknown(i32),
 }
 
 impl fmt::Display for SpecificGlobalDevice {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "SpecificGlobalDevice::{}", match *self {
-            SpecificGlobalDevice::System => "System",
-            SpecificGlobalDevice::Hrtimer => "Hrtimer",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "SpecificGlobalDevice::{}",
+            match *self {
+                SpecificGlobalDevice::System => "System",
+                SpecificGlobalDevice::Hrtimer => "Hrtimer",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -378,9 +393,11 @@ impl ToGlib for SpecificGlobalDevice {
     fn to_glib(&self) -> alsatimer_sys::ALSATimerSpecificGlobalDevice {
         match *self {
             SpecificGlobalDevice::System => alsatimer_sys::ALSATIMER_SPECIFIC_GLOBAL_DEVICE_SYSTEM,
-            SpecificGlobalDevice::Hrtimer => alsatimer_sys::ALSATIMER_SPECIFIC_GLOBAL_DEVICE_HRTIMER,
+            SpecificGlobalDevice::Hrtimer => {
+                alsatimer_sys::ALSATIMER_SPECIFIC_GLOBAL_DEVICE_HRTIMER
+            }
             SpecificGlobalDevice::__Unknown(value) => value,
-}
+        }
     }
 }
 
@@ -391,7 +408,7 @@ impl FromGlib<alsatimer_sys::ALSATimerSpecificGlobalDevice> for SpecificGlobalDe
             0 => SpecificGlobalDevice::System,
             3 => SpecificGlobalDevice::Hrtimer,
             value => SpecificGlobalDevice::__Unknown(value),
-}
+        }
     }
 }
 
@@ -419,27 +436,30 @@ impl SetValue for SpecificGlobalDevice {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum UserInstanceError {
     Failed,
     TimerNotFound,
     NotAttached,
     Attached,
-#[doc(hidden)]
+    #[doc(hidden)]
     __Unknown(i32),
 }
 
 impl fmt::Display for UserInstanceError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "UserInstanceError::{}", match *self {
-            UserInstanceError::Failed => "Failed",
-            UserInstanceError::TimerNotFound => "TimerNotFound",
-            UserInstanceError::NotAttached => "NotAttached",
-            UserInstanceError::Attached => "Attached",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "UserInstanceError::{}",
+            match *self {
+                UserInstanceError::Failed => "Failed",
+                UserInstanceError::TimerNotFound => "TimerNotFound",
+                UserInstanceError::NotAttached => "NotAttached",
+                UserInstanceError::Attached => "Attached",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -450,11 +470,15 @@ impl ToGlib for UserInstanceError {
     fn to_glib(&self) -> alsatimer_sys::ALSATimerUserInstanceError {
         match *self {
             UserInstanceError::Failed => alsatimer_sys::ALSATIMER_USER_INSTANCE_ERROR_FAILED,
-            UserInstanceError::TimerNotFound => alsatimer_sys::ALSATIMER_USER_INSTANCE_ERROR_TIMER_NOT_FOUND,
-            UserInstanceError::NotAttached => alsatimer_sys::ALSATIMER_USER_INSTANCE_ERROR_NOT_ATTACHED,
+            UserInstanceError::TimerNotFound => {
+                alsatimer_sys::ALSATIMER_USER_INSTANCE_ERROR_TIMER_NOT_FOUND
+            }
+            UserInstanceError::NotAttached => {
+                alsatimer_sys::ALSATIMER_USER_INSTANCE_ERROR_NOT_ATTACHED
+            }
             UserInstanceError::Attached => alsatimer_sys::ALSATIMER_USER_INSTANCE_ERROR_ATTACHED,
             UserInstanceError::__Unknown(value) => value,
-}
+        }
     }
 }
 
@@ -467,13 +491,12 @@ impl FromGlib<alsatimer_sys::ALSATimerUserInstanceError> for UserInstanceError {
             2 => UserInstanceError::NotAttached,
             3 => UserInstanceError::Attached,
             value => UserInstanceError::__Unknown(value),
-}
+        }
     }
 }
 
 impl ErrorDomain for UserInstanceError {
     fn domain() -> Quark {
-        
         unsafe { from_glib(alsatimer_sys::alsatimer_user_instance_error_quark()) }
     }
 
@@ -488,7 +511,7 @@ impl ErrorDomain for UserInstanceError {
             2 => Some(UserInstanceError::NotAttached),
             3 => Some(UserInstanceError::Attached),
             _ => Some(UserInstanceError::Failed),
-}
+        }
     }
 }
 
@@ -515,4 +538,3 @@ impl SetValue for UserInstanceError {
         gobject_sys::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
     }
 }
-

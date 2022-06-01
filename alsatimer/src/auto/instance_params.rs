@@ -27,9 +27,7 @@ glib_wrapper! {
 
 impl InstanceParams {
     pub fn new() -> InstanceParams {
-        unsafe {
-            from_glib_full(alsatimer_sys::alsatimer_instance_params_new())
-        }
+        unsafe { from_glib_full(alsatimer_sys::alsatimer_instance_params_new()) }
     }
 }
 
@@ -65,84 +63,147 @@ impl<O: IsA<InstanceParams>> InstanceParamsExt for O {
     fn get_property_flags(&self) -> InstanceParamFlag {
         unsafe {
             let mut value = Value::from_type(<InstanceParamFlag as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"flags\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `flags` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"flags\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `flags` getter")
+                .unwrap()
         }
     }
 
     fn set_property_flags(&self, flags: InstanceParamFlag) {
         unsafe {
-            gobject_sys::g_object_set_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"flags\0".as_ptr() as *const _, Value::from(&flags).to_glib_none().0);
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"flags\0".as_ptr() as *const _,
+                Value::from(&flags).to_glib_none().0,
+            );
         }
     }
 
     fn get_property_interval(&self) -> u32 {
         unsafe {
             let mut value = Value::from_type(<u32 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"interval\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `interval` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"interval\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `interval` getter")
+                .unwrap()
         }
     }
 
     fn set_property_interval(&self, interval: u32) {
         unsafe {
-            gobject_sys::g_object_set_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"interval\0".as_ptr() as *const _, Value::from(&interval).to_glib_none().0);
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"interval\0".as_ptr() as *const _,
+                Value::from(&interval).to_glib_none().0,
+            );
         }
     }
 
     fn get_property_queue_size(&self) -> u32 {
         unsafe {
             let mut value = Value::from_type(<u32 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"queue-size\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `queue-size` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"queue-size\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `queue-size` getter")
+                .unwrap()
         }
     }
 
     fn set_property_queue_size(&self, queue_size: u32) {
         unsafe {
-            gobject_sys::g_object_set_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"queue-size\0".as_ptr() as *const _, Value::from(&queue_size).to_glib_none().0);
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"queue-size\0".as_ptr() as *const _,
+                Value::from(&queue_size).to_glib_none().0,
+            );
         }
     }
 
     fn connect_property_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_flags_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsatimer_sys::ALSATimerInstanceParams, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<InstanceParams>
+        unsafe extern "C" fn notify_flags_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsatimer_sys::ALSATimerInstanceParams,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<InstanceParams>,
         {
             let f: &F = &*(f as *const F);
             f(&InstanceParams::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::flags\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_flags_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::flags\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_flags_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_interval_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_interval_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsatimer_sys::ALSATimerInstanceParams, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<InstanceParams>
+        unsafe extern "C" fn notify_interval_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsatimer_sys::ALSATimerInstanceParams,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<InstanceParams>,
         {
             let f: &F = &*(f as *const F);
             f(&InstanceParams::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::interval\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_interval_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::interval\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_interval_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_queue_size_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_queue_size_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsatimer_sys::ALSATimerInstanceParams, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<InstanceParams>
+        unsafe extern "C" fn notify_queue_size_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsatimer_sys::ALSATimerInstanceParams,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<InstanceParams>,
         {
             let f: &F = &*(f as *const F);
             f(&InstanceParams::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::queue-size\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_queue_size_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::queue-size\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_queue_size_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 }

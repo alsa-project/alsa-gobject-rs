@@ -3,32 +3,32 @@
 // DO NOT EDIT
 
 mod device_info;
-pub use self::device_info::{DeviceInfo, NONE_DEVICE_INFO};
 pub use self::device_info::DeviceInfoExt;
+pub use self::device_info::{DeviceInfo, NONE_DEVICE_INFO};
 
 mod device_params;
-pub use self::device_params::{DeviceParams, NONE_DEVICE_PARAMS};
 pub use self::device_params::DeviceParamsExt;
+pub use self::device_params::{DeviceParams, NONE_DEVICE_PARAMS};
 
 mod device_status;
-pub use self::device_status::{DeviceStatus, NONE_DEVICE_STATUS};
 pub use self::device_status::DeviceStatusExt;
+pub use self::device_status::{DeviceStatus, NONE_DEVICE_STATUS};
 
 mod instance_info;
-pub use self::instance_info::{InstanceInfo, NONE_INSTANCE_INFO};
 pub use self::instance_info::InstanceInfoExt;
+pub use self::instance_info::{InstanceInfo, NONE_INSTANCE_INFO};
 
 mod instance_params;
-pub use self::instance_params::{InstanceParams, NONE_INSTANCE_PARAMS};
 pub use self::instance_params::InstanceParamsExt;
+pub use self::instance_params::{InstanceParams, NONE_INSTANCE_PARAMS};
 
 mod instance_status;
-pub use self::instance_status::{InstanceStatus, NONE_INSTANCE_STATUS};
 pub use self::instance_status::InstanceStatusExt;
+pub use self::instance_status::{InstanceStatus, NONE_INSTANCE_STATUS};
 
 mod user_instance;
-pub use self::user_instance::{UserInstance, NONE_USER_INSTANCE};
 pub use self::user_instance::UserInstanceExt;
+pub use self::user_instance::{UserInstance, NONE_USER_INSTANCE};
 
 mod device_id;
 pub use self::device_id::DeviceId;

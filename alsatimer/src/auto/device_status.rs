@@ -26,9 +26,7 @@ glib_wrapper! {
 
 impl DeviceStatus {
     pub fn new() -> DeviceStatus {
-        unsafe {
-            from_glib_full(alsatimer_sys::alsatimer_device_status_new())
-        }
+        unsafe { from_glib_full(alsatimer_sys::alsatimer_device_status_new()) }
     }
 }
 
@@ -49,75 +47,138 @@ pub trait DeviceStatusExt: 'static {
 
     fn connect_property_resolution_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
-    fn connect_property_resolution_denominator_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+    fn connect_property_resolution_denominator_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId;
 
-    fn connect_property_resolution_numerator_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+    fn connect_property_resolution_numerator_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId;
 }
 
 impl<O: IsA<DeviceStatus>> DeviceStatusExt for O {
     fn get_property_resolution(&self) -> u64 {
         unsafe {
             let mut value = Value::from_type(<u64 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"resolution\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `resolution` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"resolution\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `resolution` getter")
+                .unwrap()
         }
     }
 
     fn get_property_resolution_denominator(&self) -> u64 {
         unsafe {
             let mut value = Value::from_type(<u64 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"resolution-denominator\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `resolution-denominator` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"resolution-denominator\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `resolution-denominator` getter")
+                .unwrap()
         }
     }
 
     fn get_property_resolution_numerator(&self) -> u64 {
         unsafe {
             let mut value = Value::from_type(<u64 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"resolution-numerator\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `resolution-numerator` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"resolution-numerator\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `resolution-numerator` getter")
+                .unwrap()
         }
     }
 
     fn connect_property_resolution_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_resolution_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsatimer_sys::ALSATimerDeviceStatus, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<DeviceStatus>
+        unsafe extern "C" fn notify_resolution_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsatimer_sys::ALSATimerDeviceStatus,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<DeviceStatus>,
         {
             let f: &F = &*(f as *const F);
             f(&DeviceStatus::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::resolution\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_resolution_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::resolution\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_resolution_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
-    fn connect_property_resolution_denominator_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_resolution_denominator_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsatimer_sys::ALSATimerDeviceStatus, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<DeviceStatus>
+    fn connect_property_resolution_denominator_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_resolution_denominator_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsatimer_sys::ALSATimerDeviceStatus,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<DeviceStatus>,
         {
             let f: &F = &*(f as *const F);
             f(&DeviceStatus::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::resolution-denominator\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_resolution_denominator_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::resolution-denominator\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_resolution_denominator_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
-    fn connect_property_resolution_numerator_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_resolution_numerator_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsatimer_sys::ALSATimerDeviceStatus, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<DeviceStatus>
+    fn connect_property_resolution_numerator_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_resolution_numerator_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsatimer_sys::ALSATimerDeviceStatus,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<DeviceStatus>,
         {
             let f: &F = &*(f as *const F);
             f(&DeviceStatus::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::resolution-numerator\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_resolution_numerator_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::resolution-numerator\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_resolution_numerator_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 }

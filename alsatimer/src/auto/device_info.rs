@@ -51,38 +51,65 @@ pub trait DeviceInfoExt: 'static {
 
     fn connect_property_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
-    fn connect_property_instance_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+    fn connect_property_instance_count_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId;
 
     fn connect_property_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
     fn connect_property_resolution_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
-    fn connect_property_resolution_max_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+    fn connect_property_resolution_max_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId;
 
-    fn connect_property_resolution_min_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+    fn connect_property_resolution_min_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId;
 }
 
 impl<O: IsA<DeviceInfo>> DeviceInfoExt for O {
     fn get_property_card_id(&self) -> i32 {
         unsafe {
             let mut value = Value::from_type(<i32 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"card-id\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `card-id` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"card-id\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `card-id` getter")
+                .unwrap()
         }
     }
 
     fn get_property_flags(&self) -> DeviceInfoFlag {
         unsafe {
             let mut value = Value::from_type(<DeviceInfoFlag as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"flags\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `flags` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"flags\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `flags` getter")
+                .unwrap()
         }
     }
 
     fn get_property_id(&self) -> Option<GString> {
         unsafe {
             let mut value = Value::from_type(<GString as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"id\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"id\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
             value.get().expect("Return Value for property `id` getter")
         }
     }
@@ -90,152 +117,275 @@ impl<O: IsA<DeviceInfo>> DeviceInfoExt for O {
     fn get_property_instance_count(&self) -> u32 {
         unsafe {
             let mut value = Value::from_type(<u32 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"instance-count\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `instance-count` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"instance-count\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `instance-count` getter")
+                .unwrap()
         }
     }
 
     fn get_property_name(&self) -> Option<GString> {
         unsafe {
             let mut value = Value::from_type(<GString as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"name\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `name` getter")
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"name\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `name` getter")
         }
     }
 
     fn get_property_resolution(&self) -> u64 {
         unsafe {
             let mut value = Value::from_type(<u64 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"resolution\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `resolution` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"resolution\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `resolution` getter")
+                .unwrap()
         }
     }
 
     fn get_property_resolution_max(&self) -> u64 {
         unsafe {
             let mut value = Value::from_type(<u64 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"resolution-max\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `resolution-max` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"resolution-max\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `resolution-max` getter")
+                .unwrap()
         }
     }
 
     fn get_property_resolution_min(&self) -> u64 {
         unsafe {
             let mut value = Value::from_type(<u64 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"resolution-min\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `resolution-min` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"resolution-min\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `resolution-min` getter")
+                .unwrap()
         }
     }
 
     fn connect_property_card_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_card_id_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsatimer_sys::ALSATimerDeviceInfo, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<DeviceInfo>
+        unsafe extern "C" fn notify_card_id_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsatimer_sys::ALSATimerDeviceInfo,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<DeviceInfo>,
         {
             let f: &F = &*(f as *const F);
             f(&DeviceInfo::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::card-id\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_card_id_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::card-id\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_card_id_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_flags_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsatimer_sys::ALSATimerDeviceInfo, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<DeviceInfo>
+        unsafe extern "C" fn notify_flags_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsatimer_sys::ALSATimerDeviceInfo,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<DeviceInfo>,
         {
             let f: &F = &*(f as *const F);
             f(&DeviceInfo::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::flags\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_flags_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::flags\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_flags_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_id_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsatimer_sys::ALSATimerDeviceInfo, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<DeviceInfo>
+        unsafe extern "C" fn notify_id_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsatimer_sys::ALSATimerDeviceInfo,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<DeviceInfo>,
         {
             let f: &F = &*(f as *const F);
             f(&DeviceInfo::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::id\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_id_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::id\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_id_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
-    fn connect_property_instance_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_instance_count_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsatimer_sys::ALSATimerDeviceInfo, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<DeviceInfo>
+    fn connect_property_instance_count_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_instance_count_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsatimer_sys::ALSATimerDeviceInfo,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<DeviceInfo>,
         {
             let f: &F = &*(f as *const F);
             f(&DeviceInfo::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::instance-count\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_instance_count_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::instance-count\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_instance_count_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_name_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsatimer_sys::ALSATimerDeviceInfo, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<DeviceInfo>
+        unsafe extern "C" fn notify_name_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsatimer_sys::ALSATimerDeviceInfo,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<DeviceInfo>,
         {
             let f: &F = &*(f as *const F);
             f(&DeviceInfo::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::name\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_name_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::name\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_name_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_resolution_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_resolution_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsatimer_sys::ALSATimerDeviceInfo, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<DeviceInfo>
+        unsafe extern "C" fn notify_resolution_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsatimer_sys::ALSATimerDeviceInfo,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<DeviceInfo>,
         {
             let f: &F = &*(f as *const F);
             f(&DeviceInfo::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::resolution\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_resolution_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::resolution\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_resolution_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
-    fn connect_property_resolution_max_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_resolution_max_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsatimer_sys::ALSATimerDeviceInfo, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<DeviceInfo>
+    fn connect_property_resolution_max_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_resolution_max_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsatimer_sys::ALSATimerDeviceInfo,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<DeviceInfo>,
         {
             let f: &F = &*(f as *const F);
             f(&DeviceInfo::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::resolution-max\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_resolution_max_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::resolution-max\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_resolution_max_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
-    fn connect_property_resolution_min_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_resolution_min_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsatimer_sys::ALSATimerDeviceInfo, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<DeviceInfo>
+    fn connect_property_resolution_min_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_resolution_min_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsatimer_sys::ALSATimerDeviceInfo,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<DeviceInfo>,
         {
             let f: &F = &*(f as *const F);
             f(&DeviceInfo::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::resolution-min\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_resolution_min_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::resolution-min\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_resolution_min_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 }

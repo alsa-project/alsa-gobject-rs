@@ -14,18 +14,13 @@ glib_wrapper! {
 
 impl Event {
     pub fn new() -> Event {
-        unsafe {
-            from_glib_full(alsatimer_sys::alsatimer_event_new())
-        }
+        unsafe { from_glib_full(alsatimer_sys::alsatimer_event_new()) }
     }
 
     pub fn get_tick_data(&mut self) -> EventDataTick {
         unsafe {
             let mut data = std::ptr::null_mut() as *const alsatimer_sys::ALSATimerEventDataTick;
-            alsatimer_sys::alsatimer_event_get_tick_data(
-                self.to_glib_none_mut().0,
-                &mut data,
-            );
+            alsatimer_sys::alsatimer_event_get_tick_data(self.to_glib_none_mut().0, &mut data);
             from_glib_none(data)
         }
     }
@@ -33,10 +28,7 @@ impl Event {
     pub fn get_tstamp_data(&mut self) -> EventDataTstamp {
         unsafe {
             let mut data = std::ptr::null_mut() as *const alsatimer_sys::ALSATimerEventDataTstamp;
-            alsatimer_sys::alsatimer_event_get_tstamp_data(
-                self.to_glib_none_mut().0,
-                &mut data,
-            );
+            alsatimer_sys::alsatimer_event_get_tstamp_data(self.to_glib_none_mut().0, &mut data);
             from_glib_none(data)
         }
     }

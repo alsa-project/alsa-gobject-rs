@@ -26,9 +26,7 @@ glib_wrapper! {
 
 impl DeviceParams {
     pub fn new() -> DeviceParams {
-        unsafe {
-            from_glib_full(alsatimer_sys::alsatimer_device_params_new())
-        }
+        unsafe { from_glib_full(alsatimer_sys::alsatimer_device_params_new()) }
     }
 }
 
@@ -49,65 +47,119 @@ pub trait DeviceParamsExt: 'static {
 
     fn set_property_period_numerator(&self, period_numerator: u64);
 
-    fn connect_property_period_denominator_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+    fn connect_property_period_denominator_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId;
 
-    fn connect_property_period_numerator_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+    fn connect_property_period_numerator_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId;
 }
 
 impl<O: IsA<DeviceParams>> DeviceParamsExt for O {
     fn get_property_period_denominator(&self) -> u64 {
         unsafe {
             let mut value = Value::from_type(<u64 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"period-denominator\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `period-denominator` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"period-denominator\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `period-denominator` getter")
+                .unwrap()
         }
     }
 
     fn set_property_period_denominator(&self, period_denominator: u64) {
         unsafe {
-            gobject_sys::g_object_set_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"period-denominator\0".as_ptr() as *const _, Value::from(&period_denominator).to_glib_none().0);
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"period-denominator\0".as_ptr() as *const _,
+                Value::from(&period_denominator).to_glib_none().0,
+            );
         }
     }
 
     fn get_property_period_numerator(&self) -> u64 {
         unsafe {
             let mut value = Value::from_type(<u64 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"period-numerator\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `period-numerator` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"period-numerator\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `period-numerator` getter")
+                .unwrap()
         }
     }
 
     fn set_property_period_numerator(&self, period_numerator: u64) {
         unsafe {
-            gobject_sys::g_object_set_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"period-numerator\0".as_ptr() as *const _, Value::from(&period_numerator).to_glib_none().0);
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"period-numerator\0".as_ptr() as *const _,
+                Value::from(&period_numerator).to_glib_none().0,
+            );
         }
     }
 
-    fn connect_property_period_denominator_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_period_denominator_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsatimer_sys::ALSATimerDeviceParams, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<DeviceParams>
+    fn connect_property_period_denominator_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_period_denominator_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsatimer_sys::ALSATimerDeviceParams,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<DeviceParams>,
         {
             let f: &F = &*(f as *const F);
             f(&DeviceParams::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::period-denominator\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_period_denominator_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::period-denominator\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_period_denominator_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
-    fn connect_property_period_numerator_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_period_numerator_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsatimer_sys::ALSATimerDeviceParams, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<DeviceParams>
+    fn connect_property_period_numerator_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_period_numerator_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsatimer_sys::ALSATimerDeviceParams,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<DeviceParams>,
         {
             let f: &F = &*(f as *const F);
             f(&DeviceParams::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::period-numerator\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_period_numerator_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::period-numerator\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_period_numerator_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 }

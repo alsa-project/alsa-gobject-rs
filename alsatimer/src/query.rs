@@ -16,7 +16,10 @@ pub fn get_device_id_list() -> Result<Vec<DeviceId>, glib::Error> {
     }
 }
 
-pub fn set_device_params(device_id: &mut DeviceId, device_params: &DeviceParams) -> Result<(), glib::Error> {
+pub fn set_device_params(
+    device_id: &mut DeviceId,
+    device_params: &DeviceParams,
+) -> Result<(), glib::Error> {
     unsafe {
         let mut error = std::ptr::null_mut();
 
@@ -34,7 +37,10 @@ pub fn set_device_params(device_id: &mut DeviceId, device_params: &DeviceParams)
     }
 }
 
-pub fn get_device_status<P: IsA<DeviceStatus>>(device_id: &mut DeviceId, status: &mut P) -> Result<(), glib::Error> {
+pub fn get_device_status<P: IsA<DeviceStatus>>(
+    device_id: &mut DeviceId,
+    status: &mut P,
+) -> Result<(), glib::Error> {
     unsafe {
         let mut error = std::ptr::null_mut();
 

@@ -16,8 +16,16 @@ pub fn get_device_info(device_id: &mut DeviceId) -> Result<DeviceInfo, glib::Err
     unsafe {
         let mut device_info = ptr::null_mut();
         let mut error = ptr::null_mut();
-        let _ = alsatimer_sys::alsatimer_get_device_info(device_id.to_glib_none_mut().0, &mut device_info, &mut error);
-        if error.is_null() { Ok(from_glib_full(device_info)) } else { Err(from_glib_full(error)) }
+        let _ = alsatimer_sys::alsatimer_get_device_info(
+            device_id.to_glib_none_mut().0,
+            &mut device_info,
+            &mut error,
+        );
+        if error.is_null() {
+            Ok(from_glib_full(device_info))
+        } else {
+            Err(from_glib_full(error))
+        }
     }
 }
 
@@ -30,7 +38,11 @@ pub fn get_devnode() -> Result<GString, glib::Error> {
         let mut devnode = ptr::null_mut();
         let mut error = ptr::null_mut();
         let _ = alsatimer_sys::alsatimer_get_devnode(&mut devnode, &mut error);
-        if error.is_null() { Ok(from_glib_full(devnode)) } else { Err(from_glib_full(error)) }
+        if error.is_null() {
+            Ok(from_glib_full(devnode))
+        } else {
+            Err(from_glib_full(error))
+        }
     }
 }
 
@@ -39,7 +51,11 @@ pub fn get_sysname() -> Result<GString, glib::Error> {
         let mut sysname = ptr::null_mut();
         let mut error = ptr::null_mut();
         let _ = alsatimer_sys::alsatimer_get_sysname(&mut sysname, &mut error);
-        if error.is_null() { Ok(from_glib_full(sysname)) } else { Err(from_glib_full(error)) }
+        if error.is_null() {
+            Ok(from_glib_full(sysname))
+        } else {
+            Err(from_glib_full(error))
+        }
     }
 }
 
@@ -49,6 +65,10 @@ pub fn get_tstamp_source() -> Result<i32, glib::Error> {
         let mut error = ptr::null_mut();
         let _ = alsatimer_sys::alsatimer_get_tstamp_source(clock_id.as_mut_ptr(), &mut error);
         let clock_id = clock_id.assume_init();
-        if error.is_null() { Ok(clock_id) } else { Err(from_glib_full(error)) }
+        if error.is_null() {
+            Ok(clock_id)
+        } else {
+            Err(from_glib_full(error))
+        }
     }
 }

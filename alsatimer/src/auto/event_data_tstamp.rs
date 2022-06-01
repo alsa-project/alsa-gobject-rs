@@ -23,7 +23,10 @@ impl EventDataTstamp {
     pub fn get_event(&self) -> EventType {
         unsafe {
             let mut event = mem::MaybeUninit::uninit();
-            alsatimer_sys::alsatimer_event_data_tstamp_get_event(self.to_glib_none().0, event.as_mut_ptr());
+            alsatimer_sys::alsatimer_event_data_tstamp_get_event(
+                self.to_glib_none().0,
+                event.as_mut_ptr(),
+            );
             let event = event.assume_init();
             from_glib(event)
         }
@@ -32,7 +35,10 @@ impl EventDataTstamp {
     pub fn get_val(&self) -> u32 {
         unsafe {
             let mut val = mem::MaybeUninit::uninit();
-            alsatimer_sys::alsatimer_event_data_tstamp_get_val(self.to_glib_none().0, val.as_mut_ptr());
+            alsatimer_sys::alsatimer_event_data_tstamp_get_val(
+                self.to_glib_none().0,
+                val.as_mut_ptr(),
+            );
             let val = val.assume_init();
             val
         }

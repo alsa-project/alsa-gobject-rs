@@ -22,7 +22,10 @@ impl EventDataTick {
     pub fn get_resolution(&self) -> u32 {
         unsafe {
             let mut resolution = mem::MaybeUninit::uninit();
-            alsatimer_sys::alsatimer_event_data_tick_get_resolution(self.to_glib_none().0, resolution.as_mut_ptr());
+            alsatimer_sys::alsatimer_event_data_tick_get_resolution(
+                self.to_glib_none().0,
+                resolution.as_mut_ptr(),
+            );
             let resolution = resolution.assume_init();
             resolution
         }
@@ -31,7 +34,10 @@ impl EventDataTick {
     pub fn get_ticks(&self) -> u32 {
         unsafe {
             let mut ticks = mem::MaybeUninit::uninit();
-            alsatimer_sys::alsatimer_event_data_tick_get_ticks(self.to_glib_none().0, ticks.as_mut_ptr());
+            alsatimer_sys::alsatimer_event_data_tick_get_ticks(
+                self.to_glib_none().0,
+                ticks.as_mut_ptr(),
+            );
             let ticks = ticks.assume_init();
             ticks
         }
