@@ -15,33 +15,6 @@ and/or use gtk-doc annotations.  -->
              shared-library="libalsahwdep.so.0"
              c:identifier-prefixes="ALSAHwdep"
              c:symbol-prefixes="alsahwdep_">
-    <function-macro name="DEVICE_INFO"
-                    c:identifier="ALSAHWDEP_DEVICE_INFO"
-                    introspectable="0">
-      <source-position filename="../src/hwdep/device-info.h" line="11"/>
-      <parameters>
-        <parameter name="obj">
-        </parameter>
-      </parameters>
-    </function-macro>
-    <function-macro name="DEVICE_INFO_CLASS"
-                    c:identifier="ALSAHWDEP_DEVICE_INFO_CLASS"
-                    introspectable="0">
-      <source-position filename="../src/hwdep/device-info.h" line="19"/>
-      <parameters>
-        <parameter name="klass">
-        </parameter>
-      </parameters>
-    </function-macro>
-    <function-macro name="DEVICE_INFO_GET_CLASS"
-                    c:identifier="ALSAHWDEP_DEVICE_INFO_GET_CLASS"
-                    introspectable="0">
-      <source-position filename="../src/hwdep/device-info.h" line="26"/>
-      <parameters>
-        <parameter name="obj">
-        </parameter>
-      </parameters>
-    </function-macro>
     <class name="DeviceInfo"
            c:symbol-prefix="device_info"
            c:type="ALSAHwdepDeviceInfo"
@@ -49,7 +22,14 @@ and/or use gtk-doc annotations.  -->
            glib:type-name="ALSAHwdepDeviceInfo"
            glib:get-type="alsahwdep_device_info_get_type"
            glib:type-struct="DeviceInfoClass">
-      <source-position filename="../src/hwdep/device-info.h" line="43"/>
+      <doc xml:space="preserve"
+           filename="../src/hwdep/device-info.c"
+           line="4">A GObject-derived object to represent information of ALSA hwdep device.
+A [class@DeviceInfo] is a GObject-derived object to represent information of ALSA hwdep device.
+The call of [func@get_device_info] returns an instance of the object.
+
+The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
+      <source-position filename="../src/hwdep/device-info.h" line="15"/>
       <property name="card-id" transfer-ownership="none">
         <type name="gint" c:type="gint"/>
       </property>
@@ -68,48 +48,22 @@ and/or use gtk-doc annotations.  -->
       <field name="parent_instance">
         <type name="GObject.Object" c:type="GObject"/>
       </field>
-      <field name="priv">
-        <type name="DeviceInfoPrivate" c:type="ALSAHwdepDeviceInfoPrivate*"/>
-      </field>
     </class>
     <record name="DeviceInfoClass"
             c:type="ALSAHwdepDeviceInfoClass"
             glib:is-gtype-struct-for="DeviceInfo">
-      <source-position filename="../src/hwdep/device-info.h" line="43"/>
+      <source-position filename="../src/hwdep/device-info.h" line="15"/>
       <field name="parent_class">
         <type name="GObject.ObjectClass" c:type="GObjectClass"/>
       </field>
     </record>
-    <record name="DeviceInfoPrivate"
-            c:type="ALSAHwdepDeviceInfoPrivate"
-            disguised="1">
-      <source-position filename="../src/hwdep/device-info.h" line="33"/>
-    </record>
-    <function-macro name="IS_DEVICE_INFO"
-                    c:identifier="ALSAHWDEP_IS_DEVICE_INFO"
-                    introspectable="0">
-      <source-position filename="../src/hwdep/device-info.h" line="15"/>
-      <parameters>
-        <parameter name="obj">
-        </parameter>
-      </parameters>
-    </function-macro>
-    <function-macro name="IS_DEVICE_INFO_CLASS"
-                    c:identifier="ALSAHWDEP_IS_DEVICE_INFO_CLASS"
-                    introspectable="0">
-      <source-position filename="../src/hwdep/device-info.h" line="23"/>
-      <parameters>
-        <parameter name="klass">
-        </parameter>
-      </parameters>
-    </function-macro>
     <enumeration name="IfaceType"
                  glib:type-name="ALSAHwdepIfaceType"
                  glib:get-type="alsahwdep_iface_type_get_type"
                  c:type="ALSAHwdepIfaceType">
       <doc xml:space="preserve"
            filename="../src/hwdep/alsahwdep-enum-types.h"
-           line="20">A set of enumerators for the interface of hwdep device.</doc>
+           line="20">A set of enumerations for the interface of hwdep device.</doc>
       <member name="opl2"
               value="0"
               c:identifier="ALSAHWDEP_IFACE_TYPE_OPL2"
@@ -354,21 +308,12 @@ and/or use gtk-doc annotations.  -->
              line="48">For RME Fireface series. Available in Linux kernel 4.12.0 or later.</doc>
       </member>
     </enumeration>
-    <docsection name="device-info">
-      <doc xml:space="preserve"
-           filename="../src/hwdep/device-info.c"
-           line="4">A #ALSAHwdepDeviceInfo is a GObject-derived object to represent information
-of ALSA hwdep device. The call of alsahwdep_get_device_info() returns an
-instance of the object.
-
-The object wraps 'struct snd_hwdep_info' in UAPI of Linux sound subsystem.</doc>
-    </docsection>
     <function name="get_device_id_list"
               c:identifier="alsahwdep_get_device_id_list"
               throws="1">
       <doc xml:space="preserve"
            filename="../src/hwdep/query.c"
-           line="128">Get the list of numerical ID for available hwdep devices of sound card.
+           line="8">Get the list of numeric ID for available hwdep devices of sound card.
 
 Nodes under sound subsystem in sysfs are used to gather the information.</doc>
       <source-position filename="../src/hwdep/query.h" line="9"/>
@@ -379,7 +324,7 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
         <parameter name="card_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="130">The numerical ID of sound card.</doc>
+               line="10">The numeric ID of sound card.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="entries"
@@ -388,8 +333,7 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="131">The list of numerical ID for
-          hwdep device.</doc>
+               line="11">The list of numeric ID for hwdep device.</doc>
           <array length="2" zero-terminated="0" c:type="guint**">
             <type name="guint" c:type="guint*"/>
           </array>
@@ -400,7 +344,7 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="133">The number of entries.</doc>
+               line="12">The number of entries.</doc>
           <type name="gsize" c:type="gsize*"/>
         </parameter>
       </parameters>
@@ -410,10 +354,10 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/hwdep/query.c"
-           line="360">Get the information according to given numerical IDs for card and device.
+           line="81">Get the information according to given numeric IDs for card and device.
 
-The call of function executes open(2), close(2), and ioctl(2) system call
-with SNDRV_CTL_IOCTL_HWDEP_INFO command for ALSA control character device.</doc>
+The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call
+with `SNDRV_CTL_IOCTL_HWDEP_INFO` command for ALSA control character device.</doc>
       <source-position filename="../src/hwdep/query.h" line="18"/>
       <return-value transfer-ownership="none">
         <type name="none" c:type="void"/>
@@ -422,13 +366,13 @@ with SNDRV_CTL_IOCTL_HWDEP_INFO command for ALSA control character device.</doc>
         <parameter name="card_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="362">The numberical value for sound card to query.</doc>
+               line="83">The numeric value for sound card to query.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="device_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="363">The numerical value of hwdep device to query.</doc>
+               line="84">The numeric value of hwdep device to query.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="device_info"
@@ -437,7 +381,7 @@ with SNDRV_CTL_IOCTL_HWDEP_INFO command for ALSA control character device.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="364">The information of the device.</doc>
+               line="85">The information of the device.</doc>
           <type name="DeviceInfo" c:type="ALSAHwdepDeviceInfo**"/>
         </parameter>
       </parameters>
@@ -447,7 +391,7 @@ with SNDRV_CTL_IOCTL_HWDEP_INFO command for ALSA control character device.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/hwdep/query.c"
-           line="255">Allocate devnode string for hwdep device and return it when exists.
+           line="57">Allocate devnode string for hwdep device and return it when exists.
 
 Nodes under sound subsystem in sysfs are used to gather the information.</doc>
       <source-position filename="../src/hwdep/query.h" line="15"/>
@@ -458,13 +402,13 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
         <parameter name="card_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="257">The numeridcal ID of sound card.</doc>
+               line="59">The numeridcal ID of sound card.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="device_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="258">The numerical ID of hwdep device for the sound card.</doc>
+               line="60">The numeric ID of hwdep device for the sound card.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="devnode"
@@ -473,7 +417,7 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="259">The string for devnode of hwdep device.</doc>
+               line="61">The string for devnode of hwdep device.</doc>
           <type name="utf8" c:type="char**"/>
         </parameter>
       </parameters>
@@ -483,7 +427,7 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/hwdep/query.c"
-           line="208">Allocate sysname for hwdep device and return it when it exists.
+           line="33">Allocate sysname for hwdep device and return it when it exists.
 
 Nodes under sound subsystem in sysfs are used to gather the information.</doc>
       <source-position filename="../src/hwdep/query.h" line="12"/>
@@ -494,13 +438,13 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
         <parameter name="card_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="210">The numeridcal ID of sound card.</doc>
+               line="35">The numeridcal ID of sound card.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="device_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="211">The numerical ID of hwdep device for the sound card.</doc>
+               line="36">The numeric ID of hwdep device for the sound card.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="sysname"
@@ -509,7 +453,7 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="212">The string for sysname of hwdep device.</doc>
+               line="37">The string for sysname of hwdep device.</doc>
           <type name="utf8" c:type="char**"/>
         </parameter>
       </parameters>
