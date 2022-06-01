@@ -3,17 +3,22 @@
 // DO NOT EDIT
 
 #![allow(non_camel_case_types, non_upper_case_globals, non_snake_case)]
-#![allow(clippy::approx_constant, clippy::type_complexity, clippy::unreadable_literal)]
+#![allow(
+    clippy::approx_constant,
+    clippy::type_complexity,
+    clippy::unreadable_literal
+)]
 #![cfg_attr(feature = "dox", feature(doc_cfg))]
 
-extern crate libc;
 extern crate glib_sys as glib;
 extern crate gobject_sys as gobject;
+extern crate libc;
 
 #[allow(unused_imports)]
-use libc::{c_int, c_char, c_uchar, c_float, c_uint, c_double,
-    c_short, c_ushort, c_long, c_ulong,
-    c_void, size_t, ssize_t, intptr_t, uintptr_t, time_t, FILE};
+use libc::{
+    c_char, c_double, c_float, c_int, c_long, c_short, c_uchar, c_uint, c_ulong, c_ushort, c_void,
+    intptr_t, size_t, ssize_t, time_t, uintptr_t, FILE,
+};
 
 #[allow(unused_imports)]
 use glib::{gboolean, gconstpointer, gpointer, GType};
@@ -74,17 +79,18 @@ pub const ALSACTL_ELEM_EVENT_MASK_REMOVE: ALSACtlElemEventMask = 16;
 #[derive(Copy, Clone)]
 pub struct ALSACtlCardClass {
     pub parent_class: gobject::GObjectClass,
-    pub handle_elem_event: Option<unsafe extern "C" fn(*mut ALSACtlCard, *const ALSACtlElemId, ALSACtlElemEventMask)>,
+    pub handle_elem_event:
+        Option<unsafe extern "C" fn(*mut ALSACtlCard, *const ALSACtlElemId, ALSACtlElemEventMask)>,
     pub handle_disconnection: Option<unsafe extern "C" fn(*mut ALSACtlCard)>,
 }
 
 impl ::std::fmt::Debug for ALSACtlCardClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSACtlCardClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .field("handle_elem_event", &self.handle_elem_event)
-         .field("handle_disconnection", &self.handle_disconnection)
-         .finish()
+            .field("parent_class", &self.parent_class)
+            .field("handle_elem_event", &self.handle_elem_event)
+            .field("handle_disconnection", &self.handle_disconnection)
+            .finish()
     }
 }
 
@@ -97,8 +103,8 @@ pub struct ALSACtlCardInfoClass {
 impl ::std::fmt::Debug for ALSACtlCardInfoClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSACtlCardInfoClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .finish()
+            .field("parent_class", &self.parent_class)
+            .finish()
     }
 }
 
@@ -118,7 +124,7 @@ pub struct ALSACtlElemId(c_void);
 impl ::std::fmt::Debug for ALSACtlElemId {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSACtlElemId @ {:?}", self as *const _))
-         .finish()
+            .finish()
     }
 }
 
@@ -131,8 +137,8 @@ pub struct ALSACtlElemInfoClass {
 impl ::std::fmt::Debug for ALSACtlElemInfoClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSACtlElemInfoClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .finish()
+            .field("parent_class", &self.parent_class)
+            .finish()
     }
 }
 
@@ -150,8 +156,8 @@ pub struct ALSACtlElemValueClass {
 impl ::std::fmt::Debug for ALSACtlElemValueClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSACtlElemValueClass @ {:?}", self as *const _))
-         .field("parent_class", &self.parent_class)
-         .finish()
+            .field("parent_class", &self.parent_class)
+            .finish()
     }
 }
 
@@ -171,9 +177,9 @@ pub struct ALSACtlCard {
 impl ::std::fmt::Debug for ALSACtlCard {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSACtlCard @ {:?}", self as *const _))
-         .field("parent_instance", &self.parent_instance)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent_instance", &self.parent_instance)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -187,9 +193,9 @@ pub struct ALSACtlCardInfo {
 impl ::std::fmt::Debug for ALSACtlCardInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSACtlCardInfo @ {:?}", self as *const _))
-         .field("parent_instance", &self.parent_instance)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent_instance", &self.parent_instance)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -203,9 +209,9 @@ pub struct ALSACtlElemInfo {
 impl ::std::fmt::Debug for ALSACtlElemInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSACtlElemInfo @ {:?}", self as *const _))
-         .field("parent_instance", &self.parent_instance)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent_instance", &self.parent_instance)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -219,9 +225,9 @@ pub struct ALSACtlElemValue {
 impl ::std::fmt::Debug for ALSACtlElemValue {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSACtlElemValue @ {:?}", self as *const _))
-         .field("parent_instance", &self.parent_instance)
-         .field("priv_", &self.priv_)
-         .finish()
+            .field("parent_instance", &self.parent_instance)
+            .field("priv_", &self.priv_)
+            .finish()
     }
 }
 
@@ -263,9 +269,18 @@ extern "C" {
     // ALSACtlElemId
     //=========================================================================
     pub fn alsactl_elem_id_get_type() -> GType;
-    pub fn alsactl_elem_id_new_by_name(iface: ALSACtlElemIfaceType, device_id: c_uint, subdevice_id: c_uint, name: *const c_char, index: c_uint) -> *mut ALSACtlElemId;
+    pub fn alsactl_elem_id_new_by_name(
+        iface: ALSACtlElemIfaceType,
+        device_id: c_uint,
+        subdevice_id: c_uint,
+        name: *const c_char,
+        index: c_uint,
+    ) -> *mut ALSACtlElemId;
     pub fn alsactl_elem_id_new_by_numid(numid: c_uint) -> *mut ALSACtlElemId;
-    pub fn alsactl_elem_id_equal(self_: *const ALSACtlElemId, target: *const ALSACtlElemId) -> gboolean;
+    pub fn alsactl_elem_id_equal(
+        self_: *const ALSACtlElemId,
+        target: *const ALSACtlElemId,
+    ) -> gboolean;
     pub fn alsactl_elem_id_get_device_id(self_: *const ALSACtlElemId, device_id: *mut c_uint);
     pub fn alsactl_elem_id_get_iface(self_: *const ALSACtlElemId, iface: *mut ALSACtlElemIfaceType);
     pub fn alsactl_elem_id_get_index(self_: *const ALSACtlElemId, index: *mut c_uint);
@@ -278,21 +293,98 @@ extern "C" {
     //=========================================================================
     pub fn alsactl_card_get_type() -> GType;
     pub fn alsactl_card_new() -> *mut ALSACtlCard;
-    pub fn alsactl_card_add_elems(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, elem_count: c_uint, elem_info: *mut ALSACtlElemInfo, entries: *mut *mut glib::GList, error: *mut *mut glib::GError);
-    pub fn alsactl_card_command_elem_tlv(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, container: *const *mut u32, container_count: *mut size_t, error: *mut *mut glib::GError);
-    pub fn alsactl_card_create_source(self_: *mut ALSACtlCard, gsrc: *mut *mut glib::GSource, error: *mut *mut glib::GError);
-    pub fn alsactl_card_get_elem_id_list(self_: *mut ALSACtlCard, entries: *mut *mut glib::GList, error: *mut *mut glib::GError);
-    pub fn alsactl_card_get_elem_info(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, elem_info: *mut *mut ALSACtlElemInfo, error: *mut *mut glib::GError);
-    pub fn alsactl_card_get_info(self_: *mut ALSACtlCard, card_info: *mut *mut ALSACtlCardInfo, error: *mut *mut glib::GError);
-    pub fn alsactl_card_get_protocol_version(self_: *mut ALSACtlCard, proto_ver_triplet: *mut *const [u16; 3], error: *mut *mut glib::GError);
-    pub fn alsactl_card_lock_elem(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, lock: gboolean, error: *mut *mut glib::GError);
-    pub fn alsactl_card_open(self_: *mut ALSACtlCard, card_id: c_uint, open_flag: c_int, error: *mut *mut glib::GError);
-    pub fn alsactl_card_read_elem_tlv(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, container: *const *mut u32, container_count: *mut size_t, error: *mut *mut glib::GError);
-    pub fn alsactl_card_read_elem_value(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, elem_value: *const *mut ALSACtlElemValue, error: *mut *mut glib::GError);
-    pub fn alsactl_card_remove_elems(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, error: *mut *mut glib::GError);
-    pub fn alsactl_card_replace_elems(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, elem_count: c_uint, elem_info: *mut ALSACtlElemInfo, entries: *mut *mut glib::GList, error: *mut *mut glib::GError);
-    pub fn alsactl_card_write_elem_tlv(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, container: *const u32, container_count: size_t, error: *mut *mut glib::GError);
-    pub fn alsactl_card_write_elem_value(self_: *mut ALSACtlCard, elem_id: *const ALSACtlElemId, elem_value: *const ALSACtlElemValue, error: *mut *mut glib::GError);
+    pub fn alsactl_card_add_elems(
+        self_: *mut ALSACtlCard,
+        elem_id: *const ALSACtlElemId,
+        elem_count: c_uint,
+        elem_info: *mut ALSACtlElemInfo,
+        entries: *mut *mut glib::GList,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsactl_card_command_elem_tlv(
+        self_: *mut ALSACtlCard,
+        elem_id: *const ALSACtlElemId,
+        container: *const *mut u32,
+        container_count: *mut size_t,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsactl_card_create_source(
+        self_: *mut ALSACtlCard,
+        gsrc: *mut *mut glib::GSource,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsactl_card_get_elem_id_list(
+        self_: *mut ALSACtlCard,
+        entries: *mut *mut glib::GList,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsactl_card_get_elem_info(
+        self_: *mut ALSACtlCard,
+        elem_id: *const ALSACtlElemId,
+        elem_info: *mut *mut ALSACtlElemInfo,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsactl_card_get_info(
+        self_: *mut ALSACtlCard,
+        card_info: *mut *mut ALSACtlCardInfo,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsactl_card_get_protocol_version(
+        self_: *mut ALSACtlCard,
+        proto_ver_triplet: *mut *const [u16; 3],
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsactl_card_lock_elem(
+        self_: *mut ALSACtlCard,
+        elem_id: *const ALSACtlElemId,
+        lock: gboolean,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsactl_card_open(
+        self_: *mut ALSACtlCard,
+        card_id: c_uint,
+        open_flag: c_int,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsactl_card_read_elem_tlv(
+        self_: *mut ALSACtlCard,
+        elem_id: *const ALSACtlElemId,
+        container: *const *mut u32,
+        container_count: *mut size_t,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsactl_card_read_elem_value(
+        self_: *mut ALSACtlCard,
+        elem_id: *const ALSACtlElemId,
+        elem_value: *const *mut ALSACtlElemValue,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsactl_card_remove_elems(
+        self_: *mut ALSACtlCard,
+        elem_id: *const ALSACtlElemId,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsactl_card_replace_elems(
+        self_: *mut ALSACtlCard,
+        elem_id: *const ALSACtlElemId,
+        elem_count: c_uint,
+        elem_info: *mut ALSACtlElemInfo,
+        entries: *mut *mut glib::GList,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsactl_card_write_elem_tlv(
+        self_: *mut ALSACtlCard,
+        elem_id: *const ALSACtlElemId,
+        container: *const u32,
+        container_count: size_t,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsactl_card_write_elem_value(
+        self_: *mut ALSACtlCard,
+        elem_id: *const ALSACtlElemId,
+        elem_value: *const ALSACtlElemValue,
+        error: *mut *mut glib::GError,
+    );
 
     //=========================================================================
     // ALSACtlCardInfo
@@ -303,42 +395,151 @@ extern "C" {
     // ALSACtlElemInfo
     //=========================================================================
     pub fn alsactl_elem_info_get_type() -> GType;
-    pub fn alsactl_elem_info_new(elem_type: ALSACtlElemType, error: *mut *mut glib::GError) -> *mut ALSACtlElemInfo;
-    pub fn alsactl_elem_info_get_enum_data(self_: *mut ALSACtlElemInfo, data: *mut *mut *const c_char, error: *mut *mut glib::GError);
-    pub fn alsactl_elem_info_get_int64_data(self_: *mut ALSACtlElemInfo, data: *mut *const [i64; 3], error: *mut *mut glib::GError);
-    pub fn alsactl_elem_info_get_int_data(self_: *mut ALSACtlElemInfo, data: *mut *const [i32; 3], error: *mut *mut glib::GError);
-    pub fn alsactl_elem_info_set_enum_data(self_: *mut ALSACtlElemInfo, data: *mut *const c_char, error: *mut *mut glib::GError);
-    pub fn alsactl_elem_info_set_int64_data(self_: *mut ALSACtlElemInfo, data: *const [i64; 3], error: *mut *mut glib::GError);
-    pub fn alsactl_elem_info_set_int_data(self_: *mut ALSACtlElemInfo, data: *const [i32; 3], error: *mut *mut glib::GError);
+    pub fn alsactl_elem_info_new(
+        elem_type: ALSACtlElemType,
+        error: *mut *mut glib::GError,
+    ) -> *mut ALSACtlElemInfo;
+    pub fn alsactl_elem_info_get_enum_data(
+        self_: *mut ALSACtlElemInfo,
+        data: *mut *mut *const c_char,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsactl_elem_info_get_int64_data(
+        self_: *mut ALSACtlElemInfo,
+        data: *mut *const [i64; 3],
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsactl_elem_info_get_int_data(
+        self_: *mut ALSACtlElemInfo,
+        data: *mut *const [i32; 3],
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsactl_elem_info_set_enum_data(
+        self_: *mut ALSACtlElemInfo,
+        data: *mut *const c_char,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsactl_elem_info_set_int64_data(
+        self_: *mut ALSACtlElemInfo,
+        data: *const [i64; 3],
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsactl_elem_info_set_int_data(
+        self_: *mut ALSACtlElemInfo,
+        data: *const [i32; 3],
+        error: *mut *mut glib::GError,
+    );
 
     //=========================================================================
     // ALSACtlElemValue
     //=========================================================================
     pub fn alsactl_elem_value_get_type() -> GType;
     pub fn alsactl_elem_value_new() -> *mut ALSACtlElemValue;
-    pub fn alsactl_elem_value_equal(self_: *const ALSACtlElemValue, target: *const ALSACtlElemValue) -> gboolean;
-    pub fn alsactl_elem_value_get_bool(self_: *mut ALSACtlElemValue, values: *const *mut gboolean, value_count: *mut size_t);
-    pub fn alsactl_elem_value_get_bytes(self_: *mut ALSACtlElemValue, values: *const *mut u8, value_count: *mut size_t);
-    pub fn alsactl_elem_value_get_enum(self_: *mut ALSACtlElemValue, values: *const *mut u32, value_count: *mut size_t);
-    pub fn alsactl_elem_value_get_iec60958_channel_status(self_: *mut ALSACtlElemValue, status: *const *mut u8, length: *mut size_t);
-    pub fn alsactl_elem_value_get_iec60958_user_data(self_: *mut ALSACtlElemValue, data: *const *mut u8, length: *mut size_t);
-    pub fn alsactl_elem_value_get_int(self_: *mut ALSACtlElemValue, values: *const *mut i32, value_count: *mut size_t);
-    pub fn alsactl_elem_value_get_int64(self_: *mut ALSACtlElemValue, values: *const *mut i64, value_count: *mut size_t);
-    pub fn alsactl_elem_value_set_bool(self_: *mut ALSACtlElemValue, values: *const gboolean, value_count: size_t);
-    pub fn alsactl_elem_value_set_bytes(self_: *mut ALSACtlElemValue, values: *const u8, value_count: size_t);
-    pub fn alsactl_elem_value_set_enum(self_: *mut ALSACtlElemValue, values: *const u32, value_count: size_t);
-    pub fn alsactl_elem_value_set_iec60958_channel_status(self_: *mut ALSACtlElemValue, status: *const u8, length: size_t);
-    pub fn alsactl_elem_value_set_iec60958_user_data(self_: *mut ALSACtlElemValue, data: *const u8, length: size_t);
-    pub fn alsactl_elem_value_set_int(self_: *mut ALSACtlElemValue, values: *const i32, value_count: size_t);
-    pub fn alsactl_elem_value_set_int64(self_: *mut ALSACtlElemValue, values: *const i64, value_count: size_t);
+    pub fn alsactl_elem_value_equal(
+        self_: *const ALSACtlElemValue,
+        target: *const ALSACtlElemValue,
+    ) -> gboolean;
+    pub fn alsactl_elem_value_get_bool(
+        self_: *mut ALSACtlElemValue,
+        values: *const *mut gboolean,
+        value_count: *mut size_t,
+    );
+    pub fn alsactl_elem_value_get_bytes(
+        self_: *mut ALSACtlElemValue,
+        values: *const *mut u8,
+        value_count: *mut size_t,
+    );
+    pub fn alsactl_elem_value_get_enum(
+        self_: *mut ALSACtlElemValue,
+        values: *const *mut u32,
+        value_count: *mut size_t,
+    );
+    pub fn alsactl_elem_value_get_iec60958_channel_status(
+        self_: *mut ALSACtlElemValue,
+        status: *const *mut u8,
+        length: *mut size_t,
+    );
+    pub fn alsactl_elem_value_get_iec60958_user_data(
+        self_: *mut ALSACtlElemValue,
+        data: *const *mut u8,
+        length: *mut size_t,
+    );
+    pub fn alsactl_elem_value_get_int(
+        self_: *mut ALSACtlElemValue,
+        values: *const *mut i32,
+        value_count: *mut size_t,
+    );
+    pub fn alsactl_elem_value_get_int64(
+        self_: *mut ALSACtlElemValue,
+        values: *const *mut i64,
+        value_count: *mut size_t,
+    );
+    pub fn alsactl_elem_value_set_bool(
+        self_: *mut ALSACtlElemValue,
+        values: *const gboolean,
+        value_count: size_t,
+    );
+    pub fn alsactl_elem_value_set_bytes(
+        self_: *mut ALSACtlElemValue,
+        values: *const u8,
+        value_count: size_t,
+    );
+    pub fn alsactl_elem_value_set_enum(
+        self_: *mut ALSACtlElemValue,
+        values: *const u32,
+        value_count: size_t,
+    );
+    pub fn alsactl_elem_value_set_iec60958_channel_status(
+        self_: *mut ALSACtlElemValue,
+        status: *const u8,
+        length: size_t,
+    );
+    pub fn alsactl_elem_value_set_iec60958_user_data(
+        self_: *mut ALSACtlElemValue,
+        data: *const u8,
+        length: size_t,
+    );
+    pub fn alsactl_elem_value_set_int(
+        self_: *mut ALSACtlElemValue,
+        values: *const i32,
+        value_count: size_t,
+    );
+    pub fn alsactl_elem_value_set_int64(
+        self_: *mut ALSACtlElemValue,
+        values: *const i64,
+        value_count: size_t,
+    );
 
     //=========================================================================
     // Other functions
     //=========================================================================
-    pub fn alsactl_get_card_id_list(entries: *mut *mut c_uint, entry_count: *mut size_t, error: *mut *mut glib::GError);
-    pub fn alsactl_get_card_sysname(card_id: c_uint, sysname: *mut *mut c_char, error: *mut *mut glib::GError);
-    pub fn alsactl_get_control_devnode(card_id: c_uint, devnode: *mut *mut c_char, error: *mut *mut glib::GError);
-    pub fn alsactl_get_control_sysname(card_id: c_uint, sysname: *mut *mut c_char, error: *mut *mut glib::GError);
-    pub fn alsactl_sigs_marshal_VOID__BOXED_FLAGS(closure: *mut gobject::GClosure, return_value: *mut gobject::GValue, n_param_values: c_uint, param_values: *const gobject::GValue, invocation_hint: gpointer, marshal_data: gpointer);
+    pub fn alsactl_get_card_id_list(
+        entries: *mut *mut c_uint,
+        entry_count: *mut size_t,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsactl_get_card_sysname(
+        card_id: c_uint,
+        sysname: *mut *mut c_char,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsactl_get_control_devnode(
+        card_id: c_uint,
+        devnode: *mut *mut c_char,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsactl_get_control_sysname(
+        card_id: c_uint,
+        sysname: *mut *mut c_char,
+        error: *mut *mut glib::GError,
+    );
+    pub fn alsactl_sigs_marshal_VOID__BOXED_FLAGS(
+        closure: *mut gobject::GClosure,
+        return_value: *mut gobject::GValue,
+        n_param_values: c_uint,
+        param_values: *const gobject::GValue,
+        invocation_hint: gpointer,
+        marshal_data: gpointer,
+    );
 
 }
