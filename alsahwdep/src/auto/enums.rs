@@ -13,8 +13,7 @@ use glib::Type;
 use gobject_sys;
 use std::fmt;
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum IfaceType {
     Opl2,
@@ -44,42 +43,46 @@ pub enum IfaceType {
     Line6,
     FwMotu,
     FwFireface,
-#[doc(hidden)]
+    #[doc(hidden)]
     __Unknown(i32),
 }
 
 impl fmt::Display for IfaceType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "IfaceType::{}", match *self {
-            IfaceType::Opl2 => "Opl2",
-            IfaceType::Opl3 => "Opl3",
-            IfaceType::Opl4 => "Opl4",
-            IfaceType::Sb16csp => "Sb16csp",
-            IfaceType::Emu10k1 => "Emu10k1",
-            IfaceType::Yss225 => "Yss225",
-            IfaceType::Ics2115 => "Ics2115",
-            IfaceType::Sscape => "Sscape",
-            IfaceType::Vx => "Vx",
-            IfaceType::Mixart => "Mixart",
-            IfaceType::Usx2y => "Usx2y",
-            IfaceType::EmuxWavetable => "EmuxWavetable",
-            IfaceType::Bluetooth => "Bluetooth",
-            IfaceType::Usx2yPcm => "Usx2yPcm",
-            IfaceType::Pcxhr => "Pcxhr",
-            IfaceType::SbRc => "SbRc",
-            IfaceType::Hda => "Hda",
-            IfaceType::UsbStream => "UsbStream",
-            IfaceType::FwDice => "FwDice",
-            IfaceType::FwFireworks => "FwFireworks",
-            IfaceType::FwBebob => "FwBebob",
-            IfaceType::FwOxfw => "FwOxfw",
-            IfaceType::FwDigi00x => "FwDigi00x",
-            IfaceType::FwTascam => "FwTascam",
-            IfaceType::Line6 => "Line6",
-            IfaceType::FwMotu => "FwMotu",
-            IfaceType::FwFireface => "FwFireface",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "IfaceType::{}",
+            match *self {
+                IfaceType::Opl2 => "Opl2",
+                IfaceType::Opl3 => "Opl3",
+                IfaceType::Opl4 => "Opl4",
+                IfaceType::Sb16csp => "Sb16csp",
+                IfaceType::Emu10k1 => "Emu10k1",
+                IfaceType::Yss225 => "Yss225",
+                IfaceType::Ics2115 => "Ics2115",
+                IfaceType::Sscape => "Sscape",
+                IfaceType::Vx => "Vx",
+                IfaceType::Mixart => "Mixart",
+                IfaceType::Usx2y => "Usx2y",
+                IfaceType::EmuxWavetable => "EmuxWavetable",
+                IfaceType::Bluetooth => "Bluetooth",
+                IfaceType::Usx2yPcm => "Usx2yPcm",
+                IfaceType::Pcxhr => "Pcxhr",
+                IfaceType::SbRc => "SbRc",
+                IfaceType::Hda => "Hda",
+                IfaceType::UsbStream => "UsbStream",
+                IfaceType::FwDice => "FwDice",
+                IfaceType::FwFireworks => "FwFireworks",
+                IfaceType::FwBebob => "FwBebob",
+                IfaceType::FwOxfw => "FwOxfw",
+                IfaceType::FwDigi00x => "FwDigi00x",
+                IfaceType::FwTascam => "FwTascam",
+                IfaceType::Line6 => "Line6",
+                IfaceType::FwMotu => "FwMotu",
+                IfaceType::FwFireface => "FwFireface",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -117,7 +120,7 @@ impl ToGlib for IfaceType {
             IfaceType::FwMotu => alsahwdep_sys::ALSAHWDEP_IFACE_TYPE_FW_MOTU,
             IfaceType::FwFireface => alsahwdep_sys::ALSAHWDEP_IFACE_TYPE_FW_FIREFACE,
             IfaceType::__Unknown(value) => value,
-}
+        }
     }
 }
 
@@ -153,7 +156,7 @@ impl FromGlib<alsahwdep_sys::ALSAHwdepIfaceType> for IfaceType {
             25 => IfaceType::FwMotu,
             26 => IfaceType::FwFireface,
             value => IfaceType::__Unknown(value),
-}
+        }
     }
 }
 
@@ -180,4 +183,3 @@ impl SetValue for IfaceType {
         gobject_sys::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
     }
 }
-
