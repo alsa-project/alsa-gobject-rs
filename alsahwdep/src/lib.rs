@@ -1,5 +1,11 @@
 // SPDX-License-Identifier: MIT
-mod auto;
+#[macro_use]
+extern crate glib;
+extern crate alsahwdep_sys;
+extern crate bitflags;
+extern crate glib_sys;
+extern crate gobject_sys;
+extern crate libc;
 
-pub use crate::auto::*;
-pub use ffi;
+mod auto;
+pub use auto::*;
