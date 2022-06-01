@@ -28,7 +28,7 @@ impl<O: IsA<ElemValue>> ElemValueExtManual for O {
         }
 
         unsafe {
-            ffi::alsactl_elem_value_set_bool(
+            alsactl_sys::alsactl_elem_value_set_bool(
                 self.as_ref().to_glib_none().0,
                 int_values.as_ptr(),
                 value_count,
@@ -45,7 +45,7 @@ impl<O: IsA<ElemValue>> ElemValueExtManual for O {
         }
 
         unsafe {
-            ffi::alsactl_elem_value_get_bool(
+            alsactl_sys::alsactl_elem_value_get_bool(
                 self.as_ref().to_glib_none().0,
                 &int_values.as_mut_ptr(),
                 &mut value_count,
@@ -61,7 +61,7 @@ impl<O: IsA<ElemValue>> ElemValueExtManual for O {
         unsafe {
             let mut value_count = values.len() as usize;
 
-            ffi::alsactl_elem_value_get_bytes(
+            alsactl_sys::alsactl_elem_value_get_bytes(
                 self.as_ref().to_glib_none().0,
                 &values.as_mut_ptr(),
                 &mut value_count,
@@ -73,7 +73,7 @@ impl<O: IsA<ElemValue>> ElemValueExtManual for O {
         unsafe {
             let mut value_count = values.len() as usize;
 
-            ffi::alsactl_elem_value_get_int(
+            alsactl_sys::alsactl_elem_value_get_int(
                 self.as_ref().to_glib_none().0,
                 &values.as_mut_ptr(),
                 &mut value_count,
@@ -85,7 +85,7 @@ impl<O: IsA<ElemValue>> ElemValueExtManual for O {
         unsafe {
             let mut value_count = values.len() as usize;
 
-            ffi::alsactl_elem_value_get_enum(
+            alsactl_sys::alsactl_elem_value_get_enum(
                 self.as_ref().to_glib_none().0,
                 &values.as_mut_ptr(),
                 &mut value_count,
@@ -97,7 +97,7 @@ impl<O: IsA<ElemValue>> ElemValueExtManual for O {
         unsafe {
             let mut value_count = values.len() as usize;
 
-            ffi::alsactl_elem_value_get_int64(
+            alsactl_sys::alsactl_elem_value_get_int64(
                 self.as_ref().to_glib_none().0,
                 &values.as_mut_ptr(),
                 &mut value_count,
@@ -109,7 +109,7 @@ impl<O: IsA<ElemValue>> ElemValueExtManual for O {
         unsafe {
             let mut count = status.len() as usize;
 
-            ffi::alsactl_elem_value_get_iec60958_channel_status(
+            alsactl_sys::alsactl_elem_value_get_iec60958_channel_status(
                 self.as_ref().to_glib_none().0,
                 &status.as_mut_ptr(),
                 &mut count,
@@ -121,7 +121,7 @@ impl<O: IsA<ElemValue>> ElemValueExtManual for O {
         unsafe {
             let mut count = data.len() as usize;
 
-            ffi::alsactl_elem_value_get_iec60958_user_data(
+            alsactl_sys::alsactl_elem_value_get_iec60958_user_data(
                 self.as_ref().to_glib_none().0,
                 &data.as_mut_ptr(),
                 &mut count,

@@ -2,22 +2,22 @@
 use crate::*;
 
 pub trait ElemInfoExtManual {
-    fn get_int_data(&self) -> Result<&[i32; 3], glib::Error>;
-    fn set_int_data(&self, data: &[i32; 3]) -> Result<(), glib::Error>;
+    fn get_int_data(&self) -> Result<&[i32;3], glib::Error>;
+    fn set_int_data(&self, data: &[i32;3]) -> Result<(), glib::Error>;
 
-    fn get_int64_data(&self) -> Result<&[i64; 3], glib::Error>;
-    fn set_int64_data(&self, data: &[i64; 3]) -> Result<(), glib::Error>;
+    fn get_int64_data(&self) -> Result<&[i64;3], glib::Error>;
+    fn set_int64_data(&self, data: &[i64;3]) -> Result<(), glib::Error>;
 }
 
 impl<O: IsA<ElemInfo>> ElemInfoExtManual for O {
-    fn get_int_data(&self) -> Result<&[i32; 3], glib::Error> {
+    fn get_int_data(&self) -> Result<&[i32;3], glib::Error> {
         unsafe {
-            let mut data = std::ptr::null_mut() as *const [i32; 3];
+            let mut data = std::ptr::null_mut() as *const [i32;3];
             let mut error = std::ptr::null_mut();
 
-            ffi::alsactl_elem_info_get_int_data(
+            alsactl_sys::alsactl_elem_info_get_int_data(
                 self.as_ref().to_glib_none().0,
-                &mut data as *mut *const [i32; 3],
+                &mut data as *mut *const [i32;3],
                 &mut error,
             );
 
@@ -29,11 +29,15 @@ impl<O: IsA<ElemInfo>> ElemInfoExtManual for O {
         }
     }
 
-    fn set_int_data(&self, data: &[i32; 3]) -> Result<(), glib::Error> {
+    fn set_int_data(&self, data: &[i32;3]) -> Result<(), glib::Error> {
         unsafe {
             let mut error = std::ptr::null_mut();
 
-            ffi::alsactl_elem_info_set_int_data(self.as_ref().to_glib_none().0, data, &mut error);
+            alsactl_sys::alsactl_elem_info_set_int_data(
+                self.as_ref().to_glib_none().0,
+                data,
+                &mut error,
+            );
 
             if error.is_null() {
                 Ok(())
@@ -43,14 +47,14 @@ impl<O: IsA<ElemInfo>> ElemInfoExtManual for O {
         }
     }
 
-    fn get_int64_data(&self) -> Result<&[i64; 3], glib::Error> {
+    fn get_int64_data(&self) -> Result<&[i64;3], glib::Error> {
         unsafe {
-            let mut data = std::ptr::null_mut() as *const [i64; 3];
+            let mut data = std::ptr::null_mut() as *const [i64;3];
             let mut error = std::ptr::null_mut();
 
-            ffi::alsactl_elem_info_get_int64_data(
+            alsactl_sys::alsactl_elem_info_get_int64_data(
                 self.as_ref().to_glib_none().0,
-                &mut data as *mut *const [i64; 3],
+                &mut data as *mut *const [i64;3],
                 &mut error,
             );
 
@@ -62,11 +66,15 @@ impl<O: IsA<ElemInfo>> ElemInfoExtManual for O {
         }
     }
 
-    fn set_int64_data(&self, data: &[i64; 3]) -> Result<(), glib::Error> {
+    fn set_int64_data(&self, data: &[i64;3]) -> Result<(), glib::Error> {
         unsafe {
             let mut error = std::ptr::null_mut();
 
-            ffi::alsactl_elem_info_set_int64_data(self.as_ref().to_glib_none().0, data, &mut error);
+            alsactl_sys::alsactl_elem_info_set_int64_data(
+                self.as_ref().to_glib_none().0,
+                data,
+                &mut error,
+            );
 
             if error.is_null() {
                 Ok(())
