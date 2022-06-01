@@ -1,22 +1,24 @@
 // SPDX-License-Identifier: MIT
+extern crate alsactl;
+extern crate glib;
 use alsactl::{traits::*, *};
 use glib::Error;
 
 fn dump_elem_data(card: &alsactl::Card, elem_id: &alsactl::ElemId) -> Result<(), Error> {
-    println!("Element {}:", elem_id.numid());
-    println!("  device_id:      {}", elem_id.device_id());
-    println!("  subdevice_id:   {}", elem_id.subdevice_id());
-    println!("  name :          {}", elem_id.name());
-    println!("  iface:          {}", elem_id.iface());
-    println!("  index:          {}", elem_id.index());
+    println!("Element {}:", elem_id.get_numid());
+    println!("  device_id:      {}", elem_id.get_device_id());
+    println!("  subdevice_id:   {}", elem_id.get_subdevice_id());
+    println!("  name :          {}", elem_id.get_name());
+    println!("  iface:          {}", elem_id.get_iface());
+    println!("  index:          {}", elem_id.get_index());
 
-    let elem_info = card.elem_info(elem_id)?;
+    let elem_info = card.get_elem_info(elem_id)?;
 
-    let elem_access = elem_info.access();
-    let elem_type = elem_info.type_();
-    let value_count = elem_info.value_count() as usize;
+    let elem_access = elem_info.get_property_access();
+    let elem_type = elem_info.get_property_type();
+    let value_count = elem_info.get_property_value_count() as usize;
     println!("  access:         {:?}", elem_access);
-    println!("  owner:          {}", elem_info.owner());
+    println!("  owner:          {}", elem_info.get_property_owner());
     println!("  value-count:    {}", value_count);
     println!("  type:           {}", elem_type);
 
@@ -28,7 +30,7 @@ fn dump_elem_data(card: &alsactl::Card, elem_id: &alsactl::ElemId) -> Result<(),
             println!("    step:         {}", data[2]);
         }
         ElemType::Enumerated => {
-            let data = elem_info.enum_data()?;
+            let data = elem_info.get_enum_data()?;
             data.iter().enumerate().for_each(|(i, label)| {
                 println!("    {}:       {}", i, label);
             });
@@ -92,7 +94,7 @@ fn dump_elem_data(card: &alsactl::Card, elem_id: &alsactl::ElemId) -> Result<(),
 }
 
 fn main() {
-    let card_id_list = match alsactl::functions::card_id_list() {
+    let card_id_list = match alsactl::functions::get_card_id_list() {
         Ok(entries) => entries,
         Err(_) => {
             eprintln!("Fail to get the list of sound card.");
@@ -117,7 +119,7 @@ fn main() {
 
         elem_id_list.iter().for_each(|elem_id| {
             if dump_elem_data(&card, elem_id).is_err() {
-                eprintln!("Fail to dump the data of element: {}", elem_id.name());
+                eprintln!("Fail to dump the data of element: {}", elem_id.get_name());
                 std::process::exit(1);
             }
         });
