@@ -2,12 +2,9 @@
 use crate::*;
 
 pub trait UserClientExtManual {
-    fn get_protocol_version(&self) -> Result<&[u16;3], glib::Error>;
+    fn get_protocol_version(&self) -> Result<&[u16; 3], glib::Error>;
 
-    fn create_port<P: IsA<PortInfo>>(
-        &self,
-        port_info: &mut P,
-    ) -> Result<(), glib::Error>;
+    fn create_port<P: IsA<PortInfo>>(&self, port_info: &mut P) -> Result<(), glib::Error>;
 
     fn create_port_at<P: IsA<PortInfo>>(
         &self,
@@ -15,10 +12,7 @@ pub trait UserClientExtManual {
         port_id: u8,
     ) -> Result<(), glib::Error>;
 
-    fn create_queue<P: IsA<QueueInfo>>(
-        &self,
-        queue_info: &mut P,
-    ) -> Result<(), glib::Error>;
+    fn create_queue<P: IsA<QueueInfo>>(&self, queue_info: &mut P) -> Result<(), glib::Error>;
 
     fn get_info<P: IsA<ClientInfo>>(&self, client_info: &mut P) -> Result<(), glib::Error>;
 
@@ -26,14 +20,14 @@ pub trait UserClientExtManual {
 }
 
 impl<O: IsA<UserClient>> UserClientExtManual for O {
-    fn get_protocol_version(&self) -> Result<&[u16;3], glib::Error> {
+    fn get_protocol_version(&self) -> Result<&[u16; 3], glib::Error> {
         unsafe {
-            let mut triplet = std::ptr::null_mut() as *const [u16;3];
+            let mut triplet = std::ptr::null_mut() as *const [u16; 3];
             let mut error = std::ptr::null_mut();
 
             alsaseq_sys::alsaseq_user_client_get_protocol_version(
                 self.as_ref().to_glib_none().0,
-                &mut triplet as *mut *const [u16;3],
+                &mut triplet as *mut *const [u16; 3],
                 &mut error,
             );
 
@@ -45,10 +39,7 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
         }
     }
 
-    fn create_port<P: IsA<PortInfo>>(
-        &self,
-        port_info: &mut P,
-    ) -> Result<(), glib::Error> {
+    fn create_port<P: IsA<PortInfo>>(&self, port_info: &mut P) -> Result<(), glib::Error> {
         unsafe {
             let mut error = std::ptr::null_mut();
             alsaseq_sys::alsaseq_user_client_create_port(
@@ -85,10 +76,7 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
         }
     }
 
-    fn create_queue<P: IsA<QueueInfo>>(
-        &self,
-        queue_info: &mut P,
-    ) -> Result<(), glib::Error> {
+    fn create_queue<P: IsA<QueueInfo>>(&self, queue_info: &mut P) -> Result<(), glib::Error> {
         unsafe {
             let mut error = std::ptr::null_mut();
 

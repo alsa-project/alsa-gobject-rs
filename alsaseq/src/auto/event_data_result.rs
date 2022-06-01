@@ -23,7 +23,10 @@ impl EventDataResult {
     pub fn get_event(&self) -> EventType {
         unsafe {
             let mut event_type = mem::MaybeUninit::uninit();
-            alsaseq_sys::alsaseq_event_data_result_get_event(self.to_glib_none().0, event_type.as_mut_ptr());
+            alsaseq_sys::alsaseq_event_data_result_get_event(
+                self.to_glib_none().0,
+                event_type.as_mut_ptr(),
+            );
             let event_type = event_type.assume_init();
             from_glib(event_type)
         }
@@ -32,7 +35,10 @@ impl EventDataResult {
     pub fn get_result(&self) -> i32 {
         unsafe {
             let mut result = mem::MaybeUninit::uninit();
-            alsaseq_sys::alsaseq_event_data_result_get_result(self.to_glib_none().0, result.as_mut_ptr());
+            alsaseq_sys::alsaseq_event_data_result_get_result(
+                self.to_glib_none().0,
+                result.as_mut_ptr(),
+            );
             let result = result.assume_init();
             result
         }
@@ -40,7 +46,10 @@ impl EventDataResult {
 
     pub fn set_event(&mut self, event_type: EventType) {
         unsafe {
-            alsaseq_sys::alsaseq_event_data_result_set_event(self.to_glib_none_mut().0, event_type.to_glib());
+            alsaseq_sys::alsaseq_event_data_result_set_event(
+                self.to_glib_none_mut().0,
+                event_type.to_glib(),
+            );
         }
     }
 

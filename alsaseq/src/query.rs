@@ -24,7 +24,10 @@ pub fn get_subscription_list(
     }
 }
 
-pub fn get_queue_status<P: IsA<QueueStatus>>(queue_id: u8, queue_status: &mut P) -> Result<(), glib::Error> {
+pub fn get_queue_status<P: IsA<QueueStatus>>(
+    queue_id: u8,
+    queue_status: &mut P,
+) -> Result<(), glib::Error> {
     unsafe {
         let mut error = std::ptr::null_mut();
 

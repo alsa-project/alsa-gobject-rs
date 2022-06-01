@@ -26,9 +26,7 @@ glib_wrapper! {
 
 impl QueueTempo {
     pub fn new() -> QueueTempo {
-        unsafe {
-            from_glib_full(alsaseq_sys::alsaseq_queue_tempo_new())
-        }
+        unsafe { from_glib_full(alsaseq_sys::alsaseq_queue_tempo_new()) }
     }
 }
 
@@ -64,84 +62,147 @@ impl<O: IsA<QueueTempo>> QueueTempoExt for O {
     fn get_property_queue_id(&self) -> u8 {
         unsafe {
             let mut value = Value::from_type(<u8 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"queue-id\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `queue-id` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"queue-id\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `queue-id` getter")
+                .unwrap()
         }
     }
 
     fn set_property_queue_id(&self, queue_id: u8) {
         unsafe {
-            gobject_sys::g_object_set_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"queue-id\0".as_ptr() as *const _, Value::from(&queue_id).to_glib_none().0);
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"queue-id\0".as_ptr() as *const _,
+                Value::from(&queue_id).to_glib_none().0,
+            );
         }
     }
 
     fn get_property_resolution(&self) -> i32 {
         unsafe {
             let mut value = Value::from_type(<i32 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"resolution\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `resolution` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"resolution\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `resolution` getter")
+                .unwrap()
         }
     }
 
     fn set_property_resolution(&self, resolution: i32) {
         unsafe {
-            gobject_sys::g_object_set_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"resolution\0".as_ptr() as *const _, Value::from(&resolution).to_glib_none().0);
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"resolution\0".as_ptr() as *const _,
+                Value::from(&resolution).to_glib_none().0,
+            );
         }
     }
 
     fn get_property_tempo(&self) -> u32 {
         unsafe {
             let mut value = Value::from_type(<u32 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"tempo\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `tempo` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"tempo\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `tempo` getter")
+                .unwrap()
         }
     }
 
     fn set_property_tempo(&self, tempo: u32) {
         unsafe {
-            gobject_sys::g_object_set_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"tempo\0".as_ptr() as *const _, Value::from(&tempo).to_glib_none().0);
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"tempo\0".as_ptr() as *const _,
+                Value::from(&tempo).to_glib_none().0,
+            );
         }
     }
 
     fn connect_property_queue_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_queue_id_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsaseq_sys::ALSASeqQueueTempo, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<QueueTempo>
+        unsafe extern "C" fn notify_queue_id_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsaseq_sys::ALSASeqQueueTempo,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<QueueTempo>,
         {
             let f: &F = &*(f as *const F);
             f(&QueueTempo::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::queue-id\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_queue_id_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::queue-id\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_queue_id_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_resolution_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_resolution_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsaseq_sys::ALSASeqQueueTempo, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<QueueTempo>
+        unsafe extern "C" fn notify_resolution_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsaseq_sys::ALSASeqQueueTempo,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<QueueTempo>,
         {
             let f: &F = &*(f as *const F);
             f(&QueueTempo::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::resolution\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_resolution_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::resolution\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_resolution_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_tempo_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_tempo_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsaseq_sys::ALSASeqQueueTempo, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<QueueTempo>
+        unsafe extern "C" fn notify_tempo_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsaseq_sys::ALSASeqQueueTempo,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<QueueTempo>,
         {
             let f: &F = &*(f as *const F);
             f(&QueueTempo::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::tempo\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_tempo_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::tempo\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_tempo_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 }

@@ -22,7 +22,10 @@ impl QueueTimerDataAlsa {
     pub fn get_resolution(&self) -> u32 {
         unsafe {
             let mut resolution = mem::MaybeUninit::uninit();
-            alsaseq_sys::alsaseq_queue_timer_data_alsa_get_resolution(self.to_glib_none().0, resolution.as_mut_ptr());
+            alsaseq_sys::alsaseq_queue_timer_data_alsa_get_resolution(
+                self.to_glib_none().0,
+                resolution.as_mut_ptr(),
+            );
             let resolution = resolution.assume_init();
             resolution
         }
@@ -30,7 +33,10 @@ impl QueueTimerDataAlsa {
 
     pub fn set_resolution(&mut self, resolution: u32) {
         unsafe {
-            alsaseq_sys::alsaseq_queue_timer_data_alsa_set_resolution(self.to_glib_none_mut().0, resolution);
+            alsaseq_sys::alsaseq_queue_timer_data_alsa_set_resolution(
+                self.to_glib_none_mut().0,
+                resolution,
+            );
         }
     }
 }

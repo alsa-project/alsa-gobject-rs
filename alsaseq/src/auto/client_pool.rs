@@ -26,9 +26,7 @@ glib_wrapper! {
 
 impl ClientPool {
     pub fn new() -> ClientPool {
-        unsafe {
-            from_glib_full(alsaseq_sys::alsaseq_client_pool_new())
-        }
+        unsafe { from_glib_full(alsaseq_sys::alsaseq_client_pool_new()) }
     }
 }
 
@@ -80,162 +78,284 @@ impl<O: IsA<ClientPool>> ClientPoolExt for O {
     fn get_property_client_id(&self) -> u8 {
         unsafe {
             let mut value = Value::from_type(<u8 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"client-id\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `client-id` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"client-id\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `client-id` getter")
+                .unwrap()
         }
     }
 
     fn get_property_input_free(&self) -> i32 {
         unsafe {
             let mut value = Value::from_type(<i32 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"input-free\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `input-free` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"input-free\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `input-free` getter")
+                .unwrap()
         }
     }
 
     fn set_property_input_free(&self, input_free: i32) {
         unsafe {
-            gobject_sys::g_object_set_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"input-free\0".as_ptr() as *const _, Value::from(&input_free).to_glib_none().0);
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"input-free\0".as_ptr() as *const _,
+                Value::from(&input_free).to_glib_none().0,
+            );
         }
     }
 
     fn get_property_input_pool(&self) -> i32 {
         unsafe {
             let mut value = Value::from_type(<i32 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"input-pool\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `input-pool` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"input-pool\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `input-pool` getter")
+                .unwrap()
         }
     }
 
     fn set_property_input_pool(&self, input_pool: i32) {
         unsafe {
-            gobject_sys::g_object_set_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"input-pool\0".as_ptr() as *const _, Value::from(&input_pool).to_glib_none().0);
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"input-pool\0".as_ptr() as *const _,
+                Value::from(&input_pool).to_glib_none().0,
+            );
         }
     }
 
     fn get_property_output_free(&self) -> i32 {
         unsafe {
             let mut value = Value::from_type(<i32 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"output-free\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `output-free` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"output-free\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `output-free` getter")
+                .unwrap()
         }
     }
 
     fn set_property_output_free(&self, output_free: i32) {
         unsafe {
-            gobject_sys::g_object_set_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"output-free\0".as_ptr() as *const _, Value::from(&output_free).to_glib_none().0);
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"output-free\0".as_ptr() as *const _,
+                Value::from(&output_free).to_glib_none().0,
+            );
         }
     }
 
     fn get_property_output_pool(&self) -> i32 {
         unsafe {
             let mut value = Value::from_type(<i32 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"output-pool\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `output-pool` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"output-pool\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `output-pool` getter")
+                .unwrap()
         }
     }
 
     fn set_property_output_pool(&self, output_pool: i32) {
         unsafe {
-            gobject_sys::g_object_set_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"output-pool\0".as_ptr() as *const _, Value::from(&output_pool).to_glib_none().0);
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"output-pool\0".as_ptr() as *const _,
+                Value::from(&output_pool).to_glib_none().0,
+            );
         }
     }
 
     fn get_property_output_room(&self) -> i32 {
         unsafe {
             let mut value = Value::from_type(<i32 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"output-room\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `output-room` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"output-room\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `output-room` getter")
+                .unwrap()
         }
     }
 
     fn set_property_output_room(&self, output_room: i32) {
         unsafe {
-            gobject_sys::g_object_set_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"output-room\0".as_ptr() as *const _, Value::from(&output_room).to_glib_none().0);
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"output-room\0".as_ptr() as *const _,
+                Value::from(&output_room).to_glib_none().0,
+            );
         }
     }
 
     fn connect_property_client_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_client_id_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsaseq_sys::ALSASeqClientPool, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<ClientPool>
+        unsafe extern "C" fn notify_client_id_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsaseq_sys::ALSASeqClientPool,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<ClientPool>,
         {
             let f: &F = &*(f as *const F);
             f(&ClientPool::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::client-id\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_client_id_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::client-id\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_client_id_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_input_free_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_input_free_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsaseq_sys::ALSASeqClientPool, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<ClientPool>
+        unsafe extern "C" fn notify_input_free_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsaseq_sys::ALSASeqClientPool,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<ClientPool>,
         {
             let f: &F = &*(f as *const F);
             f(&ClientPool::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::input-free\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_input_free_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::input-free\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_input_free_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_input_pool_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_input_pool_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsaseq_sys::ALSASeqClientPool, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<ClientPool>
+        unsafe extern "C" fn notify_input_pool_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsaseq_sys::ALSASeqClientPool,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<ClientPool>,
         {
             let f: &F = &*(f as *const F);
             f(&ClientPool::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::input-pool\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_input_pool_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::input-pool\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_input_pool_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_output_free_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_output_free_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsaseq_sys::ALSASeqClientPool, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<ClientPool>
+        unsafe extern "C" fn notify_output_free_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsaseq_sys::ALSASeqClientPool,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<ClientPool>,
         {
             let f: &F = &*(f as *const F);
             f(&ClientPool::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::output-free\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_output_free_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::output-free\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_output_free_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_output_pool_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_output_pool_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsaseq_sys::ALSASeqClientPool, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<ClientPool>
+        unsafe extern "C" fn notify_output_pool_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsaseq_sys::ALSASeqClientPool,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<ClientPool>,
         {
             let f: &F = &*(f as *const F);
             f(&ClientPool::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::output-pool\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_output_pool_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::output-pool\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_output_pool_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_output_room_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_output_room_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsaseq_sys::ALSASeqClientPool, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<ClientPool>
+        unsafe extern "C" fn notify_output_room_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsaseq_sys::ALSASeqClientPool,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<ClientPool>,
         {
             let f: &F = &*(f as *const F);
             f(&ClientPool::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::output-room\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_output_room_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::output-room\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_output_room_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 }

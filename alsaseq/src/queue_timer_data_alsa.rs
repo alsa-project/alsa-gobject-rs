@@ -42,13 +42,31 @@ mod test {
         let curr_device_id = data.get_device_id();
 
         assert_ne!(expected_device_id.get_class(), orig_device_id.get_class());
-        assert_ne!(expected_device_id.get_card_id(), orig_device_id.get_card_id());
-        assert_ne!(expected_device_id.get_device_id(), orig_device_id.get_device_id());
-        assert_ne!(expected_device_id.get_subdevice_id(), orig_device_id.get_subdevice_id());
+        assert_ne!(
+            expected_device_id.get_card_id(),
+            orig_device_id.get_card_id()
+        );
+        assert_ne!(
+            expected_device_id.get_device_id(),
+            orig_device_id.get_device_id()
+        );
+        assert_ne!(
+            expected_device_id.get_subdevice_id(),
+            orig_device_id.get_subdevice_id()
+        );
 
         assert_eq!(expected_device_id.get_class(), curr_device_id.get_class());
-        assert_eq!(expected_device_id.get_card_id(), curr_device_id.get_card_id());
-        assert_eq!(expected_device_id.get_device_id(), curr_device_id.get_device_id());
-        assert_eq!(expected_device_id.get_subdevice_id(), curr_device_id.get_subdevice_id());
+        assert_eq!(
+            expected_device_id.get_card_id(),
+            curr_device_id.get_card_id()
+        );
+        assert_eq!(
+            expected_device_id.get_device_id(),
+            curr_device_id.get_device_id()
+        );
+        assert_eq!(
+            expected_device_id.get_subdevice_id(),
+            curr_device_id.get_subdevice_id()
+        );
     }
 }

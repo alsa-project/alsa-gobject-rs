@@ -23,7 +23,10 @@ impl EventDataQueue {
     pub fn get_position_param(&self) -> u32 {
         unsafe {
             let mut position = mem::MaybeUninit::uninit();
-            alsaseq_sys::alsaseq_event_data_queue_get_position_param(self.to_glib_none().0, position.as_mut_ptr());
+            alsaseq_sys::alsaseq_event_data_queue_get_position_param(
+                self.to_glib_none().0,
+                position.as_mut_ptr(),
+            );
             let position = position.assume_init();
             position
         }
@@ -32,7 +35,10 @@ impl EventDataQueue {
     pub fn get_queue_id(&self) -> u8 {
         unsafe {
             let mut queue_id = mem::MaybeUninit::uninit();
-            alsaseq_sys::alsaseq_event_data_queue_get_queue_id(self.to_glib_none().0, queue_id.as_mut_ptr());
+            alsaseq_sys::alsaseq_event_data_queue_get_queue_id(
+                self.to_glib_none().0,
+                queue_id.as_mut_ptr(),
+            );
             let queue_id = queue_id.assume_init();
             queue_id
         }
@@ -41,7 +47,10 @@ impl EventDataQueue {
     pub fn get_value_param(&self) -> i32 {
         unsafe {
             let mut value = mem::MaybeUninit::uninit();
-            alsaseq_sys::alsaseq_event_data_queue_get_value_param(self.to_glib_none().0, value.as_mut_ptr());
+            alsaseq_sys::alsaseq_event_data_queue_get_value_param(
+                self.to_glib_none().0,
+                value.as_mut_ptr(),
+            );
             let value = value.assume_init();
             value
         }
@@ -49,7 +58,10 @@ impl EventDataQueue {
 
     pub fn set_position_param(&mut self, position: u32) {
         unsafe {
-            alsaseq_sys::alsaseq_event_data_queue_set_position_param(self.to_glib_none_mut().0, position);
+            alsaseq_sys::alsaseq_event_data_queue_set_position_param(
+                self.to_glib_none_mut().0,
+                position,
+            );
         }
     }
 
@@ -61,7 +73,10 @@ impl EventDataQueue {
 
     pub fn set_tstamp_param(&mut self, tstamp: &Tstamp) {
         unsafe {
-            alsaseq_sys::alsaseq_event_data_queue_set_tstamp_param(self.to_glib_none_mut().0, tstamp.to_glib_none().0);
+            alsaseq_sys::alsaseq_event_data_queue_set_tstamp_param(
+                self.to_glib_none_mut().0,
+                tstamp.to_glib_none().0,
+            );
         }
     }
 

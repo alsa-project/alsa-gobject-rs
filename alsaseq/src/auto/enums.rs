@@ -15,25 +15,28 @@ use glib::Type;
 use gobject_sys;
 use std::fmt;
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum ClientType {
     None,
     User,
     Kernel,
-#[doc(hidden)]
+    #[doc(hidden)]
     __Unknown(i32),
 }
 
 impl fmt::Display for ClientType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "ClientType::{}", match *self {
-            ClientType::None => "None",
-            ClientType::User => "User",
-            ClientType::Kernel => "Kernel",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "ClientType::{}",
+            match *self {
+                ClientType::None => "None",
+                ClientType::User => "User",
+                ClientType::Kernel => "Kernel",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -47,7 +50,7 @@ impl ToGlib for ClientType {
             ClientType::User => alsaseq_sys::ALSASEQ_CLIENT_TYPE_USER,
             ClientType::Kernel => alsaseq_sys::ALSASEQ_CLIENT_TYPE_KERNEL,
             ClientType::__Unknown(value) => value,
-}
+        }
     }
 }
 
@@ -59,7 +62,7 @@ impl FromGlib<alsaseq_sys::ALSASeqClientType> for ClientType {
             1 => ClientType::User,
             2 => ClientType::Kernel,
             value => ClientType::__Unknown(value),
-}
+        }
     }
 }
 
@@ -87,25 +90,28 @@ impl SetValue for ClientType {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum EventLengthMode {
     Fixed,
     Variable,
     Pointer,
-#[doc(hidden)]
+    #[doc(hidden)]
     __Unknown(i32),
 }
 
 impl fmt::Display for EventLengthMode {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "EventLengthMode::{}", match *self {
-            EventLengthMode::Fixed => "Fixed",
-            EventLengthMode::Variable => "Variable",
-            EventLengthMode::Pointer => "Pointer",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "EventLengthMode::{}",
+            match *self {
+                EventLengthMode::Fixed => "Fixed",
+                EventLengthMode::Variable => "Variable",
+                EventLengthMode::Pointer => "Pointer",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -119,7 +125,7 @@ impl ToGlib for EventLengthMode {
             EventLengthMode::Variable => alsaseq_sys::ALSASEQ_EVENT_LENGTH_MODE_VARIABLE,
             EventLengthMode::Pointer => alsaseq_sys::ALSASEQ_EVENT_LENGTH_MODE_POINTER,
             EventLengthMode::__Unknown(value) => value,
-}
+        }
     }
 }
 
@@ -131,7 +137,7 @@ impl FromGlib<alsaseq_sys::ALSASeqEventLengthMode> for EventLengthMode {
             4 => EventLengthMode::Variable,
             8 => EventLengthMode::Pointer,
             value => EventLengthMode::__Unknown(value),
-}
+        }
     }
 }
 
@@ -159,23 +165,26 @@ impl SetValue for EventLengthMode {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum EventPriorityMode {
     Normal,
     High,
-#[doc(hidden)]
+    #[doc(hidden)]
     __Unknown(i32),
 }
 
 impl fmt::Display for EventPriorityMode {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "EventPriorityMode::{}", match *self {
-            EventPriorityMode::Normal => "Normal",
-            EventPriorityMode::High => "High",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "EventPriorityMode::{}",
+            match *self {
+                EventPriorityMode::Normal => "Normal",
+                EventPriorityMode::High => "High",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -188,7 +197,7 @@ impl ToGlib for EventPriorityMode {
             EventPriorityMode::Normal => alsaseq_sys::ALSASEQ_EVENT_PRIORITY_MODE_NORMAL,
             EventPriorityMode::High => alsaseq_sys::ALSASEQ_EVENT_PRIORITY_MODE_HIGH,
             EventPriorityMode::__Unknown(value) => value,
-}
+        }
     }
 }
 
@@ -199,7 +208,7 @@ impl FromGlib<alsaseq_sys::ALSASeqEventPriorityMode> for EventPriorityMode {
             0 => EventPriorityMode::Normal,
             16 => EventPriorityMode::High,
             value => EventPriorityMode::__Unknown(value),
-}
+        }
     }
 }
 
@@ -227,23 +236,26 @@ impl SetValue for EventPriorityMode {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum EventTimeMode {
     Abs,
     Rel,
-#[doc(hidden)]
+    #[doc(hidden)]
     __Unknown(i32),
 }
 
 impl fmt::Display for EventTimeMode {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "EventTimeMode::{}", match *self {
-            EventTimeMode::Abs => "Abs",
-            EventTimeMode::Rel => "Rel",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "EventTimeMode::{}",
+            match *self {
+                EventTimeMode::Abs => "Abs",
+                EventTimeMode::Rel => "Rel",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -256,7 +268,7 @@ impl ToGlib for EventTimeMode {
             EventTimeMode::Abs => alsaseq_sys::ALSASEQ_EVENT_TIME_MODE_ABS,
             EventTimeMode::Rel => alsaseq_sys::ALSASEQ_EVENT_TIME_MODE_REL,
             EventTimeMode::__Unknown(value) => value,
-}
+        }
     }
 }
 
@@ -267,7 +279,7 @@ impl FromGlib<alsaseq_sys::ALSASeqEventTimeMode> for EventTimeMode {
             0 => EventTimeMode::Abs,
             2 => EventTimeMode::Rel,
             value => EventTimeMode::__Unknown(value),
-}
+        }
     }
 }
 
@@ -295,23 +307,26 @@ impl SetValue for EventTimeMode {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum EventTimestampMode {
     Tick,
     Real,
-#[doc(hidden)]
+    #[doc(hidden)]
     __Unknown(i32),
 }
 
 impl fmt::Display for EventTimestampMode {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "EventTimestampMode::{}", match *self {
-            EventTimestampMode::Tick => "Tick",
-            EventTimestampMode::Real => "Real",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "EventTimestampMode::{}",
+            match *self {
+                EventTimestampMode::Tick => "Tick",
+                EventTimestampMode::Real => "Real",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -324,7 +339,7 @@ impl ToGlib for EventTimestampMode {
             EventTimestampMode::Tick => alsaseq_sys::ALSASEQ_EVENT_TIMESTAMP_MODE_TICK,
             EventTimestampMode::Real => alsaseq_sys::ALSASEQ_EVENT_TIMESTAMP_MODE_REAL,
             EventTimestampMode::__Unknown(value) => value,
-}
+        }
     }
 }
 
@@ -335,7 +350,7 @@ impl FromGlib<alsaseq_sys::ALSASeqEventTimestampMode> for EventTimestampMode {
             0 => EventTimestampMode::Tick,
             1 => EventTimestampMode::Real,
             value => EventTimestampMode::__Unknown(value),
-}
+        }
     }
 }
 
@@ -363,8 +378,7 @@ impl SetValue for EventTimestampMode {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum EventType {
     System,
@@ -425,73 +439,77 @@ pub enum EventType {
     UsrVar3,
     UsrVar4,
     None,
-#[doc(hidden)]
+    #[doc(hidden)]
     __Unknown(i32),
 }
 
 impl fmt::Display for EventType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "EventType::{}", match *self {
-            EventType::System => "System",
-            EventType::Result => "Result",
-            EventType::Note => "Note",
-            EventType::Noteon => "Noteon",
-            EventType::Noteoff => "Noteoff",
-            EventType::Keypress => "Keypress",
-            EventType::Controller => "Controller",
-            EventType::Pgmchange => "Pgmchange",
-            EventType::Chanpress => "Chanpress",
-            EventType::Pitchbend => "Pitchbend",
-            EventType::Control14 => "Control14",
-            EventType::Nonregparam => "Nonregparam",
-            EventType::Regparam => "Regparam",
-            EventType::Songpos => "Songpos",
-            EventType::Songsel => "Songsel",
-            EventType::Qframe => "Qframe",
-            EventType::Timesign => "Timesign",
-            EventType::Keysign => "Keysign",
-            EventType::Start => "Start",
-            EventType::Continue => "Continue",
-            EventType::Stop => "Stop",
-            EventType::SetposTick => "SetposTick",
-            EventType::SetposTime => "SetposTime",
-            EventType::Tempo => "Tempo",
-            EventType::Clock => "Clock",
-            EventType::Tick => "Tick",
-            EventType::QueueSkew => "QueueSkew",
-            EventType::TuneRequest => "TuneRequest",
-            EventType::Reset => "Reset",
-            EventType::Sensing => "Sensing",
-            EventType::Echo => "Echo",
-            EventType::Oss => "Oss",
-            EventType::ClientStart => "ClientStart",
-            EventType::ClientExit => "ClientExit",
-            EventType::ClientChange => "ClientChange",
-            EventType::PortStart => "PortStart",
-            EventType::PortExit => "PortExit",
-            EventType::PortChange => "PortChange",
-            EventType::PortSubscribed => "PortSubscribed",
-            EventType::PortUnsubscribed => "PortUnsubscribed",
-            EventType::Usr0 => "Usr0",
-            EventType::Usr1 => "Usr1",
-            EventType::Usr2 => "Usr2",
-            EventType::Usr3 => "Usr3",
-            EventType::Usr4 => "Usr4",
-            EventType::Usr5 => "Usr5",
-            EventType::Usr6 => "Usr6",
-            EventType::Usr7 => "Usr7",
-            EventType::Usr8 => "Usr8",
-            EventType::Usr9 => "Usr9",
-            EventType::Sysex => "Sysex",
-            EventType::Bounce => "Bounce",
-            EventType::UsrVar0 => "UsrVar0",
-            EventType::UsrVar1 => "UsrVar1",
-            EventType::UsrVar2 => "UsrVar2",
-            EventType::UsrVar3 => "UsrVar3",
-            EventType::UsrVar4 => "UsrVar4",
-            EventType::None => "None",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "EventType::{}",
+            match *self {
+                EventType::System => "System",
+                EventType::Result => "Result",
+                EventType::Note => "Note",
+                EventType::Noteon => "Noteon",
+                EventType::Noteoff => "Noteoff",
+                EventType::Keypress => "Keypress",
+                EventType::Controller => "Controller",
+                EventType::Pgmchange => "Pgmchange",
+                EventType::Chanpress => "Chanpress",
+                EventType::Pitchbend => "Pitchbend",
+                EventType::Control14 => "Control14",
+                EventType::Nonregparam => "Nonregparam",
+                EventType::Regparam => "Regparam",
+                EventType::Songpos => "Songpos",
+                EventType::Songsel => "Songsel",
+                EventType::Qframe => "Qframe",
+                EventType::Timesign => "Timesign",
+                EventType::Keysign => "Keysign",
+                EventType::Start => "Start",
+                EventType::Continue => "Continue",
+                EventType::Stop => "Stop",
+                EventType::SetposTick => "SetposTick",
+                EventType::SetposTime => "SetposTime",
+                EventType::Tempo => "Tempo",
+                EventType::Clock => "Clock",
+                EventType::Tick => "Tick",
+                EventType::QueueSkew => "QueueSkew",
+                EventType::TuneRequest => "TuneRequest",
+                EventType::Reset => "Reset",
+                EventType::Sensing => "Sensing",
+                EventType::Echo => "Echo",
+                EventType::Oss => "Oss",
+                EventType::ClientStart => "ClientStart",
+                EventType::ClientExit => "ClientExit",
+                EventType::ClientChange => "ClientChange",
+                EventType::PortStart => "PortStart",
+                EventType::PortExit => "PortExit",
+                EventType::PortChange => "PortChange",
+                EventType::PortSubscribed => "PortSubscribed",
+                EventType::PortUnsubscribed => "PortUnsubscribed",
+                EventType::Usr0 => "Usr0",
+                EventType::Usr1 => "Usr1",
+                EventType::Usr2 => "Usr2",
+                EventType::Usr3 => "Usr3",
+                EventType::Usr4 => "Usr4",
+                EventType::Usr5 => "Usr5",
+                EventType::Usr6 => "Usr6",
+                EventType::Usr7 => "Usr7",
+                EventType::Usr8 => "Usr8",
+                EventType::Usr9 => "Usr9",
+                EventType::Sysex => "Sysex",
+                EventType::Bounce => "Bounce",
+                EventType::UsrVar0 => "UsrVar0",
+                EventType::UsrVar1 => "UsrVar1",
+                EventType::UsrVar2 => "UsrVar2",
+                EventType::UsrVar3 => "UsrVar3",
+                EventType::UsrVar4 => "UsrVar4",
+                EventType::None => "None",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -560,7 +578,7 @@ impl ToGlib for EventType {
             EventType::UsrVar4 => alsaseq_sys::ALSASEQ_EVENT_TYPE_USR_VAR4,
             EventType::None => alsaseq_sys::ALSASEQ_EVENT_TYPE_NONE,
             EventType::__Unknown(value) => value,
-}
+        }
     }
 }
 
@@ -627,7 +645,7 @@ impl FromGlib<alsaseq_sys::ALSASeqEventType> for EventType {
             139 => EventType::UsrVar4,
             255 => EventType::None,
             value => EventType::__Unknown(value),
-}
+        }
     }
 }
 
@@ -655,23 +673,26 @@ impl SetValue for EventType {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum QuerySubscribeType {
     Read,
     Write,
-#[doc(hidden)]
+    #[doc(hidden)]
     __Unknown(i32),
 }
 
 impl fmt::Display for QuerySubscribeType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "QuerySubscribeType::{}", match *self {
-            QuerySubscribeType::Read => "Read",
-            QuerySubscribeType::Write => "Write",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "QuerySubscribeType::{}",
+            match *self {
+                QuerySubscribeType::Read => "Read",
+                QuerySubscribeType::Write => "Write",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -684,7 +705,7 @@ impl ToGlib for QuerySubscribeType {
             QuerySubscribeType::Read => alsaseq_sys::ALSASEQ_QUERY_SUBSCRIBE_TYPE_READ,
             QuerySubscribeType::Write => alsaseq_sys::ALSASEQ_QUERY_SUBSCRIBE_TYPE_WRITE,
             QuerySubscribeType::__Unknown(value) => value,
-}
+        }
     }
 }
 
@@ -695,7 +716,7 @@ impl FromGlib<alsaseq_sys::ALSASeqQuerySubscribeType> for QuerySubscribeType {
             0 => QuerySubscribeType::Read,
             1 => QuerySubscribeType::Write,
             value => QuerySubscribeType::__Unknown(value),
-}
+        }
     }
 }
 
@@ -723,21 +744,24 @@ impl SetValue for QuerySubscribeType {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum QueueTimerType {
     Alsa,
-#[doc(hidden)]
+    #[doc(hidden)]
     __Unknown(i32),
 }
 
 impl fmt::Display for QueueTimerType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "QueueTimerType::{}", match *self {
-            QueueTimerType::Alsa => "Alsa",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "QueueTimerType::{}",
+            match *self {
+                QueueTimerType::Alsa => "Alsa",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -749,7 +773,7 @@ impl ToGlib for QueueTimerType {
         match *self {
             QueueTimerType::Alsa => alsaseq_sys::ALSASEQ_QUEUE_TIMER_TYPE_ALSA,
             QueueTimerType::__Unknown(value) => value,
-}
+        }
     }
 }
 
@@ -759,7 +783,7 @@ impl FromGlib<alsaseq_sys::ALSASeqQueueTimerType> for QueueTimerType {
         match value {
             0 => QueueTimerType::Alsa,
             value => QueueTimerType::__Unknown(value),
-}
+        }
     }
 }
 
@@ -787,25 +811,28 @@ impl SetValue for QueueTimerType {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum SpecificAddress {
     Unknown,
     Subscribers,
     Broadcast,
-#[doc(hidden)]
+    #[doc(hidden)]
     __Unknown(i32),
 }
 
 impl fmt::Display for SpecificAddress {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "SpecificAddress::{}", match *self {
-            SpecificAddress::Unknown => "Unknown",
-            SpecificAddress::Subscribers => "Subscribers",
-            SpecificAddress::Broadcast => "Broadcast",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "SpecificAddress::{}",
+            match *self {
+                SpecificAddress::Unknown => "Unknown",
+                SpecificAddress::Subscribers => "Subscribers",
+                SpecificAddress::Broadcast => "Broadcast",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -819,7 +846,7 @@ impl ToGlib for SpecificAddress {
             SpecificAddress::Subscribers => alsaseq_sys::ALSASEQ_SPECIFIC_ADDRESS_SUBSCRIBERS,
             SpecificAddress::Broadcast => alsaseq_sys::ALSASEQ_SPECIFIC_ADDRESS_BROADCAST,
             SpecificAddress::__Unknown(value) => value,
-}
+        }
     }
 }
 
@@ -831,7 +858,7 @@ impl FromGlib<alsaseq_sys::ALSASeqSpecificAddress> for SpecificAddress {
             254 => SpecificAddress::Subscribers,
             255 => SpecificAddress::Broadcast,
             value => SpecificAddress::__Unknown(value),
-}
+        }
     }
 }
 
@@ -859,25 +886,28 @@ impl SetValue for SpecificAddress {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum SpecificClientId {
     System,
     Dummy,
     Oss,
-#[doc(hidden)]
+    #[doc(hidden)]
     __Unknown(i32),
 }
 
 impl fmt::Display for SpecificClientId {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "SpecificClientId::{}", match *self {
-            SpecificClientId::System => "System",
-            SpecificClientId::Dummy => "Dummy",
-            SpecificClientId::Oss => "Oss",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "SpecificClientId::{}",
+            match *self {
+                SpecificClientId::System => "System",
+                SpecificClientId::Dummy => "Dummy",
+                SpecificClientId::Oss => "Oss",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -891,7 +921,7 @@ impl ToGlib for SpecificClientId {
             SpecificClientId::Dummy => alsaseq_sys::ALSASEQ_SPECIFIC_CLIENT_ID_DUMMY,
             SpecificClientId::Oss => alsaseq_sys::ALSASEQ_SPECIFIC_CLIENT_ID_OSS,
             SpecificClientId::__Unknown(value) => value,
-}
+        }
     }
 }
 
@@ -903,7 +933,7 @@ impl FromGlib<alsaseq_sys::ALSASeqSpecificClientId> for SpecificClientId {
             14 => SpecificClientId::Dummy,
             15 => SpecificClientId::Oss,
             value => SpecificClientId::__Unknown(value),
-}
+        }
     }
 }
 
@@ -931,23 +961,26 @@ impl SetValue for SpecificClientId {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum SpecificPortId {
     Timer,
     Announce,
-#[doc(hidden)]
+    #[doc(hidden)]
     __Unknown(i32),
 }
 
 impl fmt::Display for SpecificPortId {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "SpecificPortId::{}", match *self {
-            SpecificPortId::Timer => "Timer",
-            SpecificPortId::Announce => "Announce",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "SpecificPortId::{}",
+            match *self {
+                SpecificPortId::Timer => "Timer",
+                SpecificPortId::Announce => "Announce",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -960,7 +993,7 @@ impl ToGlib for SpecificPortId {
             SpecificPortId::Timer => alsaseq_sys::ALSASEQ_SPECIFIC_PORT_ID_SYSTEM_TIMER,
             SpecificPortId::Announce => alsaseq_sys::ALSASEQ_SPECIFIC_PORT_ID_SYSTEM_ANNOUNCE,
             SpecificPortId::__Unknown(value) => value,
-}
+        }
     }
 }
 
@@ -971,7 +1004,7 @@ impl FromGlib<alsaseq_sys::ALSASeqSpecificPortId> for SpecificPortId {
             0 => SpecificPortId::Timer,
             1 => SpecificPortId::Announce,
             value => SpecificPortId::__Unknown(value),
-}
+        }
     }
 }
 
@@ -999,21 +1032,24 @@ impl SetValue for SpecificPortId {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum SpecificQueueId {
     Direct,
-#[doc(hidden)]
+    #[doc(hidden)]
     __Unknown(i32),
 }
 
 impl fmt::Display for SpecificQueueId {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "SpecificQueueId::{}", match *self {
-            SpecificQueueId::Direct => "Direct",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "SpecificQueueId::{}",
+            match *self {
+                SpecificQueueId::Direct => "Direct",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -1025,7 +1061,7 @@ impl ToGlib for SpecificQueueId {
         match *self {
             SpecificQueueId::Direct => alsaseq_sys::ALSASEQ_SPECIFIC_QUEUE_ID_DIRECT,
             SpecificQueueId::__Unknown(value) => value,
-}
+        }
     }
 }
 
@@ -1035,7 +1071,7 @@ impl FromGlib<alsaseq_sys::ALSASeqSpecificQueueId> for SpecificQueueId {
         match value {
             253 => SpecificQueueId::Direct,
             value => SpecificQueueId::__Unknown(value),
-}
+        }
     }
 }
 
@@ -1063,25 +1099,28 @@ impl SetValue for SpecificQueueId {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum UserClientError {
     Failed,
     PortPermission,
     QueuePermission,
-#[doc(hidden)]
+    #[doc(hidden)]
     __Unknown(i32),
 }
 
 impl fmt::Display for UserClientError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "UserClientError::{}", match *self {
-            UserClientError::Failed => "Failed",
-            UserClientError::PortPermission => "PortPermission",
-            UserClientError::QueuePermission => "QueuePermission",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "UserClientError::{}",
+            match *self {
+                UserClientError::Failed => "Failed",
+                UserClientError::PortPermission => "PortPermission",
+                UserClientError::QueuePermission => "QueuePermission",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -1092,10 +1131,14 @@ impl ToGlib for UserClientError {
     fn to_glib(&self) -> alsaseq_sys::ALSASeqUserClientError {
         match *self {
             UserClientError::Failed => alsaseq_sys::ALSASEQ_USER_CLIENT_ERROR_FAILED,
-            UserClientError::PortPermission => alsaseq_sys::ALSASEQ_USER_CLIENT_ERROR_PORT_PERMISSION,
-            UserClientError::QueuePermission => alsaseq_sys::ALSASEQ_USER_CLIENT_ERROR_QUEUE_PERMISSION,
+            UserClientError::PortPermission => {
+                alsaseq_sys::ALSASEQ_USER_CLIENT_ERROR_PORT_PERMISSION
+            }
+            UserClientError::QueuePermission => {
+                alsaseq_sys::ALSASEQ_USER_CLIENT_ERROR_QUEUE_PERMISSION
+            }
             UserClientError::__Unknown(value) => value,
-}
+        }
     }
 }
 
@@ -1107,13 +1150,12 @@ impl FromGlib<alsaseq_sys::ALSASeqUserClientError> for UserClientError {
             1 => UserClientError::PortPermission,
             2 => UserClientError::QueuePermission,
             value => UserClientError::__Unknown(value),
-}
+        }
     }
 }
 
 impl ErrorDomain for UserClientError {
     fn domain() -> Quark {
-        
         unsafe { from_glib(alsaseq_sys::alsaseq_user_client_error_quark()) }
     }
 
@@ -1127,7 +1169,7 @@ impl ErrorDomain for UserClientError {
             1 => Some(UserClientError::PortPermission),
             2 => Some(UserClientError::QueuePermission),
             _ => Some(UserClientError::Failed),
-}
+        }
     }
 }
 
@@ -1154,4 +1196,3 @@ impl SetValue for UserClientError {
         gobject_sys::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
     }
 }
-

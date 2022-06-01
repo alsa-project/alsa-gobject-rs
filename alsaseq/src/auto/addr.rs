@@ -20,14 +20,15 @@ glib_wrapper! {
 
 impl Addr {
     pub fn new(client_id: u8, port_id: u8) -> Addr {
-        unsafe {
-            from_glib_full(alsaseq_sys::alsaseq_addr_new(client_id, port_id))
-        }
+        unsafe { from_glib_full(alsaseq_sys::alsaseq_addr_new(client_id, port_id)) }
     }
 
     fn equal(&self, target: &Addr) -> bool {
         unsafe {
-            from_glib(alsaseq_sys::alsaseq_addr_equal(self.to_glib_none().0, target.to_glib_none().0))
+            from_glib(alsaseq_sys::alsaseq_addr_equal(
+                self.to_glib_none().0,
+                target.to_glib_none().0,
+            ))
         }
     }
 

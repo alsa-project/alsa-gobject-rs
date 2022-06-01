@@ -27,9 +27,7 @@ glib_wrapper! {
 
 impl QueueStatus {
     pub fn new() -> QueueStatus {
-        unsafe {
-            from_glib_full(alsaseq_sys::alsaseq_queue_status_new())
-        }
+        unsafe { from_glib_full(alsaseq_sys::alsaseq_queue_status_new()) }
     }
 }
 
@@ -61,7 +59,10 @@ impl<O: IsA<QueueStatus>> QueueStatusExt for O {
     fn get_tick_time(&self) -> u32 {
         unsafe {
             let mut tick_time = mem::MaybeUninit::uninit();
-            alsaseq_sys::alsaseq_queue_status_get_tick_time(self.as_ref().to_glib_none().0, tick_time.as_mut_ptr());
+            alsaseq_sys::alsaseq_queue_status_get_tick_time(
+                self.as_ref().to_glib_none().0,
+                tick_time.as_mut_ptr(),
+            );
             let tick_time = tick_time.assume_init();
             tick_time
         }
@@ -70,66 +71,117 @@ impl<O: IsA<QueueStatus>> QueueStatusExt for O {
     fn get_property_event_count(&self) -> i32 {
         unsafe {
             let mut value = Value::from_type(<i32 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"event-count\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `event-count` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"event-count\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `event-count` getter")
+                .unwrap()
         }
     }
 
     fn get_property_queue_id(&self) -> u8 {
         unsafe {
             let mut value = Value::from_type(<u8 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"queue-id\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `queue-id` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"queue-id\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `queue-id` getter")
+                .unwrap()
         }
     }
 
     fn get_property_running(&self) -> bool {
         unsafe {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"running\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `running` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"running\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `running` getter")
+                .unwrap()
         }
     }
 
     fn connect_property_event_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_event_count_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsaseq_sys::ALSASeqQueueStatus, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<QueueStatus>
+        unsafe extern "C" fn notify_event_count_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsaseq_sys::ALSASeqQueueStatus,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<QueueStatus>,
         {
             let f: &F = &*(f as *const F);
             f(&QueueStatus::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::event-count\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_event_count_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::event-count\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_event_count_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_queue_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_queue_id_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsaseq_sys::ALSASeqQueueStatus, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<QueueStatus>
+        unsafe extern "C" fn notify_queue_id_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsaseq_sys::ALSASeqQueueStatus,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<QueueStatus>,
         {
             let f: &F = &*(f as *const F);
             f(&QueueStatus::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::queue-id\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_queue_id_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::queue-id\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_queue_id_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_running_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_running_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsaseq_sys::ALSASeqQueueStatus, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<QueueStatus>
+        unsafe extern "C" fn notify_running_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsaseq_sys::ALSASeqQueueStatus,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<QueueStatus>,
         {
             let f: &F = &*(f as *const F);
             f(&QueueStatus::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::running\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_running_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::running\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_running_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 }

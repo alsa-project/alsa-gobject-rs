@@ -4,19 +4,19 @@ use crate::*;
 pub trait EventCntrExtManual {
     fn get_addr_data(&self, index: usize) -> Result<Addr, glib::Error>;
     fn get_blob_data(&self, index: usize) -> Result<&[u8], glib::Error>;
-    fn get_byte_data(&self, index: usize) -> Result<&[u8;12], glib::Error>;
+    fn get_byte_data(&self, index: usize) -> Result<&[u8; 12], glib::Error>;
     fn get_connect_data(&self, index: usize) -> Result<EventDataConnect, glib::Error>;
     fn get_ctl_data(&self, index: usize) -> Result<EventDataCtl, glib::Error>;
     fn get_dst(&self, index: usize) -> Result<Addr, glib::Error>;
     fn get_src(&self, index: usize) -> Result<Addr, glib::Error>;
     fn get_note_data(&self, index: usize) -> Result<EventDataNote, glib::Error>;
-    fn get_quadlet_data(&self, index: usize) -> Result<&[u32;3], glib::Error>;
+    fn get_quadlet_data(&self, index: usize) -> Result<&[u32; 3], glib::Error>;
     fn get_queue_data(&self, index: usize) -> Result<EventDataQueue, glib::Error>;
     fn get_result_data(&self, index: usize) -> Result<EventDataResult, glib::Error>;
     fn get_tstamp(&self, index: usize) -> Result<Tstamp, glib::Error>;
     fn get_tstamp_data(&self, index: usize) -> Result<Tstamp, glib::Error>;
-    fn set_byte_data(&self, index: usize, data: &[u8;12]) -> Result<(), glib::Error>;
-    fn set_quadlet_data(&self, index: usize, data: &[u32;3]) -> Result<(), glib::Error>;
+    fn set_byte_data(&self, index: usize, data: &[u8; 12]) -> Result<(), glib::Error>;
+    fn set_quadlet_data(&self, index: usize, data: &[u32; 3]) -> Result<(), glib::Error>;
 }
 
 impl<O: IsA<EventCntr>> EventCntrExtManual for O {
@@ -62,9 +62,9 @@ impl<O: IsA<EventCntr>> EventCntrExtManual for O {
         }
     }
 
-    fn get_byte_data(&self, index: usize) -> Result<&[u8;12], glib::Error> {
+    fn get_byte_data(&self, index: usize) -> Result<&[u8; 12], glib::Error> {
         unsafe {
-            let mut ptr = std::ptr::null_mut() as *const [u8;12];
+            let mut ptr = std::ptr::null_mut() as *const [u8; 12];
             let mut error = std::ptr::null_mut();
 
             alsaseq_sys::alsaseq_event_cntr_get_byte_data(
@@ -182,9 +182,9 @@ impl<O: IsA<EventCntr>> EventCntrExtManual for O {
         }
     }
 
-    fn get_quadlet_data(&self, index: usize) -> Result<&[u32;3], glib::Error> {
+    fn get_quadlet_data(&self, index: usize) -> Result<&[u32; 3], glib::Error> {
         unsafe {
-            let mut ptr = std::ptr::null_mut() as *const [u32;3];
+            let mut ptr = std::ptr::null_mut() as *const [u32; 3];
             let mut error = std::ptr::null_mut();
 
             alsaseq_sys::alsaseq_event_cntr_get_quadlet_data(
@@ -251,7 +251,8 @@ impl<O: IsA<EventCntr>> EventCntrExtManual for O {
                 self.as_ref().to_glib_none().0,
                 index,
                 &mut data,
-                &mut error);
+                &mut error,
+            );
 
             if error.is_null() {
                 Ok(from_glib_none(data))
@@ -270,7 +271,8 @@ impl<O: IsA<EventCntr>> EventCntrExtManual for O {
                 self.as_ref().to_glib_none().0,
                 index,
                 &mut data,
-                &mut error);
+                &mut error,
+            );
 
             if error.is_null() {
                 Ok(from_glib_none(data))
@@ -280,7 +282,7 @@ impl<O: IsA<EventCntr>> EventCntrExtManual for O {
         }
     }
 
-    fn set_byte_data(&self, index: usize, data: &[u8;12]) -> Result<(), glib::Error> {
+    fn set_byte_data(&self, index: usize, data: &[u8; 12]) -> Result<(), glib::Error> {
         unsafe {
             let mut error = std::ptr::null_mut();
 
@@ -299,7 +301,7 @@ impl<O: IsA<EventCntr>> EventCntrExtManual for O {
         }
     }
 
-    fn set_quadlet_data(&self, index: usize, data: &[u32;3]) -> Result<(), glib::Error> {
+    fn set_quadlet_data(&self, index: usize, data: &[u32; 3]) -> Result<(), glib::Error> {
         unsafe {
             let mut error = std::ptr::null_mut();
 

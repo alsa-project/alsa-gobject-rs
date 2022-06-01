@@ -22,7 +22,10 @@ impl EventDataCtl {
     pub fn get_channel(&self) -> u8 {
         unsafe {
             let mut channel = mem::MaybeUninit::uninit();
-            alsaseq_sys::alsaseq_event_data_ctl_get_channel(self.to_glib_none().0, channel.as_mut_ptr());
+            alsaseq_sys::alsaseq_event_data_ctl_get_channel(
+                self.to_glib_none().0,
+                channel.as_mut_ptr(),
+            );
             let channel = channel.assume_init();
             channel
         }
@@ -31,7 +34,10 @@ impl EventDataCtl {
     pub fn get_param(&self) -> u32 {
         unsafe {
             let mut param = mem::MaybeUninit::uninit();
-            alsaseq_sys::alsaseq_event_data_ctl_get_param(self.to_glib_none().0, param.as_mut_ptr());
+            alsaseq_sys::alsaseq_event_data_ctl_get_param(
+                self.to_glib_none().0,
+                param.as_mut_ptr(),
+            );
             let param = param.assume_init();
             param
         }
@@ -40,7 +46,10 @@ impl EventDataCtl {
     pub fn get_value(&self) -> i32 {
         unsafe {
             let mut value = mem::MaybeUninit::uninit();
-            alsaseq_sys::alsaseq_event_data_ctl_get_value(self.to_glib_none().0, value.as_mut_ptr());
+            alsaseq_sys::alsaseq_event_data_ctl_get_value(
+                self.to_glib_none().0,
+                value.as_mut_ptr(),
+            );
             let value = value.assume_init();
             value
         }

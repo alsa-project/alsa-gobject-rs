@@ -21,13 +21,19 @@ glib_wrapper! {
 impl EventDataConnect {
     pub fn set_dst(&mut self, dst: &Addr) {
         unsafe {
-            alsaseq_sys::alsaseq_event_data_connect_set_dst(self.to_glib_none_mut().0, dst.to_glib_none().0);
+            alsaseq_sys::alsaseq_event_data_connect_set_dst(
+                self.to_glib_none_mut().0,
+                dst.to_glib_none().0,
+            );
         }
     }
 
     pub fn set_src(&mut self, src: &Addr) {
         unsafe {
-            alsaseq_sys::alsaseq_event_data_connect_set_src(self.to_glib_none_mut().0, src.to_glib_none().0);
+            alsaseq_sys::alsaseq_event_data_connect_set_src(
+                self.to_glib_none_mut().0,
+                src.to_glib_none().0,
+            );
         }
     }
 }

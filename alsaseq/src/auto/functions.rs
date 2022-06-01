@@ -20,8 +20,19 @@ pub fn get_client_id_list() -> Result<Vec<u8>, glib::Error> {
         let mut entries = ptr::null_mut();
         let mut entry_count = mem::MaybeUninit::uninit();
         let mut error = ptr::null_mut();
-        let _ = alsaseq_sys::alsaseq_get_client_id_list(&mut entries, entry_count.as_mut_ptr(), &mut error);
-        if error.is_null() { Ok(FromGlibContainer::from_glib_full_num(entries, entry_count.assume_init() as usize)) } else { Err(from_glib_full(error)) }
+        let _ = alsaseq_sys::alsaseq_get_client_id_list(
+            &mut entries,
+            entry_count.as_mut_ptr(),
+            &mut error,
+        );
+        if error.is_null() {
+            Ok(FromGlibContainer::from_glib_full_num(
+                entries,
+                entry_count.assume_init() as usize,
+            ))
+        } else {
+            Err(from_glib_full(error))
+        }
     }
 }
 
@@ -30,7 +41,11 @@ pub fn get_client_info(client_id: u8) -> Result<ClientInfo, glib::Error> {
         let mut client_info = ptr::null_mut();
         let mut error = ptr::null_mut();
         let _ = alsaseq_sys::alsaseq_get_client_info(client_id, &mut client_info, &mut error);
-        if error.is_null() { Ok(from_glib_full(client_info)) } else { Err(from_glib_full(error)) }
+        if error.is_null() {
+            Ok(from_glib_full(client_info))
+        } else {
+            Err(from_glib_full(error))
+        }
     }
 }
 
@@ -39,7 +54,11 @@ pub fn get_client_pool(client_id: u8) -> Result<ClientPool, glib::Error> {
         let mut client_pool = ptr::null_mut();
         let mut error = ptr::null_mut();
         let _ = alsaseq_sys::alsaseq_get_client_pool(client_id, &mut client_pool, &mut error);
-        if error.is_null() { Ok(from_glib_full(client_pool)) } else { Err(from_glib_full(error)) }
+        if error.is_null() {
+            Ok(from_glib_full(client_pool))
+        } else {
+            Err(from_glib_full(error))
+        }
     }
 }
 
@@ -48,8 +67,20 @@ pub fn get_port_id_list(client_id: u8) -> Result<Vec<u8>, glib::Error> {
         let mut entries = ptr::null_mut();
         let mut entry_count = mem::MaybeUninit::uninit();
         let mut error = ptr::null_mut();
-        let _ = alsaseq_sys::alsaseq_get_port_id_list(client_id, &mut entries, entry_count.as_mut_ptr(), &mut error);
-        if error.is_null() { Ok(FromGlibContainer::from_glib_full_num(entries, entry_count.assume_init() as usize)) } else { Err(from_glib_full(error)) }
+        let _ = alsaseq_sys::alsaseq_get_port_id_list(
+            client_id,
+            &mut entries,
+            entry_count.as_mut_ptr(),
+            &mut error,
+        );
+        if error.is_null() {
+            Ok(FromGlibContainer::from_glib_full_num(
+                entries,
+                entry_count.assume_init() as usize,
+            ))
+        } else {
+            Err(from_glib_full(error))
+        }
     }
 }
 
@@ -58,7 +89,11 @@ pub fn get_port_info(client_id: u8, port_id: u8) -> Result<PortInfo, glib::Error
         let mut port_info = ptr::null_mut();
         let mut error = ptr::null_mut();
         let _ = alsaseq_sys::alsaseq_get_port_info(client_id, port_id, &mut port_info, &mut error);
-        if error.is_null() { Ok(from_glib_full(port_info)) } else { Err(from_glib_full(error)) }
+        if error.is_null() {
+            Ok(from_glib_full(port_info))
+        } else {
+            Err(from_glib_full(error))
+        }
     }
 }
 
@@ -67,8 +102,19 @@ pub fn get_queue_id_list() -> Result<Vec<u8>, glib::Error> {
         let mut entries = ptr::null_mut();
         let mut entry_count = mem::MaybeUninit::uninit();
         let mut error = ptr::null_mut();
-        let _ = alsaseq_sys::alsaseq_get_queue_id_list(&mut entries, entry_count.as_mut_ptr(), &mut error);
-        if error.is_null() { Ok(FromGlibContainer::from_glib_full_num(entries, entry_count.assume_init() as usize)) } else { Err(from_glib_full(error)) }
+        let _ = alsaseq_sys::alsaseq_get_queue_id_list(
+            &mut entries,
+            entry_count.as_mut_ptr(),
+            &mut error,
+        );
+        if error.is_null() {
+            Ok(FromGlibContainer::from_glib_full_num(
+                entries,
+                entry_count.assume_init() as usize,
+            ))
+        } else {
+            Err(from_glib_full(error))
+        }
     }
 }
 
@@ -77,7 +123,11 @@ pub fn get_queue_info_by_id(queue_id: u8) -> Result<QueueInfo, glib::Error> {
         let mut queue_info = ptr::null_mut();
         let mut error = ptr::null_mut();
         let _ = alsaseq_sys::alsaseq_get_queue_info_by_id(queue_id, &mut queue_info, &mut error);
-        if error.is_null() { Ok(from_glib_full(queue_info)) } else { Err(from_glib_full(error)) }
+        if error.is_null() {
+            Ok(from_glib_full(queue_info))
+        } else {
+            Err(from_glib_full(error))
+        }
     }
 }
 
@@ -85,8 +135,16 @@ pub fn get_queue_info_by_name(name: &str) -> Result<QueueInfo, glib::Error> {
     unsafe {
         let mut queue_info = ptr::null_mut();
         let mut error = ptr::null_mut();
-        let _ = alsaseq_sys::alsaseq_get_queue_info_by_name(name.to_glib_none().0, &mut queue_info, &mut error);
-        if error.is_null() { Ok(from_glib_full(queue_info)) } else { Err(from_glib_full(error)) }
+        let _ = alsaseq_sys::alsaseq_get_queue_info_by_name(
+            name.to_glib_none().0,
+            &mut queue_info,
+            &mut error,
+        );
+        if error.is_null() {
+            Ok(from_glib_full(queue_info))
+        } else {
+            Err(from_glib_full(error))
+        }
     }
 }
 
@@ -99,7 +157,11 @@ pub fn get_seq_devnode() -> Result<GString, glib::Error> {
         let mut devnode = ptr::null_mut();
         let mut error = ptr::null_mut();
         let _ = alsaseq_sys::alsaseq_get_seq_devnode(&mut devnode, &mut error);
-        if error.is_null() { Ok(from_glib_full(devnode)) } else { Err(from_glib_full(error)) }
+        if error.is_null() {
+            Ok(from_glib_full(devnode))
+        } else {
+            Err(from_glib_full(error))
+        }
     }
 }
 
@@ -108,7 +170,11 @@ pub fn get_seq_sysname() -> Result<GString, glib::Error> {
         let mut sysname = ptr::null_mut();
         let mut error = ptr::null_mut();
         let _ = alsaseq_sys::alsaseq_get_seq_sysname(&mut sysname, &mut error);
-        if error.is_null() { Ok(from_glib_full(sysname)) } else { Err(from_glib_full(error)) }
+        if error.is_null() {
+            Ok(from_glib_full(sysname))
+        } else {
+            Err(from_glib_full(error))
+        }
     }
 }
 
@@ -121,6 +187,10 @@ pub fn get_system_info() -> Result<SystemInfo, glib::Error> {
         let mut system_info = ptr::null_mut();
         let mut error = ptr::null_mut();
         let _ = alsaseq_sys::alsaseq_get_system_info(&mut system_info, &mut error);
-        if error.is_null() { Ok(from_glib_full(system_info)) } else { Err(from_glib_full(error)) }
+        if error.is_null() {
+            Ok(from_glib_full(system_info))
+        } else {
+            Err(from_glib_full(error))
+        }
     }
 }

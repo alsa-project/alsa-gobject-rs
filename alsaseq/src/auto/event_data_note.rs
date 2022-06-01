@@ -22,7 +22,10 @@ impl EventDataNote {
     pub fn get_channel(&self) -> u8 {
         unsafe {
             let mut channel = mem::MaybeUninit::uninit();
-            alsaseq_sys::alsaseq_event_data_note_get_channel(self.to_glib_none().0, channel.as_mut_ptr());
+            alsaseq_sys::alsaseq_event_data_note_get_channel(
+                self.to_glib_none().0,
+                channel.as_mut_ptr(),
+            );
             let channel = channel.assume_init();
             channel
         }
@@ -31,7 +34,10 @@ impl EventDataNote {
     pub fn get_duration(&self) -> u8 {
         unsafe {
             let mut duration = mem::MaybeUninit::uninit();
-            alsaseq_sys::alsaseq_event_data_note_get_duration(self.to_glib_none().0, duration.as_mut_ptr());
+            alsaseq_sys::alsaseq_event_data_note_get_duration(
+                self.to_glib_none().0,
+                duration.as_mut_ptr(),
+            );
             let duration = duration.assume_init();
             duration
         }
@@ -49,7 +55,10 @@ impl EventDataNote {
     pub fn get_off_velocity(&self) -> u8 {
         unsafe {
             let mut off_velocity = mem::MaybeUninit::uninit();
-            alsaseq_sys::alsaseq_event_data_note_get_off_velocity(self.to_glib_none().0, off_velocity.as_mut_ptr());
+            alsaseq_sys::alsaseq_event_data_note_get_off_velocity(
+                self.to_glib_none().0,
+                off_velocity.as_mut_ptr(),
+            );
             let off_velocity = off_velocity.assume_init();
             off_velocity
         }
@@ -58,7 +67,10 @@ impl EventDataNote {
     pub fn get_velocity(&self) -> u8 {
         unsafe {
             let mut velocity = mem::MaybeUninit::uninit();
-            alsaseq_sys::alsaseq_event_data_note_get_velocity(self.to_glib_none().0, velocity.as_mut_ptr());
+            alsaseq_sys::alsaseq_event_data_note_get_velocity(
+                self.to_glib_none().0,
+                velocity.as_mut_ptr(),
+            );
             let velocity = velocity.assume_init();
             velocity
         }
@@ -84,7 +96,10 @@ impl EventDataNote {
 
     pub fn set_off_velocity(&mut self, off_velocity: u8) {
         unsafe {
-            alsaseq_sys::alsaseq_event_data_note_set_off_velocity(self.to_glib_none_mut().0, off_velocity);
+            alsaseq_sys::alsaseq_event_data_note_set_off_velocity(
+                self.to_glib_none_mut().0,
+                off_velocity,
+            );
         }
     }
 

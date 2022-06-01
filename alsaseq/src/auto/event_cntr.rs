@@ -35,7 +35,11 @@ impl EventCntr {
         unsafe {
             let mut error = ptr::null_mut();
             let ret = alsaseq_sys::alsaseq_event_cntr_new(count, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
+            if error.is_null() {
+                Ok(from_glib_full(ret))
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 }
@@ -101,16 +105,28 @@ impl<O: IsA<EventCntr>> EventCntrExt for O {
         unsafe {
             let mut cells = mem::MaybeUninit::uninit();
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_calculate_pool_consumption(self.as_ref().to_glib_none().0, count, cells.as_mut_ptr(), &mut error);
+            let _ = alsaseq_sys::alsaseq_event_cntr_calculate_pool_consumption(
+                self.as_ref().to_glib_none().0,
+                count,
+                cells.as_mut_ptr(),
+                &mut error,
+            );
             let cells = cells.assume_init();
-            if error.is_null() { Ok(cells) } else { Err(from_glib_full(error)) }
+            if error.is_null() {
+                Ok(cells)
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
     fn count_events(&self) -> usize {
         unsafe {
             let mut count = mem::MaybeUninit::uninit();
-            alsaseq_sys::alsaseq_event_cntr_count_events(self.as_ref().to_glib_none().0, count.as_mut_ptr());
+            alsaseq_sys::alsaseq_event_cntr_count_events(
+                self.as_ref().to_glib_none().0,
+                count.as_mut_ptr(),
+            );
             let count = count.assume_init();
             count
         }
@@ -120,9 +136,18 @@ impl<O: IsA<EventCntr>> EventCntrExt for O {
         unsafe {
             let mut ev_type = mem::MaybeUninit::uninit();
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_get_event_type(self.as_ref().to_glib_none().0, index, ev_type.as_mut_ptr(), &mut error);
+            let _ = alsaseq_sys::alsaseq_event_cntr_get_event_type(
+                self.as_ref().to_glib_none().0,
+                index,
+                ev_type.as_mut_ptr(),
+                &mut error,
+            );
             let ev_type = ev_type.assume_init();
-            if error.is_null() { Ok(from_glib(ev_type)) } else { Err(from_glib_full(error)) }
+            if error.is_null() {
+                Ok(from_glib(ev_type))
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
@@ -130,9 +155,18 @@ impl<O: IsA<EventCntr>> EventCntrExt for O {
         unsafe {
             let mut mode = mem::MaybeUninit::uninit();
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_get_length_mode(self.as_ref().to_glib_none().0, index, mode.as_mut_ptr(), &mut error);
+            let _ = alsaseq_sys::alsaseq_event_cntr_get_length_mode(
+                self.as_ref().to_glib_none().0,
+                index,
+                mode.as_mut_ptr(),
+                &mut error,
+            );
             let mode = mode.assume_init();
-            if error.is_null() { Ok(from_glib(mode)) } else { Err(from_glib_full(error)) }
+            if error.is_null() {
+                Ok(from_glib(mode))
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
@@ -140,9 +174,18 @@ impl<O: IsA<EventCntr>> EventCntrExt for O {
         unsafe {
             let mut mode = mem::MaybeUninit::uninit();
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_get_priority_mode(self.as_ref().to_glib_none().0, index, mode.as_mut_ptr(), &mut error);
+            let _ = alsaseq_sys::alsaseq_event_cntr_get_priority_mode(
+                self.as_ref().to_glib_none().0,
+                index,
+                mode.as_mut_ptr(),
+                &mut error,
+            );
             let mode = mode.assume_init();
-            if error.is_null() { Ok(from_glib(mode)) } else { Err(from_glib_full(error)) }
+            if error.is_null() {
+                Ok(from_glib(mode))
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
@@ -150,9 +193,18 @@ impl<O: IsA<EventCntr>> EventCntrExt for O {
         unsafe {
             let mut queue_id = mem::MaybeUninit::uninit();
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_get_queue_id(self.as_ref().to_glib_none().0, index, queue_id.as_mut_ptr(), &mut error);
+            let _ = alsaseq_sys::alsaseq_event_cntr_get_queue_id(
+                self.as_ref().to_glib_none().0,
+                index,
+                queue_id.as_mut_ptr(),
+                &mut error,
+            );
             let queue_id = queue_id.assume_init();
-            if error.is_null() { Ok(queue_id) } else { Err(from_glib_full(error)) }
+            if error.is_null() {
+                Ok(queue_id)
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
@@ -160,9 +212,18 @@ impl<O: IsA<EventCntr>> EventCntrExt for O {
         unsafe {
             let mut tag = mem::MaybeUninit::uninit();
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_get_tag(self.as_ref().to_glib_none().0, index, tag.as_mut_ptr(), &mut error);
+            let _ = alsaseq_sys::alsaseq_event_cntr_get_tag(
+                self.as_ref().to_glib_none().0,
+                index,
+                tag.as_mut_ptr(),
+                &mut error,
+            );
             let tag = tag.assume_init();
-            if error.is_null() { Ok(tag) } else { Err(from_glib_full(error)) }
+            if error.is_null() {
+                Ok(tag)
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
@@ -170,9 +231,18 @@ impl<O: IsA<EventCntr>> EventCntrExt for O {
         unsafe {
             let mut mode = mem::MaybeUninit::uninit();
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_get_time_mode(self.as_ref().to_glib_none().0, index, mode.as_mut_ptr(), &mut error);
+            let _ = alsaseq_sys::alsaseq_event_cntr_get_time_mode(
+                self.as_ref().to_glib_none().0,
+                index,
+                mode.as_mut_ptr(),
+                &mut error,
+            );
             let mode = mode.assume_init();
-            if error.is_null() { Ok(from_glib(mode)) } else { Err(from_glib_full(error)) }
+            if error.is_null() {
+                Ok(from_glib(mode))
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
@@ -180,17 +250,35 @@ impl<O: IsA<EventCntr>> EventCntrExt for O {
         unsafe {
             let mut mode = mem::MaybeUninit::uninit();
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_get_tstamp_mode(self.as_ref().to_glib_none().0, index, mode.as_mut_ptr(), &mut error);
+            let _ = alsaseq_sys::alsaseq_event_cntr_get_tstamp_mode(
+                self.as_ref().to_glib_none().0,
+                index,
+                mode.as_mut_ptr(),
+                &mut error,
+            );
             let mode = mode.assume_init();
-            if error.is_null() { Ok(from_glib(mode)) } else { Err(from_glib_full(error)) }
+            if error.is_null() {
+                Ok(from_glib(mode))
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
     fn set_addr_data(&self, index: usize, data: &Addr) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_set_addr_data(self.as_ref().to_glib_none().0, index, data.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = alsaseq_sys::alsaseq_event_cntr_set_addr_data(
+                self.as_ref().to_glib_none().0,
+                index,
+                data.to_glib_none().0,
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
@@ -198,128 +286,273 @@ impl<O: IsA<EventCntr>> EventCntrExt for O {
         let size = data.len() as usize;
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_set_blob_data(self.as_ref().to_glib_none().0, index, data.to_glib_none().0, size, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = alsaseq_sys::alsaseq_event_cntr_set_blob_data(
+                self.as_ref().to_glib_none().0,
+                index,
+                data.to_glib_none().0,
+                size,
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
     fn set_connect_data(&self, index: usize, data: &EventDataConnect) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_set_connect_data(self.as_ref().to_glib_none().0, index, data.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = alsaseq_sys::alsaseq_event_cntr_set_connect_data(
+                self.as_ref().to_glib_none().0,
+                index,
+                data.to_glib_none().0,
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
     fn set_ctl_data(&self, index: usize, data: &EventDataCtl) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_set_ctl_data(self.as_ref().to_glib_none().0, index, data.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = alsaseq_sys::alsaseq_event_cntr_set_ctl_data(
+                self.as_ref().to_glib_none().0,
+                index,
+                data.to_glib_none().0,
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
     fn set_dst(&self, index: usize, dst: &Addr) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_set_dst(self.as_ref().to_glib_none().0, index, dst.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = alsaseq_sys::alsaseq_event_cntr_set_dst(
+                self.as_ref().to_glib_none().0,
+                index,
+                dst.to_glib_none().0,
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
     fn set_event_type(&self, index: usize, ev_type: EventType) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_set_event_type(self.as_ref().to_glib_none().0, index, ev_type.to_glib(), &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = alsaseq_sys::alsaseq_event_cntr_set_event_type(
+                self.as_ref().to_glib_none().0,
+                index,
+                ev_type.to_glib(),
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
     fn set_note_data(&self, index: usize, data: &EventDataNote) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_set_note_data(self.as_ref().to_glib_none().0, index, data.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = alsaseq_sys::alsaseq_event_cntr_set_note_data(
+                self.as_ref().to_glib_none().0,
+                index,
+                data.to_glib_none().0,
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
     fn set_priority_mode(&self, index: usize, mode: EventPriorityMode) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_set_priority_mode(self.as_ref().to_glib_none().0, index, mode.to_glib(), &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = alsaseq_sys::alsaseq_event_cntr_set_priority_mode(
+                self.as_ref().to_glib_none().0,
+                index,
+                mode.to_glib(),
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
     fn set_queue_data(&self, index: usize, data: &EventDataQueue) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_set_queue_data(self.as_ref().to_glib_none().0, index, data.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = alsaseq_sys::alsaseq_event_cntr_set_queue_data(
+                self.as_ref().to_glib_none().0,
+                index,
+                data.to_glib_none().0,
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
     fn set_queue_id(&self, index: usize, queue_id: u8) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_set_queue_id(self.as_ref().to_glib_none().0, index, queue_id, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = alsaseq_sys::alsaseq_event_cntr_set_queue_id(
+                self.as_ref().to_glib_none().0,
+                index,
+                queue_id,
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
     fn set_result_data(&self, index: usize, data: &EventDataResult) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_set_result_data(self.as_ref().to_glib_none().0, index, data.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = alsaseq_sys::alsaseq_event_cntr_set_result_data(
+                self.as_ref().to_glib_none().0,
+                index,
+                data.to_glib_none().0,
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
     fn set_src(&self, index: usize, src: &Addr) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_set_src(self.as_ref().to_glib_none().0, index, src.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = alsaseq_sys::alsaseq_event_cntr_set_src(
+                self.as_ref().to_glib_none().0,
+                index,
+                src.to_glib_none().0,
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
     fn set_tag(&self, index: usize, tag: i8) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_set_tag(self.as_ref().to_glib_none().0, index, tag, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = alsaseq_sys::alsaseq_event_cntr_set_tag(
+                self.as_ref().to_glib_none().0,
+                index,
+                tag,
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
     fn set_time_mode(&self, index: usize, mode: EventTimeMode) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_set_time_mode(self.as_ref().to_glib_none().0, index, mode.to_glib(), &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = alsaseq_sys::alsaseq_event_cntr_set_time_mode(
+                self.as_ref().to_glib_none().0,
+                index,
+                mode.to_glib(),
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
     fn set_tstamp(&self, index: usize, tstamp: &Tstamp) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_set_tstamp(self.as_ref().to_glib_none().0, index, tstamp.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = alsaseq_sys::alsaseq_event_cntr_set_tstamp(
+                self.as_ref().to_glib_none().0,
+                index,
+                tstamp.to_glib_none().0,
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
     fn set_tstamp_data(&self, index: usize, data: &Tstamp) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_set_tstamp_data(self.as_ref().to_glib_none().0, index, data.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = alsaseq_sys::alsaseq_event_cntr_set_tstamp_data(
+                self.as_ref().to_glib_none().0,
+                index,
+                data.to_glib_none().0,
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 
     fn set_tstamp_mode(&self, index: usize, mode: EventTimestampMode) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_event_cntr_set_tstamp_mode(self.as_ref().to_glib_none().0, index, mode.to_glib(), &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = alsaseq_sys::alsaseq_event_cntr_set_tstamp_mode(
+                self.as_ref().to_glib_none().0,
+                index,
+                mode.to_glib(),
+                &mut error,
+            );
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
         }
     }
 }
