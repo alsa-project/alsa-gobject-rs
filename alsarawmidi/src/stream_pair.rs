@@ -2,7 +2,7 @@
 use crate::*;
 
 pub trait StreamPairExtManual {
-    fn get_protocol_version(&self) -> Result<&[u16;3], glib::Error>;
+    fn get_protocol_version(&self) -> Result<&[u16; 3], glib::Error>;
 
     fn get_substream_status<P: IsA<SubstreamStatus>>(
         &self,
@@ -14,14 +14,14 @@ pub trait StreamPairExtManual {
 }
 
 impl<O: IsA<StreamPair>> StreamPairExtManual for O {
-    fn get_protocol_version(&self) -> Result<&[u16;3], glib::Error> {
+    fn get_protocol_version(&self) -> Result<&[u16; 3], glib::Error> {
         unsafe {
-            let mut triplet = std::ptr::null_mut() as *const [u16;3];
+            let mut triplet = std::ptr::null_mut() as *const [u16; 3];
             let mut error = std::ptr::null_mut();
 
             alsarawmidi_sys::alsarawmidi_stream_pair_get_protocol_version(
                 self.as_ref().to_glib_none().0,
-                &mut triplet as *mut *const [u16;3],
+                &mut triplet as *mut *const [u16; 3],
                 &mut error,
             );
 

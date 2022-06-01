@@ -26,9 +26,7 @@ glib_wrapper! {
 
 impl SubstreamParams {
     pub fn new() -> SubstreamParams {
-        unsafe {
-            from_glib_full(alsarawmidi_sys::alsarawmidi_substream_params_new())
-        }
+        unsafe { from_glib_full(alsarawmidi_sys::alsarawmidi_substream_params_new()) }
     }
 }
 
@@ -53,7 +51,10 @@ pub trait SubstreamParamsExt: 'static {
 
     fn set_property_buffer_size(&self, buffer_size: u32);
 
-    fn connect_property_active_sensing_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+    fn connect_property_active_sensing_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId;
 
     fn connect_property_avail_min_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
@@ -64,84 +65,150 @@ impl<O: IsA<SubstreamParams>> SubstreamParamsExt for O {
     fn get_property_active_sensing(&self) -> bool {
         unsafe {
             let mut value = Value::from_type(<bool as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"active-sensing\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `active-sensing` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"active-sensing\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `active-sensing` getter")
+                .unwrap()
         }
     }
 
     fn set_property_active_sensing(&self, active_sensing: bool) {
         unsafe {
-            gobject_sys::g_object_set_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"active-sensing\0".as_ptr() as *const _, Value::from(&active_sensing).to_glib_none().0);
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"active-sensing\0".as_ptr() as *const _,
+                Value::from(&active_sensing).to_glib_none().0,
+            );
         }
     }
 
     fn get_property_avail_min(&self) -> u32 {
         unsafe {
             let mut value = Value::from_type(<u32 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"avail-min\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `avail-min` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"avail-min\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `avail-min` getter")
+                .unwrap()
         }
     }
 
     fn set_property_avail_min(&self, avail_min: u32) {
         unsafe {
-            gobject_sys::g_object_set_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"avail-min\0".as_ptr() as *const _, Value::from(&avail_min).to_glib_none().0);
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"avail-min\0".as_ptr() as *const _,
+                Value::from(&avail_min).to_glib_none().0,
+            );
         }
     }
 
     fn get_property_buffer_size(&self) -> u32 {
         unsafe {
             let mut value = Value::from_type(<u32 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"buffer-size\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `buffer-size` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"buffer-size\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `buffer-size` getter")
+                .unwrap()
         }
     }
 
     fn set_property_buffer_size(&self, buffer_size: u32) {
         unsafe {
-            gobject_sys::g_object_set_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"buffer-size\0".as_ptr() as *const _, Value::from(&buffer_size).to_glib_none().0);
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"buffer-size\0".as_ptr() as *const _,
+                Value::from(&buffer_size).to_glib_none().0,
+            );
         }
     }
 
-    fn connect_property_active_sensing_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_active_sensing_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsarawmidi_sys::ALSARawmidiSubstreamParams, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<SubstreamParams>
+    fn connect_property_active_sensing_notify<F: Fn(&Self) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_active_sensing_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsarawmidi_sys::ALSARawmidiSubstreamParams,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<SubstreamParams>,
         {
             let f: &F = &*(f as *const F);
             f(&SubstreamParams::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::active-sensing\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_active_sensing_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::active-sensing\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_active_sensing_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_avail_min_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_avail_min_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsarawmidi_sys::ALSARawmidiSubstreamParams, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<SubstreamParams>
+        unsafe extern "C" fn notify_avail_min_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsarawmidi_sys::ALSARawmidiSubstreamParams,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<SubstreamParams>,
         {
             let f: &F = &*(f as *const F);
             f(&SubstreamParams::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::avail-min\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_avail_min_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::avail-min\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_avail_min_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_buffer_size_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_buffer_size_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsarawmidi_sys::ALSARawmidiSubstreamParams, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<SubstreamParams>
+        unsafe extern "C" fn notify_buffer_size_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsarawmidi_sys::ALSARawmidiSubstreamParams,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<SubstreamParams>,
         {
             let f: &F = &*(f as *const F);
             f(&SubstreamParams::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::buffer-size\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_buffer_size_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::buffer-size\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_buffer_size_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 }

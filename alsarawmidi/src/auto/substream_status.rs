@@ -26,9 +26,7 @@ glib_wrapper! {
 
 impl SubstreamStatus {
     pub fn new() -> SubstreamStatus {
-        unsafe {
-            from_glib_full(alsarawmidi_sys::alsarawmidi_substream_status_new())
-        }
+        unsafe { from_glib_full(alsarawmidi_sys::alsarawmidi_substream_status_new()) }
     }
 }
 
@@ -54,44 +52,78 @@ impl<O: IsA<SubstreamStatus>> SubstreamStatusExt for O {
     fn get_property_avail(&self) -> u64 {
         unsafe {
             let mut value = Value::from_type(<u64 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"avail\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `avail` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"avail\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `avail` getter")
+                .unwrap()
         }
     }
 
     fn get_property_xruns(&self) -> u64 {
         unsafe {
             let mut value = Value::from_type(<u64 as StaticType>::static_type());
-            gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"xruns\0".as_ptr() as *const _, value.to_glib_none_mut().0);
-            value.get().expect("Return Value for property `xruns` getter").unwrap()
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"xruns\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `xruns` getter")
+                .unwrap()
         }
     }
 
     fn connect_property_avail_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_avail_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsarawmidi_sys::ALSARawmidiSubstreamStatus, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<SubstreamStatus>
+        unsafe extern "C" fn notify_avail_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsarawmidi_sys::ALSARawmidiSubstreamStatus,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<SubstreamStatus>,
         {
             let f: &F = &*(f as *const F);
             f(&SubstreamStatus::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::avail\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_avail_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::avail\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_avail_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
     fn connect_property_xruns_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_xruns_trampoline<P, F: Fn(&P) + 'static>(this: *mut alsarawmidi_sys::ALSARawmidiSubstreamStatus, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<SubstreamStatus>
+        unsafe extern "C" fn notify_xruns_trampoline<P, F: Fn(&P) + 'static>(
+            this: *mut alsarawmidi_sys::ALSARawmidiSubstreamStatus,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<SubstreamStatus>,
         {
             let f: &F = &*(f as *const F);
             f(&SubstreamStatus::from_glib_borrow(this).unsafe_cast_ref())
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::xruns\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(notify_xruns_trampoline::<Self, F> as *const ())), Box_::into_raw(f))
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::xruns\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_xruns_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 }

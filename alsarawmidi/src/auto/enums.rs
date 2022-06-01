@@ -15,23 +15,26 @@ use glib::Type;
 use gobject_sys;
 use std::fmt;
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum StreamDirection {
     Output,
     Input,
-#[doc(hidden)]
+    #[doc(hidden)]
     __Unknown(i32),
 }
 
 impl fmt::Display for StreamDirection {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "StreamDirection::{}", match *self {
-            StreamDirection::Output => "Output",
-            StreamDirection::Input => "Input",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "StreamDirection::{}",
+            match *self {
+                StreamDirection::Output => "Output",
+                StreamDirection::Input => "Input",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -44,7 +47,7 @@ impl ToGlib for StreamDirection {
             StreamDirection::Output => alsarawmidi_sys::ALSARAWMIDI_STREAM_DIRECTION_OUTPUT,
             StreamDirection::Input => alsarawmidi_sys::ALSARAWMIDI_STREAM_DIRECTION_INPUT,
             StreamDirection::__Unknown(value) => value,
-}
+        }
     }
 }
 
@@ -55,7 +58,7 @@ impl FromGlib<alsarawmidi_sys::ALSARawmidiStreamDirection> for StreamDirection {
             0 => StreamDirection::Output,
             1 => StreamDirection::Input,
             value => StreamDirection::__Unknown(value),
-}
+        }
     }
 }
 
@@ -83,25 +86,28 @@ impl SetValue for StreamDirection {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum StreamPairError {
     Failed,
     Disconnected,
     Unreadable,
-#[doc(hidden)]
+    #[doc(hidden)]
     __Unknown(i32),
 }
 
 impl fmt::Display for StreamPairError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "StreamPairError::{}", match *self {
-            StreamPairError::Failed => "Failed",
-            StreamPairError::Disconnected => "Disconnected",
-            StreamPairError::Unreadable => "Unreadable",
-            _ => "Unknown",
-        })
+        write!(
+            f,
+            "StreamPairError::{}",
+            match *self {
+                StreamPairError::Failed => "Failed",
+                StreamPairError::Disconnected => "Disconnected",
+                StreamPairError::Unreadable => "Unreadable",
+                _ => "Unknown",
+            }
+        )
     }
 }
 
@@ -112,10 +118,14 @@ impl ToGlib for StreamPairError {
     fn to_glib(&self) -> alsarawmidi_sys::ALSARawmidiStreamPairError {
         match *self {
             StreamPairError::Failed => alsarawmidi_sys::ALSARAWMIDI_STREAM_PAIR_ERROR_FAILED,
-            StreamPairError::Disconnected => alsarawmidi_sys::ALSARAWMIDI_STREAM_PAIR_ERROR_DISCONNECTED,
-            StreamPairError::Unreadable => alsarawmidi_sys::ALSARAWMIDI_STREAM_PAIR_ERROR_UNREADABLE,
+            StreamPairError::Disconnected => {
+                alsarawmidi_sys::ALSARAWMIDI_STREAM_PAIR_ERROR_DISCONNECTED
+            }
+            StreamPairError::Unreadable => {
+                alsarawmidi_sys::ALSARAWMIDI_STREAM_PAIR_ERROR_UNREADABLE
+            }
             StreamPairError::__Unknown(value) => value,
-}
+        }
     }
 }
 
@@ -127,13 +137,12 @@ impl FromGlib<alsarawmidi_sys::ALSARawmidiStreamPairError> for StreamPairError {
             1 => StreamPairError::Disconnected,
             2 => StreamPairError::Unreadable,
             value => StreamPairError::__Unknown(value),
-}
+        }
     }
 }
 
 impl ErrorDomain for StreamPairError {
     fn domain() -> Quark {
-        
         unsafe { from_glib(alsarawmidi_sys::alsarawmidi_stream_pair_error_quark()) }
     }
 
@@ -147,7 +156,7 @@ impl ErrorDomain for StreamPairError {
             1 => Some(StreamPairError::Disconnected),
             2 => Some(StreamPairError::Unreadable),
             _ => Some(StreamPairError::Failed),
-}
+        }
     }
 }
 
@@ -174,4 +183,3 @@ impl SetValue for StreamPairError {
         gobject_sys::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
     }
 }
-
