@@ -5,12 +5,11 @@
 use alsatimer_sys;
 use glib;
 use glib::translate::*;
+use glib::GString;
 use std::mem;
 use std::ptr;
 use DeviceId;
 use DeviceInfo;
-
-use glib::GString;
 
 pub fn get_device_info(device_id: &mut DeviceId) -> Result<DeviceInfo, glib::Error> {
     unsafe {

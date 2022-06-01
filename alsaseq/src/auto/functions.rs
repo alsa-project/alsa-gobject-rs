@@ -5,6 +5,7 @@
 use alsaseq_sys;
 use glib;
 use glib::translate::*;
+use glib::GString;
 use std::mem;
 use std::ptr;
 use ClientInfo;
@@ -12,8 +13,6 @@ use ClientPool;
 use PortInfo;
 use QueueInfo;
 use SystemInfo;
-
-use glib::GString;
 
 pub fn get_client_id_list() -> Result<Vec<u8>, glib::Error> {
     unsafe {

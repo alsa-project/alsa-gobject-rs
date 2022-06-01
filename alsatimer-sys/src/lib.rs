@@ -8,7 +8,6 @@
     clippy::type_complexity,
     clippy::unreadable_literal
 )]
-#![cfg_attr(feature = "dox", feature(doc_cfg))]
 
 extern crate glib_sys as glib;
 extern crate gobject_sys as gobject;
@@ -115,11 +114,6 @@ impl ::std::fmt::Debug for ALSATimerDeviceInfoClass {
 }
 
 #[repr(C)]
-pub struct _ALSATimerDeviceInfoPrivate(c_void);
-
-pub type ALSATimerDeviceInfoPrivate = *mut _ALSATimerDeviceInfoPrivate;
-
-#[repr(C)]
 #[derive(Copy, Clone)]
 pub struct ALSATimerDeviceParamsClass {
     pub parent_class: gobject::GObjectClass,
@@ -137,11 +131,6 @@ impl ::std::fmt::Debug for ALSATimerDeviceParamsClass {
 }
 
 #[repr(C)]
-pub struct _ALSATimerDeviceParamsPrivate(c_void);
-
-pub type ALSATimerDeviceParamsPrivate = *mut _ALSATimerDeviceParamsPrivate;
-
-#[repr(C)]
 #[derive(Copy, Clone)]
 pub struct ALSATimerDeviceStatusClass {
     pub parent_class: gobject::GObjectClass,
@@ -157,11 +146,6 @@ impl ::std::fmt::Debug for ALSATimerDeviceStatusClass {
         .finish()
     }
 }
-
-#[repr(C)]
-pub struct _ALSATimerDeviceStatusPrivate(c_void);
-
-pub type ALSATimerDeviceStatusPrivate = *mut _ALSATimerDeviceStatusPrivate;
 
 #[repr(C)]
 pub struct ALSATimerEventDataTick(c_void);
@@ -204,11 +188,6 @@ impl ::std::fmt::Debug for ALSATimerInstanceInfoClass {
 }
 
 #[repr(C)]
-pub struct _ALSATimerInstanceInfoPrivate(c_void);
-
-pub type ALSATimerInstanceInfoPrivate = *mut _ALSATimerInstanceInfoPrivate;
-
-#[repr(C)]
 #[derive(Copy, Clone)]
 pub struct ALSATimerInstanceParamsClass {
     pub parent_class: gobject::GObjectClass,
@@ -226,11 +205,6 @@ impl ::std::fmt::Debug for ALSATimerInstanceParamsClass {
 }
 
 #[repr(C)]
-pub struct _ALSATimerInstanceParamsPrivate(c_void);
-
-pub type ALSATimerInstanceParamsPrivate = *mut _ALSATimerInstanceParamsPrivate;
-
-#[repr(C)]
 #[derive(Copy, Clone)]
 pub struct ALSATimerInstanceStatusClass {
     pub parent_class: gobject::GObjectClass,
@@ -246,11 +220,6 @@ impl ::std::fmt::Debug for ALSATimerInstanceStatusClass {
         .finish()
     }
 }
-
-#[repr(C)]
-pub struct _ALSATimerInstanceStatusPrivate(c_void);
-
-pub type ALSATimerInstanceStatusPrivate = *mut _ALSATimerInstanceStatusPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -274,24 +243,17 @@ impl ::std::fmt::Debug for ALSATimerUserInstanceClass {
     }
 }
 
-#[repr(C)]
-pub struct _ALSATimerUserInstancePrivate(c_void);
-
-pub type ALSATimerUserInstancePrivate = *mut _ALSATimerUserInstancePrivate;
-
 // Classes
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct ALSATimerDeviceInfo {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSATimerDeviceInfoPrivate,
 }
 
 impl ::std::fmt::Debug for ALSATimerDeviceInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSATimerDeviceInfo @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
-            .field("priv_", &self.priv_)
             .finish()
     }
 }
@@ -300,14 +262,12 @@ impl ::std::fmt::Debug for ALSATimerDeviceInfo {
 #[derive(Copy, Clone)]
 pub struct ALSATimerDeviceParams {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSATimerDeviceParamsPrivate,
 }
 
 impl ::std::fmt::Debug for ALSATimerDeviceParams {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSATimerDeviceParams @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
-            .field("priv_", &self.priv_)
             .finish()
     }
 }
@@ -316,14 +276,12 @@ impl ::std::fmt::Debug for ALSATimerDeviceParams {
 #[derive(Copy, Clone)]
 pub struct ALSATimerDeviceStatus {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSATimerDeviceStatusPrivate,
 }
 
 impl ::std::fmt::Debug for ALSATimerDeviceStatus {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSATimerDeviceStatus @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
-            .field("priv_", &self.priv_)
             .finish()
     }
 }
@@ -332,14 +290,12 @@ impl ::std::fmt::Debug for ALSATimerDeviceStatus {
 #[derive(Copy, Clone)]
 pub struct ALSATimerInstanceInfo {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSATimerInstanceInfoPrivate,
 }
 
 impl ::std::fmt::Debug for ALSATimerInstanceInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSATimerInstanceInfo @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
-            .field("priv_", &self.priv_)
             .finish()
     }
 }
@@ -348,14 +304,12 @@ impl ::std::fmt::Debug for ALSATimerInstanceInfo {
 #[derive(Copy, Clone)]
 pub struct ALSATimerInstanceParams {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSATimerInstanceParamsPrivate,
 }
 
 impl ::std::fmt::Debug for ALSATimerInstanceParams {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSATimerInstanceParams @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
-            .field("priv_", &self.priv_)
             .finish()
     }
 }
@@ -364,14 +318,12 @@ impl ::std::fmt::Debug for ALSATimerInstanceParams {
 #[derive(Copy, Clone)]
 pub struct ALSATimerInstanceStatus {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSATimerInstanceStatusPrivate,
 }
 
 impl ::std::fmt::Debug for ALSATimerInstanceStatus {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSATimerInstanceStatus @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
-            .field("priv_", &self.priv_)
             .finish()
     }
 }
@@ -380,19 +332,16 @@ impl ::std::fmt::Debug for ALSATimerInstanceStatus {
 #[derive(Copy, Clone)]
 pub struct ALSATimerUserInstance {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSATimerUserInstancePrivate,
 }
 
 impl ::std::fmt::Debug for ALSATimerUserInstance {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSATimerUserInstance @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
-            .field("priv_", &self.priv_)
             .finish()
     }
 }
 
-#[link(name = "alsatimer")]
 extern "C" {
 
     //=========================================================================

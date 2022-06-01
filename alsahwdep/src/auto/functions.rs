@@ -5,11 +5,10 @@
 use alsahwdep_sys;
 use glib;
 use glib::translate::*;
+use glib::GString;
 use std::mem;
 use std::ptr;
 use DeviceInfo;
-
-use glib::GString;
 
 pub fn get_device_id_list(card_id: u32) -> Result<Vec<u32>, glib::Error> {
     unsafe {

@@ -8,7 +8,6 @@
     clippy::type_complexity,
     clippy::unreadable_literal
 )]
-#![cfg_attr(feature = "dox", feature(doc_cfg))]
 
 extern crate glib_sys as glib;
 extern crate gobject_sys as gobject;
@@ -109,16 +108,6 @@ impl ::std::fmt::Debug for ALSACtlCardInfoClass {
 }
 
 #[repr(C)]
-pub struct _ALSACtlCardInfoPrivate(c_void);
-
-pub type ALSACtlCardInfoPrivate = *mut _ALSACtlCardInfoPrivate;
-
-#[repr(C)]
-pub struct _ALSACtlCardPrivate(c_void);
-
-pub type ALSACtlCardPrivate = *mut _ALSACtlCardPrivate;
-
-#[repr(C)]
 pub struct ALSACtlElemId(c_void);
 
 impl ::std::fmt::Debug for ALSACtlElemId {
@@ -143,11 +132,6 @@ impl ::std::fmt::Debug for ALSACtlElemInfoClass {
 }
 
 #[repr(C)]
-pub struct _ALSACtlElemInfoPrivate(c_void);
-
-pub type ALSACtlElemInfoPrivate = *mut _ALSACtlElemInfoPrivate;
-
-#[repr(C)]
 #[derive(Copy, Clone)]
 pub struct ALSACtlElemValueClass {
     pub parent_class: gobject::GObjectClass,
@@ -161,24 +145,17 @@ impl ::std::fmt::Debug for ALSACtlElemValueClass {
     }
 }
 
-#[repr(C)]
-pub struct _ALSACtlElemValuePrivate(c_void);
-
-pub type ALSACtlElemValuePrivate = *mut _ALSACtlElemValuePrivate;
-
 // Classes
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct ALSACtlCard {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSACtlCardPrivate,
 }
 
 impl ::std::fmt::Debug for ALSACtlCard {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSACtlCard @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
-            .field("priv_", &self.priv_)
             .finish()
     }
 }
@@ -187,14 +164,12 @@ impl ::std::fmt::Debug for ALSACtlCard {
 #[derive(Copy, Clone)]
 pub struct ALSACtlCardInfo {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSACtlCardInfo,
 }
 
 impl ::std::fmt::Debug for ALSACtlCardInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSACtlCardInfo @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
-            .field("priv_", &self.priv_)
             .finish()
     }
 }
@@ -203,14 +178,12 @@ impl ::std::fmt::Debug for ALSACtlCardInfo {
 #[derive(Copy, Clone)]
 pub struct ALSACtlElemInfo {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSACtlElemInfoPrivate,
 }
 
 impl ::std::fmt::Debug for ALSACtlElemInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSACtlElemInfo @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
-            .field("priv_", &self.priv_)
             .finish()
     }
 }
@@ -219,19 +192,16 @@ impl ::std::fmt::Debug for ALSACtlElemInfo {
 #[derive(Copy, Clone)]
 pub struct ALSACtlElemValue {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSACtlElemValuePrivate,
 }
 
 impl ::std::fmt::Debug for ALSACtlElemValue {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSACtlElemValue @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
-            .field("priv_", &self.priv_)
             .finish()
     }
 }
 
-#[link(name = "alsactl")]
 extern "C" {
 
     //=========================================================================

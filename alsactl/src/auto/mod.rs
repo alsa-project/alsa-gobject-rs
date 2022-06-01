@@ -4,19 +4,19 @@
 
 mod card;
 pub use self::card::CardExt;
-pub use self::card::{Card, NONE_CARD};
+pub use self::card::{Card, CardClass, NONE_CARD};
 
 mod card_info;
 pub use self::card_info::CardInfoExt;
-pub use self::card_info::{CardInfo, NONE_CARD_INFO};
+pub use self::card_info::{CardInfo, CardInfoClass, NONE_CARD_INFO};
 
 mod elem_info;
 pub use self::elem_info::ElemInfoExt;
-pub use self::elem_info::{ElemInfo, NONE_ELEM_INFO};
+pub use self::elem_info::{ElemInfo, ElemInfoClass, NONE_ELEM_INFO};
 
 mod elem_value;
 pub use self::elem_value::ElemValueExt;
-pub use self::elem_value::{ElemValue, NONE_ELEM_VALUE};
+pub use self::elem_value::{ElemValue, ElemValueClass, NONE_ELEM_VALUE};
 
 mod elem_id;
 pub use self::elem_id::ElemId;

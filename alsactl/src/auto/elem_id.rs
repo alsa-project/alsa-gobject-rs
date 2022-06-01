@@ -4,12 +4,11 @@
 
 use alsactl_sys;
 use glib::translate::*;
+use glib::GString;
 use gobject_sys;
 use std::mem;
 use std::ptr;
 use ElemIfaceType;
-
-use glib::GString;
 
 glib_wrapper! {
     #[derive(Debug, PartialOrd, Ord, Hash)]

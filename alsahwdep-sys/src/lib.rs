@@ -8,7 +8,6 @@
     clippy::type_complexity,
     clippy::unreadable_literal
 )]
-#![cfg_attr(feature = "dox", feature(doc_cfg))]
 
 extern crate glib_sys as glib;
 extern crate gobject_sys as gobject;
@@ -71,29 +70,21 @@ impl ::std::fmt::Debug for ALSAHwdepDeviceInfoClass {
     }
 }
 
-#[repr(C)]
-pub struct _ALSAHwdepDeviceInfoPrivate(c_void);
-
-pub type ALSAHwdepDeviceInfoPrivate = *mut _ALSAHwdepDeviceInfoPrivate;
-
 // Classes
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct ALSAHwdepDeviceInfo {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSAHwdepDeviceInfoPrivate,
 }
 
 impl ::std::fmt::Debug for ALSAHwdepDeviceInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSAHwdepDeviceInfo @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
-            .field("priv_", &self.priv_)
             .finish()
     }
 }
 
-#[link(name = "alsahwdep")]
 extern "C" {
 
     //=========================================================================

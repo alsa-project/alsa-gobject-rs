@@ -5,10 +5,9 @@
 use alsactl_sys;
 use glib;
 use glib::translate::*;
+use glib::GString;
 use std::mem;
 use std::ptr;
-
-use glib::GString;
 
 pub fn get_card_id_list() -> Result<Vec<u32>, glib::Error> {
     unsafe {

@@ -8,7 +8,6 @@
     clippy::type_complexity,
     clippy::unreadable_literal
 )]
-#![cfg_attr(feature = "dox", feature(doc_cfg))]
 
 extern crate alsatimer_sys as alsatimer;
 extern crate glib_sys as glib;
@@ -210,11 +209,6 @@ impl ::std::fmt::Debug for ALSASeqClientInfoClass {
 }
 
 #[repr(C)]
-pub struct _ALSASeqClientInfoPrivate(c_void);
-
-pub type ALSASeqClientInfoPrivate = *mut _ALSASeqClientInfoPrivate;
-
-#[repr(C)]
 #[derive(Copy, Clone)]
 pub struct ALSASeqClientPoolClass {
     pub parent_class: gobject::GObjectClass,
@@ -229,11 +223,6 @@ impl ::std::fmt::Debug for ALSASeqClientPoolClass {
 }
 
 #[repr(C)]
-pub struct _ALSASeqClientPoolPrivate(c_void);
-
-pub type ALSASeqClientPoolPrivate = *mut _ALSASeqClientPoolPrivate;
-
-#[repr(C)]
 #[derive(Copy, Clone)]
 pub struct ALSASeqEventCntrClass {
     pub parent_class: gobject::GObjectClass,
@@ -246,11 +235,6 @@ impl ::std::fmt::Debug for ALSASeqEventCntrClass {
             .finish()
     }
 }
-
-#[repr(C)]
-pub struct _ALSASeqEventCntrPrivate(c_void);
-
-pub type ALSASeqEventCntrPrivate = *mut _ALSASeqEventCntrPrivate;
 
 #[repr(C)]
 pub struct ALSASeqEventDataConnect(c_void);
@@ -317,11 +301,6 @@ impl ::std::fmt::Debug for ALSASeqPortInfoClass {
 }
 
 #[repr(C)]
-pub struct _ALSASeqPortInfoPrivate(c_void);
-
-pub type ALSASeqPortInfoPrivate = *mut _ALSASeqPortInfoPrivate;
-
-#[repr(C)]
 #[derive(Copy, Clone)]
 pub struct ALSASeqQueueInfoClass {
     pub parent_class: gobject::GObjectClass,
@@ -334,11 +313,6 @@ impl ::std::fmt::Debug for ALSASeqQueueInfoClass {
             .finish()
     }
 }
-
-#[repr(C)]
-pub struct _ALSASeqQueueInfoPrivate(c_void);
-
-pub type ALSASeqQueueInfoPrivate = *mut _ALSASeqQueueInfoPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -355,11 +329,6 @@ impl ::std::fmt::Debug for ALSASeqQueueStatusClass {
 }
 
 #[repr(C)]
-pub struct _ALSASeqQueueStatusPrivate(c_void);
-
-pub type ALSASeqQueueStatusPrivate = *mut _ALSASeqQueueStatusPrivate;
-
-#[repr(C)]
 #[derive(Copy, Clone)]
 pub struct ALSASeqQueueTempoClass {
     pub parent_class: gobject::GObjectClass,
@@ -372,11 +341,6 @@ impl ::std::fmt::Debug for ALSASeqQueueTempoClass {
             .finish()
     }
 }
-
-#[repr(C)]
-pub struct _ALSASeqQueueTempoPrivate(c_void);
-
-pub type ALSASeqQueueTempoPrivate = *mut _ALSASeqQueueTempoPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -409,11 +373,6 @@ impl ::std::fmt::Debug for ALSASeqQueueTimerDataAlsa {
 }
 
 #[repr(C)]
-pub struct _ALSASeqQueueTimerPrivate(c_void);
-
-pub type ALSASeqQueueTimerPrivate = *mut _ALSASeqQueueTimerPrivate;
-
-#[repr(C)]
 pub struct ALSASeqRemoveFilter(c_void);
 
 impl ::std::fmt::Debug for ALSASeqRemoveFilter {
@@ -441,11 +400,6 @@ impl ::std::fmt::Debug for ALSASeqSubscribeDataClass {
 }
 
 #[repr(C)]
-pub struct _ALSASeqSubscribeDataPrivate(c_void);
-
-pub type ALSASeqSubscribeDataPrivate = *mut _ALSASeqSubscribeDataPrivate;
-
-#[repr(C)]
 #[derive(Copy, Clone)]
 pub struct ALSASeqSystemInfoClass {
     pub parent_class: gobject::GObjectClass,
@@ -458,11 +412,6 @@ impl ::std::fmt::Debug for ALSASeqSystemInfoClass {
             .finish()
     }
 }
-
-#[repr(C)]
-pub struct _ALSASeqSystemInfoPrivate(c_void);
-
-pub type ALSASeqSystemInfoPrivate = *mut _ALSASeqSystemInfoPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -480,24 +429,17 @@ impl ::std::fmt::Debug for ALSASeqUserClientClass {
     }
 }
 
-#[repr(C)]
-pub struct _ALSASeqUserClientPrivate(c_void);
-
-pub type ALSASeqUserClientPrivate = *mut _ALSASeqUserClientPrivate;
-
 // Classes
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct ALSASeqClientInfo {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSASeqClientInfoPrivate,
 }
 
 impl ::std::fmt::Debug for ALSASeqClientInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSASeqClientInfo @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
-            .field("priv_", &self.priv_)
             .finish()
     }
 }
@@ -506,14 +448,12 @@ impl ::std::fmt::Debug for ALSASeqClientInfo {
 #[derive(Copy, Clone)]
 pub struct ALSASeqClientPool {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSASeqClientPoolPrivate,
 }
 
 impl ::std::fmt::Debug for ALSASeqClientPool {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSASeqClientPool @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
-            .field("priv_", &self.priv_)
             .finish()
     }
 }
@@ -522,14 +462,12 @@ impl ::std::fmt::Debug for ALSASeqClientPool {
 #[derive(Copy, Clone)]
 pub struct ALSASeqEventCntr {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSASeqEventCntrPrivate,
 }
 
 impl ::std::fmt::Debug for ALSASeqEventCntr {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSASeqEventCntr @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
-            .field("priv_", &self.priv_)
             .finish()
     }
 }
@@ -538,14 +476,12 @@ impl ::std::fmt::Debug for ALSASeqEventCntr {
 #[derive(Copy, Clone)]
 pub struct ALSASeqPortInfo {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSASeqPortInfoPrivate,
 }
 
 impl ::std::fmt::Debug for ALSASeqPortInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSASeqPortInfo @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
-            .field("priv_", &self.priv_)
             .finish()
     }
 }
@@ -554,14 +490,12 @@ impl ::std::fmt::Debug for ALSASeqPortInfo {
 #[derive(Copy, Clone)]
 pub struct ALSASeqQueueInfo {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSASeqQueueInfoPrivate,
 }
 
 impl ::std::fmt::Debug for ALSASeqQueueInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSASeqQueueInfo @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
-            .field("priv_", &self.priv_)
             .finish()
     }
 }
@@ -570,14 +504,12 @@ impl ::std::fmt::Debug for ALSASeqQueueInfo {
 #[derive(Copy, Clone)]
 pub struct ALSASeqQueueStatus {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSASeqQueueStatusPrivate,
 }
 
 impl ::std::fmt::Debug for ALSASeqQueueStatus {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSASeqQueueStatus @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
-            .field("priv_", &self.priv_)
             .finish()
     }
 }
@@ -586,14 +518,12 @@ impl ::std::fmt::Debug for ALSASeqQueueStatus {
 #[derive(Copy, Clone)]
 pub struct ALSASeqQueueTempo {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSASeqQueueTempoPrivate,
 }
 
 impl ::std::fmt::Debug for ALSASeqQueueTempo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSASeqQueueTempo @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
-            .field("priv_", &self.priv_)
             .finish()
     }
 }
@@ -602,14 +532,12 @@ impl ::std::fmt::Debug for ALSASeqQueueTempo {
 #[derive(Copy, Clone)]
 pub struct ALSASeqQueueTimer {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSASeqQueueTimerPrivate,
 }
 
 impl ::std::fmt::Debug for ALSASeqQueueTimer {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSASeqQueueTimer @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
-            .field("priv_", &self.priv_)
             .finish()
     }
 }
@@ -618,14 +546,12 @@ impl ::std::fmt::Debug for ALSASeqQueueTimer {
 #[derive(Copy, Clone)]
 pub struct ALSASeqSubscribeData {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSASeqSubscribeData,
 }
 
 impl ::std::fmt::Debug for ALSASeqSubscribeData {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSASeqSubscribeData @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
-            .field("priv_", &self.priv_)
             .finish()
     }
 }
@@ -634,14 +560,12 @@ impl ::std::fmt::Debug for ALSASeqSubscribeData {
 #[derive(Copy, Clone)]
 pub struct ALSASeqSystemInfo {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSASeqSystemInfoPrivate,
 }
 
 impl ::std::fmt::Debug for ALSASeqSystemInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSASeqSystemInfo @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
-            .field("priv_", &self.priv_)
             .finish()
     }
 }
@@ -650,19 +574,16 @@ impl ::std::fmt::Debug for ALSASeqSystemInfo {
 #[derive(Copy, Clone)]
 pub struct ALSASeqUserClient {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSASeqUserClientPrivate,
 }
 
 impl ::std::fmt::Debug for ALSASeqUserClient {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSASeqUserClient @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
-            .field("priv_", &self.priv_)
             .finish()
     }
 }
 
-#[link(name = "alsaseq")]
 extern "C" {
 
     //=========================================================================

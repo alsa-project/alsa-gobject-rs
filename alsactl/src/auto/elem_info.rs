@@ -9,6 +9,7 @@ use glib::object::IsA;
 use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+use glib::GString;
 use glib::StaticType;
 use glib::Value;
 use glib_sys;
@@ -20,8 +21,6 @@ use std::ptr;
 use ElemAccessFlag;
 use ElemId;
 use ElemType;
-
-use glib::GString;
 
 glib_wrapper! {
     pub struct ElemInfo(Object<alsactl_sys::ALSACtlElemInfo, alsactl_sys::ALSACtlElemInfoClass, ElemInfoClass>);

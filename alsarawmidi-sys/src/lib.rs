@@ -8,7 +8,6 @@
     clippy::type_complexity,
     clippy::unreadable_literal
 )]
-#![cfg_attr(feature = "dox", feature(doc_cfg))]
 
 extern crate glib_sys as glib;
 extern crate gobject_sys as gobject;
@@ -62,11 +61,6 @@ impl ::std::fmt::Debug for ALSARawmidiStreamPairClass {
 }
 
 #[repr(C)]
-pub struct _ALSARawmidiStreamPairPrivate(c_void);
-
-pub type ALSARawmidiStreamPairPrivate = *mut _ALSARawmidiStreamPairPrivate;
-
-#[repr(C)]
 #[derive(Copy, Clone)]
 pub struct ALSARawmidiSubstreamInfoClass {
     pub parent_class: gobject::GObjectClass,
@@ -82,11 +76,6 @@ impl ::std::fmt::Debug for ALSARawmidiSubstreamInfoClass {
         .finish()
     }
 }
-
-#[repr(C)]
-pub struct _ALSARawmidiSubstreamInfoPrivate(c_void);
-
-pub type ALSARawmidiSubstreamInfoPrivate = *mut _ALSARawmidiSubstreamInfoPrivate;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -106,11 +95,6 @@ impl ::std::fmt::Debug for ALSARawmidiSubstreamParamsClass {
 }
 
 #[repr(C)]
-pub struct _ALSARawmidiSubstreamParamsPrivate(c_void);
-
-pub type ALSARawmidiSubstreamParamsPrivate = *mut _ALSARawmidiSubstreamParamsPrivate;
-
-#[repr(C)]
 #[derive(Copy, Clone)]
 pub struct ALSARawmidiSubstreamStatusClass {
     pub parent_class: gobject::GObjectClass,
@@ -127,24 +111,17 @@ impl ::std::fmt::Debug for ALSARawmidiSubstreamStatusClass {
     }
 }
 
-#[repr(C)]
-pub struct _ALSARawmidiSubstreamStatusPrivate(c_void);
-
-pub type ALSARawmidiSubstreamStatusPrivate = *mut _ALSARawmidiSubstreamStatusPrivate;
-
 // Classes
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct ALSARawmidiStreamPair {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSARawmidiStreamPairPrivate,
 }
 
 impl ::std::fmt::Debug for ALSARawmidiStreamPair {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("ALSARawmidiStreamPair @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
-            .field("priv_", &self.priv_)
             .finish()
     }
 }
@@ -153,7 +130,6 @@ impl ::std::fmt::Debug for ALSARawmidiStreamPair {
 #[derive(Copy, Clone)]
 pub struct ALSARawmidiSubstreamInfo {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSARawmidiSubstreamInfoPrivate,
 }
 
 impl ::std::fmt::Debug for ALSARawmidiSubstreamInfo {
@@ -163,7 +139,6 @@ impl ::std::fmt::Debug for ALSARawmidiSubstreamInfo {
             self as *const _
         ))
         .field("parent_instance", &self.parent_instance)
-        .field("priv_", &self.priv_)
         .finish()
     }
 }
@@ -172,7 +147,6 @@ impl ::std::fmt::Debug for ALSARawmidiSubstreamInfo {
 #[derive(Copy, Clone)]
 pub struct ALSARawmidiSubstreamParams {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSARawmidiSubstreamParamsPrivate,
 }
 
 impl ::std::fmt::Debug for ALSARawmidiSubstreamParams {
@@ -182,7 +156,6 @@ impl ::std::fmt::Debug for ALSARawmidiSubstreamParams {
             self as *const _
         ))
         .field("parent_instance", &self.parent_instance)
-        .field("priv_", &self.priv_)
         .finish()
     }
 }
@@ -191,7 +164,6 @@ impl ::std::fmt::Debug for ALSARawmidiSubstreamParams {
 #[derive(Copy, Clone)]
 pub struct ALSARawmidiSubstreamStatus {
     pub parent_instance: gobject::GObject,
-    pub priv_: *mut ALSARawmidiSubstreamStatusPrivate,
 }
 
 impl ::std::fmt::Debug for ALSARawmidiSubstreamStatus {
@@ -201,12 +173,10 @@ impl ::std::fmt::Debug for ALSARawmidiSubstreamStatus {
             self as *const _
         ))
         .field("parent_instance", &self.parent_instance)
-        .field("priv_", &self.priv_)
         .finish()
     }
 }
 
-#[link(name = "alsarawmidi")]
 extern "C" {
 
     //=========================================================================
@@ -329,8 +299,8 @@ extern "C" {
         error: *mut *mut glib::GError,
     );
     pub fn alsarawmidi_get_subdevice_id_list(
-        card: c_uint,
-        device: c_uint,
+        card_id: c_uint,
+        device_id: c_uint,
         direction: ALSARawmidiStreamDirection,
         entries: *mut *mut c_uint,
         entry_count: *mut size_t,

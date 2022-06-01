@@ -4,47 +4,47 @@
 
 mod client_info;
 pub use self::client_info::ClientInfoExt;
-pub use self::client_info::{ClientInfo, NONE_CLIENT_INFO};
+pub use self::client_info::{ClientInfo, ClientInfoClass, NONE_CLIENT_INFO};
 
 mod client_pool;
 pub use self::client_pool::ClientPoolExt;
-pub use self::client_pool::{ClientPool, NONE_CLIENT_POOL};
+pub use self::client_pool::{ClientPool, ClientPoolClass, NONE_CLIENT_POOL};
 
 mod event_cntr;
 pub use self::event_cntr::EventCntrExt;
-pub use self::event_cntr::{EventCntr, NONE_EVENT_CNTR};
+pub use self::event_cntr::{EventCntr, EventCntrClass, NONE_EVENT_CNTR};
 
 mod port_info;
 pub use self::port_info::PortInfoExt;
-pub use self::port_info::{PortInfo, NONE_PORT_INFO};
+pub use self::port_info::{PortInfo, PortInfoClass, NONE_PORT_INFO};
 
 mod queue_info;
 pub use self::queue_info::QueueInfoExt;
-pub use self::queue_info::{QueueInfo, NONE_QUEUE_INFO};
+pub use self::queue_info::{QueueInfo, QueueInfoClass, NONE_QUEUE_INFO};
 
 mod queue_status;
 pub use self::queue_status::QueueStatusExt;
-pub use self::queue_status::{QueueStatus, NONE_QUEUE_STATUS};
+pub use self::queue_status::{QueueStatus, QueueStatusClass, NONE_QUEUE_STATUS};
 
 mod queue_tempo;
 pub use self::queue_tempo::QueueTempoExt;
-pub use self::queue_tempo::{QueueTempo, NONE_QUEUE_TEMPO};
+pub use self::queue_tempo::{QueueTempo, QueueTempoClass, NONE_QUEUE_TEMPO};
 
 mod queue_timer;
 pub use self::queue_timer::QueueTimerExt;
-pub use self::queue_timer::{QueueTimer, NONE_QUEUE_TIMER};
+pub use self::queue_timer::{QueueTimer, QueueTimerClass, NONE_QUEUE_TIMER};
 
 mod subscribe_data;
 pub use self::subscribe_data::SubscribeDataExt;
-pub use self::subscribe_data::{SubscribeData, NONE_SUBSCRIBE_DATA};
+pub use self::subscribe_data::{SubscribeData, SubscribeDataClass, NONE_SUBSCRIBE_DATA};
 
 mod system_info;
 pub use self::system_info::SystemInfoExt;
-pub use self::system_info::{SystemInfo, NONE_SYSTEM_INFO};
+pub use self::system_info::{SystemInfo, SystemInfoClass, NONE_SYSTEM_INFO};
 
 mod user_client;
 pub use self::user_client::UserClientExt;
-pub use self::user_client::{UserClient, NONE_USER_CLIENT};
+pub use self::user_client::{UserClient, UserClientClass, NONE_USER_CLIENT};
 
 mod addr;
 pub use self::addr::Addr;

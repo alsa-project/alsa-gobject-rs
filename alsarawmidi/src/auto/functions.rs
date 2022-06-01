@@ -5,12 +5,11 @@
 use alsarawmidi_sys;
 use glib;
 use glib::translate::*;
+use glib::GString;
 use std::mem;
 use std::ptr;
 use StreamDirection;
 use SubstreamInfo;
-
-use glib::GString;
 
 pub fn get_device_id_list(card_id: u32) -> Result<Vec<u32>, glib::Error> {
     unsafe {
@@ -71,8 +70,8 @@ pub fn get_rawmidi_sysname(card_id: u32, device_id: u32) -> Result<GString, glib
 }
 
 pub fn get_subdevice_id_list(
-    card: u32,
-    device: u32,
+    card_id: u32,
+    device_id: u32,
     direction: StreamDirection,
 ) -> Result<Vec<u32>, glib::Error> {
     unsafe {
@@ -80,8 +79,8 @@ pub fn get_subdevice_id_list(
         let mut entry_count = mem::MaybeUninit::uninit();
         let mut error = ptr::null_mut();
         let _ = alsarawmidi_sys::alsarawmidi_get_subdevice_id_list(
-            card,
-            device,
+            card_id,
+            device_id,
             direction.to_glib(),
             &mut entries,
             entry_count.as_mut_ptr(),

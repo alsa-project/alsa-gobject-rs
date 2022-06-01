@@ -25,7 +25,7 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
             let mut triplet = std::ptr::null_mut() as *const [u16; 3];
             let mut error = std::ptr::null_mut();
 
-            alsaseq_sys::alsaseq_user_client_get_protocol_version(
+            let _ = alsaseq_sys::alsaseq_user_client_get_protocol_version(
                 self.as_ref().to_glib_none().0,
                 &mut triplet as *mut *const [u16; 3],
                 &mut error,
@@ -42,7 +42,7 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
     fn create_port<P: IsA<PortInfo>>(&self, port_info: &mut P) -> Result<(), glib::Error> {
         unsafe {
             let mut error = std::ptr::null_mut();
-            alsaseq_sys::alsaseq_user_client_create_port(
+            let _ = alsaseq_sys::alsaseq_user_client_create_port(
                 self.as_ref().to_glib_none().0,
                 &mut port_info.as_ref().to_glib_none().0,
                 &mut error,
@@ -62,7 +62,7 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = std::ptr::null_mut();
-            alsaseq_sys::alsaseq_user_client_create_port_at(
+            let _ = alsaseq_sys::alsaseq_user_client_create_port_at(
                 self.as_ref().to_glib_none().0,
                 &mut port_info.as_ref().to_glib_none().0,
                 port_id,
@@ -80,7 +80,7 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
         unsafe {
             let mut error = std::ptr::null_mut();
 
-            alsaseq_sys::alsaseq_user_client_create_queue(
+            let _ = alsaseq_sys::alsaseq_user_client_create_queue(
                 self.as_ref().to_glib_none().0,
                 &mut queue_info.as_ref().to_glib_none().0,
                 &mut error,
@@ -98,7 +98,7 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
         unsafe {
             let mut error = std::ptr::null_mut();
 
-            alsaseq_sys::alsaseq_user_client_get_info(
+            let _ = alsaseq_sys::alsaseq_user_client_get_info(
                 self.as_ref().to_glib_none().0,
                 &mut client_info.as_ref().to_glib_none().0,
                 &mut error,
@@ -116,7 +116,7 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
         unsafe {
             let mut error = std::ptr::null_mut();
 
-            alsaseq_sys::alsaseq_user_client_get_pool(
+            let _ = alsaseq_sys::alsaseq_user_client_get_pool(
                 self.as_ref().to_glib_none().0,
                 &mut client_pool.as_ref().to_glib_none().0,
                 &mut error,
