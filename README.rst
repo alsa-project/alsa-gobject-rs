@@ -28,12 +28,12 @@ Dependencies
   * ``glib-sys`` >= 0.15
   * ``gobject-sys`` >= 0.15
 
-* API crates (``alsactl``, ``alsahwdep``, ``alsarawmidi``, ``alsatimer``)
+* API crates (``alsactl``, ``alsahwdep``, ``alsarawmidi``)
 
   * ``libc`` >= 0.2
   * ``bitflags`` >= 1.0
   * ``glib`` >= 0.15
-  * FFI crate per each (``alsactl-sys``, ``alsahwdep-sys``, ``alsarawmidi-sys``, ``alsatimer-sys``)
+  * FFI crate per each (``alsactl-sys``, ``alsahwdep-sys``, ``alsarawmidi-sys``)
 
 Sample code
 ===========
