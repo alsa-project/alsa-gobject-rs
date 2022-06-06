@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-use crate::*;
+use super::*;
 
 pub trait InstanceParamsExtManual {
     fn set_event_filter(&self, event_filter: &Vec<EventType>) -> Result<(), glib::Error>;

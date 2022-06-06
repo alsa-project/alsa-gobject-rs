@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-use crate::*;
+use super::*;
 
 impl EventDataTstamp {
     pub fn get_tstamp(&mut self, tstamp: &mut [i64; 2]) {

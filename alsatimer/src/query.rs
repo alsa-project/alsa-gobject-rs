@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-use crate::*;
+use super::*;
 
 pub fn get_device_id_list() -> Result<Vec<DeviceId>, glib::Error> {
     unsafe {

@@ -16,7 +16,7 @@ mod instance_status;
 mod query;
 mod user_instance;
 
-pub use crate::{
+pub use {
     auto::*, event::*, event_data_tstamp::*, instance_params::*, instance_status::*, query::*,
     user_instance::*,
 };

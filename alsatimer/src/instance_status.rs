@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-use crate::*;
+use super::*;
 
 pub trait InstanceStatusExtManual {
     fn get_tstamp(&self) -> &[i64; 2];
