@@ -13,6 +13,6 @@ mod card;
 mod elem_info;
 mod elem_value;
 
-pub use crate::{auto::*, card::*, elem_info::*, elem_value::*};
+pub use {auto::*, card::*, elem_info::*, elem_value::*};
 
 use glib::{object::IsA, translate::*};

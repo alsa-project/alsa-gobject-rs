@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-use crate::*;
+use super::*;
 
 pub trait ElemInfoExtManual {
     fn get_int_data(&self) -> Result<&[i32; 3], glib::Error>;

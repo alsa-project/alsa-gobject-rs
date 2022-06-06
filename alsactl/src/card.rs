@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-use crate::*;
+use super::*;
 
 pub trait CardExtManual {
     fn get_protocol_version(&self) -> Result<&[u16; 3], glib::Error>;

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-use crate::*;
+use super::*;
 
 pub trait ElemValueExtManual {
     fn set_bool(&self, values: &[bool]);
