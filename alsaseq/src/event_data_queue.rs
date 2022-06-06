@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-use crate::*;
+use super::*;
 
 impl EventDataQueue {
     pub fn get_byte_param(&mut self) -> &[u8; 8] {

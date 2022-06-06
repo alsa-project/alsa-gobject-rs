@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-use crate::*;
+use super::*;
 
 pub trait QueueTempoExtManual {
     fn get_skew(&self) -> &[u32; 2];

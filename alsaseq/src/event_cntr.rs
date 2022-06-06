@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-use crate::*;
+use super::*;
 
 pub trait EventCntrExtManual {
     fn get_addr_data(&self, index: usize) -> Result<Addr, glib::Error>;

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-use crate::*;
+use super::*;
 
 pub trait QueueTimerExtManual {
     fn get_alsa_data(&self) -> QueueTimerDataAlsa;

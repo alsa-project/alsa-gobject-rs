@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-use crate::*;
+use super::*;
 
 pub trait QueueStatusExtManual {
     fn get_real_time(&self) -> &[u32; 2];

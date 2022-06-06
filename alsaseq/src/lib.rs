@@ -22,7 +22,7 @@ mod queue_timer_data_alsa;
 mod tstamp;
 mod user_client;
 
-pub use crate::{
+pub use {
     auto::*, client_info::*, event_cntr::*, event_data_connect::*, event_data_queue::*, query::*,
     queue_status::*, queue_tempo::*, queue_timer::*, queue_timer_data_alsa::*, tstamp::*,
     user_client::*,

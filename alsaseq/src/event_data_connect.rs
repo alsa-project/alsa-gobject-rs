@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-use crate::*;
+use super::*;
 
 impl EventDataConnect {
     pub fn get_dst(&mut self) -> Addr {

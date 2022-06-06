@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-use crate::*;
+use super::*;
 
 impl QueueTimerDataAlsa {
     pub fn get_device_id(&mut self) -> alsatimer::DeviceId {

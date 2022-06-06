@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-use crate::*;
+use super::*;
 
 pub trait ClientInfoExtManual {
     fn get_event_filter(&self) -> Result<Vec<EventType>, glib::Error>;
