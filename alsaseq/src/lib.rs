@@ -22,6 +22,8 @@ mod queue_tempo;
 mod remove_filter;
 mod user_client;
 
+pub mod subclass;
+
 pub use {
     auto::*, client_info::*, enums::*, event::*, event_cntr::*, event_data_connect::*,
     event_data_queue::*, query::*, queue_status::*, queue_tempo::*, remove_filter::*,
