@@ -1,6 +1,6 @@
 [package]
 name = "alsaseq-sys"
-version = "0.2.0"
+version = "0.3.0"
 links = "alsaseq"
 build = "build.rs"
 description = "FFI binding for libalsaseq library"
@@ -22,7 +22,7 @@ gobject-sys = "0.10"
 
 [dependencies.alsatimer-sys]
 path = "../alsatimer-sys"
-version = "0.2"
+version = "0.3"
 
 [build-dependencies]
 pkg-config = "0.3.7"

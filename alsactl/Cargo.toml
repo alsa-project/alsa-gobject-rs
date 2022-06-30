@@ -1,6 +1,6 @@
 [package]
 name = "alsactl"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Takashi Sakamoto <o-takashi@sakamocchi.jp>"]
 description = "API binding for libalsactl library"
 license = "MIT"
@@ -17,7 +17,7 @@ glib = "0.10"
 glib-sys = "0.10"
 gobject-sys = "0.10"
 
-alsactl-sys = {path = "../alsactl-sys", version = "0.2" }
+alsactl-sys = {path = "../alsactl-sys", version = "0.3" }
 
 [dev-dependencies]
 gir-format-check = "^0.1"
