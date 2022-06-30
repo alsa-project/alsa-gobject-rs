@@ -21,7 +21,7 @@ and/or use gtk-doc annotations.  -->
                  c:type="ALSARawmidiStreamDirection">
       <doc xml:space="preserve"
            filename="../src/rawmidi/alsarawmidi-enum-types.h"
-           line="5">A set of enumerations for the direction of stream.</doc>
+           line="7">A set of enumerations for the direction of stream.</doc>
       <member name="output"
               value="0"
               c:identifier="ALSARAWMIDI_STREAM_DIRECTION_OUTPUT"
@@ -29,7 +29,7 @@ and/or use gtk-doc annotations.  -->
               glib:name="ALSARAWMIDI_STREAM_DIRECTION_OUTPUT">
         <doc xml:space="preserve"
              filename="../src/rawmidi/alsarawmidi-enum-types.h"
-             line="7">Output direction of stream.</doc>
+             line="9">Output direction of stream.</doc>
       </member>
       <member name="input"
               value="1"
@@ -38,7 +38,7 @@ and/or use gtk-doc annotations.  -->
               glib:name="ALSARAWMIDI_STREAM_DIRECTION_INPUT">
         <doc xml:space="preserve"
              filename="../src/rawmidi/alsarawmidi-enum-types.h"
-             line="8">Input direction of stream.</doc>
+             line="10">Input direction of stream.</doc>
       </member>
     </enumeration>
     <class name="StreamPair"
@@ -50,8 +50,8 @@ and/or use gtk-doc annotations.  -->
            glib:type-struct="StreamPairClass">
       <doc xml:space="preserve"
            filename="../src/rawmidi/stream-pair.c"
-           line="14">GObject-derived object to represent a pair of Rawmidi stream.
-A [class@StreamPair] is a GObject-derived object to represent a pair of Rawmidi stream to which
+           line="14">GObject-derived object to express a pair of Rawmidi stream.
+A [class@StreamPair] is a GObject-derived object to express a pair of Rawmidi stream to which
 substreams are attached. The substream is pointed by the combination of the numeric identifier
 of device, subdevice, and direction. When the call of [method@StreamPair.open] with the
 combination, corresponding substreams are attached to the object. Then the object maintains file
@@ -68,12 +68,12 @@ is available to check the space in the intermediate buffer according to directio
       <constructor name="new" c:identifier="alsarawmidi_stream_pair_new">
         <doc xml:space="preserve"
              filename="../src/rawmidi/stream-pair.c"
-             line="169">Allocate and return an instance of [class@StreamPair].</doc>
+             line="174">Allocate and return an instance of [class@StreamPair].</doc>
         <source-position filename="../src/rawmidi/stream-pair.h" line="37"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/rawmidi/stream-pair.c"
-               line="174">An instance of [class@StreamPair].</doc>
+               line="179">An instance of [class@StreamPair].</doc>
           <type name="StreamPair" c:type="ALSARawmidiStreamPair*"/>
         </return-value>
       </constructor>
@@ -116,19 +116,22 @@ is available to check the space in the intermediate buffer according to directio
               throws="1">
         <doc xml:space="preserve"
              filename="../src/rawmidi/stream-pair.c"
-             line="615">Allocate [struct@GLib.Source] structure to handle events from ALSA rawmidi character device for
+             line="657">Allocate [struct@GLib.Source] structure to handle events from ALSA rawmidi character device for
 input substream. In each iteration of [struct@GLib.MainContext], the `read(2)` system call is
 executed to dispatch control event for [signal@StreamPair::handle-messages] signal, according to
 the result of `poll(2)` system call.</doc>
-        <source-position filename="../src/rawmidi/stream-pair.h" line="78"/>
+        <source-position filename="../src/rawmidi/stream-pair.h" line="77"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/rawmidi/stream-pair.c"
+               line="669">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="617">A [class@StreamPair].</doc>
+                 line="659">A [class@StreamPair].</doc>
             <type name="StreamPair" c:type="ALSARawmidiStreamPair*"/>
           </instance-parameter>
           <parameter name="gsrc"
@@ -137,7 +140,7 @@ the result of `poll(2)` system call.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="618">A [struct@GLib.Source] to handle events from ALSA rawmidi character device.</doc>
+                 line="660">A [struct@GLib.Source] to handle events from ALSA rawmidi character device.</doc>
             <type name="GLib.Source" c:type="GSource**"/>
           </parameter>
         </parameters>
@@ -145,9 +148,9 @@ the result of `poll(2)` system call.</doc>
       <method name="drain_substream"
               c:identifier="alsarawmidi_stream_pair_drain_substream"
               throws="1">
-        <source-position filename="../src/rawmidi/stream-pair.h" line="70"/>
+        <source-position filename="../src/rawmidi/stream-pair.h" line="69"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
@@ -161,9 +164,9 @@ the result of `poll(2)` system call.</doc>
       <method name="drop_substream"
               c:identifier="alsarawmidi_stream_pair_drop_substream"
               throws="1">
-        <source-position filename="../src/rawmidi/stream-pair.h" line="74"/>
+        <source-position filename="../src/rawmidi/stream-pair.h" line="73"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
@@ -179,18 +182,21 @@ the result of `poll(2)` system call.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/rawmidi/stream-pair.c"
-             line="271">Get the version of rawmidi protocol currently used. The version is represented as the array with
+             line="277">Get the version of rawmidi protocol currently used. The version is expressed as the array with
 three elements; major, minor, and micro version in the order. The length of major version is
 16 bit, the length of minor and micro version is 8 bit each.</doc>
-        <source-position filename="../src/rawmidi/stream-pair.h" line="44"/>
+        <source-position filename="../src/rawmidi/stream-pair.h" line="43"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/rawmidi/stream-pair.c"
+               line="288">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="273">A [class@StreamPair].</doc>
+                 line="279">A [class@StreamPair].</doc>
             <type name="StreamPair" c:type="ALSARawmidiStreamPair*"/>
           </instance-parameter>
           <parameter name="proto_ver_triplet"
@@ -199,7 +205,7 @@ three elements; major, minor, and micro version in the order. The length of majo
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="274">The version of protocol currently
+                 line="280">The version of protocol currently
                     used.</doc>
             <array zero-terminated="0" c:type="const guint16**" fixed-size="3">
               <type name="guint16" c:type="guint16"/>
@@ -212,25 +218,28 @@ three elements; major, minor, and micro version in the order. The length of majo
               throws="1">
         <doc xml:space="preserve"
              filename="../src/rawmidi/stream-pair.c"
-             line="298">Get information of substream attached to the stream pair.
+             line="308">Get information of substream attached to the stream pair.
 
 The call of function executes `ioctl(2)` system call with `SNDRV_RAWMIDI_IOCTL_INFO` command
 for ALSA rawmidi character device.</doc>
-        <source-position filename="../src/rawmidi/stream-pair.h" line="48"/>
+        <source-position filename="../src/rawmidi/stream-pair.h" line="47"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/rawmidi/stream-pair.c"
+               line="320">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="300">A [class@StreamPair].</doc>
+                 line="310">A [class@StreamPair].</doc>
             <type name="StreamPair" c:type="ALSARawmidiStreamPair*"/>
           </instance-parameter>
           <parameter name="direction" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="301">The direction of substream attached to the stream pair.</doc>
+                 line="311">The direction of substream attached to the stream pair.</doc>
             <type name="StreamDirection" c:type="ALSARawmidiStreamDirection"/>
           </parameter>
           <parameter name="substream_info"
@@ -239,7 +248,7 @@ for ALSA rawmidi character device.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="302">The information for requested substream.</doc>
+                 line="312">The information for requested substream.</doc>
             <type name="SubstreamInfo" c:type="ALSARawmidiSubstreamInfo**"/>
           </parameter>
         </parameters>
@@ -249,25 +258,28 @@ for ALSA rawmidi character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/rawmidi/stream-pair.c"
-             line="375">Retrieve status of substream for given direction, which is attached to the pair of streams.
+             line="395">Retrieve status of substream for given direction, which is attached to the pair of streams.
 
 The call of function executes `ioctl(2)` system call with `SNDRV_RAWMIDI_IOCTL_STATUS` command
 for ALSA rawmidi character device.</doc>
-        <source-position filename="../src/rawmidi/stream-pair.h" line="58"/>
+        <source-position filename="../src/rawmidi/stream-pair.h" line="57"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/rawmidi/stream-pair.c"
+               line="407">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="377">A [class@StreamPair].</doc>
+                 line="397">A [class@StreamPair].</doc>
             <type name="StreamPair" c:type="ALSARawmidiStreamPair*"/>
           </instance-parameter>
           <parameter name="direction" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="378">The direction of substream attached to the stream pair.</doc>
+                 line="398">The direction of substream attached to the stream pair.</doc>
             <type name="StreamDirection" c:type="ALSARawmidiStreamDirection"/>
           </parameter>
           <parameter name="substream_status"
@@ -276,7 +288,7 @@ for ALSA rawmidi character device.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="379">The status of substream.</doc>
+                 line="399">The status of substream.</doc>
             <type name="SubstreamStatus"
                   c:type="ALSARawmidiSubstreamStatus* const*"/>
           </parameter>
@@ -287,50 +299,53 @@ for ALSA rawmidi character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/rawmidi/stream-pair.c"
-             line="181">Open file descriptor for a pair of streams to attach input/output substreams corresponding to
+             line="186">Open file descriptor for a pair of streams to attach input/output substreams corresponding to
 the given subdevice.
 
 The call of function executes `open(2)` system call for ALSA rawmidi character device.</doc>
         <source-position filename="../src/rawmidi/stream-pair.h" line="39"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/rawmidi/stream-pair.c"
+               line="203">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="183">A [class@StreamPair].</doc>
+                 line="188">A [class@StreamPair].</doc>
             <type name="StreamPair" c:type="ALSARawmidiStreamPair*"/>
           </instance-parameter>
           <parameter name="card_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="184">The numeric identifier of sound card.</doc>
+                 line="189">The numeric identifier of sound card.</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
           <parameter name="device_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="185">The numeric identifier of rawmidi device for the sound card.</doc>
+                 line="190">The numeric identifier of rawmidi device for the sound card.</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
           <parameter name="subdevice_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="186">The numeric identifier of subdevice for the rawmidi device.</doc>
+                 line="191">The numeric identifier of subdevice for the rawmidi device.</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
           <parameter name="access_modes" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="187">Access flags for stream direction.</doc>
+                 line="192">Access flags for stream direction.</doc>
             <type name="StreamPairInfoFlag"
                   c:type="ALSARawmidiStreamPairInfoFlag"/>
           </parameter>
           <parameter name="open_flag" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="188">The flag of `open(2)` system call. `O_RDWR`, `O_WRONLY` and `O_RDONLY` are forced
+                 line="193">The flag of `open(2)` system call. `O_RDWR`, `O_WRONLY` and `O_RDONLY` are forced
             to fulfil internally according to the access_modes.</doc>
             <type name="gint" c:type="gint"/>
           </parameter>
@@ -341,20 +356,23 @@ The call of function executes `open(2)` system call for ALSA rawmidi character d
               throws="1">
         <doc xml:space="preserve"
              filename="../src/rawmidi/stream-pair.c"
-             line="412">Copy data from intermediate buffer to given buffer for substream attached to the pair of
+             line="437">Copy data from intermediate buffer to given buffer for substream attached to the pair of
 streams. In a case that the instance is opened without `O_NONBLOCK` flag and the intermediate
 buffer has no data, call of the API is blocked till any data is available.
 
 The call of function executes `read(2)` system for ALSA rawmidi character device.</doc>
-        <source-position filename="../src/rawmidi/stream-pair.h" line="63"/>
+        <source-position filename="../src/rawmidi/stream-pair.h" line="62"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/rawmidi/stream-pair.c"
+               line="451">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="414">A [class@StreamPair].</doc>
+                 line="439">A [class@StreamPair].</doc>
             <type name="StreamPair" c:type="ALSARawmidiStreamPair*"/>
           </instance-parameter>
           <parameter name="buf"
@@ -363,7 +381,7 @@ The call of function executes `read(2)` system for ALSA rawmidi character device
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="415">The buffer to copy data.</doc>
+                 line="440">The buffer to copy data.</doc>
             <array length="1" zero-terminated="0" c:type="guint8* const*">
               <type name="guint8" c:type="guint8*"/>
             </array>
@@ -374,7 +392,7 @@ The call of function executes `read(2)` system for ALSA rawmidi character device
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="416">The size of buffer.</doc>
+                 line="441">The size of buffer.</doc>
             <type name="gsize" c:type="gsize*"/>
           </parameter>
         </parameters>
@@ -384,31 +402,34 @@ The call of function executes `read(2)` system for ALSA rawmidi character device
               throws="1">
         <doc xml:space="preserve"
              filename="../src/rawmidi/stream-pair.c"
-             line="338">Set parameters of substream for given direction, which is attached to the pair of streams.
+             line="353">Set parameters of substream for given direction, which is attached to the pair of streams.
 
 The call of function executes `ioctl(2)` system call with `SNDRV_RAWMIDI_IOCTL_PARAMS` command
 for ALSA rawmidi character device.</doc>
-        <source-position filename="../src/rawmidi/stream-pair.h" line="53"/>
+        <source-position filename="../src/rawmidi/stream-pair.h" line="52"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/rawmidi/stream-pair.c"
+               line="365">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="340">A [class@StreamPair].</doc>
+                 line="355">A [class@StreamPair].</doc>
             <type name="StreamPair" c:type="ALSARawmidiStreamPair*"/>
           </instance-parameter>
           <parameter name="direction" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="341">The direction of substream attached to the stream pair.</doc>
+                 line="356">The direction of substream attached to the stream pair.</doc>
             <type name="StreamDirection" c:type="ALSARawmidiStreamDirection"/>
           </parameter>
           <parameter name="substream_params" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="342">The parameters of substream.</doc>
+                 line="357">The parameters of substream.</doc>
             <type name="SubstreamParams" c:type="ALSARawmidiSubstreamParams*"/>
           </parameter>
         </parameters>
@@ -418,26 +439,29 @@ for ALSA rawmidi character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/rawmidi/stream-pair.c"
-             line="459">Copy data from given buffer to intermediate buffer for substream attached to the pair of
+             line="487">Copy data from given buffer to intermediate buffer for substream attached to the pair of
 streams. In a case that the instance is opened without `O_NONBLOCK` flag and the intermediate
 buffer is full, call of the API is blocked till the buffer has space for the data.
 
 The call of function executes `write(2) system for ALSA rawmidi character device.</doc>
-        <source-position filename="../src/rawmidi/stream-pair.h" line="66"/>
+        <source-position filename="../src/rawmidi/stream-pair.h" line="65"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/rawmidi/stream-pair.c"
+               line="501">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="461">A [class@StreamPair].</doc>
+                 line="489">A [class@StreamPair].</doc>
             <type name="StreamPair" c:type="ALSARawmidiStreamPair*"/>
           </instance-parameter>
           <parameter name="buf" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="462">The buffer to copy data.</doc>
+                 line="490">The buffer to copy data.</doc>
             <array length="1" zero-terminated="0" c:type="const guint8*">
               <type name="guint8" c:type="guint8"/>
             </array>
@@ -445,12 +469,15 @@ The call of function executes `write(2) system for ALSA rawmidi character device
           <parameter name="buf_size" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/rawmidi/stream-pair.c"
-                 line="463">The size of buffer.</doc>
+                 line="491">The size of buffer.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
         </parameters>
       </method>
       <property name="devnode" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/rawmidi/stream-pair.c"
+             line="118">The full path to special file of rawmidi character device.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <field name="parent_instance">
@@ -459,7 +486,7 @@ The call of function executes `write(2) system for ALSA rawmidi character device
       <glib:signal name="handle-disconnection" when="last">
         <doc xml:space="preserve"
              filename="../src/rawmidi/stream-pair.c"
-             line="143">When the sound card is not available anymore due to unbinding driver or hot unplugging,
+             line="148">When the sound card is not available anymore due to unbinding driver or hot unplugging,
 this signal is emit. The owner of this object should call [method@GObject.Object.unref] as
 quickly as possible to release ALSA rawmidi character device.</doc>
         <return-value transfer-ownership="none">
@@ -469,7 +496,7 @@ quickly as possible to release ALSA rawmidi character device.</doc>
       <glib:signal name="handle-messages" when="last">
         <doc xml:space="preserve"
              filename="../src/rawmidi/stream-pair.c"
-             line="128">When any input message is available, this event is emit.</doc>
+             line="133">When any input message is available, this event is emit.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -522,7 +549,7 @@ quickly as possible to release ALSA rawmidi character device.</doc>
                  glib:error-domain="alsarawmidi-stream-pair-error-quark">
       <doc xml:space="preserve"
            filename="../src/rawmidi/alsarawmidi-enum-types.h"
-           line="32">A set of error code for [struct@GLib.Error] with `ALSARawmidi.StreamPairError` domain.</doc>
+           line="34">A set of error code for [struct@GLib.Error] with `ALSARawmidi.StreamPairError` domain.</doc>
       <member name="failed"
               value="0"
               c:identifier="ALSARAWMIDI_STREAM_PAIR_ERROR_FAILED"
@@ -530,7 +557,7 @@ quickly as possible to release ALSA rawmidi character device.</doc>
               glib:name="ALSARAWMIDI_STREAM_PAIR_ERROR_FAILED">
         <doc xml:space="preserve"
              filename="../src/rawmidi/alsarawmidi-enum-types.h"
-             line="34">The system call failed.</doc>
+             line="36">The system call failed.</doc>
       </member>
       <member name="disconnected"
               value="1"
@@ -539,7 +566,7 @@ quickly as possible to release ALSA rawmidi character device.</doc>
               glib:name="ALSARAWMIDI_STREAM_PAIR_ERROR_DISCONNECTED">
         <doc xml:space="preserve"
              filename="../src/rawmidi/alsarawmidi-enum-types.h"
-             line="35">The card associated to the instance is in disconnect state.</doc>
+             line="37">The card associated to the instance is in disconnect state.</doc>
       </member>
       <member name="unreadable"
               value="2"
@@ -548,7 +575,7 @@ quickly as possible to release ALSA rawmidi character device.</doc>
               glib:name="ALSARAWMIDI_STREAM_PAIR_ERROR_UNREADABLE">
         <doc xml:space="preserve"
              filename="../src/rawmidi/alsarawmidi-enum-types.h"
-             line="36">The instance is not for read operation.</doc>
+             line="38">The instance is not for read operation.</doc>
       </member>
       <function name="quark"
                 c:identifier="alsarawmidi_stream_pair_error_quark">
@@ -570,7 +597,7 @@ enumerations.</doc>
               c:type="ALSARawmidiStreamPairInfoFlag">
       <doc xml:space="preserve"
            filename="../src/rawmidi/alsarawmidi-enum-types.h"
-           line="17">A set of flags for information of the pair of streams.</doc>
+           line="19">A set of flags for information of the pair of streams.</doc>
       <member name="output"
               value="1"
               c:identifier="ALSARAWMIDI_STREAM_PAIR_INFO_FLAG_OUTPUT"
@@ -578,7 +605,7 @@ enumerations.</doc>
               glib:name="ALSARAWMIDI_STREAM_PAIR_INFO_FLAG_OUTPUT">
         <doc xml:space="preserve"
              filename="../src/rawmidi/alsarawmidi-enum-types.h"
-             line="19">The pair of stream supports output substream.</doc>
+             line="21">The pair of stream supports output substream.</doc>
       </member>
       <member name="input"
               value="2"
@@ -587,7 +614,7 @@ enumerations.</doc>
               glib:name="ALSARAWMIDI_STREAM_PAIR_INFO_FLAG_INPUT">
         <doc xml:space="preserve"
              filename="../src/rawmidi/alsarawmidi-enum-types.h"
-             line="20">The pair of stream supports input substream.</doc>
+             line="22">The pair of stream supports input substream.</doc>
       </member>
       <member name="duplex"
               value="4"
@@ -596,7 +623,7 @@ enumerations.</doc>
               glib:name="ALSARAWMIDI_STREAM_PAIR_INFO_FLAG_DUPLEX">
         <doc xml:space="preserve"
              filename="../src/rawmidi/alsarawmidi-enum-types.h"
-             line="21">Both directions of stream are available at the same time.</doc>
+             line="23">Both directions of stream are available at the same time.</doc>
       </member>
     </bitfield>
     <class name="SubstreamInfo"
@@ -608,38 +635,65 @@ enumerations.</doc>
            glib:type-struct="SubstreamInfoClass">
       <doc xml:space="preserve"
            filename="../src/rawmidi/substream-info.c"
-           line="4">A GObject-derived object to represent information of substream.
-A [class@SubstreamInfo] is a GObject-derived object to represent information of substream
+           line="4">A GObject-derived object to express information of substream.
+A [class@SubstreamInfo] is a GObject-derived object to express information of substream
 attached to the pair of streams. The call of [method@StreamPair.get_substream_info] or
 [func@get_substream_info] return the instance of object.
 
 The object wraps `struct snd_rawmidi_info` in UAPI of Linux sound subsystem.</doc>
       <source-position filename="../src/rawmidi/substream-info.h" line="15"/>
       <property name="card-id" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/rawmidi/substream-info.c"
+             line="120">The numeric identifier of sound card.</doc>
         <type name="gint" c:type="gint"/>
       </property>
       <property name="device-id" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/rawmidi/substream-info.c"
+             line="84">The numeric identifier of rawmidi device.</doc>
         <type name="guint" c:type="guint"/>
       </property>
       <property name="direction" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/rawmidi/substream-info.c"
+             line="108">The direction of stream, one of [enum@StreamDirection].</doc>
         <type name="StreamDirection"/>
       </property>
       <property name="flags" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/rawmidi/substream-info.c"
+             line="132">The information flags of rawmidi device with flags of [flags@StreamPairInfoFlag].</doc>
         <type name="StreamPairInfoFlag"/>
       </property>
       <property name="id" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/rawmidi/substream-info.c"
+             line="145">The string identifier of rawmidi device.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="name" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/rawmidi/substream-info.c"
+             line="156">The name of rawmidi device.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="subdevice-id" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/rawmidi/substream-info.c"
+             line="96">The numeric identifier of subdevice or rawmidi device.</doc>
         <type name="guint" c:type="guint"/>
       </property>
       <property name="subdevice-name" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/rawmidi/substream-info.c"
+             line="167">The name of subdevice for the direction and the [property@SubstreamInfo:subdevice-id].</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="subdevices-avail" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/rawmidi/substream-info.c"
+             line="191">The current number of available subdevices on the rawmidi device for the direction.</doc>
         <type name="guint" c:type="guint"/>
       </property>
       <property name="subdevices-count" transfer-ownership="none">
@@ -666,8 +720,8 @@ The object wraps `struct snd_rawmidi_info` in UAPI of Linux sound subsystem.</do
            glib:type-struct="SubstreamParamsClass">
       <doc xml:space="preserve"
            filename="../src/rawmidi/substream-params.c"
-           line="6">A GObject-derived object to represent parameters of substream.
-A [class@SubstreamParams] is a GObject-derived object to represent parameters of substream
+           line="6">A GObject-derived object to express parameters of substream.
+A [class@SubstreamParams] is a GObject-derived object to express parameters of substream
 attached to the pair of streams. The call of [method@StreamPair.set_substream_params] requires
 the instance of object.
 
@@ -676,23 +730,32 @@ The object wraps `struct snd_rawmidi_params` in UAPI of Linux sound subsystem.</
       <constructor name="new" c:identifier="alsarawmidi_substream_params_new">
         <doc xml:space="preserve"
              filename="../src/rawmidi/substream-params.c"
-             line="115">Allocate and return an instance of [class@SubstreamParams].</doc>
+             line="129">Allocate and return an instance of [class@SubstreamParams].</doc>
         <source-position filename="../src/rawmidi/substream-params.h"
                          line="18"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/rawmidi/substream-params.c"
-               line="120">An instance of [class@SubstreamParams].</doc>
+               line="134">An instance of [class@SubstreamParams].</doc>
           <type name="SubstreamParams" c:type="ALSARawmidiSubstreamParams*"/>
         </return-value>
       </constructor>
       <property name="active-sensing" writable="1" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/rawmidi/substream-params.c"
+             line="108">Whether to emit 0xfe one time when closing substream.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
       <property name="avail-min" writable="1" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/rawmidi/substream-params.c"
+             line="95">The threshold to wake up from any blocking operation such as poll(2), read(2) and write(2).</doc>
         <type name="guint" c:type="guint"/>
       </property>
       <property name="buffer-size" writable="1" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/rawmidi/substream-params.c"
+             line="83">The size of intermediate buffer for substream.</doc>
         <type name="guint" c:type="guint"/>
       </property>
       <field name="parent_instance">
@@ -716,8 +779,8 @@ The object wraps `struct snd_rawmidi_params` in UAPI of Linux sound subsystem.</
            glib:type-struct="SubstreamStatusClass">
       <doc xml:space="preserve"
            filename="../src/rawmidi/substream-status.c"
-           line="4">A GObject-derived object to represent status of substream.
-A [class@SubstreamStatus] is a GObject-derived object to represent status of substream attached
+           line="4">A GObject-derived object to express status of substream.
+A [class@SubstreamStatus] is a GObject-derived object to express status of substream attached
 to the pair of stream. The call of [method@StreamPair.get_substream_status] returns the instance
 of object.
 
@@ -726,20 +789,26 @@ The object wraps `struct snd_rawmidi_status` in UAPI of Linux sound subsystem.</
       <constructor name="new" c:identifier="alsarawmidi_substream_status_new">
         <doc xml:space="preserve"
              filename="../src/rawmidi/substream-status.c"
-             line="76">Allocate and return an instance of [class@SubstreamStatus].</doc>
+             line="86">Allocate and return an instance of [class@SubstreamStatus].</doc>
         <source-position filename="../src/rawmidi/substream-status.h"
                          line="18"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/rawmidi/substream-status.c"
-               line="81">An instance of [class@SubstreamStatus].</doc>
+               line="91">An instance of [class@SubstreamStatus].</doc>
           <type name="SubstreamStatus" c:type="ALSARawmidiSubstreamStatus*"/>
         </return-value>
       </constructor>
       <property name="avail" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/rawmidi/substream-status.c"
+             line="52">The size of available space in intermediate buffer.</doc>
         <type name="guint64" c:type="guint64"/>
       </property>
       <property name="xruns" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/rawmidi/substream-status.c"
+             line="64">The count of XRUNs since the last query of status.</doc>
         <type name="guint64" c:type="guint64"/>
       </property>
       <field name="parent_instance">
@@ -764,7 +833,10 @@ The object wraps `struct snd_rawmidi_status` in UAPI of Linux sound subsystem.</
 Nodes under sound subsystem in sysfs are used to gather the information.</doc>
       <source-position filename="../src/rawmidi/query.h" line="9"/>
       <return-value transfer-ownership="none">
-        <type name="none" c:type="void"/>
+        <doc xml:space="preserve"
+             filename="../src/rawmidi/query.c"
+             line="19">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+        <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
         <parameter name="card_id" transfer-ownership="none">
@@ -800,24 +872,27 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/rawmidi/query.c"
-           line="57">Allocate devnode string for rawmidi device and return it when exists.
+           line="69">Allocate devnode string for rawmidi device and return it when exists.
 
 Nodes under sound subsystem in sysfs are used to gather the information.</doc>
-      <source-position filename="../src/rawmidi/query.h" line="16"/>
+      <source-position filename="../src/rawmidi/query.h" line="15"/>
       <return-value transfer-ownership="none">
-        <type name="none" c:type="void"/>
+        <doc xml:space="preserve"
+             filename="../src/rawmidi/query.c"
+             line="80">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+        <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
         <parameter name="card_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/rawmidi/query.c"
-               line="59">The numeridcal identifier of sound card.</doc>
+               line="71">The numeridcal identifier of sound card.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="device_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/rawmidi/query.c"
-               line="60">The numeric identifier of rawmidi device for the sound card.</doc>
+               line="72">The numeric identifier of rawmidi device for the sound card.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="devnode"
@@ -826,7 +901,7 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/rawmidi/query.c"
-               line="61">The string for devnode of rawmidi device.</doc>
+               line="73">The string for devnode of rawmidi device.</doc>
           <type name="utf8" c:type="char**"/>
         </parameter>
       </parameters>
@@ -836,24 +911,27 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/rawmidi/query.c"
-           line="33">Allocate sysname for rawmidi device and return it when it exists.
+           line="39">Allocate sysname for rawmidi device and return it when it exists.
 
 Nodes under sound subsystem in sysfs are used to gather the information.</doc>
-      <source-position filename="../src/rawmidi/query.h" line="13"/>
+      <source-position filename="../src/rawmidi/query.h" line="12"/>
       <return-value transfer-ownership="none">
-        <type name="none" c:type="void"/>
+        <doc xml:space="preserve"
+             filename="../src/rawmidi/query.c"
+             line="50">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+        <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
         <parameter name="card_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/rawmidi/query.c"
-               line="35">The numeridcal identifier of sound card.</doc>
+               line="41">The numeridcal identifier of sound card.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="device_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/rawmidi/query.c"
-               line="36">The numeric identifier of rawmidi device for the sound card.</doc>
+               line="42">The numeric identifier of rawmidi device for the sound card.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="sysname"
@@ -862,7 +940,7 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/rawmidi/query.c"
-               line="37">The string for sysname of rawmidi device.</doc>
+               line="43">The string for sysname of rawmidi device.</doc>
           <type name="utf8" c:type="char**"/>
         </parameter>
       </parameters>
@@ -872,32 +950,35 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/rawmidi/query.c"
-           line="81">Get the list of numeric identifier for subdevices belongs to the numerical identifier of card,
+           line="99">Get the list of numeric identifier for subdevices belongs to the numerical identifier of card,
 device, and the direction.
 
 The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call with
 `SNDRV_CTL_IOCTL_RAWMIDI_INFO` command for ALSA control character device.</doc>
-      <source-position filename="../src/rawmidi/query.h" line="19"/>
+      <source-position filename="../src/rawmidi/query.h" line="18"/>
       <return-value transfer-ownership="none">
-        <type name="none" c:type="void"/>
+        <doc xml:space="preserve"
+             filename="../src/rawmidi/query.c"
+             line="114">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+        <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
         <parameter name="card_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/rawmidi/query.c"
-               line="83">The numeric value for sound card to query.</doc>
+               line="101">The numeric value for sound card to query.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="device_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/rawmidi/query.c"
-               line="84">The numeric value of rawmidi device to query.</doc>
+               line="102">The numeric value of rawmidi device to query.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="direction" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/rawmidi/query.c"
-               line="85">The direction of stream to query, one of [enum@StreamDirection].</doc>
+               line="103">The direction of stream to query, one of [enum@StreamDirection].</doc>
           <type name="StreamDirection" c:type="ALSARawmidiStreamDirection"/>
         </parameter>
         <parameter name="entries"
@@ -906,7 +987,7 @@ The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call 
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/rawmidi/query.c"
-               line="86">The list of numeric identifier of subdevice.</doc>
+               line="104">The list of numeric identifier of subdevice.</doc>
           <array length="4" zero-terminated="0" c:type="guint**">
             <type name="guint" c:type="guint*"/>
           </array>
@@ -917,7 +998,7 @@ The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call 
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/rawmidi/query.c"
-               line="87">The number of entries.</doc>
+               line="105">The number of entries.</doc>
           <type name="gsize" c:type="gsize*"/>
         </parameter>
       </parameters>
@@ -927,38 +1008,41 @@ The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call 
               throws="1">
       <doc xml:space="preserve"
            filename="../src/rawmidi/query.c"
-           line="127">Get the information of substream pointed by the numeric identifier of card, device, subdevice,
+           line="149">Get the information of substream pointed by the numeric identifier of card, device, subdevice,
 and the direction.
 
 The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call with
 `SNDRV_CTL_IOCTL_RAWMIDI_INFO` command for ALSA control character device.</doc>
-      <source-position filename="../src/rawmidi/query.h" line="24"/>
+      <source-position filename="../src/rawmidi/query.h" line="22"/>
       <return-value transfer-ownership="none">
-        <type name="none" c:type="void"/>
+        <doc xml:space="preserve"
+             filename="../src/rawmidi/query.c"
+             line="164">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+        <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
         <parameter name="card_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/rawmidi/query.c"
-               line="129">The numeric value for sound card to query.</doc>
+               line="151">The numeric value for sound card to query.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="device_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/rawmidi/query.c"
-               line="130">The numeric value of rawmidi device to query.</doc>
+               line="152">The numeric value of rawmidi device to query.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="direction" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/rawmidi/query.c"
-               line="131">The direction of stream, one of [enum@StreamDirection].</doc>
+               line="153">The direction of stream, one of [enum@StreamDirection].</doc>
           <type name="StreamDirection" c:type="ALSARawmidiStreamDirection"/>
         </parameter>
         <parameter name="subdevice_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/rawmidi/query.c"
-               line="132">The numeric value of subdevice in rawmidi device.</doc>
+               line="154">The numeric value of subdevice in rawmidi device.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="substream_info"
@@ -967,7 +1051,7 @@ The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call 
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/rawmidi/query.c"
-               line="133">The information of substream for the subdevice.</doc>
+               line="155">The information of substream for the subdevice.</doc>
           <type name="SubstreamInfo" c:type="ALSARawmidiSubstreamInfo**"/>
         </parameter>
       </parameters>

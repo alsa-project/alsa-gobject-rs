@@ -21,7 +21,7 @@ and/or use gtk-doc annotations.  -->
                  c:type="ALSATimerClass">
       <doc xml:space="preserve"
            filename="../src/timer/alsatimer-enum-types.h"
-           line="5">A set of enumerations for the class of timer device.</doc>
+           line="7">A set of enumerations for the class of timer device.</doc>
       <member name="none"
               value="-1"
               c:identifier="ALSATIMER_CLASS_NONE"
@@ -29,7 +29,7 @@ and/or use gtk-doc annotations.  -->
               glib:name="ALSATIMER_CLASS_NONE">
         <doc xml:space="preserve"
              filename="../src/timer/alsatimer-enum-types.h"
-             line="7">Invalid.</doc>
+             line="9">Invalid.</doc>
       </member>
       <member name="global"
               value="1"
@@ -38,7 +38,7 @@ and/or use gtk-doc annotations.  -->
               glib:name="ALSATIMER_CLASS_GLOBAL">
         <doc xml:space="preserve"
              filename="../src/timer/alsatimer-enum-types.h"
-             line="8">The timer device is relevant to system.</doc>
+             line="10">The timer device is relevant to system.</doc>
       </member>
       <member name="card"
               value="2"
@@ -47,7 +47,7 @@ and/or use gtk-doc annotations.  -->
               glib:name="ALSATIMER_CLASS_CARD">
         <doc xml:space="preserve"
              filename="../src/timer/alsatimer-enum-types.h"
-             line="9">The timer device is relevant to sound card.</doc>
+             line="11">The timer device is relevant to sound card.</doc>
       </member>
       <member name="pcm"
               value="3"
@@ -56,7 +56,7 @@ and/or use gtk-doc annotations.  -->
               glib:name="ALSATIMER_CLASS_PCM">
         <doc xml:space="preserve"
              filename="../src/timer/alsatimer-enum-types.h"
-             line="10">The timer device is relevant to PCM device.</doc>
+             line="12">The timer device is relevant to PCM device.</doc>
       </member>
     </enumeration>
     <record name="DeviceId"
@@ -66,8 +66,8 @@ and/or use gtk-doc annotations.  -->
             c:symbol-prefix="device_id">
       <doc xml:space="preserve"
            filename="../src/timer/device-id.c"
-           line="4">A boxed object to represent the identifier of timer device.
-A [struct@DeviceId] is a boxed object to represent the identifier of timer device. The
+           line="4">A boxed object to express the identifier of timer device.
+A [struct@DeviceId] is a boxed object to express the identifier of timer device. The
 identifier mainly consists of the class of timer device. The other members; the numeric ID of
 card, device, and subdevice are optional according to the class of timer device.
 
@@ -228,35 +228,59 @@ The object wraps `struct snd_timer_id` in UAPI of Linux sound subsystem.</doc>
            glib:type-struct="DeviceInfoClass">
       <doc xml:space="preserve"
            filename="../src/timer/device-info.c"
-           line="4">A GObject-derived object to represent information of timer device.
-A [class@DeviceInfo] is a GObject-derived object to represent information of timer device.
+           line="4">A GObject-derived object to express information of timer device.
+A [class@DeviceInfo] is a GObject-derived object to express information of timer device.
 The call of alsatimer_get_device_info() returns an instance of the object according to the
 identifier of timer device.
 
 The object wraps `struct snd_timer_ginfo` in UAPI of Linux sound subsystem.</doc>
       <source-position filename="../src/timer/device-info.h" line="16"/>
       <property name="card-id" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/device-info.c"
+             line="88">The numeric ID of sound card.</doc>
         <type name="gint" c:type="gint"/>
       </property>
       <property name="flags" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/device-info.c"
+             line="76">The flags of timer, one of [flags@DeviceInfoFlag].</doc>
         <type name="DeviceInfoFlag"/>
       </property>
       <property name="id" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/device-info.c"
+             line="100">The string ID of timer.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="instance-count" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/device-info.c"
+             line="158">The number of instances for the timer.</doc>
         <type name="guint" c:type="guint"/>
       </property>
       <property name="name" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/device-info.c"
+             line="111">The name of timer.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="resolution" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/device-info.c"
+             line="122">The resolution in nano seconds.</doc>
         <type name="guint64" c:type="guint64"/>
       </property>
       <property name="resolution-max" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/device-info.c"
+             line="146">The maximum resolution in nano seconds.</doc>
         <type name="guint64" c:type="guint64"/>
       </property>
       <property name="resolution-min" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/device-info.c"
+             line="134">The minimum resolution in nano seconds.</doc>
         <type name="guint64" c:type="guint64"/>
       </property>
       <field name="parent_instance">
@@ -277,7 +301,7 @@ The object wraps `struct snd_timer_ginfo` in UAPI of Linux sound subsystem.</doc
               c:type="ALSATimerDeviceInfoFlag">
       <doc xml:space="preserve"
            filename="../src/timer/alsatimer-enum-types.h"
-           line="47">A set of flags for the information of timer device.</doc>
+           line="49">A set of flags for the information of timer device.</doc>
       <member name="slave"
               value="1"
               c:identifier="ALSATIMER_DEVICE_INFO_FLAG_SLAVE"
@@ -285,7 +309,7 @@ The object wraps `struct snd_timer_ginfo` in UAPI of Linux sound subsystem.</doc
               glib:name="ALSATIMER_DEVICE_INFO_FLAG_SLAVE">
         <doc xml:space="preserve"
              filename="../src/timer/alsatimer-enum-types.h"
-             line="49">The timer device is slave to any timer device.</doc>
+             line="51">The timer device is slave to any timer device.</doc>
       </member>
     </bitfield>
     <class name="DeviceParams"
@@ -297,8 +321,8 @@ The object wraps `struct snd_timer_ginfo` in UAPI of Linux sound subsystem.</doc
            glib:type-struct="DeviceParamsClass">
       <doc xml:space="preserve"
            filename="../src/timer/device-params.c"
-           line="4">A GObject-derived object to represent parameter of timer device.
-A [class@DeviceParams] is a GObject-derived object to represent parameter of timer device. The
+           line="4">A GObject-derived object to express parameter of timer device.
+A [class@DeviceParams] is a GObject-derived object to express parameter of timer device. The
 call of alsatimer_set_device_params() requires the instance of object.
 
 The object wraps `struct snd_timer_gparams` in UAPI of Linux sound subsystem.</doc>
@@ -306,21 +330,27 @@ The object wraps `struct snd_timer_gparams` in UAPI of Linux sound subsystem.</d
       <constructor name="new" c:identifier="alsatimer_device_params_new">
         <doc xml:space="preserve"
              filename="../src/timer/device-params.c"
-             line="95">Instantiate [class@DeviceParams] object and return the instance.</doc>
+             line="105">Instantiate [class@DeviceParams] object and return the instance.</doc>
         <source-position filename="../src/timer/device-params.h" line="18"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/timer/device-params.c"
-               line="100">an instance of [class@DeviceParams].</doc>
+               line="110">an instance of [class@DeviceParams].</doc>
           <type name="DeviceParams" c:type="ALSATimerDeviceParams*"/>
         </return-value>
       </constructor>
       <property name="period-denominator"
                 writable="1"
                 transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/device-params.c"
+             line="84">The denominator of period for timer.</doc>
         <type name="guint64" c:type="guint64"/>
       </property>
       <property name="period-numerator" writable="1" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/device-params.c"
+             line="72">The numerator of period for timer.</doc>
         <type name="guint64" c:type="guint64"/>
       </property>
       <field name="parent_instance">
@@ -344,8 +374,8 @@ The object wraps `struct snd_timer_gparams` in UAPI of Linux sound subsystem.</d
            glib:type-struct="DeviceStatusClass">
       <doc xml:space="preserve"
            filename="../src/timer/device-status.c"
-           line="4">A GObject-derived object to represent status of timer device.
-A [class@DeviceStatus] is a GObject-derived object to represent status of timer device. The
+           line="4">A GObject-derived object to express status of timer device.
+A [class@DeviceStatus] is a GObject-derived object to express status of timer device. The
 call of [func@get_device_status] returns the instance of object.
 
 The object wraps 'struct snd_timer_gstatus' in UAPI of Linux sound subsystem.</doc>
@@ -353,22 +383,31 @@ The object wraps 'struct snd_timer_gstatus' in UAPI of Linux sound subsystem.</d
       <constructor name="new" c:identifier="alsatimer_device_status_new">
         <doc xml:space="preserve"
              filename="../src/timer/device-status.c"
-             line="87">Allocate and return an instance of [class@DeviceStatus].</doc>
+             line="102">Allocate and return an instance of [class@DeviceStatus].</doc>
         <source-position filename="../src/timer/device-status.h" line="18"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/timer/device-status.c"
-               line="92">An instance of [class@DeviceStatus].</doc>
+               line="107">An instance of [class@DeviceStatus].</doc>
           <type name="DeviceStatus" c:type="ALSATimerDeviceStatus*"/>
         </return-value>
       </constructor>
       <property name="resolution" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/device-status.c"
+             line="56">The current resolution in nano seconds.</doc>
         <type name="guint64" c:type="guint64"/>
       </property>
       <property name="resolution-denominator" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/device-status.c"
+             line="80">The denominator of current resolution in seconds.</doc>
         <type name="guint64" c:type="guint64"/>
       </property>
       <property name="resolution-numerator" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/device-status.c"
+             line="68">The numerator of current resolution in seconds.</doc>
         <type name="guint64" c:type="guint64"/>
       </property>
       <field name="parent_instance">
@@ -383,431 +422,30 @@ The object wraps 'struct snd_timer_gstatus' in UAPI of Linux sound subsystem.</d
         <type name="GObject.ObjectClass" c:type="GObjectClass"/>
       </field>
     </record>
-    <union name="Event"
-           c:type="ALSATimerEvent"
-           glib:type-name="ALSATimerEvent"
-           glib:get-type="alsatimer_event_get_type"
-           c:symbol-prefix="event">
-      <doc xml:space="preserve"
-           filename="../src/timer/event.c"
-           line="4">A boxed object to represent event of timer.
-A [struct@Event] is a boxed object to represent event of timer. The instance of object uses
-single storage for two types of event data; [struct@EventDataTick] for and
-[struct@EventDataTstamp]. Applications can decide to use one of the two by passing one of
-[enum@EventType] to the call of [method@UserInstance.attach].</doc>
-      <source-position filename="../src/timer/event.h" line="14"/>
-      <field name="tick" writable="1">
-        <type name="EventDataTick" c:type="ALSATimerEventDataTick"/>
-      </field>
-      <field name="tstamp" writable="1">
-        <type name="EventDataTstamp" c:type="ALSATimerEventDataTstamp"/>
-      </field>
-      <constructor name="new" c:identifier="alsatimer_event_new">
-        <doc xml:space="preserve"
-             filename="../src/timer/event.c"
-             line="28">Allocate and return the instance of [struct@Event].</doc>
-        <source-position filename="../src/timer/event.h" line="18"/>
-        <return-value transfer-ownership="full">
-          <doc xml:space="preserve"
-               filename="../src/timer/event.c"
-               line="33">An instance of [struct@Event].</doc>
-          <type name="Event" c:type="ALSATimerEvent*"/>
-        </return-value>
-      </constructor>
-      <method name="get_tick_data"
-              c:identifier="alsatimer_event_get_tick_data">
-        <doc xml:space="preserve"
-             filename="../src/timer/event.c"
-             line="40">Refer to the instance of [struct@EventDataTick].</doc>
-        <source-position filename="../src/timer/event.h" line="20"/>
-        <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="self" transfer-ownership="none">
-            <doc xml:space="preserve"
-                 filename="../src/timer/event.c"
-                 line="42">A [struct@Event].</doc>
-            <type name="Event" c:type="ALSATimerEvent*"/>
-          </instance-parameter>
-          <parameter name="tick"
-                     direction="out"
-                     caller-allocates="0"
-                     transfer-ownership="none">
-            <doc xml:space="preserve"
-                 filename="../src/timer/event.c"
-                 line="43">The instance of [struct@EventDataTick].</doc>
-            <type name="EventDataTick"
-                  c:type="const ALSATimerEventDataTick**"/>
-          </parameter>
-        </parameters>
-      </method>
-      <method name="get_tstamp_data"
-              c:identifier="alsatimer_event_get_tstamp_data">
-        <doc xml:space="preserve"
-             filename="../src/timer/event.c"
-             line="53">Refer to the instance of [struct@EventDataTstamp].</doc>
-        <source-position filename="../src/timer/event.h" line="23"/>
-        <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="self" transfer-ownership="none">
-            <doc xml:space="preserve"
-                 filename="../src/timer/event.c"
-                 line="55">A [struct@Event].</doc>
-            <type name="Event" c:type="ALSATimerEvent*"/>
-          </instance-parameter>
-          <parameter name="tstamp"
-                     direction="out"
-                     caller-allocates="0"
-                     transfer-ownership="none">
-            <doc xml:space="preserve"
-                 filename="../src/timer/event.c"
-                 line="56">The instance of [struct@EventDataTstamp].</doc>
-            <type name="EventDataTstamp"
-                  c:type="const ALSATimerEventDataTstamp**"/>
-          </parameter>
-        </parameters>
-      </method>
-    </union>
-    <record name="EventDataTick"
-            c:type="ALSATimerEventDataTick"
-            glib:type-name="ALSATimerEventDataTick"
-            glib:get-type="alsatimer_event_data_tick_get_type"
-            c:symbol-prefix="event_data_tick">
-      <doc xml:space="preserve"
-           filename="../src/timer/event-data-tick.c"
-           line="4">A boxed object to represent event of timer with tick count.
-A [struct@EventDataTick] is a boxed object to represent event of timer with tick count.
-
-The object wraps `struct snd_timer_read` in UAPI of Linux sound subsystem.</doc>
-      <source-position filename="../src/timer/event-data-tick.h" line="11"/>
-      <method name="get_resolution"
-              c:identifier="alsatimer_event_data_tick_get_resolution">
-        <doc xml:space="preserve"
-             filename="../src/timer/event-data-tick.c"
-             line="27">Get the resolution of tick event.</doc>
-        <source-position filename="../src/timer/event-data-tick.h" line="15"/>
-        <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="self" transfer-ownership="none">
-            <doc xml:space="preserve"
-                 filename="../src/timer/event-data-tick.c"
-                 line="29">A [struct@EventDataTick].</doc>
-            <type name="EventDataTick" c:type="const ALSATimerEventDataTick*"/>
-          </instance-parameter>
-          <parameter name="resolution"
-                     direction="out"
-                     caller-allocates="0"
-                     transfer-ownership="full">
-            <doc xml:space="preserve"
-                 filename="../src/timer/event-data-tick.c"
-                 line="30">The resolution of tick event.</doc>
-            <type name="guint" c:type="guint*"/>
-          </parameter>
-        </parameters>
-      </method>
-      <method name="get_ticks"
-              c:identifier="alsatimer_event_data_tick_get_ticks">
-        <doc xml:space="preserve"
-             filename="../src/timer/event-data-tick.c"
-             line="40">Get the tick count since the last event.</doc>
-        <source-position filename="../src/timer/event-data-tick.h" line="18"/>
-        <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="self" transfer-ownership="none">
-            <doc xml:space="preserve"
-                 filename="../src/timer/event-data-tick.c"
-                 line="42">A [struct@EventDataTick].</doc>
-            <type name="EventDataTick" c:type="const ALSATimerEventDataTick*"/>
-          </instance-parameter>
-          <parameter name="ticks"
-                     direction="out"
-                     caller-allocates="0"
-                     transfer-ownership="full">
-            <doc xml:space="preserve"
-                 filename="../src/timer/event-data-tick.c"
-                 line="43">The tick count since the last event.</doc>
-            <type name="guint" c:type="guint*"/>
-          </parameter>
-        </parameters>
-      </method>
-    </record>
-    <record name="EventDataTstamp"
-            c:type="ALSATimerEventDataTstamp"
-            glib:type-name="ALSATimerEventDataTstamp"
-            glib:get-type="alsatimer_event_data_tstamp_get_type"
-            c:symbol-prefix="event_data_tstamp">
-      <doc xml:space="preserve"
-           filename="../src/timer/event-data-tstamp.c"
-           line="4">A boxed object to represent event of timer with tstamp.
-A [struct@EventDataTstamp] is a boxed object to represent event of timer with tstamp.
-
-The object wraps `struct snd_timer_tread` in UAPI of Linux sound subsystem.</doc>
-      <source-position filename="../src/timer/event-data-tstamp.h" line="11"/>
-      <method name="get_event"
-              c:identifier="alsatimer_event_data_tstamp_get_event">
-        <doc xml:space="preserve"
-             filename="../src/timer/event-data-tstamp.c"
-             line="27">Get the kind of event for the timestamp event.</doc>
-        <source-position filename="../src/timer/event-data-tstamp.h"
-                         line="15"/>
-        <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="self" transfer-ownership="none">
-            <doc xml:space="preserve"
-                 filename="../src/timer/event-data-tstamp.c"
-                 line="29">A [struct@EventDataTstamp].</doc>
-            <type name="EventDataTstamp"
-                  c:type="const ALSATimerEventDataTstamp*"/>
-          </instance-parameter>
-          <parameter name="event"
-                     direction="out"
-                     caller-allocates="0"
-                     transfer-ownership="full">
-            <doc xml:space="preserve"
-                 filename="../src/timer/event-data-tstamp.c"
-                 line="30">The type of tstamp event, one of [enum@EventType].</doc>
-            <type name="EventType" c:type="ALSATimerEventType*"/>
-          </parameter>
-        </parameters>
-      </method>
-      <method name="get_tstamp"
-              c:identifier="alsatimer_event_data_tstamp_get_tstamp">
-        <doc xml:space="preserve"
-             filename="../src/timer/event-data-tstamp.c"
-             line="40">Get the seconds and nanoseconds part for the timestamp event.</doc>
-        <source-position filename="../src/timer/event-data-tstamp.h"
-                         line="18"/>
-        <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="self" transfer-ownership="none">
-            <doc xml:space="preserve"
-                 filename="../src/timer/event-data-tstamp.c"
-                 line="42">A [struct@EventDataTstamp].</doc>
-            <type name="EventDataTstamp"
-                  c:type="const ALSATimerEventDataTstamp*"/>
-          </instance-parameter>
-          <parameter name="tstamp"
-                     direction="inout"
-                     caller-allocates="0"
-                     transfer-ownership="full">
-            <doc xml:space="preserve"
-                 filename="../src/timer/event-data-tstamp.c"
-                 line="43">The array with two elements for the seconds and
-         nanoseconds part of timestamp when the instance queues the timestamp event.</doc>
-            <array zero-terminated="0" c:type="gint64* const*" fixed-size="2">
-              <type name="gint64" c:type="gint64"/>
-            </array>
-          </parameter>
-        </parameters>
-      </method>
-      <method name="get_val"
-              c:identifier="alsatimer_event_data_tstamp_get_val">
-        <doc xml:space="preserve"
-             filename="../src/timer/event-data-tstamp.c"
-             line="55">Get the value depending on the type of timestamp event.</doc>
-        <source-position filename="../src/timer/event-data-tstamp.h"
-                         line="21"/>
-        <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="self" transfer-ownership="none">
-            <doc xml:space="preserve"
-                 filename="../src/timer/event-data-tstamp.c"
-                 line="57">A [struct@EventDataTstamp].</doc>
-            <type name="EventDataTstamp"
-                  c:type="const ALSATimerEventDataTstamp*"/>
-          </instance-parameter>
-          <parameter name="val"
-                     direction="out"
-                     caller-allocates="0"
-                     transfer-ownership="full">
-            <doc xml:space="preserve"
-                 filename="../src/timer/event-data-tstamp.c"
-                 line="58">The value depending on the type of timestamp event.</doc>
-            <type name="guint" c:type="guint*"/>
-          </parameter>
-        </parameters>
-      </method>
-    </record>
-    <enumeration name="EventDataType"
-                 glib:type-name="ALSATimerEventDataType"
-                 glib:get-type="alsatimer_event_data_type_get_type"
-                 c:type="ALSATimerEventDataType">
-      <doc xml:space="preserve"
-           filename="../src/timer/alsatimer-enum-types.h"
-           line="112">A set of enumerations for the type of event data.</doc>
-      <member name="tick"
-              value="0"
-              c:identifier="ALSATIMER_EVENT_DATA_TYPE_TICK"
-              glib:nick="tick"
-              glib:name="ALSATIMER_EVENT_DATA_TYPE_TICK">
-        <doc xml:space="preserve"
-             filename="../src/timer/alsatimer-enum-types.h"
-             line="114">The data for tick event.</doc>
-      </member>
-      <member name="tstamp"
-              value="1"
-              c:identifier="ALSATIMER_EVENT_DATA_TYPE_TSTAMP"
-              glib:nick="tstamp"
-              glib:name="ALSATIMER_EVENT_DATA_TYPE_TSTAMP">
-        <doc xml:space="preserve"
-             filename="../src/timer/alsatimer-enum-types.h"
-             line="115">The data for timestamp event.</doc>
-      </member>
-    </enumeration>
     <enumeration name="EventType"
                  glib:type-name="ALSATimerEventType"
                  glib:get-type="alsatimer_event_type_get_type"
                  c:type="ALSATimerEventType">
       <doc xml:space="preserve"
            filename="../src/timer/alsatimer-enum-types.h"
-           line="73">A set of enumerations for timer event.</doc>
-      <member name="resolution"
+           line="114">A set of enumerations for the type of event.</doc>
+      <member name="tick_time"
               value="0"
-              c:identifier="ALSATIMER_EVENT_TYPE_RESOLUTION"
-              glib:nick="resolution"
-              glib:name="ALSATIMER_EVENT_TYPE_RESOLUTION">
+              c:identifier="ALSATIMER_EVENT_TYPE_TICK_TIME"
+              glib:nick="tick-time"
+              glib:name="ALSATIMER_EVENT_TYPE_TICK_TIME">
         <doc xml:space="preserve"
              filename="../src/timer/alsatimer-enum-types.h"
-             line="75">The event for timer resolution.</doc>
+             line="116">Event for tick time.</doc>
       </member>
-      <member name="tick"
+      <member name="real_time"
               value="1"
-              c:identifier="ALSATIMER_EVENT_TYPE_TICK"
-              glib:nick="tick"
-              glib:name="ALSATIMER_EVENT_TYPE_TICK">
+              c:identifier="ALSATIMER_EVENT_TYPE_REAL_TIME"
+              glib:nick="real-time"
+              glib:name="ALSATIMER_EVENT_TYPE_REAL_TIME">
         <doc xml:space="preserve"
              filename="../src/timer/alsatimer-enum-types.h"
-             line="76">The event for timer tick.</doc>
-      </member>
-      <member name="start"
-              value="2"
-              c:identifier="ALSATIMER_EVENT_TYPE_START"
-              glib:nick="start"
-              glib:name="ALSATIMER_EVENT_TYPE_START">
-        <doc xml:space="preserve"
-             filename="../src/timer/alsatimer-enum-types.h"
-             line="77">The event for timer start.</doc>
-      </member>
-      <member name="stop"
-              value="3"
-              c:identifier="ALSATIMER_EVENT_TYPE_STOP"
-              glib:nick="stop"
-              glib:name="ALSATIMER_EVENT_TYPE_STOP">
-        <doc xml:space="preserve"
-             filename="../src/timer/alsatimer-enum-types.h"
-             line="78">The event for timer stop.</doc>
-      </member>
-      <member name="continue"
-              value="4"
-              c:identifier="ALSATIMER_EVENT_TYPE_CONTINUE"
-              glib:nick="continue"
-              glib:name="ALSATIMER_EVENT_TYPE_CONTINUE">
-        <doc xml:space="preserve"
-             filename="../src/timer/alsatimer-enum-types.h"
-             line="79">The event for timer continue.</doc>
-      </member>
-      <member name="pause"
-              value="5"
-              c:identifier="ALSATIMER_EVENT_TYPE_PAUSE"
-              glib:nick="pause"
-              glib:name="ALSATIMER_EVENT_TYPE_PAUSE">
-        <doc xml:space="preserve"
-             filename="../src/timer/alsatimer-enum-types.h"
-             line="80">The event for timer pause.</doc>
-      </member>
-      <member name="early"
-              value="6"
-              c:identifier="ALSATIMER_EVENT_TYPE_EARLY"
-              glib:nick="early"
-              glib:name="ALSATIMER_EVENT_TYPE_EARLY">
-        <doc xml:space="preserve"
-             filename="../src/timer/alsatimer-enum-types.h"
-             line="81">The event before timer start.</doc>
-      </member>
-      <member name="suspend"
-              value="7"
-              c:identifier="ALSATIMER_EVENT_TYPE_SUSPEND"
-              glib:nick="suspend"
-              glib:name="ALSATIMER_EVENT_TYPE_SUSPEND">
-        <doc xml:space="preserve"
-             filename="../src/timer/alsatimer-enum-types.h"
-             line="82">The event for timer suspend.</doc>
-      </member>
-      <member name="resume"
-              value="8"
-              c:identifier="ALSATIMER_EVENT_TYPE_RESUME"
-              glib:nick="resume"
-              glib:name="ALSATIMER_EVENT_TYPE_RESUME">
-        <doc xml:space="preserve"
-             filename="../src/timer/alsatimer-enum-types.h"
-             line="83">The event for timer resume.</doc>
-      </member>
-      <member name="mstart"
-              value="12"
-              c:identifier="ALSATIMER_EVENT_TYPE_MSTART"
-              glib:nick="mstart"
-              glib:name="ALSATIMER_EVENT_TYPE_MSTART">
-        <doc xml:space="preserve"
-             filename="../src/timer/alsatimer-enum-types.h"
-             line="84">The event for master timer start.</doc>
-      </member>
-      <member name="mstop"
-              value="13"
-              c:identifier="ALSATIMER_EVENT_TYPE_MSTOP"
-              glib:nick="mstop"
-              glib:name="ALSATIMER_EVENT_TYPE_MSTOP">
-        <doc xml:space="preserve"
-             filename="../src/timer/alsatimer-enum-types.h"
-             line="85">The event for master timer stop.</doc>
-      </member>
-      <member name="mcontinue"
-              value="14"
-              c:identifier="ALSATIMER_EVENT_TYPE_MCONTINUE"
-              glib:nick="mcontinue"
-              glib:name="ALSATIMER_EVENT_TYPE_MCONTINUE">
-        <doc xml:space="preserve"
-             filename="../src/timer/alsatimer-enum-types.h"
-             line="86">The event for master timer continue.</doc>
-      </member>
-      <member name="mpause"
-              value="15"
-              c:identifier="ALSATIMER_EVENT_TYPE_MPAUSE"
-              glib:nick="mpause"
-              glib:name="ALSATIMER_EVENT_TYPE_MPAUSE">
-        <doc xml:space="preserve"
-             filename="../src/timer/alsatimer-enum-types.h"
-             line="87">The event for master timer pause.</doc>
-      </member>
-      <member name="msuspend"
-              value="17"
-              c:identifier="ALSATIMER_EVENT_TYPE_MSUSPEND"
-              glib:nick="msuspend"
-              glib:name="ALSATIMER_EVENT_TYPE_MSUSPEND">
-        <doc xml:space="preserve"
-             filename="../src/timer/alsatimer-enum-types.h"
-             line="88">The event for master timer suspend.</doc>
-      </member>
-      <member name="mresume"
-              value="18"
-              c:identifier="ALSATIMER_EVENT_TYPE_MRESUME"
-              glib:nick="mresume"
-              glib:name="ALSATIMER_EVENT_TYPE_MRESUME">
-        <doc xml:space="preserve"
-             filename="../src/timer/alsatimer-enum-types.h"
-             line="89">The event for master timer resume.</doc>
+             line="117">Event for real time.</doc>
       </member>
     </enumeration>
     <class name="InstanceInfo"
@@ -819,26 +457,41 @@ The object wraps `struct snd_timer_tread` in UAPI of Linux sound subsystem.</doc
            glib:type-struct="InstanceInfoClass">
       <doc xml:space="preserve"
            filename="../src/timer/instance-info.c"
-           line="4">A GObject-derived object to represent information of user instance.
-A [class@InstanceInfo] is a GObject-derived object to represent information of user instance
+           line="4">A GObject-derived object to express information of user instance.
+A [class@InstanceInfo] is a GObject-derived object to express information of user instance
 attached to any timer device or the other instance as slave. The call of
 [method@UserInstance.get_info] returns the instance of object.
 
 The object wraps `struct snd_timer_info` in UAPI of Linux sound subsystem.</doc>
       <source-position filename="../src/timer/instance-info.h" line="16"/>
       <property name="card-id" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/instance-info.c"
+             line="76">The numeric ID of sound card for attached timer.</doc>
         <type name="gint" c:type="gint"/>
       </property>
       <property name="flags" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/instance-info.c"
+             line="64">The flags for attached timer.</doc>
         <type name="DeviceInfoFlag"/>
       </property>
       <property name="id" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/instance-info.c"
+             line="88">The string ID of attached timer.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="name" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/instance-info.c"
+             line="99">The name of attached timer.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="resolution" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/instance-info.c"
+             line="110">The resolution of attached timer in nano seconds.</doc>
         <type name="guint64" c:type="guint64"/>
       </property>
       <field name="parent_instance">
@@ -859,7 +512,7 @@ The object wraps `struct snd_timer_info` in UAPI of Linux sound subsystem.</doc>
               c:type="ALSATimerInstanceParamFlag">
       <doc xml:space="preserve"
            filename="../src/timer/alsatimer-enum-types.h"
-           line="58">A set of flags for the parameters of user client.</doc>
+           line="60">A set of flags for the parameters of user client.</doc>
       <member name="auto"
               value="1"
               c:identifier="ALSATIMER_INSTANCE_PARAM_FLAG_AUTO"
@@ -867,7 +520,7 @@ The object wraps `struct snd_timer_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSATIMER_INSTANCE_PARAM_FLAG_AUTO">
         <doc xml:space="preserve"
              filename="../src/timer/alsatimer-enum-types.h"
-             line="60">The instance receives any events after configured.</doc>
+             line="62">The instance receives any events after configured.</doc>
       </member>
       <member name="exclusive"
               value="2"
@@ -876,7 +529,7 @@ The object wraps `struct snd_timer_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSATIMER_INSTANCE_PARAM_FLAG_EXCLUSIVE">
         <doc xml:space="preserve"
              filename="../src/timer/alsatimer-enum-types.h"
-             line="61">The instance occupies the attached timer device.</doc>
+             line="63">The instance occupies the attached timer device.</doc>
       </member>
       <member name="early_event"
               value="4"
@@ -885,7 +538,7 @@ The object wraps `struct snd_timer_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSATIMER_INSTANCE_PARAM_FLAG_EARLY_EVENT">
         <doc xml:space="preserve"
              filename="../src/timer/alsatimer-enum-types.h"
-             line="62">The instance receives early event after configured even if not started.</doc>
+             line="64">The instance receives early event after configured even if not started.</doc>
       </member>
     </bitfield>
     <class name="InstanceParams"
@@ -897,8 +550,8 @@ The object wraps `struct snd_timer_info` in UAPI of Linux sound subsystem.</doc>
            glib:type-struct="InstanceParamsClass">
       <doc xml:space="preserve"
            filename="../src/timer/instance-params.c"
-           line="6">A GObject-derived object to represent parameters of user instance.
-A [class@InstanceParams] is a GObject-derived object to represent parameters of user instance
+           line="6">A GObject-derived object to express parameters of user instance.
+A [class@InstanceParams] is a GObject-derived object to express parameters of user instance
 attached to any timer device or the other instance as slave. The call of
 [method@UserInstance.set_params] requires the instance of object.
 
@@ -907,12 +560,12 @@ The object wraps `struct snd_timer_params` in UAPI of Linux sound subsystem.</do
       <constructor name="new" c:identifier="alsatimer_instance_params_new">
         <doc xml:space="preserve"
              filename="../src/timer/instance-params.c"
-             line="114">Allocate and return an instance of [class@InstanceParams].</doc>
+             line="128">Allocate and return an instance of [class@InstanceParams].</doc>
         <source-position filename="../src/timer/instance-params.h" line="18"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/timer/instance-params.c"
-               line="119">An instance of [class@InstanceParams].</doc>
+               line="133">An instance of [class@InstanceParams].</doc>
           <type name="InstanceParams" c:type="ALSATimerInstanceParams*"/>
         </return-value>
       </constructor>
@@ -921,17 +574,20 @@ The object wraps `struct snd_timer_params` in UAPI of Linux sound subsystem.</do
               throws="1">
         <doc xml:space="preserve"
              filename="../src/timer/instance-params.c"
-             line="171">Get the list of ALSATimerEventType to filter events. This parameter is effective only for target
-instance with [enum@EventDataType:TIMESTAMP].</doc>
+             line="189">Get the list of [enum@RealTimeEventType] to filter events. This parameter is effective only for
+target instance with [enum@EventType].REAL_TIME.</doc>
         <source-position filename="../src/timer/instance-params.h" line="24"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/timer/instance-params.c"
+               line="200">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/instance-params.c"
-                 line="173">A [class@InstanceParams].</doc>
+                 line="191">A [class@InstanceParams].</doc>
             <type name="InstanceParams" c:type="ALSATimerInstanceParams*"/>
           </instance-parameter>
           <parameter name="entries"
@@ -940,11 +596,13 @@ instance with [enum@EventDataType:TIMESTAMP].</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/timer/instance-params.c"
-                 line="174">The array with elements for entries of [enum@EventType].</doc>
+                 line="192">The array with elements for entries of
+          [enum@RealTimeEventType].</doc>
             <array length="1"
                    zero-terminated="0"
-                   c:type="ALSATimerEventType**">
-              <type name="EventType" c:type="ALSATimerEventType*"/>
+                   c:type="ALSATimerRealTimeEventType**">
+              <type name="RealTimeEventType"
+                    c:type="ALSATimerRealTimeEventType*"/>
             </array>
           </parameter>
           <parameter name="entry_count"
@@ -953,7 +611,7 @@ instance with [enum@EventDataType:TIMESTAMP].</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/timer/instance-params.c"
-                 line="175">The number of elements in the above array.</doc>
+                 line="194">The number of elements in the above array.</doc>
             <type name="gsize" c:type="gsize*"/>
           </parameter>
         </parameters>
@@ -963,44 +621,58 @@ instance with [enum@EventDataType:TIMESTAMP].</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/timer/instance-params.c"
-             line="126">Set the list of [enum@EventType] to filter events. This parameter is effective only for target
-instance with [enum@EventDataType:TIMESTAMP].</doc>
+             line="140">Set the list of [enum@RealTimeEventType] to filter events. This parameter is effective only for
+target instance with [enum@EventType].TIMESTAMP.</doc>
         <source-position filename="../src/timer/instance-params.h" line="20"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/timer/instance-params.c"
+               line="151">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/instance-params.c"
-                 line="128">A [class@InstanceParams].</doc>
+                 line="142">A [class@InstanceParams].</doc>
             <type name="InstanceParams" c:type="ALSATimerInstanceParams*"/>
           </instance-parameter>
           <parameter name="entries" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/instance-params.c"
-                 line="129">The array with elements for entries of [enum@EventType].</doc>
+                 line="143">The array with elements for entries of
+          [enum@RealTimeEventType].</doc>
             <array length="1"
                    zero-terminated="0"
-                   c:type="const ALSATimerEventType*">
-              <type name="EventType" c:type="ALSATimerEventType"/>
+                   c:type="const ALSATimerRealTimeEventType*">
+              <type name="RealTimeEventType"
+                    c:type="ALSATimerRealTimeEventType"/>
             </array>
           </parameter>
           <parameter name="entry_count" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/instance-params.c"
-                 line="130">The number of elements in the above array.</doc>
+                 line="145">The number of elements in the above array.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
         </parameters>
       </method>
       <property name="flags" writable="1" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/instance-params.c"
+             line="82">The flags for user instance, as a set of [flags@InstanceParamFlag].</doc>
         <type name="InstanceParamFlag"/>
       </property>
       <property name="interval" writable="1" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/instance-params.c"
+             line="94">The interval to generate event in tick count.</doc>
         <type name="guint" c:type="guint"/>
       </property>
       <property name="queue-size" writable="1" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/instance-params.c"
+             line="106">The size of queue.</doc>
         <type name="guint" c:type="guint"/>
       </property>
       <field name="parent_instance">
@@ -1024,30 +696,30 @@ instance with [enum@EventDataType:TIMESTAMP].</doc>
            glib:type-struct="InstanceStatusClass">
       <doc xml:space="preserve"
            filename="../src/timer/instance-status.c"
-           line="4">A GObject-derived object to represent status of user instance.
-A [class@InstanceStatus] is a GObject-derived object to represent status of user instance
-attached to any timer device or the other instance as slave. The call of
-[method@UserInstance.get_status] returns the instance of object.
+           line="4">A GObject-derived object to express status of user instance.
+A [class@InstanceStatus] is a GObject-derived object to express status of user instance attached
+to any timer device or the other instance as slave. The call of [method@UserInstance.get_status]
+returns the instance of object.
 
 The object wraps `struct snd_timer_status` in UAPI of Linux sound subsystem.</doc>
       <source-position filename="../src/timer/instance-status.h" line="16"/>
       <constructor name="new" c:identifier="alsatimer_instance_status_new">
         <doc xml:space="preserve"
              filename="../src/timer/instance-status.c"
-             line="123">Allocate and return an instance of [class@InstanceStatus].</doc>
+             line="143">Allocate and return an instance of [class@InstanceStatus].</doc>
         <source-position filename="../src/timer/instance-status.h" line="18"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/timer/instance-status.c"
-               line="128">A [class@InstanceStatus].</doc>
+               line="148">A [class@InstanceStatus].</doc>
           <type name="InstanceStatus" c:type="ALSATimerInstanceStatus*"/>
         </return-value>
       </constructor>
-      <method name="get_tstamp"
-              c:identifier="alsatimer_instance_status_get_tstamp">
+      <method name="get_time"
+              c:identifier="alsatimer_instance_status_get_time">
         <doc xml:space="preserve"
              filename="../src/timer/instance-status.c"
-             line="99">Get timestamp for the latest event.</doc>
+             line="119">Get real time at which the timer starts, stops, pauses, and continues.</doc>
         <source-position filename="../src/timer/instance-status.h" line="20"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1056,17 +728,18 @@ The object wraps `struct snd_timer_status` in UAPI of Linux sound subsystem.</do
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/instance-status.c"
-                 line="101">A [class@InstanceStatus].</doc>
+                 line="121">A [class@InstanceStatus].</doc>
             <type name="InstanceStatus" c:type="ALSATimerInstanceStatus*"/>
           </instance-parameter>
-          <parameter name="tstamp"
+          <parameter name="real_time"
                      direction="out"
                      caller-allocates="0"
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/instance-status.c"
-                 line="102">The array with two elements for the seconds
-         and nanoseconds parts of timestamp when the instance queues the latest event.</doc>
+                 line="122">The array with two elements for the
+            seconds and nanoseconds parts of timestamp when the instance queues the latest
+            event.</doc>
             <array zero-terminated="0" c:type="const gint64**" fixed-size="2">
               <type name="gint64" c:type="gint64"/>
             </array>
@@ -1074,15 +747,27 @@ The object wraps `struct snd_timer_status` in UAPI of Linux sound subsystem.</do
         </parameters>
       </method>
       <property name="interval" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/instance-status.c"
+             line="61">The current interval in nano second.</doc>
         <type name="guint" c:type="guint"/>
       </property>
       <property name="lost" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/instance-status.c"
+             line="73">The count of losts master ticks.</doc>
         <type name="guint" c:type="guint"/>
       </property>
       <property name="overrun" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/instance-status.c"
+             line="85">The count of overrun in read queue.</doc>
         <type name="guint" c:type="guint"/>
       </property>
       <property name="queue-size" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/instance-status.c"
+             line="97">The current size of queue.</doc>
         <type name="guint" c:type="guint"/>
       </property>
       <field name="parent_instance">
@@ -1097,13 +782,253 @@ The object wraps `struct snd_timer_status` in UAPI of Linux sound subsystem.</do
         <type name="GObject.ObjectClass" c:type="GObjectClass"/>
       </field>
     </record>
+    <record name="RealTimeEvent"
+            c:type="ALSATimerRealTimeEvent"
+            glib:type-name="ALSATimerRealTimeEvent"
+            glib:get-type="alsatimer_real_time_event_get_type"
+            c:symbol-prefix="real_time_event">
+      <doc xml:space="preserve"
+           filename="../src/timer/real-time-event.c"
+           line="4">A boxed object to express event of timer with real time.
+A [struct@RealTimeEvent] includes real time at which the event is queued.
+
+The object wraps `struct snd_timer_tread` in UAPI of Linux sound subsystem.</doc>
+      <source-position filename="../src/timer/real-time-event.h" line="11"/>
+      <method name="get_event"
+              c:identifier="alsatimer_real_time_event_get_event">
+        <doc xml:space="preserve"
+             filename="../src/timer/real-time-event.c"
+             line="27">Get the kind of event for the real time event.</doc>
+        <source-position filename="../src/timer/real-time-event.h" line="15"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/timer/real-time-event.c"
+                 line="29">A [struct@RealTimeEvent].</doc>
+            <type name="RealTimeEvent" c:type="const ALSATimerRealTimeEvent*"/>
+          </instance-parameter>
+          <parameter name="event"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full">
+            <doc xml:space="preserve"
+                 filename="../src/timer/real-time-event.c"
+                 line="30">The type of real time event, one of [enum@RealTimeEventType].</doc>
+            <type name="RealTimeEventType"
+                  c:type="ALSATimerRealTimeEventType*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="get_time"
+              c:identifier="alsatimer_real_time_event_get_time">
+        <doc xml:space="preserve"
+             filename="../src/timer/real-time-event.c"
+             line="40">Get the seconds and nanoseconds part for the real time event.</doc>
+        <source-position filename="../src/timer/real-time-event.h" line="18"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/timer/real-time-event.c"
+                 line="42">A [struct@RealTimeEvent].</doc>
+            <type name="RealTimeEvent" c:type="const ALSATimerRealTimeEvent*"/>
+          </instance-parameter>
+          <parameter name="real_time"
+                     direction="inout"
+                     caller-allocates="0"
+                     transfer-ownership="full">
+            <doc xml:space="preserve"
+                 filename="../src/timer/real-time-event.c"
+                 line="43">The array with two elements for the seconds and
+            nanoseconds part of timestamp when the real time event occurs.</doc>
+            <array zero-terminated="0" c:type="gint64* const*" fixed-size="2">
+              <type name="gint64" c:type="gint64"/>
+            </array>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="get_val" c:identifier="alsatimer_real_time_event_get_val">
+        <doc xml:space="preserve"
+             filename="../src/timer/real-time-event.c"
+             line="55">Get the value depending on the type of real time event.</doc>
+        <source-position filename="../src/timer/real-time-event.h" line="21"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/timer/real-time-event.c"
+                 line="57">A [struct@RealTimeEvent].</doc>
+            <type name="RealTimeEvent" c:type="const ALSATimerRealTimeEvent*"/>
+          </instance-parameter>
+          <parameter name="val"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full">
+            <doc xml:space="preserve"
+                 filename="../src/timer/real-time-event.c"
+                 line="58">The value depending on the type of timestamp event.</doc>
+            <type name="guint" c:type="guint*"/>
+          </parameter>
+        </parameters>
+      </method>
+    </record>
+    <enumeration name="RealTimeEventType"
+                 glib:type-name="ALSATimerRealTimeEventType"
+                 glib:get-type="alsatimer_real_time_event_type_get_type"
+                 c:type="ALSATimerRealTimeEventType">
+      <doc xml:space="preserve"
+           filename="../src/timer/alsatimer-enum-types.h"
+           line="75">A set of enumerations for the type of real time event.</doc>
+      <member name="resolution"
+              value="0"
+              c:identifier="ALSATIMER_REAL_TIME_EVENT_TYPE_RESOLUTION"
+              glib:nick="resolution"
+              glib:name="ALSATIMER_REAL_TIME_EVENT_TYPE_RESOLUTION">
+        <doc xml:space="preserve"
+             filename="../src/timer/alsatimer-enum-types.h"
+             line="77">The event for timer resolution.</doc>
+      </member>
+      <member name="tick"
+              value="1"
+              c:identifier="ALSATIMER_REAL_TIME_EVENT_TYPE_TICK"
+              glib:nick="tick"
+              glib:name="ALSATIMER_REAL_TIME_EVENT_TYPE_TICK">
+        <doc xml:space="preserve"
+             filename="../src/timer/alsatimer-enum-types.h"
+             line="78">The event for timer tick.</doc>
+      </member>
+      <member name="start"
+              value="2"
+              c:identifier="ALSATIMER_REAL_TIME_EVENT_TYPE_START"
+              glib:nick="start"
+              glib:name="ALSATIMER_REAL_TIME_EVENT_TYPE_START">
+        <doc xml:space="preserve"
+             filename="../src/timer/alsatimer-enum-types.h"
+             line="79">The event for timer start.</doc>
+      </member>
+      <member name="stop"
+              value="3"
+              c:identifier="ALSATIMER_REAL_TIME_EVENT_TYPE_STOP"
+              glib:nick="stop"
+              glib:name="ALSATIMER_REAL_TIME_EVENT_TYPE_STOP">
+        <doc xml:space="preserve"
+             filename="../src/timer/alsatimer-enum-types.h"
+             line="80">The event for timer stop.</doc>
+      </member>
+      <member name="continue"
+              value="4"
+              c:identifier="ALSATIMER_REAL_TIME_EVENT_TYPE_CONTINUE"
+              glib:nick="continue"
+              glib:name="ALSATIMER_REAL_TIME_EVENT_TYPE_CONTINUE">
+        <doc xml:space="preserve"
+             filename="../src/timer/alsatimer-enum-types.h"
+             line="81">The event for timer continue.</doc>
+      </member>
+      <member name="pause"
+              value="5"
+              c:identifier="ALSATIMER_REAL_TIME_EVENT_TYPE_PAUSE"
+              glib:nick="pause"
+              glib:name="ALSATIMER_REAL_TIME_EVENT_TYPE_PAUSE">
+        <doc xml:space="preserve"
+             filename="../src/timer/alsatimer-enum-types.h"
+             line="82">The event for timer pause.</doc>
+      </member>
+      <member name="early"
+              value="6"
+              c:identifier="ALSATIMER_REAL_TIME_EVENT_TYPE_EARLY"
+              glib:nick="early"
+              glib:name="ALSATIMER_REAL_TIME_EVENT_TYPE_EARLY">
+        <doc xml:space="preserve"
+             filename="../src/timer/alsatimer-enum-types.h"
+             line="83">The event before timer start.</doc>
+      </member>
+      <member name="suspend"
+              value="7"
+              c:identifier="ALSATIMER_REAL_TIME_EVENT_TYPE_SUSPEND"
+              glib:nick="suspend"
+              glib:name="ALSATIMER_REAL_TIME_EVENT_TYPE_SUSPEND">
+        <doc xml:space="preserve"
+             filename="../src/timer/alsatimer-enum-types.h"
+             line="84">The event for timer suspend.</doc>
+      </member>
+      <member name="resume"
+              value="8"
+              c:identifier="ALSATIMER_REAL_TIME_EVENT_TYPE_RESUME"
+              glib:nick="resume"
+              glib:name="ALSATIMER_REAL_TIME_EVENT_TYPE_RESUME">
+        <doc xml:space="preserve"
+             filename="../src/timer/alsatimer-enum-types.h"
+             line="85">The event for timer resume.</doc>
+      </member>
+      <member name="mstart"
+              value="12"
+              c:identifier="ALSATIMER_REAL_TIME_EVENT_TYPE_MSTART"
+              glib:nick="mstart"
+              glib:name="ALSATIMER_REAL_TIME_EVENT_TYPE_MSTART">
+        <doc xml:space="preserve"
+             filename="../src/timer/alsatimer-enum-types.h"
+             line="86">The event for master timer start.</doc>
+      </member>
+      <member name="mstop"
+              value="13"
+              c:identifier="ALSATIMER_REAL_TIME_EVENT_TYPE_MSTOP"
+              glib:nick="mstop"
+              glib:name="ALSATIMER_REAL_TIME_EVENT_TYPE_MSTOP">
+        <doc xml:space="preserve"
+             filename="../src/timer/alsatimer-enum-types.h"
+             line="87">The event for master timer stop.</doc>
+      </member>
+      <member name="mcontinue"
+              value="14"
+              c:identifier="ALSATIMER_REAL_TIME_EVENT_TYPE_MCONTINUE"
+              glib:nick="mcontinue"
+              glib:name="ALSATIMER_REAL_TIME_EVENT_TYPE_MCONTINUE">
+        <doc xml:space="preserve"
+             filename="../src/timer/alsatimer-enum-types.h"
+             line="88">The event for master timer continue.</doc>
+      </member>
+      <member name="mpause"
+              value="15"
+              c:identifier="ALSATIMER_REAL_TIME_EVENT_TYPE_MPAUSE"
+              glib:nick="mpause"
+              glib:name="ALSATIMER_REAL_TIME_EVENT_TYPE_MPAUSE">
+        <doc xml:space="preserve"
+             filename="../src/timer/alsatimer-enum-types.h"
+             line="89">The event for master timer pause.</doc>
+      </member>
+      <member name="msuspend"
+              value="17"
+              c:identifier="ALSATIMER_REAL_TIME_EVENT_TYPE_MSUSPEND"
+              glib:nick="msuspend"
+              glib:name="ALSATIMER_REAL_TIME_EVENT_TYPE_MSUSPEND">
+        <doc xml:space="preserve"
+             filename="../src/timer/alsatimer-enum-types.h"
+             line="90">The event for master timer suspend.</doc>
+      </member>
+      <member name="mresume"
+              value="18"
+              c:identifier="ALSATIMER_REAL_TIME_EVENT_TYPE_MRESUME"
+              glib:nick="mresume"
+              glib:name="ALSATIMER_REAL_TIME_EVENT_TYPE_MRESUME">
+        <doc xml:space="preserve"
+             filename="../src/timer/alsatimer-enum-types.h"
+             line="91">The event for master timer resume.</doc>
+      </member>
+    </enumeration>
     <enumeration name="SlaveClass"
                  glib:type-name="ALSATimerSlaveClass"
                  glib:get-type="alsatimer_slave_class_get_type"
                  c:type="ALSATimerSlaveClass">
       <doc xml:space="preserve"
            filename="../src/timer/alsatimer-enum-types.h"
-           line="21">A set of enumerations for the slave class of timer instance (not timer device).</doc>
+           line="23">A set of enumerations for the slave class of timer instance (not timer device).</doc>
       <member name="none"
               value="0"
               c:identifier="ALSATIMER_SLAVE_CLASS_NONE"
@@ -1111,7 +1036,7 @@ The object wraps `struct snd_timer_status` in UAPI of Linux sound subsystem.</do
               glib:name="ALSATIMER_SLAVE_CLASS_NONE">
         <doc xml:space="preserve"
              filename="../src/timer/alsatimer-enum-types.h"
-             line="23">The timer instance is not slave.</doc>
+             line="25">The timer instance is not slave.</doc>
       </member>
       <member name="application"
               value="1"
@@ -1120,7 +1045,7 @@ The object wraps `struct snd_timer_status` in UAPI of Linux sound subsystem.</do
               glib:name="ALSATIMER_SLAVE_CLASS_APPLICATION">
         <doc xml:space="preserve"
              filename="../src/timer/alsatimer-enum-types.h"
-             line="24">The timer instance is slave to any application.</doc>
+             line="26">The timer instance is slave to any application.</doc>
       </member>
       <member name="sequencer"
               value="2"
@@ -1129,7 +1054,7 @@ The object wraps `struct snd_timer_status` in UAPI of Linux sound subsystem.</do
               glib:name="ALSATIMER_SLAVE_CLASS_SEQUENCER">
         <doc xml:space="preserve"
              filename="../src/timer/alsatimer-enum-types.h"
-             line="25">The timer instance is slave to ALSA sequencer.</doc>
+             line="27">The timer instance is slave to ALSA sequencer.</doc>
       </member>
     </enumeration>
     <enumeration name="SpecificGlobalDevice"
@@ -1138,7 +1063,7 @@ The object wraps `struct snd_timer_status` in UAPI of Linux sound subsystem.</do
                  c:type="ALSATimerSpecificGlobalDevice">
       <doc xml:space="preserve"
            filename="../src/timer/alsatimer-enum-types.h"
-           line="35">A set of enumerations for the kind of global timer device.</doc>
+           line="37">A set of enumerations for the kind of global timer device.</doc>
       <member name="system"
               value="0"
               c:identifier="ALSATIMER_SPECIFIC_GLOBAL_DEVICE_SYSTEM"
@@ -1146,7 +1071,7 @@ The object wraps `struct snd_timer_status` in UAPI of Linux sound subsystem.</do
               glib:name="ALSATIMER_SPECIFIC_GLOBAL_DEVICE_SYSTEM">
         <doc xml:space="preserve"
              filename="../src/timer/alsatimer-enum-types.h"
-             line="37">The timer device is system timer wheel.</doc>
+             line="39">The timer device is system timer wheel.</doc>
       </member>
       <member name="hrtimer"
               value="3"
@@ -1155,9 +1080,76 @@ The object wraps `struct snd_timer_status` in UAPI of Linux sound subsystem.</do
               glib:name="ALSATIMER_SPECIFIC_GLOBAL_DEVICE_HRTIMER">
         <doc xml:space="preserve"
              filename="../src/timer/alsatimer-enum-types.h"
-             line="38">The timer device is system hrtimer.</doc>
+             line="40">The timer device is system hrtimer.</doc>
       </member>
     </enumeration>
+    <record name="TickTimeEvent"
+            c:type="ALSATimerTickTimeEvent"
+            glib:type-name="ALSATimerTickTimeEvent"
+            glib:get-type="alsatimer_tick_time_event_get_type"
+            c:symbol-prefix="tick_time_event">
+      <doc xml:space="preserve"
+           filename="../src/timer/tick-time-event.c"
+           line="4">A boxed object to express event of timer with tick count.
+A [struct@TickTimeEvent] includes tick count at which the event is queued.
+
+The object wraps `struct snd_timer_read` in UAPI of Linux sound subsystem.</doc>
+      <source-position filename="../src/timer/tick-time-event.h" line="11"/>
+      <method name="get_count"
+              c:identifier="alsatimer_tick_time_event_get_count">
+        <doc xml:space="preserve"
+             filename="../src/timer/tick-time-event.c"
+             line="40">Get the tick count since the last event.</doc>
+        <source-position filename="../src/timer/tick-time-event.h" line="18"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/timer/tick-time-event.c"
+                 line="42">A [struct@TickTimeEvent].</doc>
+            <type name="TickTimeEvent" c:type="const ALSATimerTickTimeEvent*"/>
+          </instance-parameter>
+          <parameter name="count"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full">
+            <doc xml:space="preserve"
+                 filename="../src/timer/tick-time-event.c"
+                 line="43">The tick count since the last event.</doc>
+            <type name="guint" c:type="guint*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="get_resolution"
+              c:identifier="alsatimer_tick_time_event_get_resolution">
+        <doc xml:space="preserve"
+             filename="../src/timer/tick-time-event.c"
+             line="27">Get the resolution of tick event.</doc>
+        <source-position filename="../src/timer/tick-time-event.h" line="15"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/timer/tick-time-event.c"
+                 line="29">A [struct@TickTimeEvent].</doc>
+            <type name="TickTimeEvent" c:type="const ALSATimerTickTimeEvent*"/>
+          </instance-parameter>
+          <parameter name="resolution"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full">
+            <doc xml:space="preserve"
+                 filename="../src/timer/tick-time-event.c"
+                 line="30">The resolution of tick event.</doc>
+            <type name="guint" c:type="guint*"/>
+          </parameter>
+        </parameters>
+      </method>
+    </record>
     <class name="UserInstance"
            c:symbol-prefix="user_instance"
            c:type="ALSATimerUserInstance"
@@ -1167,30 +1159,47 @@ The object wraps `struct snd_timer_status` in UAPI of Linux sound subsystem.</do
            glib:type-struct="UserInstanceClass">
       <doc xml:space="preserve"
            filename="../src/timer/user-instance.c"
-           line="13">A GObject-derived object to represent user instance.
-A [class@UserInstance] is a GObject-derived object to represent information of user instance
+           line="13">A GObject-derived object to express user instance.
+A [class@UserInstance] is a GObject-derived object to express information of user instance
 attached to any timer device or the other instance as slave. After calling
 [method@UserInstance.open], the object maintains file descriptor till object destruction. After
 calling [method@UserInstance.attach] or [method@UserInstance.attach_as_slave], the user instance
 is attached to any timer device or the other instance as slave.</doc>
-      <source-position filename="../src/timer/user-instance.h" line="38"/>
+      <source-position filename="../src/timer/user-instance.h" line="47"/>
       <constructor name="new" c:identifier="alsatimer_user_instance_new">
         <doc xml:space="preserve"
              filename="../src/timer/user-instance.c"
-             line="183">Allocate and return an instance of [class@UserInstance].</doc>
-        <source-position filename="../src/timer/user-instance.h" line="40"/>
+             line="202">Allocate and return an instance of [class@UserInstance].</doc>
+        <source-position filename="../src/timer/user-instance.h" line="49"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/timer/user-instance.c"
-               line="188">An instance of [class@UserInstance].</doc>
+               line="207">An instance of [class@UserInstance].</doc>
           <type name="UserInstance" c:type="ALSATimerUserInstance*"/>
         </return-value>
       </constructor>
       <virtual-method name="handle_disconnection">
         <doc xml:space="preserve"
              filename="../src/timer/user-instance.h"
-             line="31">Class closure for the [signal@UserInstance::handle-disconnection] signal.</doc>
-        <source-position filename="../src/timer/user-instance.h" line="37"/>
+             line="40">Class closure for the [signal@UserInstance::handle-disconnection] signal.</doc>
+        <source-position filename="../src/timer/user-instance.h" line="46"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/timer/user-instance.h"
+                 line="42">A [class@UserInstance].</doc>
+            <type name="UserInstance" c:type="ALSATimerUserInstance*"/>
+          </instance-parameter>
+        </parameters>
+      </virtual-method>
+      <virtual-method name="handle_real_time_event">
+        <doc xml:space="preserve"
+             filename="../src/timer/user-instance.h"
+             line="31">Class closure for the [signal@UserInstance::handle-real-time-event] signal.</doc>
+        <source-position filename="../src/timer/user-instance.h" line="38"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -1201,12 +1210,18 @@ is attached to any timer device or the other instance as slave.</doc>
                  line="33">A [class@UserInstance].</doc>
             <type name="UserInstance" c:type="ALSATimerUserInstance*"/>
           </instance-parameter>
+          <parameter name="event" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/timer/user-instance.h"
+                 line="34">An object derived from [struct@RealTimeEvent].</doc>
+            <type name="RealTimeEvent" c:type="const ALSATimerRealTimeEvent*"/>
+          </parameter>
         </parameters>
       </virtual-method>
-      <virtual-method name="handle_event">
+      <virtual-method name="handle_tick_time_event">
         <doc xml:space="preserve"
              filename="../src/timer/user-instance.h"
-             line="21">Class closure for the [signal@UserInstance::handle-event] signal.</doc>
+             line="21">Class closure for the [signal@UserInstance::handle-tick-time-event] signal.</doc>
         <source-position filename="../src/timer/user-instance.h" line="28"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1221,8 +1236,8 @@ is attached to any timer device or the other instance as slave.</doc>
           <parameter name="event" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.h"
-                 line="24">An object derived from [struct@Event].</doc>
-            <type name="Event" c:type="const ALSATimerEvent*"/>
+                 line="24">An object derived from [struct@TickTimeEvent].</doc>
+            <type name="TickTimeEvent" c:type="const ALSATimerTickTimeEvent*"/>
           </parameter>
         </parameters>
       </virtual-method>
@@ -1231,26 +1246,29 @@ is attached to any timer device or the other instance as slave.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/timer/user-instance.c"
-             line="260">Attach the instance to the timer device. If the given device_id is for absent timer device, the
+             line="289">Attach the instance to the timer device. If the given device_id is for absent timer device, the
 instance can be detached with error.
 
 The call of function executes `ioctl(2)` system call with `SNDRV_TIMER_IOCTL_SELECT` command
 for ALSA timer character device.</doc>
-        <source-position filename="../src/timer/user-instance.h" line="53"/>
+        <source-position filename="../src/timer/user-instance.h" line="61"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/timer/user-instance.c"
+               line="301">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.c"
-                 line="262">A [class@UserInstance].</doc>
+                 line="291">A [class@UserInstance].</doc>
             <type name="UserInstance" c:type="ALSATimerUserInstance*"/>
           </instance-parameter>
           <parameter name="device_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.c"
-                 line="263">A [struct@DeviceId] to which the instance is attached.</doc>
+                 line="292">A [struct@DeviceId] to which the instance is attached.</doc>
             <type name="DeviceId" c:type="ALSATimerDeviceId*"/>
           </parameter>
         </parameters>
@@ -1260,67 +1278,75 @@ for ALSA timer character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/timer/user-instance.c"
-             line="294">Attach the instance as an slave to another instance indicated by a pair of slave_class and
+             line="327">Attach the instance as an slave to another instance indicated by a pair of slave_class and
 slave_id. If the slave_class is [enum@SlaveClass:APPLICATION], the slave_id is for the PID of
 application process which owns the instance of timer. If the slave_class is
 [enum@SlaveClass:SEQUENCER], the slave_id is the numeric ID of queue bound for timer device.
 
 The call of function executes `ioctl(2)` system call with `SNDRV_TIMER_IOCTL_SELECT` command
 for ALSA timer character device.</doc>
-        <source-position filename="../src/timer/user-instance.h" line="57"/>
+        <source-position filename="../src/timer/user-instance.h" line="64"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/timer/user-instance.c"
+               line="342">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.c"
-                 line="296">A [class@UserInstance].</doc>
+                 line="329">A [class@UserInstance].</doc>
             <type name="UserInstance" c:type="ALSATimerUserInstance*"/>
           </instance-parameter>
           <parameter name="slave_class" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.c"
-                 line="297">The class identifier of master instance, one of [enum@SlaveClass].</doc>
+                 line="330">The class identifier of master instance, one of [enum@SlaveClass].</doc>
             <type name="SlaveClass" c:type="ALSATimerSlaveClass"/>
           </parameter>
           <parameter name="slave_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.c"
-                 line="298">The numeric identifier of master instance.</doc>
+                 line="331">The numeric identifier of master instance.</doc>
             <type name="gint" c:type="int"/>
           </parameter>
         </parameters>
       </method>
-      <method name="choose_event_data_type"
-              c:identifier="alsatimer_user_instance_choose_event_data_type"
+      <method name="choose_event_type"
+              c:identifier="alsatimer_user_instance_choose_event_type"
               throws="1">
         <doc xml:space="preserve"
              filename="../src/timer/user-instance.c"
-             line="222">Choose the type of event data to receive.
+             line="245">Choose the type of event data to receive.
 
-The call of function is successful just before the instance is not attached yet.
-[enum@EventDataType:TICK] is used as a default if the function is not called for
-[enum@EventDataType:TSTAMP] explicitly.
+The call of function is successful just before call of [method@UserInstance.attach].
+[enum@EventType].TICK_TIME is used as a default if the function is not called for
+[enum@EventType].REAL_TIME explicitly. When the former is configured, event for tick time is
+available for [signal@UserInstance::handle_tick_time_event]. When the latter is configured,
+event for real time is available for [signal@UserInstance::handle_real_time_event].
 
 The call of function executes `ioctl(2)` system call with `SNDRV_TIMER_IOCTL_TREAD` command
 for ALSA timer character device.</doc>
-        <source-position filename="../src/timer/user-instance.h" line="49"/>
+        <source-position filename="../src/timer/user-instance.h" line="57"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/timer/user-instance.c"
+               line="262">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.c"
-                 line="224">A [class@UserInstance].</doc>
+                 line="247">A [class@UserInstance].</doc>
             <type name="UserInstance" c:type="ALSATimerUserInstance*"/>
           </instance-parameter>
-          <parameter name="event_data_type" transfer-ownership="none">
+          <parameter name="event_type" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.c"
-                 line="225">The type of event data, one of [enum@EventDataType].</doc>
-            <type name="EventDataType" c:type="ALSATimerEventDataType"/>
+                 line="248">The type of event data, one of [enum@EventType].</doc>
+            <type name="EventType" c:type="ALSATimerEventType"/>
           </parameter>
         </parameters>
       </method>
@@ -1329,19 +1355,22 @@ for ALSA timer character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/timer/user-instance.c"
-             line="638">Continue timer event emission paused by [method@UserInstance.pause].
+             line="730">Continue timer event emission paused by [method@UserInstance.pause].
 
 The call of function executes `ioctl(2)` system call with `SNDRV_TIMER_IOCTL_CONTINUE` command
 for ALSA timer character device.</doc>
-        <source-position filename="../src/timer/user-instance.h" line="83"/>
+        <source-position filename="../src/timer/user-instance.h" line="90"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/timer/user-instance.c"
+               line="740">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.c"
-                 line="640">A [class@UserInstance].</doc>
+                 line="732">A [class@UserInstance].</doc>
             <type name="UserInstance" c:type="ALSATimerUserInstance*"/>
           </instance-parameter>
         </parameters>
@@ -1351,19 +1380,23 @@ for ALSA timer character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/timer/user-instance.c"
-             line="511">Allocate [struct@GLib.Source] structure to handle events from ALSA timer character device. In
+             line="583">Allocate [struct@GLib.Source] structure to handle events from ALSA timer character device. In
 each iteration of [struct@GLib.MainContext], the `read(2)` system call is executed to dispatch
-timer event for [signal@UserInstance::handle-event] signal, according to the result of `poll(2)`
+timer event for either [signal@UserInstance::handle-tick-time-event] or
+[signal@UserInstance::handle-real-time-event] signals, according to the result of `poll(2)`
 system call.</doc>
-        <source-position filename="../src/timer/user-instance.h" line="74"/>
+        <source-position filename="../src/timer/user-instance.h" line="81"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/timer/user-instance.c"
+               line="595">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.c"
-                 line="513">A [class@UserInstance].</doc>
+                 line="585">A [class@UserInstance].</doc>
             <type name="UserInstance" c:type="ALSATimerUserInstance*"/>
           </instance-parameter>
           <parameter name="gsrc"
@@ -1372,7 +1405,7 @@ system call.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.c"
-                 line="514">A [struct@GLib.Source] to handle events from ALSA timer character device.</doc>
+                 line="586">A [struct@GLib.Source] to handle events from ALSA timer character device.</doc>
             <type name="GLib.Source" c:type="GSource**"/>
           </parameter>
         </parameters>
@@ -1382,19 +1415,22 @@ system call.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/timer/user-instance.c"
-             line="329">Return the information of device if attached to the instance.
+             line="368">Return the information of device if attached to the instance.
 
 The call of function executes `ioctl(2)` system call with `SNDRV_TIMER_IOCTL_INFO` command for
 ALSA timer character device.</doc>
-        <source-position filename="../src/timer/user-instance.h" line="62"/>
+        <source-position filename="../src/timer/user-instance.h" line="69"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/timer/user-instance.c"
+               line="379">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.c"
-                 line="331">A [class@UserInstance].</doc>
+                 line="370">A [class@UserInstance].</doc>
             <type name="UserInstance" c:type="ALSATimerUserInstance*"/>
           </instance-parameter>
           <parameter name="instance_info"
@@ -1403,7 +1439,7 @@ ALSA timer character device.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.c"
-                 line="332">A [class@InstanceInfo].</doc>
+                 line="371">A [class@InstanceInfo].</doc>
             <type name="InstanceInfo" c:type="ALSATimerInstanceInfo**"/>
           </parameter>
         </parameters>
@@ -1413,18 +1449,21 @@ ALSA timer character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/timer/user-instance.c"
-             line="195">Get the version of timer protocol currently used. The version is represented as the array with
+             line="214">Get the version of timer protocol currently used. The version is expressed as the array with
 three elements; major, minor, and micro version in the order. The length of major version is
 16 bit, the length of minor and micro version is 8 bit each.</doc>
-        <source-position filename="../src/timer/user-instance.h" line="45"/>
+        <source-position filename="../src/timer/user-instance.h" line="53"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/timer/user-instance.c"
+               line="225">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.c"
-                 line="197">A [class@UserInstance].</doc>
+                 line="216">A [class@UserInstance].</doc>
             <type name="UserInstance" c:type="ALSATimerUserInstance*"/>
           </instance-parameter>
           <parameter name="proto_ver_triplet"
@@ -1433,7 +1472,7 @@ three elements; major, minor, and micro version in the order. The length of majo
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.c"
-                 line="198">The version of protocol currently
+                 line="217">The version of protocol currently
                     used.</doc>
             <array zero-terminated="0" c:type="const guint16**" fixed-size="3">
               <type name="guint16" c:type="guint16"/>
@@ -1446,19 +1485,22 @@ three elements; major, minor, and micro version in the order. The length of majo
               throws="1">
         <doc xml:space="preserve"
              filename="../src/timer/user-instance.c"
-             line="399">Get the latest status of instance.
+             line="448">Get the latest status of instance.
 
 The call of function executes `ioctl(2)` system call with `SNDRV_TIMER_IOCTL_STATUS` command
 for ALSA timer character device.</doc>
-        <source-position filename="../src/timer/user-instance.h" line="70"/>
+        <source-position filename="../src/timer/user-instance.h" line="77"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/timer/user-instance.c"
+               line="459">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.c"
-                 line="401">A [class@UserInstance].</doc>
+                 line="450">A [class@UserInstance].</doc>
             <type name="UserInstance" c:type="ALSATimerUserInstance*"/>
           </instance-parameter>
           <parameter name="instance_status"
@@ -1467,7 +1509,7 @@ for ALSA timer character device.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.c"
-                 line="402">A [class@InstanceStatus].</doc>
+                 line="451">A [class@InstanceStatus].</doc>
             <type name="InstanceStatus"
                   c:type="ALSATimerInstanceStatus* const*"/>
           </parameter>
@@ -1478,24 +1520,27 @@ for ALSA timer character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/timer/user-instance.c"
-             line="128">Open ALSA Timer character device to allocate queue.
+             line="145">Open ALSA Timer character device to allocate queue.
 
 The call of function executes `open(2)` system call for ALSA timer character device.</doc>
-        <source-position filename="../src/timer/user-instance.h" line="42"/>
+        <source-position filename="../src/timer/user-instance.h" line="51"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/timer/user-instance.c"
+               line="156">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.c"
-                 line="130">A [class@UserInstance].</doc>
+                 line="147">A [class@UserInstance].</doc>
             <type name="UserInstance" c:type="ALSATimerUserInstance*"/>
           </instance-parameter>
           <parameter name="open_flag" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.c"
-                 line="131">The flag of `open(2)` system call. `O_RDONLY` is forced to fulfil internally.</doc>
+                 line="148">The flag of `open(2)` system call. `O_RDONLY` is forced to fulfil internally.</doc>
             <type name="gint" c:type="gint"/>
           </parameter>
         </parameters>
@@ -1505,19 +1550,22 @@ The call of function executes `open(2)` system call for ALSA timer character dev
               throws="1">
         <doc xml:space="preserve"
              filename="../src/timer/user-instance.c"
-             line="611">Pause timer event emission.
+             line="698">Pause timer event emission.
 
 The call of function executes `ioctl(2)` system call with `SNDRV_TIMER_IOCTL_PAUSE` command
 for ALSA timer character device.</doc>
-        <source-position filename="../src/timer/user-instance.h" line="81"/>
+        <source-position filename="../src/timer/user-instance.h" line="88"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/timer/user-instance.c"
+               line="708">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.c"
-                 line="613">A [class@UserInstance].</doc>
+                 line="700">A [class@UserInstance].</doc>
             <type name="UserInstance" c:type="ALSATimerUserInstance*"/>
           </instance-parameter>
         </parameters>
@@ -1527,19 +1575,22 @@ for ALSA timer character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/timer/user-instance.c"
-             line="365">Configure the instance with the parameters and return the latest parameters.
+             line="409">Configure the instance with the parameters and return the latest parameters.
 
 The call of function executes `ioctl(2)` system call with `SNDRV_TIMER_IOCTL_PARAMS` command
 for ALSA timer character device.</doc>
-        <source-position filename="../src/timer/user-instance.h" line="66"/>
+        <source-position filename="../src/timer/user-instance.h" line="73"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/timer/user-instance.c"
+               line="420">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.c"
-                 line="367">A [class@UserInstance].</doc>
+                 line="411">A [class@UserInstance].</doc>
             <type name="UserInstance" c:type="ALSATimerUserInstance*"/>
           </instance-parameter>
           <parameter name="instance_params"
@@ -1548,7 +1599,7 @@ for ALSA timer character device.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.c"
-                 line="368">A [class@InstanceParams].</doc>
+                 line="412">A [class@InstanceParams].</doc>
             <type name="InstanceParams"
                   c:type="ALSATimerInstanceParams* const*"/>
           </parameter>
@@ -1559,19 +1610,22 @@ for ALSA timer character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/timer/user-instance.c"
-             line="557">Start timer event emission.
+             line="634">Start timer event emission.
 
 The call of function executes `ioctl(2)` system call with `SNDRV_TIMER_IOCTL_START` command
 for ALSA timer character device.</doc>
-        <source-position filename="../src/timer/user-instance.h" line="77"/>
+        <source-position filename="../src/timer/user-instance.h" line="84"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/timer/user-instance.c"
+               line="644">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.c"
-                 line="559">A [class@UserInstance].</doc>
+                 line="636">A [class@UserInstance].</doc>
             <type name="UserInstance" c:type="ALSATimerUserInstance*"/>
           </instance-parameter>
         </parameters>
@@ -1581,19 +1635,22 @@ for ALSA timer character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/timer/user-instance.c"
-             line="584">Stop timer event emission.
+             line="666">Stop timer event emission.
 
 The call of function executes `ioctl(2)` system call with `SNDRV_TIMER_IOCTL_STOP` command
 for ALSA timer character device.</doc>
-        <source-position filename="../src/timer/user-instance.h" line="79"/>
+        <source-position filename="../src/timer/user-instance.h" line="86"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/timer/user-instance.c"
+               line="676">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.c"
-                 line="586">A [class@UserInstance].</doc>
+                 line="668">A [class@UserInstance].</doc>
             <type name="UserInstance" c:type="ALSATimerUserInstance*"/>
           </instance-parameter>
         </parameters>
@@ -1604,17 +1661,17 @@ for ALSA timer character device.</doc>
       <glib:signal name="handle-disconnection" when="last">
         <doc xml:space="preserve"
              filename="../src/timer/user-instance.c"
-             line="102">Emitted when the attached timer device is not available anymore due to unbinding driver or
+             line="119">Emitted when the attached timer device is not available anymore due to unbinding driver or
 hot unplugging. The owner of this object should call [method@GObject.Object.unref] as quickly
 as possible to release ALSA timer character device.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
       </glib:signal>
-      <glib:signal name="handle-event" when="last">
+      <glib:signal name="handle-real-time-event" when="last">
         <doc xml:space="preserve"
              filename="../src/timer/user-instance.c"
-             line="86">Emitted when event occurs.</doc>
+             line="103">Emitted when event occurs to notify real time.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -1622,8 +1679,24 @@ as possible to release ALSA timer character device.</doc>
           <parameter name="event" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/timer/user-instance.c"
-                 line="89">The instance of [struct@Event].</doc>
-            <type name="Event"/>
+                 line="106">The instance of [struct@RealTimeEvent].</doc>
+            <type name="RealTimeEvent"/>
+          </parameter>
+        </parameters>
+      </glib:signal>
+      <glib:signal name="handle-tick-time-event" when="last">
+        <doc xml:space="preserve"
+             filename="../src/timer/user-instance.c"
+             line="87">Emitted when event occurs to notify tick time.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <parameter name="event" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/timer/user-instance.c"
+                 line="90">The instance of [struct@TickTimeEvent].</doc>
+            <type name="TickTimeEvent"/>
           </parameter>
         </parameters>
       </glib:signal>
@@ -1631,12 +1704,12 @@ as possible to release ALSA timer character device.</doc>
     <record name="UserInstanceClass"
             c:type="ALSATimerUserInstanceClass"
             glib:is-gtype-struct-for="UserInstance">
-      <source-position filename="../src/timer/user-instance.h" line="38"/>
+      <source-position filename="../src/timer/user-instance.h" line="47"/>
       <field name="parent_class">
         <type name="GObject.ObjectClass" c:type="GObjectClass"/>
       </field>
-      <field name="handle_event">
-        <callback name="handle_event">
+      <field name="handle_tick_time_event">
+        <callback name="handle_tick_time_event">
           <source-position filename="../src/timer/user-instance.h" line="28"/>
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -1651,15 +1724,16 @@ as possible to release ALSA timer character device.</doc>
             <parameter name="event" transfer-ownership="none">
               <doc xml:space="preserve"
                    filename="../src/timer/user-instance.h"
-                   line="24">An object derived from [struct@Event].</doc>
-              <type name="Event" c:type="const ALSATimerEvent*"/>
+                   line="24">An object derived from [struct@TickTimeEvent].</doc>
+              <type name="TickTimeEvent"
+                    c:type="const ALSATimerTickTimeEvent*"/>
             </parameter>
           </parameters>
         </callback>
       </field>
-      <field name="handle_disconnection">
-        <callback name="handle_disconnection">
-          <source-position filename="../src/timer/user-instance.h" line="37"/>
+      <field name="handle_real_time_event">
+        <callback name="handle_real_time_event">
+          <source-position filename="../src/timer/user-instance.h" line="38"/>
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
           </return-value>
@@ -1668,6 +1742,29 @@ as possible to release ALSA timer character device.</doc>
               <doc xml:space="preserve"
                    filename="../src/timer/user-instance.h"
                    line="33">A [class@UserInstance].</doc>
+              <type name="UserInstance" c:type="ALSATimerUserInstance*"/>
+            </parameter>
+            <parameter name="event" transfer-ownership="none">
+              <doc xml:space="preserve"
+                   filename="../src/timer/user-instance.h"
+                   line="34">An object derived from [struct@RealTimeEvent].</doc>
+              <type name="RealTimeEvent"
+                    c:type="const ALSATimerRealTimeEvent*"/>
+            </parameter>
+          </parameters>
+        </callback>
+      </field>
+      <field name="handle_disconnection">
+        <callback name="handle_disconnection">
+          <source-position filename="../src/timer/user-instance.h" line="46"/>
+          <return-value transfer-ownership="none">
+            <type name="none" c:type="void"/>
+          </return-value>
+          <parameters>
+            <parameter name="self" transfer-ownership="none">
+              <doc xml:space="preserve"
+                   filename="../src/timer/user-instance.h"
+                   line="42">A [class@UserInstance].</doc>
               <type name="UserInstance" c:type="ALSATimerUserInstance*"/>
             </parameter>
           </parameters>
@@ -1681,7 +1778,7 @@ as possible to release ALSA timer character device.</doc>
                  glib:error-domain="alsatimer-user-instance-error-quark">
       <doc xml:space="preserve"
            filename="../src/timer/alsatimer-enum-types.h"
-           line="124">A set of error code for [struct@GLib.Error] with `ALSATimer.UserInstanceError` domain.</doc>
+           line="126">A set of error code for [struct@GLib.Error] with `ALSATimer.UserInstanceError` domain.</doc>
       <member name="failed"
               value="0"
               c:identifier="ALSATIMER_USER_INSTANCE_ERROR_FAILED"
@@ -1689,7 +1786,7 @@ as possible to release ALSA timer character device.</doc>
               glib:name="ALSATIMER_USER_INSTANCE_ERROR_FAILED">
         <doc xml:space="preserve"
              filename="../src/timer/alsatimer-enum-types.h"
-             line="126">The system call failed.</doc>
+             line="128">The system call failed.</doc>
       </member>
       <member name="timer_not_found"
               value="1"
@@ -1698,7 +1795,7 @@ as possible to release ALSA timer character device.</doc>
               glib:name="ALSATIMER_USER_INSTANCE_ERROR_TIMER_NOT_FOUND">
         <doc xml:space="preserve"
              filename="../src/timer/alsatimer-enum-types.h"
-             line="127">The timer instance is not found.</doc>
+             line="129">The timer instance is not found.</doc>
       </member>
       <member name="not_attached"
               value="2"
@@ -1707,7 +1804,7 @@ as possible to release ALSA timer character device.</doc>
               glib:name="ALSATIMER_USER_INSTANCE_ERROR_NOT_ATTACHED">
         <doc xml:space="preserve"
              filename="../src/timer/alsatimer-enum-types.h"
-             line="128">The timer instance is not attached to any timer
+             line="130">The timer instance is not attached to any timer
                                                  device or the other instance.</doc>
       </member>
       <member name="attached"
@@ -1717,7 +1814,7 @@ as possible to release ALSA timer character device.</doc>
               glib:name="ALSATIMER_USER_INSTANCE_ERROR_ATTACHED">
         <doc xml:space="preserve"
              filename="../src/timer/alsatimer-enum-types.h"
-             line="130">The timer instance is already attached to timer
+             line="132">The timer instance is already attached to timer
                                                  device or the other instance.</doc>
       </member>
       <function name="quark"
@@ -1739,13 +1836,16 @@ enumerations.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/timer/query.c"
-           line="77">Get the list of existent timer device.
+           line="91">Get the list of existent timer device.
 
 The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call with
 `SNDRV_TIMER_IOCTL_NEXT_DEVICE` command for ALSA timer character device.</doc>
       <source-position filename="../src/timer/query.h" line="13"/>
       <return-value transfer-ownership="none">
-        <type name="none" c:type="void"/>
+        <doc xml:space="preserve"
+             filename="../src/timer/query.c"
+             line="101">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+        <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
         <parameter name="entries"
@@ -1754,7 +1854,7 @@ The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call 
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/timer/query.c"
-               line="79">The array with entries of [struct@DeviceId].</doc>
+               line="93">The array with entries of [struct@DeviceId].</doc>
           <type name="GLib.List" c:type="GList**">
             <type name="DeviceId"/>
           </type>
@@ -1766,19 +1866,22 @@ The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call 
               throws="1">
       <doc xml:space="preserve"
            filename="../src/timer/query.c"
-           line="118">Get the information of timer device.
+           line="138">Get the information of timer device.
 
 The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call with
 `SNDRV_TIMER_IOCTL_GINFO` command for ALSA timer character device.</doc>
       <source-position filename="../src/timer/query.h" line="15"/>
       <return-value transfer-ownership="none">
-        <type name="none" c:type="void"/>
+        <doc xml:space="preserve"
+             filename="../src/timer/query.c"
+             line="149">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+        <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
         <parameter name="device_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/timer/query.c"
-               line="120">A [struct@DeviceId] to identify the timer device.</doc>
+               line="140">A [struct@DeviceId] to identify the timer device.</doc>
           <type name="DeviceId" c:type="ALSATimerDeviceId*"/>
         </parameter>
         <parameter name="device_info"
@@ -1787,7 +1890,7 @@ The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call 
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/timer/query.c"
-               line="121">The information of timer device.</doc>
+               line="141">The information of timer device.</doc>
           <type name="DeviceInfo" c:type="ALSATimerDeviceInfo**"/>
         </parameter>
       </parameters>
@@ -1797,19 +1900,22 @@ The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call 
               throws="1">
       <doc xml:space="preserve"
            filename="../src/timer/query.c"
-           line="156">Get the status of timer device.
+           line="182">Get the status of timer device.
 
 The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call with
 `SNDRV_TIMER_IOCTL_GSTATUS` command for ALSA timer character device.</doc>
-      <source-position filename="../src/timer/query.h" line="19"/>
+      <source-position filename="../src/timer/query.h" line="18"/>
       <return-value transfer-ownership="none">
-        <type name="none" c:type="void"/>
+        <doc xml:space="preserve"
+             filename="../src/timer/query.c"
+             line="193">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+        <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
         <parameter name="device_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/timer/query.c"
-               line="158">A [struct@DeviceId] to identify the timer device.</doc>
+               line="184">A [struct@DeviceId] to identify the timer device.</doc>
           <type name="DeviceId" c:type="ALSATimerDeviceId*"/>
         </parameter>
         <parameter name="device_status"
@@ -1818,7 +1924,7 @@ The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call 
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/timer/query.c"
-               line="159">The status of timer device.</doc>
+               line="185">The status of timer device.</doc>
           <type name="DeviceStatus" c:type="ALSATimerDeviceStatus* const*"/>
         </parameter>
       </parameters>
@@ -1828,12 +1934,15 @@ The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call 
               throws="1">
       <doc xml:space="preserve"
            filename="../src/timer/query.c"
-           line="39">Allocate string of devnode for ALSA Timer and return it if exists.
+           line="45">Allocate string of devnode for ALSA Timer and return it if exists.
 
 Nodes under sound subsystem in sysfs are used to gather the information.</doc>
       <source-position filename="../src/timer/query.h" line="11"/>
       <return-value transfer-ownership="none">
-        <type name="none" c:type="void"/>
+        <doc xml:space="preserve"
+             filename="../src/timer/query.c"
+             line="54">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+        <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
         <parameter name="devnode"
@@ -1842,8 +1951,41 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/timer/query.c"
-               line="41">The string for devnode of ALSA Timer.</doc>
+               line="47">The string for devnode of ALSA Timer.</doc>
           <type name="utf8" c:type="char**"/>
+        </parameter>
+      </parameters>
+    </function>
+    <function name="get_real_time_clock_id"
+              c:identifier="alsatimer_get_real_time_clock_id"
+              throws="1">
+      <doc xml:space="preserve"
+           filename="../src/timer/query.c"
+           line="307">Get `clock_id` for real time. The `clock_id` governs real time retrieved by both
+[method@RealTimeEvent.get_time] and [method@InstanceStatus.get_time].
+
+The call of function is just to refer to parameter of `snd-timer` kernel module. `0` means
+`CLOCK_REALTIME` is used. `1` means `CLOCK_MONOTONIC` is used.
+
+The call of function executes `open(2)`, `read(2)`, `close(2)` system calls for the sysfs node
+corresponding to the parameter.</doc>
+      <source-position filename="../src/timer/query.h" line="24"/>
+      <return-value transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/timer/query.c"
+             line="322">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+        <type name="gboolean" c:type="gboolean"/>
+      </return-value>
+      <parameters>
+        <parameter name="clock_id"
+                   direction="out"
+                   caller-allocates="0"
+                   transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="../src/timer/query.c"
+               line="309">The clock_id for real time. The value of `CLOCK_XXX` in UAPI of Linux
+           kernel.</doc>
+          <type name="gint" c:type="int*"/>
         </parameter>
       </parameters>
     </function>
@@ -1857,7 +1999,10 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
 Nodes under sound subsystem in sysfs are used to gather the information.</doc>
       <source-position filename="../src/timer/query.h" line="9"/>
       <return-value transfer-ownership="none">
-        <type name="none" c:type="void"/>
+        <doc xml:space="preserve"
+             filename="../src/timer/query.c"
+             line="27">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+        <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
         <parameter name="sysname"
@@ -1871,60 +2016,33 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
         </parameter>
       </parameters>
     </function>
-    <function name="get_tstamp_source"
-              c:identifier="alsatimer_get_tstamp_source"
-              throws="1">
-      <doc xml:space="preserve"
-           filename="../src/timer/query.c"
-           line="261">Get the clock source for timestamp when [class@UserInstance] is configured to receive event
-with timestamp. The source is selected according to parameter of `snd-timer` kernel module,
-and the call of function is just to refer to it.
-
-`0` means `CLOCK_REALTIME` is used. `1` means `CLOCK_MONOTONIC` is used.
-
-The call of function executes `open(2)`, `read(2)`, `close(2)` system calls for the sysfs node
-corresponding to `snd-timer` kernel module.</doc>
-      <source-position filename="../src/timer/query.h" line="27"/>
-      <return-value transfer-ownership="none">
-        <type name="none" c:type="void"/>
-      </return-value>
-      <parameters>
-        <parameter name="clock_id"
-                   direction="out"
-                   caller-allocates="0"
-                   transfer-ownership="full">
-          <doc xml:space="preserve"
-               filename="../src/timer/query.c"
-               line="263">The clock source for timestamp. The value of `CLOCK_XXX` in UAPI of Linux
-           kernel.</doc>
-          <type name="gint" c:type="int*"/>
-        </parameter>
-      </parameters>
-    </function>
     <function name="set_device_params"
               c:identifier="alsatimer_set_device_params"
               throws="1">
       <doc xml:space="preserve"
            filename="../src/timer/query.c"
-           line="193">Set the given parameters to the timer indicated by the identifier.
+           line="225">Set the given parameters to the timer indicated by the identifier.
 
 The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call with
 `SNDRV_TIMER_IOCTL_GPARAMS` command for ALSA timer character device.</doc>
-      <source-position filename="../src/timer/query.h" line="23"/>
+      <source-position filename="../src/timer/query.h" line="21"/>
       <return-value transfer-ownership="none">
-        <type name="none" c:type="void"/>
+        <doc xml:space="preserve"
+             filename="../src/timer/query.c"
+             line="236">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+        <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
         <parameter name="device_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/timer/query.c"
-               line="195">A [struct@DeviceId] to identify the timer device.</doc>
+               line="227">A [struct@DeviceId] to identify the timer device.</doc>
           <type name="DeviceId" c:type="ALSATimerDeviceId*"/>
         </parameter>
         <parameter name="device_params" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/timer/query.c"
-               line="196">The parameters of timer device.</doc>
+               line="228">The parameters of timer device.</doc>
           <type name="DeviceParams" c:type="const ALSATimerDeviceParams*"/>
         </parameter>
       </parameters>

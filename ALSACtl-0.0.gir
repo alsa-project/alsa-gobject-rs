@@ -24,8 +24,8 @@ and/or use gtk-doc annotations.  -->
            glib:type-struct="CardClass">
       <doc xml:space="preserve"
            filename="../src/ctl/card.c"
-           line="14">An GObject-derived object to represent sound card.
-A [class@Card] is a GObject-derived object to represent sound card. Applications use the
+           line="14">An GObject-derived object to express sound card.
+A [class@Card] is a GObject-derived object to express sound card. Applications use the
 instance of object to manipulate functionalities on sound card. After the call of
 [method@Card.open] for the numeric ID of sound card, the object maintains file descriptor till
 object destruction.</doc>
@@ -33,12 +33,12 @@ object destruction.</doc>
       <constructor name="new" c:identifier="alsactl_card_new">
         <doc xml:space="preserve"
              filename="../src/ctl/card.c"
-             line="177">Allocate and return an instance of [class@Card].</doc>
+             line="187">Allocate and return an instance of [class@Card].</doc>
         <source-position filename="../src/ctl/card.h" line="40"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/ctl/card.c"
-               line="182">An instance of [class@Card].</doc>
+               line="192">An instance of [class@Card].</doc>
           <type name="Card" c:type="ALSACtlCard*"/>
         </return-value>
       </constructor>
@@ -93,38 +93,41 @@ object destruction.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/ctl/card.c"
-             line="813">Add the user-defined elements and return the list of their identifier.
+             line="936">Add the user-defined elements and return the list of their identifier.
 
 The call of function executes `ioctl(2)` system call with `SNDRV_CTL_IOCTL_ELEM_ADD` command
 for ALSA control character device.</doc>
-        <source-position filename="../src/ctl/card.h" line="73"/>
+        <source-position filename="../src/ctl/card.h" line="67"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/ctl/card.c"
+               line="950">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="815">A [class@Card].</doc>
+                 line="938">A [class@Card].</doc>
             <type name="Card" c:type="ALSACtlCard*"/>
           </instance-parameter>
           <parameter name="elem_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="816">A [struct@ElemId].</doc>
+                 line="939">A [struct@ElemId].</doc>
             <type name="ElemId" c:type="const ALSACtlElemId*"/>
           </parameter>
           <parameter name="elem_count" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="817">The number of elements going to be added.</doc>
+                 line="940">The number of elements going to be added.</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
           <parameter name="elem_info" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="818">A [class@ElemInfo].</doc>
-            <type name="ElemInfo" c:type="ALSACtlElemInfo*"/>
+                 line="941">An instance of object which implements [iface@ElemInfoCommon].</doc>
+            <type name="ElemInfoCommon" c:type="ALSACtlElemInfoCommon*"/>
           </parameter>
           <parameter name="entries"
                      direction="out"
@@ -132,7 +135,7 @@ for ALSA control character device.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="819">The list of added element identifiers.</doc>
+                 line="942">The list of added element identifiers.</doc>
             <type name="GLib.List" c:type="GList**">
               <type name="ElemId"/>
             </type>
@@ -144,25 +147,28 @@ for ALSA control character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/ctl/card.c"
-             line="654">Command the given array of bytes as Type/Length/Value data for element pointed by the identifier.
+             line="723">Command the given array of bytes as Type/Length/Value data for element pointed by the identifier.
 
 The call of function executes `ioctl(2)` system call with `SNDRV_CTL_IOCTL_TLV_COMMAND` command
 for ALSA control character device.</doc>
-        <source-position filename="../src/ctl/card.h" line="68"/>
+        <source-position filename="../src/ctl/card.h" line="63"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/ctl/card.c"
+               line="737">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="656">A [class@Card].</doc>
+                 line="725">A [class@Card].</doc>
             <type name="Card" c:type="ALSACtlCard*"/>
           </instance-parameter>
           <parameter name="elem_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="657">A [struct@ElemId].</doc>
+                 line="726">A [struct@ElemId].</doc>
             <type name="ElemId" c:type="const ALSACtlElemId*"/>
           </parameter>
           <parameter name="container"
@@ -171,7 +177,7 @@ for ALSA control character device.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="658">The array with qudalets for Type-Length-Value
+                 line="727">The array with qudalets for Type-Length-Value
             data.</doc>
             <array length="2" zero-terminated="0" c:type="guint32* const*">
               <type name="guint32" c:type="guint32*"/>
@@ -183,7 +189,7 @@ for ALSA control character device.</doc>
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="660">The number of quadlets in the container.</doc>
+                 line="729">The number of quadlets in the container.</doc>
             <type name="gsize" c:type="gsize*"/>
           </parameter>
         </parameters>
@@ -193,19 +199,22 @@ for ALSA control character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/ctl/card.c"
-             line="1080">Allocate [struct@GLib.Source] structure to handle events from ALSA control character device. In
+             line="1214">Allocate [struct@GLib.Source] structure to handle events from ALSA control character device. In
 each iteration of [struct@GLib.MainContext], the `read(2)` system call is executed to dispatch
 control event for [signal@Card::handle-elem-event] signal, according to the result of `poll(2)`
 system call.</doc>
-        <source-position filename="../src/ctl/card.h" line="91"/>
+        <source-position filename="../src/ctl/card.h" line="78"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/ctl/card.c"
+               line="1225">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="1082">A [class@Card].</doc>
+                 line="1216">A [class@Card].</doc>
             <type name="Card" c:type="ALSACtlCard*"/>
           </instance-parameter>
           <parameter name="gsrc"
@@ -214,7 +223,7 @@ system call.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="1083">A [struct@GLib.Source] to handle events from ALSA control character device.</doc>
+                 line="1217">A [struct@GLib.Source] to handle events from ALSA control character device.</doc>
             <type name="GLib.Source" c:type="GSource**"/>
           </parameter>
         </parameters>
@@ -224,20 +233,23 @@ system call.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/ctl/card.c"
-             line="366">Generate a list of [struct@ElemId] for ALSA control character device associated to the sound
+             line="389">Generate a list of [struct@ElemId] for ALSA control character device associated to the sound
 card.
 
 The call of function executes several `ioctl(2)` system call with `SNDRV_CTL_IOCTL_ELEM_LIST`
 command for ALSA control character device.</doc>
-        <source-position filename="../src/ctl/card.h" line="52"/>
+        <source-position filename="../src/ctl/card.h" line="49"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/ctl/card.c"
+               line="401">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="368">A [class@Card].</doc>
+                 line="391">A [class@Card].</doc>
             <type name="Card" c:type="ALSACtlCard*"/>
           </instance-parameter>
           <parameter name="entries"
@@ -246,7 +258,7 @@ command for ALSA control character device.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="369">The list of entries for [struct@ElemId].</doc>
+                 line="392">The list of entries for [struct@ElemId].</doc>
             <type name="GLib.List" c:type="GList**">
               <type name="ElemId"/>
             </type>
@@ -258,26 +270,29 @@ command for ALSA control character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/ctl/card.c"
-             line="479">Get information of element corresponding to given id.
+             line="509">Get information of element corresponding to given id.
 
 The call of function executes `ioctl(2)` system call with `SNDRV_CTL_IOCTL_ELEM_INFO` command
 for ALSA control character device. For enumerated element, it executes the system call for
 several times to retrieve all of enumeration labels.</doc>
-        <source-position filename="../src/ctl/card.h" line="58"/>
+        <source-position filename="../src/ctl/card.h" line="54"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/ctl/card.c"
+               line="522">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="481">A [class@Card].</doc>
+                 line="511">A [class@Card].</doc>
             <type name="Card" c:type="ALSACtlCard*"/>
           </instance-parameter>
           <parameter name="elem_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="482">A [struct@ElemId].</doc>
+                 line="512">A [struct@ElemId].</doc>
             <type name="ElemId" c:type="const ALSACtlElemId*"/>
           </parameter>
           <parameter name="elem_info"
@@ -286,27 +301,30 @@ several times to retrieve all of enumeration labels.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="483">A [class@ElemInfo].</doc>
-            <type name="ElemInfo" c:type="ALSACtlElemInfo**"/>
+                 line="513">An instance of object which implements [iface@ElemInfoCommon].</doc>
+            <type name="ElemInfoCommon" c:type="ALSACtlElemInfoCommon**"/>
           </parameter>
         </parameters>
       </method>
       <method name="get_info" c:identifier="alsactl_card_get_info" throws="1">
         <doc xml:space="preserve"
              filename="../src/ctl/card.c"
-             line="278">Get the information of sound card.
+             line="295">Get the information of sound card.
 
 The call of function executes `ioctl(2)` system call with `SNDRV_CTL_IOCTL_CARD_INFO` command
 for ALSA control character device.</doc>
-        <source-position filename="../src/ctl/card.h" line="49"/>
+        <source-position filename="../src/ctl/card.h" line="47"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/ctl/card.c"
+               line="306">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="280">A [class@Card].</doc>
+                 line="297">A [class@Card].</doc>
             <type name="Card" c:type="ALSACtlCard*"/>
           </instance-parameter>
           <parameter name="card_info"
@@ -315,7 +333,7 @@ for ALSA control character device.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="281">A [class@Card]Info for the sound card.</doc>
+                 line="298">A [class@Card]Info for the sound card.</doc>
             <type name="CardInfo" c:type="ALSACtlCardInfo**"/>
           </parameter>
         </parameters>
@@ -325,18 +343,21 @@ for ALSA control character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/ctl/card.c"
-             line="252">Get the version of control protocol currently used. The version is represented as the array with
+             line="265">Get the version of control protocol currently used. The version is expressed as the array with
 three elements; major, minor, and micro version in the order. The length of major version is
 16 bit, the length of minor and micro version is 8 bit each.</doc>
-        <source-position filename="../src/ctl/card.h" line="45"/>
+        <source-position filename="../src/ctl/card.h" line="44"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/ctl/card.c"
+               line="276">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="254">A [class@Card].</doc>
+                 line="267">A [class@Card].</doc>
             <type name="Card" c:type="ALSACtlCard*"/>
           </instance-parameter>
           <parameter name="proto_ver_triplet"
@@ -345,7 +366,7 @@ three elements; major, minor, and micro version in the order. The length of majo
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="255">The version of protocol currently
+                 line="268">The version of protocol currently
                     used.</doc>
             <array zero-terminated="0" c:type="const guint16**" fixed-size="3">
               <type name="guint16" c:type="guint16"/>
@@ -358,31 +379,34 @@ three elements; major, minor, and micro version in the order. The length of majo
               throws="1">
         <doc xml:space="preserve"
              filename="../src/ctl/card.c"
-             line="404">Lock/Unlock indicated element not to be written by the other processes.
+             line="429">Lock/Unlock indicated element not to be written by the other processes.
 
 The call of function executes `ioctl(2)` system call with `SNDRV_CTL_IOCTL_ELEM_LOCK` and
 `SNDRV_CTL_IOCTL_ELEM_UNLOCK` commands for ALSA control character device.</doc>
-        <source-position filename="../src/ctl/card.h" line="55"/>
+        <source-position filename="../src/ctl/card.h" line="51"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/ctl/card.c"
+               line="441">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="406">A [class@Card].</doc>
+                 line="431">A [class@Card].</doc>
             <type name="Card" c:type="ALSACtlCard*"/>
           </instance-parameter>
           <parameter name="elem_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="407">A [struct@ElemId].</doc>
+                 line="432">A [struct@ElemId].</doc>
             <type name="ElemId" c:type="const ALSACtlElemId*"/>
           </parameter>
           <parameter name="lock" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="408">whether to lock or unlock the element.</doc>
+                 line="433">whether to lock or unlock the element.</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
         </parameters>
@@ -390,30 +414,33 @@ The call of function executes `ioctl(2)` system call with `SNDRV_CTL_IOCTL_ELEM_
       <method name="open" c:identifier="alsactl_card_open" throws="1">
         <doc xml:space="preserve"
              filename="../src/ctl/card.c"
-             line="189">Open ALSA control character device for the sound card.
+             line="199">Open ALSA control character device for the sound card.
 
 The call of function executes `open(2)` system call for ALSA control character device.</doc>
         <source-position filename="../src/ctl/card.h" line="42"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/ctl/card.c"
+               line="211">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="191">A [class@Card].</doc>
+                 line="201">A [class@Card].</doc>
             <type name="Card" c:type="ALSACtlCard*"/>
           </instance-parameter>
           <parameter name="card_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="192">The numeric ID of sound card.</doc>
+                 line="202">The numeric ID of sound card.</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
           <parameter name="open_flag" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="193">The flag of `open(2)` system call. O_RDONLY is forced to fulfil internally.</doc>
+                 line="203">The flag of `open(2)` system call. O_RDONLY is forced to fulfil internally.</doc>
             <type name="gint" c:type="gint"/>
           </parameter>
         </parameters>
@@ -423,26 +450,29 @@ The call of function executes `open(2)` system call for ALSA control character d
               throws="1">
         <doc xml:space="preserve"
              filename="../src/ctl/card.c"
-             line="601">Read Type/Length/Value data from element pointed by the identifier and fulfil the given array of
+             line="665">Read Type/Length/Value data from element pointed by the identifier and fulfil the given array of
 bytes with the data.
 
 The call of function executes `ioctl(2)` system call with `SNDRV_CTL_IOCTL_TLV_READ` command for
 ALSA control character device.</doc>
-        <source-position filename="../src/ctl/card.h" line="65"/>
+        <source-position filename="../src/ctl/card.h" line="60"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/ctl/card.c"
+               line="680">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="603">A [class@Card].</doc>
+                 line="667">A [class@Card].</doc>
             <type name="Card" c:type="ALSACtlCard*"/>
           </instance-parameter>
           <parameter name="elem_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="604">A [struct@ElemId].</doc>
+                 line="668">A [struct@ElemId].</doc>
             <type name="ElemId" c:type="const ALSACtlElemId*"/>
           </parameter>
           <parameter name="container"
@@ -451,7 +481,7 @@ ALSA control character device.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="605">The array with qudalets for Type-Length-Value
+                 line="669">The array with qudalets for Type-Length-Value
             data.</doc>
             <array length="2" zero-terminated="0" c:type="guint32* const*">
               <type name="guint32" c:type="guint32*"/>
@@ -463,7 +493,7 @@ ALSA control character device.</doc>
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="607">The number of quadlets in the container.</doc>
+                 line="671">The number of quadlets in the container.</doc>
             <type name="gsize" c:type="gsize*"/>
           </parameter>
         </parameters>
@@ -473,25 +503,28 @@ ALSA control character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/ctl/card.c"
-             line="953">Read given value from element indicated by the given identifier.
+             line="1084">Read given value from element indicated by the given identifier.
 
 The call of function executes `ioctl(2)` system call with `SNDRV_CTL_IOCTL_ELEM_READ` command
 for ALSA control character device.</doc>
-        <source-position filename="../src/ctl/card.h" line="86"/>
+        <source-position filename="../src/ctl/card.h" line="75"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/ctl/card.c"
+               line="1096">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="955">A [class@Card].</doc>
+                 line="1086">A [class@Card].</doc>
             <type name="Card" c:type="ALSACtlCard*"/>
           </instance-parameter>
           <parameter name="elem_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="956">A [struct@ElemId].</doc>
+                 line="1087">A [struct@ElemId].</doc>
             <type name="ElemId" c:type="const ALSACtlElemId*"/>
           </parameter>
           <parameter name="elem_value"
@@ -500,7 +533,7 @@ for ALSA control character device.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="957">A derivative of #ALSACtlElemValue.</doc>
+                 line="1088">A derivative of #ALSACtlElemValue.</doc>
             <type name="ElemValue" c:type="ALSACtlElemValue* const*"/>
           </parameter>
         </parameters>
@@ -510,25 +543,28 @@ for ALSA control character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/ctl/card.c"
-             line="877">Remove user-defined elements pointed by the identifier.
+             line="1001">Remove user-defined elements pointed by the identifier.
 
 The call of function executes `ioctl(2)` system call with `SNDRV_CTL_IOCTL_ELEM_REMOVE` command
 for ALSA control character device.</doc>
-        <source-position filename="../src/ctl/card.h" line="79"/>
+        <source-position filename="../src/ctl/card.h" line="71"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/ctl/card.c"
+               line="1012">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="879">A [class@Card].</doc>
+                 line="1003">A [class@Card].</doc>
             <type name="Card" c:type="ALSACtlCard*"/>
           </instance-parameter>
           <parameter name="elem_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="880">A [struct@ElemId].</doc>
+                 line="1004">A [struct@ElemId].</doc>
             <type name="ElemId" c:type="const ALSACtlElemId*"/>
           </parameter>
         </parameters>
@@ -538,38 +574,41 @@ for ALSA control character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/ctl/card.c"
-             line="845">Add user-defined elements to replace the existent ones.
+             line="968">Add user-defined elements to replace the existent ones.
 
 The call of function executes `ioctl(2)` system call with `SNDRV_CTL_IOCTL_ELEM_REPLACE` command
 for ALSA control character device.</doc>
-        <source-position filename="../src/ctl/card.h" line="76"/>
+        <source-position filename="../src/ctl/card.h" line="69"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/ctl/card.c"
+               line="982">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="847">A [class@Card].</doc>
+                 line="970">A [class@Card].</doc>
             <type name="Card" c:type="ALSACtlCard*"/>
           </instance-parameter>
           <parameter name="elem_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="848">A [struct@ElemId].</doc>
+                 line="971">A [struct@ElemId].</doc>
             <type name="ElemId" c:type="const ALSACtlElemId*"/>
           </parameter>
           <parameter name="elem_count" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="849">The number of elements going to be added.</doc>
+                 line="972">The number of elements going to be added.</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
           <parameter name="elem_info" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="850">A [class@ElemInfo].</doc>
-            <type name="ElemInfo" c:type="ALSACtlElemInfo*"/>
+                 line="973">An instance of object which implements [iface@ElemInfoCommon].</doc>
+            <type name="ElemInfoCommon" c:type="ALSACtlElemInfoCommon*"/>
           </parameter>
           <parameter name="entries"
                      direction="out"
@@ -577,7 +616,7 @@ for ALSA control character device.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="851">The list of renewed element identifiers.</doc>
+                 line="974">The list of renewed element identifiers.</doc>
             <type name="GLib.List" c:type="GList**">
               <type name="ElemId"/>
             </type>
@@ -589,31 +628,34 @@ for ALSA control character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/ctl/card.c"
-             line="550">Write the given array of bytes as Type/Length/Value data for element pointed by the identifier.
+             line="609">Write the given array of bytes as Type/Length/Value data for element pointed by the identifier.
 
 The call of function executes `ioctl(2)` system call with `SNDRV_CTL_IOCTL_TLV_WRITE` command
 for ALSA control character device.</doc>
-        <source-position filename="../src/ctl/card.h" line="61"/>
+        <source-position filename="../src/ctl/card.h" line="57"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/ctl/card.c"
+               line="622">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="552">A [class@Card].</doc>
+                 line="611">A [class@Card].</doc>
             <type name="Card" c:type="ALSACtlCard*"/>
           </instance-parameter>
           <parameter name="elem_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="553">A [struct@ElemId].</doc>
+                 line="612">A [struct@ElemId].</doc>
             <type name="ElemId" c:type="const ALSACtlElemId*"/>
           </parameter>
           <parameter name="container" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="554">The array with qudalets for Type-Length-Value data.</doc>
+                 line="613">The array with qudalets for Type-Length-Value data.</doc>
             <array length="2" zero-terminated="0" c:type="const guint32*">
               <type name="guint32" c:type="guint32"/>
             </array>
@@ -621,7 +663,7 @@ for ALSA control character device.</doc>
           <parameter name="container_count" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="555">The number of quadlets in the container.</doc>
+                 line="614">The number of quadlets in the container.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
         </parameters>
@@ -631,39 +673,48 @@ for ALSA control character device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/ctl/card.c"
-             line="911">Write given value to element indicated by the given identifier.
+             line="1039">Write given value to element indicated by the given identifier.
 
 The call of function executes `ioctl(2)` system call with `SNDRV_CTL_IOCTL_ELEM_WRITE` command
 for ALSA control character device.</doc>
-        <source-position filename="../src/ctl/card.h" line="82"/>
+        <source-position filename="../src/ctl/card.h" line="73"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="../src/ctl/card.c"
+               line="1051">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="913">A [class@Card].</doc>
+                 line="1041">A [class@Card].</doc>
             <type name="Card" c:type="ALSACtlCard*"/>
           </instance-parameter>
           <parameter name="elem_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="914">A [struct@ElemId].</doc>
+                 line="1042">A [struct@ElemId].</doc>
             <type name="ElemId" c:type="const ALSACtlElemId*"/>
           </parameter>
           <parameter name="elem_value" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="915">A derivative of #ALSACtlElemValue.</doc>
+                 line="1043">A derivative of #ALSACtlElemValue.</doc>
             <type name="ElemValue" c:type="const ALSACtlElemValue*"/>
           </parameter>
         </parameters>
       </method>
       <property name="devnode" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/ctl/card.c"
+             line="119">The full path to special file of control character device.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="subscribed" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/ctl/card.c"
+             line="130">Whether to be subscribed for event.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
       <field name="parent_instance">
@@ -672,7 +723,7 @@ for ALSA control character device.</doc>
       <glib:signal name="handle-disconnection" when="last">
         <doc xml:space="preserve"
              filename="../src/ctl/card.c"
-             line="152">Emitted when the sound card is not available anymore due to unbinding driver or hot
+             line="162">Emitted when the sound card is not available anymore due to unbinding driver or hot
 unplugging. The owner of this object should call [method@GObject.Object.unref] as quickly
 as possible to be going to release ALSA control character device.</doc>
         <return-value transfer-ownership="none">
@@ -682,7 +733,7 @@ as possible to be going to release ALSA control character device.</doc>
       <glib:signal name="handle-elem-event" when="last">
         <doc xml:space="preserve"
              filename="../src/ctl/card.c"
-             line="134">Emitted when event occurs for any element.</doc>
+             line="144">Emitted when event occurs for any element.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -690,13 +741,13 @@ as possible to be going to release ALSA control character device.</doc>
           <parameter name="elem_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="137">A [struct@ElemId].</doc>
+                 line="147">A [struct@ElemId].</doc>
             <type name="ElemId"/>
           </parameter>
           <parameter name="events" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/card.c"
-                 line="138">A set of [flags@ElemEventMask].</doc>
+                 line="148">A set of [flags@ElemEventMask].</doc>
             <type name="ElemEventMask"/>
           </parameter>
         </parameters>
@@ -761,7 +812,7 @@ as possible to be going to release ALSA control character device.</doc>
                  glib:error-domain="alsactl-card-error-quark">
       <doc xml:space="preserve"
            filename="../src/ctl/alsactl-enum-types.h"
-           line="110">A set of error code for [struct@GLib.Error] with `ALSACtl.CardError` domain.</doc>
+           line="112">A set of error code for [struct@GLib.Error] with `ALSACtl.CardError` domain.</doc>
       <member name="failed"
               value="0"
               c:identifier="ALSACTL_CARD_ERROR_FAILED"
@@ -769,7 +820,7 @@ as possible to be going to release ALSA control character device.</doc>
               glib:name="ALSACTL_CARD_ERROR_FAILED">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="112">The system call failed.</doc>
+             line="114">The system call failed.</doc>
       </member>
       <member name="disconnected"
               value="1"
@@ -778,7 +829,7 @@ as possible to be going to release ALSA control character device.</doc>
               glib:name="ALSACTL_CARD_ERROR_DISCONNECTED">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="113">The card associated to the instance is in disconnect state.</doc>
+             line="115">The card associated to the instance is in disconnect state.</doc>
       </member>
       <member name="elem_not_found"
               value="2"
@@ -787,7 +838,7 @@ as possible to be going to release ALSA control character device.</doc>
               glib:name="ALSACTL_CARD_ERROR_ELEM_NOT_FOUND">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="114">The control element not found in the card.</doc>
+             line="116">The control element not found in the card.</doc>
       </member>
       <member name="elem_not_supported"
               value="3"
@@ -796,7 +847,7 @@ as possible to be going to release ALSA control character device.</doc>
               glib:name="ALSACTL_CARD_ERROR_ELEM_NOT_SUPPORTED">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="115">The operation is not supported by the control element.</doc>
+             line="117">The operation is not supported by the control element.</doc>
       </member>
       <member name="elem_owned"
               value="4"
@@ -805,7 +856,7 @@ as possible to be going to release ALSA control character device.</doc>
               glib:name="ALSACTL_CARD_ERROR_ELEM_OWNED">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="116">The control element is owned by the other process.</doc>
+             line="118">The control element is owned by the other process.</doc>
       </member>
       <member name="elem_exist"
               value="5"
@@ -814,7 +865,7 @@ as possible to be going to release ALSA control character device.</doc>
               glib:name="ALSACTL_CARD_ERROR_ELEM_EXIST">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="117">The control element already exists.</doc>
+             line="119">The control element already exists.</doc>
       </member>
       <function name="quark" c:identifier="alsactl_card_error_quark">
         <doc xml:space="preserve"
@@ -837,31 +888,52 @@ as possible to be going to release ALSA control character device.</doc>
            glib:type-struct="CardInfoClass">
       <doc xml:space="preserve"
            filename="../src/ctl/card-info.c"
-           line="4">A GObject-derived object to represent information of sound card.
+           line="4">A GObject-derived object to express information of sound card.
 A [class@CardInfo] is information of sound card. The call of [method@Card.get_info] returns an
 instance of the object.
 
 The object wraps `struct snd_ctl_card_info` in UAPI of Linux sound subsystem.</doc>
       <source-position filename="../src/ctl/card-info.h" line="15"/>
       <property name="card-id" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/ctl/card-info.c"
+             line="70">The numeric ID of sound card.</doc>
         <type name="gint" c:type="gint"/>
       </property>
       <property name="components" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/ctl/card-info.c"
+             line="137">The The string with space-separated components for the sound card.,</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="driver" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/ctl/card-info.c"
+             line="93">The name of driver bound to the sound card.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="id" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/ctl/card-info.c"
+             line="82">The string ID of sound card.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="long-name" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/ctl/card-info.c"
+             line="115">The long name of sound card.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="mixer-name" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/ctl/card-info.c"
+             line="126">The name of mixer for the sound card.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="name" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/ctl/card-info.c"
+             line="104">The name of sound card.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <field name="parent_instance">
@@ -882,7 +954,7 @@ The object wraps `struct snd_ctl_card_info` in UAPI of Linux sound subsystem.</d
               c:type="ALSACtlElemAccessFlag">
       <doc xml:space="preserve"
            filename="../src/ctl/alsactl-enum-types.h"
-           line="49">A set of flags for access information of the element.</doc>
+           line="51">A set of flags for access information of the element.</doc>
       <member name="read"
               value="1"
               c:identifier="ALSACTL_ELEM_ACCESS_FLAG_READ"
@@ -890,7 +962,7 @@ The object wraps `struct snd_ctl_card_info` in UAPI of Linux sound subsystem.</d
               glib:name="ALSACTL_ELEM_ACCESS_FLAG_READ">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="51">The element supports operation to get its values.</doc>
+             line="53">The element supports operation to get its values.</doc>
       </member>
       <member name="write"
               value="2"
@@ -899,7 +971,7 @@ The object wraps `struct snd_ctl_card_info` in UAPI of Linux sound subsystem.</d
               glib:name="ALSACTL_ELEM_ACCESS_FLAG_WRITE">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="52">The element supports operation to change its values.</doc>
+             line="54">The element supports operation to change its values.</doc>
       </member>
       <member name="volatile"
               value="4"
@@ -908,7 +980,7 @@ The object wraps `struct snd_ctl_card_info` in UAPI of Linux sound subsystem.</d
               glib:name="ALSACTL_ELEM_ACCESS_FLAG_VOLATILE">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="53">The state of element is mutable independent of operating system.</doc>
+             line="55">The state of element is mutable independent of operating system.</doc>
       </member>
       <member name="tlv_read"
               value="16"
@@ -917,7 +989,7 @@ The object wraps `struct snd_ctl_card_info` in UAPI of Linux sound subsystem.</d
               glib:name="ALSACTL_ELEM_ACCESS_FLAG_TLV_READ">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="54">The element supports operation to get Type-Length-Value data.</doc>
+             line="56">The element supports operation to get Type-Length-Value data.</doc>
       </member>
       <member name="tlv_write"
               value="32"
@@ -926,7 +998,7 @@ The object wraps `struct snd_ctl_card_info` in UAPI of Linux sound subsystem.</d
               glib:name="ALSACTL_ELEM_ACCESS_FLAG_TLV_WRITE">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="55">The element supports operation to change Type-Length-Value data.</doc>
+             line="57">The element supports operation to change Type-Length-Value data.</doc>
       </member>
       <member name="tlv_command"
               value="64"
@@ -935,7 +1007,7 @@ The object wraps `struct snd_ctl_card_info` in UAPI of Linux sound subsystem.</d
               glib:name="ALSACTL_ELEM_ACCESS_FLAG_TLV_COMMAND">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="56">The element supports operation to use Type-Length-Value data as any command.</doc>
+             line="58">The element supports operation to use Type-Length-Value data as any command.</doc>
       </member>
       <member name="inactive"
               value="256"
@@ -944,7 +1016,7 @@ The object wraps `struct snd_ctl_card_info` in UAPI of Linux sound subsystem.</d
               glib:name="ALSACTL_ELEM_ACCESS_FLAG_INACTIVE">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="57">The element is not activated yet.</doc>
+             line="59">The element is not activated yet.</doc>
       </member>
       <member name="lock"
               value="512"
@@ -953,7 +1025,7 @@ The object wraps `struct snd_ctl_card_info` in UAPI of Linux sound subsystem.</d
               glib:name="ALSACTL_ELEM_ACCESS_FLAG_LOCK">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="58">The element is under locked state from any write operation.</doc>
+             line="60">The element is under locked state from any write operation.</doc>
       </member>
       <member name="owner"
               value="1024"
@@ -962,7 +1034,7 @@ The object wraps `struct snd_ctl_card_info` in UAPI of Linux sound subsystem.</d
               glib:name="ALSACTL_ELEM_ACCESS_FLAG_OWNER">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="59">The element is owned by the process.</doc>
+             line="61">The element is owned by the process.</doc>
       </member>
       <member name="tlv_callback"
               value="268435456"
@@ -971,7 +1043,7 @@ The object wraps `struct snd_ctl_card_info` in UAPI of Linux sound subsystem.</d
               glib:name="ALSACTL_ELEM_ACCESS_FLAG_TLV_CALLBACK">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="60">The element supports specific operation to process Type-Length-Value data.</doc>
+             line="62">The element supports specific operation to process Type-Length-Value data.</doc>
       </member>
       <member name="user"
               value="536870912"
@@ -980,7 +1052,7 @@ The object wraps `struct snd_ctl_card_info` in UAPI of Linux sound subsystem.</d
               glib:name="ALSACTL_ELEM_ACCESS_FLAG_USER">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="61">The element is maintained by any user application, instead of kernel driver.</doc>
+             line="63">The element is maintained by any user application, instead of kernel driver.</doc>
       </member>
     </bitfield>
     <bitfield name="ElemEventMask"
@@ -989,7 +1061,7 @@ The object wraps `struct snd_ctl_card_info` in UAPI of Linux sound subsystem.</d
               c:type="ALSACtlElemEventMask">
       <doc xml:space="preserve"
            filename="../src/ctl/alsactl-enum-types.h"
-           line="91">A set of flags for the content of event for the element.</doc>
+           line="93">A set of flags for the content of event for the element.</doc>
       <member name="value"
               value="1"
               c:identifier="ALSACTL_ELEM_EVENT_MASK_VALUE"
@@ -997,7 +1069,7 @@ The object wraps `struct snd_ctl_card_info` in UAPI of Linux sound subsystem.</d
               glib:name="ALSACTL_ELEM_EVENT_MASK_VALUE">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="93">The event notifies any change of value for the element.</doc>
+             line="95">The event notifies any change of value for the element.</doc>
       </member>
       <member name="info"
               value="2"
@@ -1006,7 +1078,7 @@ The object wraps `struct snd_ctl_card_info` in UAPI of Linux sound subsystem.</d
               glib:name="ALSACTL_ELEM_EVENT_MASK_INFO">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="94">The event notifies any change of information for the element.</doc>
+             line="96">The event notifies any change of information for the element.</doc>
       </member>
       <member name="add"
               value="4"
@@ -1015,7 +1087,7 @@ The object wraps `struct snd_ctl_card_info` in UAPI of Linux sound subsystem.</d
               glib:name="ALSACTL_ELEM_EVENT_MASK_ADD">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="95">The element notifies addition of the element.</doc>
+             line="97">The element notifies addition of the element.</doc>
       </member>
       <member name="tlv"
               value="8"
@@ -1024,7 +1096,7 @@ The object wraps `struct snd_ctl_card_info` in UAPI of Linux sound subsystem.</d
               glib:name="ALSACTL_ELEM_EVENT_MASK_TLV">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="96">The element notifies any change of Type-Length-Value data for the element.</doc>
+             line="98">The element notifies any change of Type-Length-Value data for the element.</doc>
       </member>
       <member name="remove"
               value="16"
@@ -1033,7 +1105,7 @@ The object wraps `struct snd_ctl_card_info` in UAPI of Linux sound subsystem.</d
               glib:name="ALSACTL_ELEM_EVENT_MASK_REMOVE">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="97">The element notifies removal of the element.</doc>
+             line="99">The element notifies removal of the element.</doc>
       </member>
     </bitfield>
     <record name="ElemId"
@@ -1043,8 +1115,8 @@ The object wraps `struct snd_ctl_card_info` in UAPI of Linux sound subsystem.</d
             c:symbol-prefix="elem_id">
       <doc xml:space="preserve"
            filename="../src/ctl/elem-id.c"
-           line="4">A boxed object to represent the identifier of element.
-A [struct@ElemId] is a boxed object to represent the identifier of element. It points to a
+           line="4">A boxed object to express the identifier of element.
+A [struct@ElemId] is a boxed object to express the identifier of element. It points to a
 element by two ways; by the numeric identifier, or by the combination of the type of interface,
 the numeric identifier of device, the numeric identifier of subdevice, the name, and the index.
 
@@ -1305,7 +1377,7 @@ The object wraps `struct snd_ctl_elem_id` in UAPI of Linux sound subsystem.</doc
                  c:type="ALSACtlElemIfaceType">
       <doc xml:space="preserve"
            filename="../src/ctl/alsactl-enum-types.h"
-           line="27">A set of enumerations for interface of element.</doc>
+           line="29">A set of enumerations for interface of element.</doc>
       <member name="card"
               value="0"
               c:identifier="ALSACTL_ELEM_IFACE_TYPE_CARD"
@@ -1313,7 +1385,7 @@ The object wraps `struct snd_ctl_elem_id` in UAPI of Linux sound subsystem.</doc
               glib:name="ALSACTL_ELEM_IFACE_TYPE_CARD">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="29">The element has effects to whole the sound card.</doc>
+             line="31">The element has effects to whole the sound card.</doc>
       </member>
       <member name="hwdep"
               value="1"
@@ -1322,7 +1394,7 @@ The object wraps `struct snd_ctl_elem_id` in UAPI of Linux sound subsystem.</doc
               glib:name="ALSACTL_ELEM_IFACE_TYPE_HWDEP">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="30">The element has effects to hwdep device.</doc>
+             line="32">The element has effects to hwdep device.</doc>
       </member>
       <member name="mixer"
               value="2"
@@ -1331,7 +1403,7 @@ The object wraps `struct snd_ctl_elem_id` in UAPI of Linux sound subsystem.</doc
               glib:name="ALSACTL_ELEM_IFACE_TYPE_MIXER">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="31">The element has effects to mixer device.</doc>
+             line="33">The element has effects to mixer device.</doc>
       </member>
       <member name="pcm"
               value="3"
@@ -1340,7 +1412,7 @@ The object wraps `struct snd_ctl_elem_id` in UAPI of Linux sound subsystem.</doc
               glib:name="ALSACTL_ELEM_IFACE_TYPE_PCM">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="32">The element has effects to PCM device.</doc>
+             line="34">The element has effects to PCM device.</doc>
       </member>
       <member name="rawmidi"
               value="4"
@@ -1349,7 +1421,7 @@ The object wraps `struct snd_ctl_elem_id` in UAPI of Linux sound subsystem.</doc
               glib:name="ALSACTL_ELEM_IFACE_TYPE_RAWMIDI">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="33">The element has effects to Rawmidi device.</doc>
+             line="35">The element has effects to Rawmidi device.</doc>
       </member>
       <member name="timer"
               value="5"
@@ -1358,7 +1430,7 @@ The object wraps `struct snd_ctl_elem_id` in UAPI of Linux sound subsystem.</doc
               glib:name="ALSACTL_ELEM_IFACE_TYPE_TIMER">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="34">The element has effects to Timer device.</doc>
+             line="36">The element has effects to Timer device.</doc>
       </member>
       <member name="sequencer"
               value="6"
@@ -1367,259 +1439,402 @@ The object wraps `struct snd_ctl_elem_id` in UAPI of Linux sound subsystem.</doc
               glib:name="ALSACTL_ELEM_IFACE_TYPE_SEQUENCER">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="35">The element has effects to Sequencer device.</doc>
+             line="37">The element has effects to Sequencer device.</doc>
       </member>
     </enumeration>
-    <class name="ElemInfo"
-           c:symbol-prefix="elem_info"
-           c:type="ALSACtlElemInfo"
+    <class name="ElemInfoBoolean"
+           c:symbol-prefix="elem_info_boolean"
+           c:type="ALSACtlElemInfoBoolean"
            parent="GObject.Object"
-           glib:type-name="ALSACtlElemInfo"
-           glib:get-type="alsactl_elem_info_get_type"
-           glib:type-struct="ElemInfoClass">
+           glib:type-name="ALSACtlElemInfoBoolean"
+           glib:get-type="alsactl_elem_info_boolean_get_type"
+           glib:type-struct="ElemInfoBooleanClass">
       <doc xml:space="preserve"
-           filename="../src/ctl/elem-info.c"
-           line="6">An GObject-derived object to represent the information of any type of element.
-A [class@ElemInfo] is an GObject-derived object to represent the information of any type of
-element.
+           filename="../src/ctl/elem-info-boolean.c"
+           line="4">An object to express information for boolean type of element.
+A [class@GObject.Object] derived object class for boolean type of element.
 
 The object wraps `struct snd_ctl_elem_info` in UAPI of Linux sound subsystem.</doc>
-      <source-position filename="../src/ctl/elem-info.h" line="15"/>
-      <constructor name="new" c:identifier="alsactl_elem_info_new" throws="1">
+      <source-position filename="../src/ctl/elem-info-boolean.h" line="16"/>
+      <implements name="ElemInfoCommon"/>
+      <implements name="ElemInfoSingleArray"/>
+      <constructor name="new" c:identifier="alsactl_elem_info_boolean_new">
         <doc xml:space="preserve"
-             filename="../src/ctl/elem-info.c"
-             line="154">Allocate and return the instance of [class@ElemInfo].</doc>
-        <source-position filename="../src/ctl/elem-info.h" line="17"/>
+             filename="../src/ctl/elem-info-boolean.c"
+             line="71">Allocate and return an instance of [class@ElemInfoBoolean].</doc>
+        <source-position filename="../src/ctl/elem-info-boolean.h" line="18"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
-               filename="../src/ctl/elem-info.c"
-               line="161">An instance of [class@ElemInfo].</doc>
-          <type name="ElemInfo" c:type="ALSACtlElemInfo*"/>
+               filename="../src/ctl/elem-info-boolean.c"
+               line="76">An instance of [class@ElemInfoBoolean].</doc>
+          <type name="ElemInfoBoolean" c:type="ALSACtlElemInfoBoolean*"/>
         </return-value>
-        <parameters>
-          <parameter name="elem_type" transfer-ownership="none">
-            <doc xml:space="preserve"
-                 filename="../src/ctl/elem-info.c"
-                 line="156">The type of element, one of [enum@ElemType].</doc>
-            <type name="ElemType" c:type="ALSACtlElemType"/>
-          </parameter>
-        </parameters>
       </constructor>
-      <method name="get_enum_data"
-              c:identifier="alsactl_elem_info_get_enum_data"
-              throws="1">
+      <field name="parent_instance">
+        <type name="GObject.Object" c:type="GObject"/>
+      </field>
+    </class>
+    <record name="ElemInfoBooleanClass"
+            c:type="ALSACtlElemInfoBooleanClass"
+            glib:is-gtype-struct-for="ElemInfoBoolean">
+      <source-position filename="../src/ctl/elem-info-boolean.h" line="16"/>
+      <field name="parent_class">
+        <type name="GObject.ObjectClass" c:type="GObjectClass"/>
+      </field>
+    </record>
+    <class name="ElemInfoBytes"
+           c:symbol-prefix="elem_info_bytes"
+           c:type="ALSACtlElemInfoBytes"
+           parent="GObject.Object"
+           glib:type-name="ALSACtlElemInfoBytes"
+           glib:get-type="alsactl_elem_info_bytes_get_type"
+           glib:type-struct="ElemInfoBytesClass">
+      <doc xml:space="preserve"
+           filename="../src/ctl/elem-info-bytes.c"
+           line="4">An object to express information for bytes type of element.
+A [class@GObject.Object] derived object class for bytes type of element.
+
+The object wraps `struct snd_ctl_elem_info` in UAPI of Linux sound subsystem.</doc>
+      <source-position filename="../src/ctl/elem-info-bytes.h" line="15"/>
+      <implements name="ElemInfoCommon"/>
+      <implements name="ElemInfoSingleArray"/>
+      <constructor name="new" c:identifier="alsactl_elem_info_bytes_new">
         <doc xml:space="preserve"
-             filename="../src/ctl/elem-info.c"
-             line="298">Refer to the array with elements for the label entries of enumerated element in internal storage.
-The call of function is successful as long as the information is for enumerated type.</doc>
-        <source-position filename="../src/ctl/elem-info.h" line="25"/>
-        <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+             filename="../src/ctl/elem-info-bytes.c"
+             line="71">Allocate and return an instance of [class@ElemInfoBytes].</doc>
+        <source-position filename="../src/ctl/elem-info-bytes.h" line="17"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="../src/ctl/elem-info-bytes.c"
+               line="76">An instance of [class@ElemInfoBytes].</doc>
+          <type name="ElemInfoBytes" c:type="ALSACtlElemInfoBytes*"/>
         </return-value>
-        <parameters>
-          <instance-parameter name="self" transfer-ownership="none">
-            <doc xml:space="preserve"
-                 filename="../src/ctl/elem-info.c"
-                 line="300">A [class@ElemInfo].</doc>
-            <type name="ElemInfo" c:type="ALSACtlElemInfo*"/>
-          </instance-parameter>
-          <parameter name="data"
-                     direction="out"
-                     caller-allocates="0"
-                     transfer-ownership="none">
-            <doc xml:space="preserve"
-                 filename="../src/ctl/elem-info.c"
-                 line="301">The array with elements for the label
-       entries of enumerated element.</doc>
-            <array c:type="const gchar***">
-              <type name="utf8" c:type="gchar**"/>
-            </array>
-          </parameter>
-        </parameters>
-      </method>
-      <method name="get_int64_data"
-              c:identifier="alsactl_elem_info_get_int64_data"
-              throws="1">
+      </constructor>
+      <field name="parent_instance">
+        <type name="GObject.Object" c:type="GObject"/>
+      </field>
+    </class>
+    <record name="ElemInfoBytesClass"
+            c:type="ALSACtlElemInfoBytesClass"
+            glib:is-gtype-struct-for="ElemInfoBytes">
+      <source-position filename="../src/ctl/elem-info-bytes.h" line="15"/>
+      <field name="parent_class">
+        <type name="GObject.ObjectClass" c:type="GObjectClass"/>
+      </field>
+    </record>
+    <interface name="ElemInfoCommon"
+               c:symbol-prefix="elem_info_common"
+               c:type="ALSACtlElemInfoCommon"
+               version="0.3."
+               glib:type-name="ALSACtlElemInfoCommon"
+               glib:get-type="alsactl_elem_info_common_get_type"
+               glib:type-struct="ElemInfoCommonInterface">
+      <doc xml:space="preserve"
+           filename="../src/ctl/elem-info-common.c"
+           line="4">An interface to express common features of element information.
+A [iface@ElemInfoCommon] should be implemented by any type of element information.</doc>
+      <source-position filename="../src/ctl/elem-info-common.h" line="16"/>
+      <property name="access"
+                version="0.3."
+                writable="1"
+                transfer-ownership="none">
         <doc xml:space="preserve"
-             filename="../src/ctl/elem-info.c"
-             line="240">Refer to the array with elements for the data of integer64 element; minimum value, maximum
-value, and value step in the order. The call of function is successful as long as the
-information is for integer64 type.</doc>
-        <source-position filename="../src/ctl/elem-info.h" line="22"/>
-        <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="self" transfer-ownership="none">
-            <doc xml:space="preserve"
-                 filename="../src/ctl/elem-info.c"
-                 line="242">A [class@ElemInfo].</doc>
-            <type name="ElemInfo" c:type="ALSACtlElemInfo*"/>
-          </instance-parameter>
-          <parameter name="data"
-                     direction="out"
-                     caller-allocates="0"
-                     transfer-ownership="none">
-            <doc xml:space="preserve"
-                 filename="../src/ctl/elem-info.c"
-                 line="243">The array with elements for the data of
-       integer64 element; minimum value, maximum value, and value step in the order.</doc>
-            <array zero-terminated="0" c:type="const gint64**" fixed-size="3">
-              <type name="gint64" c:type="gint64"/>
-            </array>
-          </parameter>
-        </parameters>
-      </method>
-      <method name="get_int_data"
-              c:identifier="alsactl_elem_info_get_int_data"
-              throws="1">
-        <doc xml:space="preserve"
-             filename="../src/ctl/elem-info.c"
-             line="182">Refer to the array with elements for the data of integer element; minimum value, maximum value,
-and value step in the order. The call of function is successful as long as the information is
-for integer type.</doc>
-        <source-position filename="../src/ctl/elem-info.h" line="19"/>
-        <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="self" transfer-ownership="none">
-            <doc xml:space="preserve"
-                 filename="../src/ctl/elem-info.c"
-                 line="184">A [class@ElemInfo].</doc>
-            <type name="ElemInfo" c:type="ALSACtlElemInfo*"/>
-          </instance-parameter>
-          <parameter name="data"
-                     direction="out"
-                     caller-allocates="0"
-                     transfer-ownership="none">
-            <doc xml:space="preserve"
-                 filename="../src/ctl/elem-info.c"
-                 line="185">The array with elements for the data of integer
-       element; minimum value, maximum value, and value step in the order.</doc>
-            <array zero-terminated="0" c:type="const gint32**" fixed-size="3">
-              <type name="gint32" c:type="gint32"/>
-            </array>
-          </parameter>
-        </parameters>
-      </method>
-      <method name="set_enum_data"
-              c:identifier="alsactl_elem_info_set_enum_data"
-              throws="1">
-        <doc xml:space="preserve"
-             filename="../src/ctl/elem-info.c"
-             line="323">Copy the array with elements for the label entries of enumerated element into internal storage.
-The call of function is successful as long as the information is for enumerated type.</doc>
-        <source-position filename="../src/ctl/elem-info.h" line="26"/>
-        <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="self" transfer-ownership="none">
-            <doc xml:space="preserve"
-                 filename="../src/ctl/elem-info.c"
-                 line="325">A [class@ElemInfo].</doc>
-            <type name="ElemInfo" c:type="ALSACtlElemInfo*"/>
-          </instance-parameter>
-          <parameter name="data" transfer-ownership="none">
-            <doc xml:space="preserve"
-                 filename="../src/ctl/elem-info.c"
-                 line="326">The array with elements for the label entries of enumerated
-       element.</doc>
-            <array c:type="const gchar**">
-              <type name="utf8" c:type="gchar*"/>
-            </array>
-          </parameter>
-        </parameters>
-      </method>
-      <method name="set_int64_data"
-              c:identifier="alsactl_elem_info_set_int64_data"
-              throws="1">
-        <doc xml:space="preserve"
-             filename="../src/ctl/elem-info.c"
-             line="270">Get the array with elements for the data of integer64 element; minimum value, maximum value, and
-value step in the order. The call of function is successful as long as the information is for
-integer64 type.</doc>
-        <source-position filename="../src/ctl/elem-info.h" line="23"/>
-        <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="self" transfer-ownership="none">
-            <doc xml:space="preserve"
-                 filename="../src/ctl/elem-info.c"
-                 line="272">A [class@ElemInfo].</doc>
-            <type name="ElemInfo" c:type="ALSACtlElemInfo*"/>
-          </instance-parameter>
-          <parameter name="data" transfer-ownership="none">
-            <doc xml:space="preserve"
-                 filename="../src/ctl/elem-info.c"
-                 line="273">The array with elements for the data of integer64
-       element; minimum value, maximum value, and value step in the order.</doc>
-            <array zero-terminated="0" c:type="const gint64*" fixed-size="3">
-              <type name="gint64" c:type="gint64"/>
-            </array>
-          </parameter>
-        </parameters>
-      </method>
-      <method name="set_int_data"
-              c:identifier="alsactl_elem_info_set_int_data"
-              throws="1">
-        <doc xml:space="preserve"
-             filename="../src/ctl/elem-info.c"
-             line="212">Get the array with elements for the data of integer element; minimum value, maximum value, and
-value step in the order. The call of function is successful as long as the information is for
-integer type.</doc>
-        <source-position filename="../src/ctl/elem-info.h" line="20"/>
-        <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="self" transfer-ownership="none">
-            <doc xml:space="preserve"
-                 filename="../src/ctl/elem-info.c"
-                 line="214">A [class@ElemInfo].</doc>
-            <type name="ElemInfo" c:type="ALSACtlElemInfo*"/>
-          </instance-parameter>
-          <parameter name="data" transfer-ownership="none">
-            <doc xml:space="preserve"
-                 filename="../src/ctl/elem-info.c"
-                 line="215">The array with elements for the data of integer
-       element; minimum value, maximum value, and value step in the order.</doc>
-            <array zero-terminated="0" c:type="const gint32*" fixed-size="3">
-              <type name="gint32" c:type="gint32"/>
-            </array>
-          </parameter>
-        </parameters>
-      </method>
-      <property name="access" writable="1" transfer-ownership="none">
+             filename="../src/ctl/elem-info-common.c"
+             line="46">The access permission for the element with [flags@ElemAccessFlag].</doc>
         <type name="ElemAccessFlag"/>
       </property>
-      <property name="elem-id" transfer-ownership="none">
+      <property name="elem-id" version="0.3." transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/ctl/elem-info-common.c"
+             line="19">The identifier of element.</doc>
         <type name="ElemId"/>
       </property>
-      <property name="owner" transfer-ownership="none">
-        <type name="gint" c:type="gint"/>
-      </property>
-      <property name="type"
+      <property name="elem-type"
+                version="0.3."
                 writable="1"
                 construct-only="1"
                 transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/ctl/elem-info-common.c"
+             line="32">The type of element, one of [enum@ElemType].</doc>
         <type name="ElemType"/>
       </property>
-      <property name="value-count" writable="1" transfer-ownership="none">
-        <type name="guint" c:type="guint"/>
+      <property name="owner" version="0.3." transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/ctl/elem-info-common.c"
+             line="60">The value of PID for process to own the element.</doc>
+        <type name="gint" c:type="gint"/>
+      </property>
+    </interface>
+    <record name="ElemInfoCommonInterface"
+            c:type="ALSACtlElemInfoCommonInterface"
+            glib:is-gtype-struct-for="ElemInfoCommon">
+      <source-position filename="../src/ctl/elem-info-common.h" line="16"/>
+      <field name="parent_iface">
+        <type name="GObject.TypeInterface" c:type="GTypeInterface"/>
+      </field>
+    </record>
+    <class name="ElemInfoEnumerated"
+           c:symbol-prefix="elem_info_enumerated"
+           c:type="ALSACtlElemInfoEnumerated"
+           parent="GObject.Object"
+           glib:type-name="ALSACtlElemInfoEnumerated"
+           glib:get-type="alsactl_elem_info_enumerated_get_type"
+           glib:type-struct="ElemInfoEnumeratedClass">
+      <doc xml:space="preserve"
+           filename="../src/ctl/elem-info-enumerated.c"
+           line="4">An object to express information for enumerated type of element.
+A [class@GObject.Object] derived object class for enumerated type of element.
+
+The object wraps `struct snd_ctl_elem_info` in UAPI of Linux sound subsystem.</doc>
+      <source-position filename="../src/ctl/elem-info-enumerated.h" line="16"/>
+      <implements name="ElemInfoCommon"/>
+      <implements name="ElemInfoSingleArray"/>
+      <constructor name="new" c:identifier="alsactl_elem_info_enumerated_new">
+        <doc xml:space="preserve"
+             filename="../src/ctl/elem-info-enumerated.c"
+             line="118">Allocate and return an instance of [class@ElemInfoEnumerated].</doc>
+        <source-position filename="../src/ctl/elem-info-enumerated.h"
+                         line="18"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="../src/ctl/elem-info-enumerated.c"
+               line="123">An instance of [class@ElemInfoEnumerated].</doc>
+          <type name="ElemInfoEnumerated" c:type="ALSACtlElemInfoEnumerated*"/>
+        </return-value>
+      </constructor>
+      <property name="labels"
+                version="0.3."
+                writable="1"
+                transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/ctl/elem-info-enumerated.c"
+             line="86">The list of indexed labels for the element. There is limitation that:
+
+ - The length of label including terminator should be within 64 bytes.
+ - The total length of labels including terminators should be within (64 * 1024) bytes.</doc>
+        <array>
+          <type name="utf8"/>
+        </array>
       </property>
       <field name="parent_instance">
         <type name="GObject.Object" c:type="GObject"/>
       </field>
     </class>
-    <record name="ElemInfoClass"
-            c:type="ALSACtlElemInfoClass"
-            glib:is-gtype-struct-for="ElemInfo">
-      <source-position filename="../src/ctl/elem-info.h" line="15"/>
+    <record name="ElemInfoEnumeratedClass"
+            c:type="ALSACtlElemInfoEnumeratedClass"
+            glib:is-gtype-struct-for="ElemInfoEnumerated">
+      <source-position filename="../src/ctl/elem-info-enumerated.h" line="16"/>
       <field name="parent_class">
         <type name="GObject.ObjectClass" c:type="GObjectClass"/>
+      </field>
+    </record>
+    <class name="ElemInfoIec60958"
+           c:symbol-prefix="elem_info_iec60958"
+           c:type="ALSACtlElemInfoIec60958"
+           parent="GObject.Object"
+           glib:type-name="ALSACtlElemInfoIec60958"
+           glib:get-type="alsactl_elem_info_iec60958_get_type"
+           glib:type-struct="ElemInfoIec60958Class">
+      <doc xml:space="preserve"
+           filename="../src/ctl/elem-info-iec60958.c"
+           line="4">An object to express information for iec60958 type of element.
+A [class@GObject.Object] derived object class for iec60958 type of element.
+
+The object wraps `struct snd_ctl_elem_info` in UAPI of Linux sound subsystem.</doc>
+      <source-position filename="../src/ctl/elem-info-iec60958.h" line="16"/>
+      <implements name="ElemInfoCommon"/>
+      <constructor name="new" c:identifier="alsactl_elem_info_iec60958_new">
+        <doc xml:space="preserve"
+             filename="../src/ctl/elem-info-iec60958.c"
+             line="63">Allocate and return an instance of [class@ElemInfoIec60958].</doc>
+        <source-position filename="../src/ctl/elem-info-iec60958.h" line="18"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="../src/ctl/elem-info-iec60958.c"
+               line="68">An instance of [class@ElemInfoIec60958].</doc>
+          <type name="ElemInfoIec60958" c:type="ALSACtlElemInfoIec60958*"/>
+        </return-value>
+      </constructor>
+      <field name="parent_instance">
+        <type name="GObject.Object" c:type="GObject"/>
+      </field>
+    </class>
+    <record name="ElemInfoIec60958Class"
+            c:type="ALSACtlElemInfoIec60958Class"
+            glib:is-gtype-struct-for="ElemInfoIec60958">
+      <source-position filename="../src/ctl/elem-info-iec60958.h" line="16"/>
+      <field name="parent_class">
+        <type name="GObject.ObjectClass" c:type="GObjectClass"/>
+      </field>
+    </record>
+    <class name="ElemInfoInteger"
+           c:symbol-prefix="elem_info_integer"
+           c:type="ALSACtlElemInfoInteger"
+           parent="GObject.Object"
+           glib:type-name="ALSACtlElemInfoInteger"
+           glib:get-type="alsactl_elem_info_integer_get_type"
+           glib:type-struct="ElemInfoIntegerClass">
+      <doc xml:space="preserve"
+           filename="../src/ctl/elem-info-integer.c"
+           line="4">An object to express information for integer type of element.
+A [class@GObject.Object] derived object class for integer type of element.
+
+The object wraps `struct snd_ctl_elem_info` in UAPI of Linux sound subsystem.</doc>
+      <source-position filename="../src/ctl/elem-info-integer.h" line="16"/>
+      <implements name="ElemInfoCommon"/>
+      <implements name="ElemInfoSingleArray"/>
+      <constructor name="new" c:identifier="alsactl_elem_info_integer_new">
+        <doc xml:space="preserve"
+             filename="../src/ctl/elem-info-integer.c"
+             line="143">Allocate and return an instance of [class@ElemInfoInteger].</doc>
+        <source-position filename="../src/ctl/elem-info-integer.h" line="18"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="../src/ctl/elem-info-integer.c"
+               line="148">An instance of [class@ElemInfoInteger].</doc>
+          <type name="ElemInfoInteger" c:type="ALSACtlElemInfoInteger*"/>
+        </return-value>
+      </constructor>
+      <property name="value-max"
+                version="0.3."
+                writable="1"
+                transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/ctl/elem-info-integer.c"
+             line="101">The maximum value of element in value array for the element.</doc>
+        <type name="gint" c:type="gint"/>
+      </property>
+      <property name="value-min"
+                version="0.3."
+                writable="1"
+                transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/ctl/elem-info-integer.c"
+             line="88">The minimum value of element in value array for the element.</doc>
+        <type name="gint" c:type="gint"/>
+      </property>
+      <property name="value-step"
+                version="0.3."
+                writable="1"
+                transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/ctl/elem-info-integer.c"
+             line="114">The step value of element in value array for the element.</doc>
+        <type name="gint" c:type="gint"/>
+      </property>
+      <field name="parent_instance">
+        <type name="GObject.Object" c:type="GObject"/>
+      </field>
+    </class>
+    <class name="ElemInfoInteger64"
+           c:symbol-prefix="elem_info_integer64"
+           c:type="ALSACtlElemInfoInteger64"
+           parent="GObject.Object"
+           glib:type-name="ALSACtlElemInfoInteger64"
+           glib:get-type="alsactl_elem_info_integer64_get_type"
+           glib:type-struct="ElemInfoInteger64Class">
+      <doc xml:space="preserve"
+           filename="../src/ctl/elem-info-integer64.c"
+           line="4">An object to express information for integer64 type of element.
+A [class@GObject.Object] derived object class for integer64 type of element.
+
+The object wraps `struct snd_ctl_elem_info` in UAPI of Linux sound subsystem.</doc>
+      <source-position filename="../src/ctl/elem-info-integer64.h" line="16"/>
+      <implements name="ElemInfoCommon"/>
+      <implements name="ElemInfoSingleArray"/>
+      <constructor name="new" c:identifier="alsactl_elem_info_integer64_new">
+        <doc xml:space="preserve"
+             filename="../src/ctl/elem-info-integer64.c"
+             line="143">Allocate and return an instance of [class@ElemInfoInteger64].</doc>
+        <source-position filename="../src/ctl/elem-info-integer64.h"
+                         line="18"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="../src/ctl/elem-info-integer64.c"
+               line="148">An instance of [class@ElemInfoInteger64].</doc>
+          <type name="ElemInfoInteger64" c:type="ALSACtlElemInfoInteger64*"/>
+        </return-value>
+      </constructor>
+      <property name="value-max"
+                version="0.3."
+                writable="1"
+                transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/ctl/elem-info-integer64.c"
+             line="101">The maximum value of element in value array for the element.</doc>
+        <type name="gint64" c:type="gint64"/>
+      </property>
+      <property name="value-min"
+                version="0.3."
+                writable="1"
+                transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/ctl/elem-info-integer64.c"
+             line="88">The minimum value of element in value array for the element.</doc>
+        <type name="gint64" c:type="gint64"/>
+      </property>
+      <property name="value-step"
+                version="0.3."
+                writable="1"
+                transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/ctl/elem-info-integer64.c"
+             line="114">The step value of element in value array for the element.</doc>
+        <type name="gint64" c:type="gint64"/>
+      </property>
+      <field name="parent_instance">
+        <type name="GObject.Object" c:type="GObject"/>
+      </field>
+    </class>
+    <record name="ElemInfoInteger64Class"
+            c:type="ALSACtlElemInfoInteger64Class"
+            glib:is-gtype-struct-for="ElemInfoInteger64">
+      <source-position filename="../src/ctl/elem-info-integer64.h" line="16"/>
+      <field name="parent_class">
+        <type name="GObject.ObjectClass" c:type="GObjectClass"/>
+      </field>
+    </record>
+    <record name="ElemInfoIntegerClass"
+            c:type="ALSACtlElemInfoIntegerClass"
+            glib:is-gtype-struct-for="ElemInfoInteger">
+      <source-position filename="../src/ctl/elem-info-integer.h" line="16"/>
+      <field name="parent_class">
+        <type name="GObject.ObjectClass" c:type="GObjectClass"/>
+      </field>
+    </record>
+    <interface name="ElemInfoSingleArray"
+               c:symbol-prefix="elem_info_single_array"
+               c:type="ALSACtlElemInfoSingleArray"
+               version="0.3."
+               glib:type-name="ALSACtlElemInfoSingleArray"
+               glib:get-type="alsactl_elem_info_single_array_get_type"
+               glib:type-struct="ElemInfoSingleArrayInterface">
+      <doc xml:space="preserve"
+           filename="../src/ctl/elem-info-single-array.c"
+           line="4">An interface to express information of element which has single value array.
+A [iface@ElemInfoSingleArray] should be implemented by the type of information for element
+whieh has single value array.</doc>
+      <source-position filename="../src/ctl/elem-info-single-array.h"
+                       line="16"/>
+      <prerequisite name="ElemInfoCommon"/>
+      <property name="value-count"
+                version="0.3."
+                writable="1"
+                transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/ctl/elem-info-single-array.c"
+             line="21">The count of elements in value array of the element.</doc>
+        <type name="guint" c:type="guint"/>
+      </property>
+    </interface>
+    <record name="ElemInfoSingleArrayInterface"
+            c:type="ALSACtlElemInfoSingleArrayInterface"
+            glib:is-gtype-struct-for="ElemInfoSingleArray">
+      <source-position filename="../src/ctl/elem-info-single-array.h"
+                       line="16"/>
+      <field name="parent_iface">
+        <type name="GObject.TypeInterface" c:type="GTypeInterface"/>
       </field>
     </record>
     <enumeration name="ElemType"
@@ -1628,7 +1843,7 @@ integer type.</doc>
                  c:type="ALSACtlElemType">
       <doc xml:space="preserve"
            filename="../src/ctl/alsactl-enum-types.h"
-           line="5">A set of enumerations for type of element.</doc>
+           line="7">A set of enumerations for type of element.</doc>
       <member name="none"
               value="0"
               c:identifier="ALSACTL_ELEM_TYPE_NONE"
@@ -1636,7 +1851,7 @@ integer type.</doc>
               glib:name="ALSACTL_ELEM_TYPE_NONE">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="7">Unudentified type.</doc>
+             line="9">Unudentified type.</doc>
       </member>
       <member name="boolean"
               value="1"
@@ -1645,7 +1860,7 @@ integer type.</doc>
               glib:name="ALSACTL_ELEM_TYPE_BOOLEAN">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="8">The element has boolean values.</doc>
+             line="10">The element has boolean values.</doc>
       </member>
       <member name="integer"
               value="2"
@@ -1654,7 +1869,7 @@ integer type.</doc>
               glib:name="ALSACTL_ELEM_TYPE_INTEGER">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="9">The element has integer values.</doc>
+             line="11">The element has integer values.</doc>
       </member>
       <member name="enumerated"
               value="3"
@@ -1663,7 +1878,7 @@ integer type.</doc>
               glib:name="ALSACTL_ELEM_TYPE_ENUMERATED">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="10">The element has values for enumerated labels.</doc>
+             line="12">The element has values for enumerated labels.</doc>
       </member>
       <member name="bytes"
               value="4"
@@ -1672,7 +1887,7 @@ integer type.</doc>
               glib:name="ALSACTL_ELEM_TYPE_BYTES">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="11">The element has byte values.</doc>
+             line="13">The element has byte values.</doc>
       </member>
       <member name="iec60958"
               value="5"
@@ -1681,7 +1896,7 @@ integer type.</doc>
               glib:name="ALSACTL_ELEM_TYPE_IEC60958">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="12">The element has parameters of IEC 60958.</doc>
+             line="14">The element has parameters of IEC 60958.</doc>
       </member>
       <member name="integer64"
               value="6"
@@ -1690,7 +1905,7 @@ integer type.</doc>
               glib:name="ALSACTL_ELEM_TYPE_INTEGER64">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="13">The element has 64 bit integer values.</doc>
+             line="15">The element has 64 bit integer values.</doc>
       </member>
     </enumeration>
     <class name="ElemValue"
@@ -1702,33 +1917,32 @@ integer type.</doc>
            glib:type-struct="ElemValueClass">
       <doc xml:space="preserve"
            filename="../src/ctl/elem-value.c"
-           line="4">A boxed object to represent the container of array of values for any type of element.
-A [class@ElemValue] is boxed object to represent the container of values for any type of
-element. The arrays of values for each type of element shares the same storage, thus it's
-important for applications to distinguish the type of element in advance of accessing the
-array. The object is used for the call of [method@Card.write_elem_value] and
-[method@Card.read_elem_value].
+           line="4">A GObject-derived object to express the container of array for values specific to element type.
+A [class@ElemValue] includes several types of array for values specific to element type. The
+arrays shares the same internal storage, thus the user application should decide the type of
+array according to the type of element when accessing to the array. The object is used for the
+call of [method@Card.write_elem_value] and [method@Card.read_elem_value].
 
 The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</doc>
       <source-position filename="../src/ctl/elem-value.h" line="15"/>
       <constructor name="new" c:identifier="alsactl_elem_value_new">
         <doc xml:space="preserve"
              filename="../src/ctl/elem-value.c"
-             line="67">Allocate and return an instance of [class@ElemValue].</doc>
+             line="73">Allocate and return an instance of [class@ElemValue].</doc>
         <source-position filename="../src/ctl/elem-value.h" line="17"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/ctl/elem-value.c"
-               line="72">An instance of [class@ElemValue].</doc>
+               line="78">An instance of [class@ElemValue].</doc>
           <type name="ElemValue" c:type="ALSACtlElemValue*"/>
         </return-value>
       </constructor>
       <method name="equal" c:identifier="alsactl_elem_value_equal">
-        <source-position filename="../src/ctl/elem-value.h" line="54"/>
+        <source-position filename="../src/ctl/elem-value.h" line="47"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/ctl/elem-value.c"
-               line="455">Whether the given object includes the same values as the instance. The other fields are
+               line="441">Whether the given object includes the same values as the instance. The other fields are
          ignored to be compared.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -1736,13 +1950,13 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="452">A [class@ElemValue].</doc>
+                 line="438">A [class@ElemValue].</doc>
             <type name="ElemValue" c:type="const ALSACtlElemValue*"/>
           </instance-parameter>
           <parameter name="target" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="453">A [class@ElemValue] to compare.</doc>
+                 line="439">A [class@ElemValue] to compare.</doc>
             <type name="ElemValue" c:type="const ALSACtlElemValue*"/>
           </parameter>
         </parameters>
@@ -1750,7 +1964,7 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
       <method name="get_bool" c:identifier="alsactl_elem_value_get_bool">
         <doc xml:space="preserve"
              filename="../src/ctl/elem-value.c"
-             line="111">Copy the array for values of boolean type from internal data.</doc>
+             line="118">Refer to the array specific to [enum@ElemType].BOOLEAN element in internal storage.</doc>
         <source-position filename="../src/ctl/elem-value.h" line="21"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1759,36 +1973,29 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="113">A [class@ElemValue].</doc>
+                 line="120">A [class@ElemValue].</doc>
             <type name="ElemValue" c:type="ALSACtlElemValue*"/>
           </instance-parameter>
           <parameter name="values"
-                     direction="inout"
-                     caller-allocates="0"
-                     transfer-ownership="full">
-            <doc xml:space="preserve"
-                 filename="../src/ctl/elem-value.c"
-                 line="114">The array for values of boolean type.</doc>
-            <array length="1" zero-terminated="0" c:type="gboolean* const*">
-              <type name="gboolean" c:type="gboolean*"/>
-            </array>
-          </parameter>
-          <parameter name="value_count"
-                     direction="inout"
+                     direction="out"
                      caller-allocates="0"
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="115">The number of values up to 128.</doc>
-            <type name="gsize" c:type="gsize*"/>
+                 line="121">The array for boolean values.</doc>
+            <array zero-terminated="0"
+                   c:type="const gboolean**"
+                   fixed-size="128">
+              <type name="gboolean" c:type="gboolean"/>
+            </array>
           </parameter>
         </parameters>
       </method>
       <method name="get_bytes" c:identifier="alsactl_elem_value_get_bytes">
         <doc xml:space="preserve"
              filename="../src/ctl/elem-value.c"
-             line="266">Copy the array for values of bytes type into internal storage.</doc>
-        <source-position filename="../src/ctl/elem-value.h" line="36"/>
+             line="269">Refer to the array specific to [enum@ElemType].BYTES element in internal storage.</doc>
+        <source-position filename="../src/ctl/elem-value.h" line="33"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -1796,36 +2003,30 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="268">A [class@ElemValue].</doc>
+                 line="271">A [class@ElemValue].</doc>
             <type name="ElemValue" c:type="ALSACtlElemValue*"/>
           </instance-parameter>
           <parameter name="values"
-                     direction="inout"
-                     caller-allocates="0"
-                     transfer-ownership="full">
-            <doc xml:space="preserve"
-                 filename="../src/ctl/elem-value.c"
-                 line="269">The array for values of bytes type.</doc>
-            <array length="1" zero-terminated="0" c:type="guint8* const*">
-              <type name="guint8" c:type="guint8*"/>
-            </array>
-          </parameter>
-          <parameter name="value_count"
-                     direction="inout"
+                     direction="out"
                      caller-allocates="0"
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="270">The number of values up to 512.</doc>
-            <type name="gsize" c:type="gsize*"/>
+                 line="272">The array for 8 bit unsigned integer
+         values.</doc>
+            <array zero-terminated="0"
+                   c:type="const guint8**"
+                   fixed-size="512">
+              <type name="guint8" c:type="guint8"/>
+            </array>
           </parameter>
         </parameters>
       </method>
       <method name="get_enum" c:identifier="alsactl_elem_value_get_enum">
         <doc xml:space="preserve"
              filename="../src/ctl/elem-value.c"
-             line="215">Copy the array for values of enumeration index from internal storage.</doc>
-        <source-position filename="../src/ctl/elem-value.h" line="31"/>
+             line="221">Refer to the array specific to [enum@ElemType].ENUMERATED element in internal storage.</doc>
+        <source-position filename="../src/ctl/elem-value.h" line="29"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -1833,28 +2034,22 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="217">A [class@ElemValue].</doc>
+                 line="223">A [class@ElemValue].</doc>
             <type name="ElemValue" c:type="ALSACtlElemValue*"/>
           </instance-parameter>
           <parameter name="values"
-                     direction="inout"
-                     caller-allocates="0"
-                     transfer-ownership="full">
-            <doc xml:space="preserve"
-                 filename="../src/ctl/elem-value.c"
-                 line="218">The array for values of enumeration index.</doc>
-            <array length="1" zero-terminated="0" c:type="guint32* const*">
-              <type name="guint32" c:type="guint32*"/>
-            </array>
-          </parameter>
-          <parameter name="value_count"
-                     direction="inout"
+                     direction="out"
                      caller-allocates="0"
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="219">The number of values up to 128.</doc>
-            <type name="gsize" c:type="gsize*"/>
+                 line="224">The array for enumeration index
+         values.</doc>
+            <array zero-terminated="0"
+                   c:type="const guint32**"
+                   fixed-size="128">
+              <type name="guint32" c:type="guint32"/>
+            </array>
           </parameter>
         </parameters>
       </method>
@@ -1862,8 +2057,8 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
               c:identifier="alsactl_elem_value_get_iec60958_channel_status">
         <doc xml:space="preserve"
              filename="../src/ctl/elem-value.c"
-             line="318">Copy channel status of IEC 60958 from internal storage.</doc>
-        <source-position filename="../src/ctl/elem-value.h" line="41"/>
+             line="318">Refer to the array specific to [enum@ElemType].IEC60958 element in internal storage.</doc>
+        <source-position filename="../src/ctl/elem-value.h" line="37"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -1875,25 +2070,16 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
             <type name="ElemValue" c:type="ALSACtlElemValue*"/>
           </instance-parameter>
           <parameter name="status"
-                     direction="inout"
-                     caller-allocates="0"
-                     transfer-ownership="full">
-            <doc xml:space="preserve"
-                 filename="../src/ctl/elem-value.c"
-                 line="321">The array of byte data for channel status bits for
-         IEC 60958 element.</doc>
-            <array length="1" zero-terminated="0" c:type="guint8* const*">
-              <type name="guint8" c:type="guint8*"/>
-            </array>
-          </parameter>
-          <parameter name="length"
-                     direction="inout"
+                     direction="out"
                      caller-allocates="0"
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="323">The number of bytes in status argument, up to 24.</doc>
-            <type name="gsize" c:type="gsize*"/>
+                 line="321">The array of byte data for channel status
+         bits of IEC 60958.</doc>
+            <array zero-terminated="0" c:type="const guint8**" fixed-size="24">
+              <type name="guint8" c:type="guint8"/>
+            </array>
           </parameter>
         </parameters>
       </method>
@@ -1901,8 +2087,8 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
               c:identifier="alsactl_elem_value_get_iec60958_user_data">
         <doc xml:space="preserve"
              filename="../src/ctl/elem-value.c"
-             line="372">Copy user data of IEC 60958 from internal storage.</doc>
-        <source-position filename="../src/ctl/elem-value.h" line="46"/>
+             line="367">Refer to the array specific to [enum@ElemType].IEC60958 element in internal storage.</doc>
+        <source-position filename="../src/ctl/elem-value.h" line="41"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -1910,36 +2096,30 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="374">A [class@ElemValue].</doc>
+                 line="369">A [class@ElemValue].</doc>
             <type name="ElemValue" c:type="ALSACtlElemValue*"/>
           </instance-parameter>
           <parameter name="data"
-                     direction="inout"
-                     caller-allocates="0"
-                     transfer-ownership="full">
-            <doc xml:space="preserve"
-                 filename="../src/ctl/elem-value.c"
-                 line="375">The array of byte data for user data bits in IEC 60958.</doc>
-            <array length="1" zero-terminated="0" c:type="guint8* const*">
-              <type name="guint8" c:type="guint8*"/>
-            </array>
-          </parameter>
-          <parameter name="length"
-                     direction="inout"
+                     direction="out"
                      caller-allocates="0"
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="376">The number of bytes in user_data argument, up to 147.</doc>
-            <type name="gsize" c:type="gsize*"/>
+                 line="370">The array of byte data for user data bits of
+       IEC 60958.</doc>
+            <array zero-terminated="0"
+                   c:type="const guint8**"
+                   fixed-size="147">
+              <type name="guint8" c:type="guint8"/>
+            </array>
           </parameter>
         </parameters>
       </method>
       <method name="get_int" c:identifier="alsactl_elem_value_get_int">
         <doc xml:space="preserve"
              filename="../src/ctl/elem-value.c"
-             line="163">Copy the array for values of integer type from internal storage.</doc>
-        <source-position filename="../src/ctl/elem-value.h" line="26"/>
+             line="169">Refer to the array for [enum@ElemType].INTEGER element in internal storage.</doc>
+        <source-position filename="../src/ctl/elem-value.h" line="25"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -1947,37 +2127,30 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="165">A [class@ElemValue].</doc>
+                 line="171">A [class@ElemValue].</doc>
             <type name="ElemValue" c:type="ALSACtlElemValue*"/>
           </instance-parameter>
           <parameter name="values"
-                     direction="inout"
-                     caller-allocates="0"
-                     transfer-ownership="full">
-            <doc xml:space="preserve"
-                 filename="../src/ctl/elem-value.c"
-                 line="166">The array for values of integer
-         type.</doc>
-            <array length="1" zero-terminated="0" c:type="gint32* const*">
-              <type name="gint32" c:type="gint32*"/>
-            </array>
-          </parameter>
-          <parameter name="value_count"
-                     direction="inout"
+                     direction="out"
                      caller-allocates="0"
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="168">The number of values up to 128.</doc>
-            <type name="gsize" c:type="gsize*"/>
+                 line="172">The array for 32 bit signed integer
+         values.</doc>
+            <array zero-terminated="0"
+                   c:type="const gint32**"
+                   fixed-size="128">
+              <type name="gint32" c:type="gint32"/>
+            </array>
           </parameter>
         </parameters>
       </method>
       <method name="get_int64" c:identifier="alsactl_elem_value_get_int64">
         <doc xml:space="preserve"
              filename="../src/ctl/elem-value.c"
-             line="424">Copy the array for values of integer64 type from internal storage.</doc>
-        <source-position filename="../src/ctl/elem-value.h" line="51"/>
+             line="415">Refer to the array for [enum@ElemType].INTEGER64 element in internal storage.</doc>
+        <source-position filename="../src/ctl/elem-value.h" line="45"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -1985,35 +2158,26 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="426">A [class@ElemValue].</doc>
+                 line="417">A [class@ElemValue].</doc>
             <type name="ElemValue" c:type="ALSACtlElemValue*"/>
           </instance-parameter>
           <parameter name="values"
-                     direction="inout"
-                     caller-allocates="0"
-                     transfer-ownership="full">
-            <doc xml:space="preserve"
-                 filename="../src/ctl/elem-value.c"
-                 line="427">The array for values of integer64 type.</doc>
-            <array length="1" zero-terminated="0" c:type="gint64* const*">
-              <type name="gint64" c:type="gint64*"/>
-            </array>
-          </parameter>
-          <parameter name="value_count"
-                     direction="inout"
+                     direction="out"
                      caller-allocates="0"
                      transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="428">The number of values up to 64.</doc>
-            <type name="gsize" c:type="gsize*"/>
+                 line="418">The array for 64 bit signed integer values.</doc>
+            <array zero-terminated="0" c:type="const gint64**" fixed-size="64">
+              <type name="gint64" c:type="gint64"/>
+            </array>
           </parameter>
         </parameters>
       </method>
       <method name="set_bool" c:identifier="alsactl_elem_value_set_bool">
         <doc xml:space="preserve"
              filename="../src/ctl/elem-value.c"
-             line="86">Copy the array for values of boolean type into internal data.</doc>
+             line="92">Copy the array into internal data for [enum@ElemType].BOOLEAN element.</doc>
         <source-position filename="../src/ctl/elem-value.h" line="19"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -2022,13 +2186,13 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="88">A [class@ElemValue].</doc>
+                 line="94">A [class@ElemValue].</doc>
             <type name="ElemValue" c:type="ALSACtlElemValue*"/>
           </instance-parameter>
           <parameter name="values" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="89">The array for values of boolean type.</doc>
+                 line="95">The array for boolean values.</doc>
             <array length="1" zero-terminated="0" c:type="const gboolean*">
               <type name="gboolean" c:type="gboolean"/>
             </array>
@@ -2036,7 +2200,7 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
           <parameter name="value_count" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="90">The number of values up to 128.</doc>
+                 line="96">The number of values up to 128.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
         </parameters>
@@ -2044,8 +2208,8 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
       <method name="set_bytes" c:identifier="alsactl_elem_value_set_bytes">
         <doc xml:space="preserve"
              filename="../src/ctl/elem-value.c"
-             line="241">Copy the array for values of bytes type into internal storage.</doc>
-        <source-position filename="../src/ctl/elem-value.h" line="34"/>
+             line="243">Copy the array into internal storage for [enum@ElemType].BYTES element.</doc>
+        <source-position filename="../src/ctl/elem-value.h" line="31"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -2053,13 +2217,13 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="243">A [class@ElemValue].</doc>
+                 line="245">A [class@ElemValue].</doc>
             <type name="ElemValue" c:type="ALSACtlElemValue*"/>
           </instance-parameter>
           <parameter name="values" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="244">The array for values of bytes type.</doc>
+                 line="246">The array for 8 bit unsigned integer values.</doc>
             <array length="1" zero-terminated="0" c:type="const guint8*">
               <type name="guint8" c:type="guint8"/>
             </array>
@@ -2067,7 +2231,7 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
           <parameter name="value_count" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="245">The number of values up to 512.</doc>
+                 line="247">The number of values up to 512.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
         </parameters>
@@ -2075,8 +2239,8 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
       <method name="set_enum" c:identifier="alsactl_elem_value_set_enum">
         <doc xml:space="preserve"
              filename="../src/ctl/elem-value.c"
-             line="190">Copy the array for values of enumeration index into internal storage.</doc>
-        <source-position filename="../src/ctl/elem-value.h" line="29"/>
+             line="195">Copy the array into internal storage for [enum@ElemType].ENUMERATED element.</doc>
+        <source-position filename="../src/ctl/elem-value.h" line="27"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -2084,13 +2248,13 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="192">A [class@ElemValue].</doc>
+                 line="197">A [class@ElemValue].</doc>
             <type name="ElemValue" c:type="ALSACtlElemValue*"/>
           </instance-parameter>
           <parameter name="values" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="193">The array for values of enumeration index.</doc>
+                 line="198">The array for enumeration index values.</doc>
             <array length="1" zero-terminated="0" c:type="const guint32*">
               <type name="guint32" c:type="guint32"/>
             </array>
@@ -2098,7 +2262,7 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
           <parameter name="value_count" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="194">The number of values up to 128.</doc>
+                 line="199">The number of values up to 128.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
         </parameters>
@@ -2107,8 +2271,8 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
               c:identifier="alsactl_elem_value_set_iec60958_channel_status">
         <doc xml:space="preserve"
              filename="../src/ctl/elem-value.c"
-             line="292">Copy the given channel status of IEC 60958 into internal storage.</doc>
-        <source-position filename="../src/ctl/elem-value.h" line="39"/>
+             line="291">Copy the channel status bits into internal storage for [enum@ElemType].IEC60958 element.</doc>
+        <source-position filename="../src/ctl/elem-value.h" line="35"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -2116,13 +2280,13 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="294">A [class@ElemValue].</doc>
+                 line="293">A [class@ElemValue].</doc>
             <type name="ElemValue" c:type="ALSACtlElemValue*"/>
           </instance-parameter>
           <parameter name="status" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="295">The array of byte data for channel status bits in IEC 60958.</doc>
+                 line="294">The array of byte data for channel status bits of IEC 60958.</doc>
             <array length="1" zero-terminated="0" c:type="const guint8*">
               <type name="guint8" c:type="guint8"/>
             </array>
@@ -2130,7 +2294,7 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
           <parameter name="length" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="296">The number of bytes in channel_status argument, up to 24.</doc>
+                 line="295">The number of bytes in channel_status argument, up to 24.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
         </parameters>
@@ -2139,8 +2303,8 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
               c:identifier="alsactl_elem_value_set_iec60958_user_data">
         <doc xml:space="preserve"
              filename="../src/ctl/elem-value.c"
-             line="346">Copy the given user data of IEC 60958 into internal storage.</doc>
-        <source-position filename="../src/ctl/elem-value.h" line="44"/>
+             line="340">Copy the user data bits into internal storage for [enum@ElemType].IEC60958 element.</doc>
+        <source-position filename="../src/ctl/elem-value.h" line="39"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -2148,13 +2312,13 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="348">A [class@ElemValue].</doc>
+                 line="342">A [class@ElemValue].</doc>
             <type name="ElemValue" c:type="ALSACtlElemValue*"/>
           </instance-parameter>
           <parameter name="data" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="349">The array of byte data for user data bits in IEC 60958.</doc>
+                 line="343">The array of byte data for user data bits of IEC 60958.</doc>
             <array length="1" zero-terminated="0" c:type="const guint8*">
               <type name="guint8" c:type="guint8"/>
             </array>
@@ -2162,7 +2326,7 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
           <parameter name="length" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="350">The number of bytes in data argument, up to 147.</doc>
+                 line="344">The number of bytes in data argument, up to 147.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
         </parameters>
@@ -2170,8 +2334,8 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
       <method name="set_int" c:identifier="alsactl_elem_value_set_int">
         <doc xml:space="preserve"
              filename="../src/ctl/elem-value.c"
-             line="138">Copy the array for values of integer type into internal storage.</doc>
-        <source-position filename="../src/ctl/elem-value.h" line="24"/>
+             line="143">Copy the array into internal storage for [enum@ElemType].INTEGER element.</doc>
+        <source-position filename="../src/ctl/elem-value.h" line="23"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -2179,13 +2343,13 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="140">A [class@ElemValue].</doc>
+                 line="145">A [class@ElemValue].</doc>
             <type name="ElemValue" c:type="ALSACtlElemValue*"/>
           </instance-parameter>
           <parameter name="values" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="141">The array for values of integer type.</doc>
+                 line="146">The array for 32 bit signed integer values.</doc>
             <array length="1" zero-terminated="0" c:type="const gint32*">
               <type name="gint32" c:type="gint32"/>
             </array>
@@ -2193,7 +2357,7 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
           <parameter name="value_count" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="142">The number of values up to 128.</doc>
+                 line="147">The number of values up to 128.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
         </parameters>
@@ -2201,8 +2365,8 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
       <method name="set_int64" c:identifier="alsactl_elem_value_set_int64">
         <doc xml:space="preserve"
              filename="../src/ctl/elem-value.c"
-             line="399">Copy the array for values of integer64 type into internal storage.</doc>
-        <source-position filename="../src/ctl/elem-value.h" line="49"/>
+             line="389">Copy the array into internal storage for [enum@ElemType].INTEGER64 element.</doc>
+        <source-position filename="../src/ctl/elem-value.h" line="43"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -2210,13 +2374,13 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="401">A [class@ElemValue].</doc>
+                 line="391">A [class@ElemValue].</doc>
             <type name="ElemValue" c:type="ALSACtlElemValue*"/>
           </instance-parameter>
           <parameter name="values" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="402">The array for values of integer64 type.</doc>
+                 line="392">The array for 64 bit signed integer values.</doc>
             <array length="1" zero-terminated="0" c:type="const gint64*">
               <type name="gint64" c:type="gint64"/>
             </array>
@@ -2224,12 +2388,15 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
           <parameter name="value_count" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/ctl/elem-value.c"
-                 line="403">The number of values up to 64.</doc>
+                 line="393">The number of values up to 64.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
         </parameters>
       </method>
       <property name="elem-id" transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/ctl/elem-value.c"
+             line="53">The identifier of element.</doc>
         <type name="ElemId"/>
       </property>
       <field name="parent_instance">
@@ -2250,7 +2417,7 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
                  c:type="ALSACtlEventType">
       <doc xml:space="preserve"
            filename="../src/ctl/alsactl-enum-types.h"
-           line="80">A set of enumerations for the type of event.</doc>
+           line="82">A set of enumerations for the type of event.</doc>
       <member name="elem"
               value="0"
               c:identifier="ALSACTL_EVENT_TYPE_ELEM"
@@ -2258,7 +2425,7 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
               glib:name="ALSACTL_EVENT_TYPE_ELEM">
         <doc xml:space="preserve"
              filename="../src/ctl/alsactl-enum-types.h"
-             line="82">The event is related to any element.</doc>
+             line="84">The event is related to any element.</doc>
       </member>
     </enumeration>
     <function name="card_error_quark"
@@ -2284,7 +2451,10 @@ The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.</
 Nodes under sound subsystem in sysfs are used to gather the information.</doc>
       <source-position filename="../src/ctl/query.h" line="9"/>
       <return-value transfer-ownership="none">
-        <type name="none" c:type="void"/>
+        <doc xml:space="preserve"
+             filename="../src/ctl/query.c"
+             line="16">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+        <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
         <parameter name="entries"
@@ -2314,18 +2484,21 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/ctl/query.c"
-           line="30">Allocate sysname for the sound card and return it when it exists.
+           line="35">Allocate sysname for the sound card and return it when it exists.
 
 Nodes under sound subsystem in sysfs are used to gather the information.</doc>
       <source-position filename="../src/ctl/query.h" line="12"/>
       <return-value transfer-ownership="none">
-        <type name="none" c:type="void"/>
+        <doc xml:space="preserve"
+             filename="../src/ctl/query.c"
+             line="45">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+        <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
         <parameter name="card_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/ctl/query.c"
-               line="32">The numeric ID of sound card.</doc>
+               line="37">The numeric ID of sound card.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="sysname"
@@ -2334,7 +2507,7 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/ctl/query.c"
-               line="33">The string for sysname of the sound card.</doc>
+               line="38">The string for sysname of the sound card.</doc>
           <type name="utf8" c:type="char**"/>
         </parameter>
       </parameters>
@@ -2344,18 +2517,21 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/ctl/query.c"
-           line="74">Allocate string of devnode for control device of the sound card and return it if exists.
+           line="91">Allocate string of devnode for control device of the sound card and return it if exists.
 
 Nodes under sound subsystem in sysfs are used to gather the information.</doc>
       <source-position filename="../src/ctl/query.h" line="16"/>
       <return-value transfer-ownership="none">
-        <type name="none" c:type="void"/>
+        <doc xml:space="preserve"
+             filename="../src/ctl/query.c"
+             line="101">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+        <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
         <parameter name="card_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/ctl/query.c"
-               line="76">The numeric ID of sound card.</doc>
+               line="93">The numeric ID of sound card.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="devnode"
@@ -2364,7 +2540,7 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/ctl/query.c"
-               line="77">The string for devnode of control device for the sound card.</doc>
+               line="94">The string for devnode of control device for the sound card.</doc>
           <type name="utf8" c:type="char**"/>
         </parameter>
       </parameters>
@@ -2374,18 +2550,21 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/ctl/query.c"
-           line="52">Allocate sysname of control device for the sound card and return it if exists.
+           line="63">Allocate sysname of control device for the sound card and return it if exists.
 
 Nodes under sound subsystem in sysfs are used to gather the information.</doc>
       <source-position filename="../src/ctl/query.h" line="14"/>
       <return-value transfer-ownership="none">
-        <type name="none" c:type="void"/>
+        <doc xml:space="preserve"
+             filename="../src/ctl/query.c"
+             line="73">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+        <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
         <parameter name="card_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/ctl/query.c"
-               line="54">The numeridcal ID of sound card.</doc>
+               line="65">The numeridcal ID of sound card.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="sysname"
@@ -2394,7 +2573,7 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/ctl/query.c"
-               line="55">The string for sysname of control device for the sound card.</doc>
+               line="66">The string for sysname of control device for the sound card.</doc>
           <type name="utf8" c:type="char**"/>
         </parameter>
       </parameters>

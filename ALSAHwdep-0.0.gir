@@ -15,6 +15,574 @@ and/or use gtk-doc annotations.  -->
              shared-library="libalsahwdep.so.0"
              c:identifier-prefixes="ALSAHwdep"
              c:symbol-prefixes="alsahwdep_">
+    <interface name="DeviceCommon"
+               c:symbol-prefix="device_common"
+               c:type="ALSAHwdepDeviceCommon"
+               version="0.3."
+               glib:type-name="ALSAHwdepDeviceCommon"
+               glib:get-type="alsahwdep_device_common_get_type"
+               glib:type-struct="DeviceCommonInterface">
+      <doc xml:space="preserve"
+           filename="../src/hwdep/device-common.c"
+           line="4">An interface to express common features of ALSA HwDep device.
+A [iface@DeviceCommon] should be implemented by any type of ALSA HwDep device.</doc>
+      <source-position filename="../src/hwdep/device-common.h" line="88"/>
+      <virtual-method name="create_source" invoker="create_source" throws="1">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/device-common.c"
+             line="166">Allocate [struct@GLib.Source] structure to handle events from ALSA hwdep character device. In
+each iteration of [struct@GLib.MainContext], the `read(2)` system call is executed to dispatch
+hwdep event, according to the result of `poll(2)` system call.</doc>
+        <source-position filename="../src/hwdep/device-common.h" line="79"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/hwdep/device-common.c"
+               line="176">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.c"
+                 line="168">A [iface@DeviceCommon].</doc>
+            <type name="DeviceCommon" c:type="ALSAHwdepDeviceCommon*"/>
+          </instance-parameter>
+          <parameter name="source"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.c"
+                 line="169">A [struct@GLib.Source] to handle events from ALSA hwdep character device.</doc>
+            <type name="GLib.Source" c:type="GSource**"/>
+          </parameter>
+        </parameters>
+      </virtual-method>
+      <virtual-method name="get_device_info"
+                      invoker="get_device_info"
+                      throws="1">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/device-common.c"
+             line="144">Get the information according to given numeric IDs for card and device. The call of function is
+expected to executes `ioctl(2)` system call with `SNDRV_CTL_IOCTL_HWDEP_INFO` command to the
+character device.</doc>
+        <source-position filename="../src/hwdep/device-common.h" line="64"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/hwdep/device-common.c"
+               line="154">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.c"
+                 line="146">A [iface@DeviceCommon].</doc>
+            <type name="DeviceCommon" c:type="ALSAHwdepDeviceCommon*"/>
+          </instance-parameter>
+          <parameter name="device_info"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.c"
+                 line="147">The information of device.</doc>
+            <type name="DeviceInfo" c:type="ALSAHwdepDeviceInfo**"/>
+          </parameter>
+        </parameters>
+      </virtual-method>
+      <virtual-method name="get_protocol_version"
+                      invoker="get_protocol_version"
+                      throws="1">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/device-common.c"
+             line="119">Get the version of hwdep protocol used currently. The version is expressed as the array with
+three elements; major, minor, and micro version in the order. The length of major version is
+16 bit, the length of minor and micro version is 8 bit each.</doc>
+        <source-position filename="../src/hwdep/device-common.h" line="49"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/hwdep/device-common.c"
+               line="130">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.c"
+                 line="121">A [iface@DeviceCommon].</doc>
+            <type name="DeviceCommon" c:type="ALSAHwdepDeviceCommon*"/>
+          </instance-parameter>
+          <parameter name="proto_ver_triplet"
+                     direction="inout"
+                     caller-allocates="0"
+                     transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.c"
+                 line="122">The version of protocol used
+                    currently.</doc>
+            <array zero-terminated="0" c:type="guint16* const*" fixed-size="3">
+              <type name="guint16" c:type="guint16"/>
+            </array>
+          </parameter>
+        </parameters>
+      </virtual-method>
+      <virtual-method name="handle_disconnection">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/device-common.h"
+             line="81">Closure for the [signal@DeviceCommon::handle-disconnection] signal.</doc>
+        <source-position filename="../src/hwdep/device-common.h" line="87"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.h"
+                 line="83">A [iface@DeviceCommon].</doc>
+            <type name="DeviceCommon" c:type="ALSAHwdepDeviceCommon*"/>
+          </instance-parameter>
+        </parameters>
+      </virtual-method>
+      <virtual-method name="open" throws="1">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/device-common.h"
+             line="20">Open one of ALSA hwdep character devices for the sound card.
+
+The call of function is expected to execute `open(2)` system call for ALSA hwdep character
+device.</doc>
+        <source-position filename="../src/hwdep/device-common.h" line="34"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/hwdep/device-common.h"
+               line="32">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.h"
+                 line="22">A [iface@DeviceCommon].</doc>
+            <type name="DeviceCommon" c:type="ALSAHwdepDeviceCommon*"/>
+          </instance-parameter>
+          <parameter name="path" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.h"
+                 line="23">The path to special file for ALSA HwDep character device.</doc>
+            <type name="utf8" c:type="const gchar*"/>
+          </parameter>
+          <parameter name="open_flag" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.h"
+                 line="24">The flag of `open(2)` system call.</doc>
+            <type name="gint" c:type="gint"/>
+          </parameter>
+        </parameters>
+      </virtual-method>
+      <method name="create_source"
+              c:identifier="alsahwdep_device_common_create_source"
+              throws="1">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/device-common.c"
+             line="166">Allocate [struct@GLib.Source] structure to handle events from ALSA hwdep character device. In
+each iteration of [struct@GLib.MainContext], the `read(2)` system call is executed to dispatch
+hwdep event, according to the result of `poll(2)` system call.</doc>
+        <source-position filename="../src/hwdep/device-common.h" line="100"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/hwdep/device-common.c"
+               line="176">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.c"
+                 line="168">A [iface@DeviceCommon].</doc>
+            <type name="DeviceCommon" c:type="ALSAHwdepDeviceCommon*"/>
+          </instance-parameter>
+          <parameter name="source"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.c"
+                 line="169">A [struct@GLib.Source] to handle events from ALSA hwdep character device.</doc>
+            <type name="GLib.Source" c:type="GSource**"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="get_device_info"
+              c:identifier="alsahwdep_device_common_get_device_info"
+              throws="1">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/device-common.c"
+             line="144">Get the information according to given numeric IDs for card and device. The call of function is
+expected to executes `ioctl(2)` system call with `SNDRV_CTL_IOCTL_HWDEP_INFO` command to the
+character device.</doc>
+        <source-position filename="../src/hwdep/device-common.h" line="97"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/hwdep/device-common.c"
+               line="154">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.c"
+                 line="146">A [iface@DeviceCommon].</doc>
+            <type name="DeviceCommon" c:type="ALSAHwdepDeviceCommon*"/>
+          </instance-parameter>
+          <parameter name="device_info"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.c"
+                 line="147">The information of device.</doc>
+            <type name="DeviceInfo" c:type="ALSAHwdepDeviceInfo**"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="get_protocol_version"
+              c:identifier="alsahwdep_device_common_get_protocol_version"
+              throws="1">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/device-common.c"
+             line="119">Get the version of hwdep protocol used currently. The version is expressed as the array with
+three elements; major, minor, and micro version in the order. The length of major version is
+16 bit, the length of minor and micro version is 8 bit each.</doc>
+        <source-position filename="../src/hwdep/device-common.h" line="93"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/hwdep/device-common.c"
+               line="130">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.c"
+                 line="121">A [iface@DeviceCommon].</doc>
+            <type name="DeviceCommon" c:type="ALSAHwdepDeviceCommon*"/>
+          </instance-parameter>
+          <parameter name="proto_ver_triplet"
+                     direction="inout"
+                     caller-allocates="0"
+                     transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.c"
+                 line="122">The version of protocol used
+                    currently.</doc>
+            <array zero-terminated="0" c:type="guint16* const*" fixed-size="3">
+              <type name="guint16" c:type="guint16"/>
+            </array>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="open"
+              c:identifier="alsahwdep_device_common_open"
+              throws="1">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/device-common.c"
+             line="86">Open one of ALSA hwdep character devices for the sound card.
+
+The call of function is expected to execute `open(2)` system call for ALSA hwdep character
+device.</doc>
+        <source-position filename="../src/hwdep/device-common.h" line="90"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/hwdep/device-common.c"
+               line="99">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.c"
+                 line="88">A [iface@DeviceCommon].</doc>
+            <type name="DeviceCommon" c:type="ALSAHwdepDeviceCommon*"/>
+          </instance-parameter>
+          <parameter name="card_id" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.c"
+                 line="89">The numeric identifier of sound card.</doc>
+            <type name="guint" c:type="guint"/>
+          </parameter>
+          <parameter name="device_id" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.c"
+                 line="90">The numerid identifier of device.</doc>
+            <type name="guint" c:type="guint"/>
+          </parameter>
+          <parameter name="open_flag" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.c"
+                 line="91">The flag of `open(2)` system call.</doc>
+            <type name="gint" c:type="gint"/>
+          </parameter>
+        </parameters>
+      </method>
+      <glib:signal name="handle-disconnection" when="last" action="1">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/device-common.c"
+             line="69">Emitted when the sound card is not available anymore due to unbinding driver or hot
+unplugging. The owner of the object should prepare to call [method@GObject.Object.unref]
+so that ALSA HwDep character device is going to be closed and sound card is released.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+      </glib:signal>
+    </interface>
+    <enumeration name="DeviceCommonError"
+                 glib:type-name="ALSAHwdepDeviceCommonError"
+                 glib:get-type="alsahwdep_device_common_error_get_type"
+                 c:type="ALSAHwdepDeviceCommonError"
+                 glib:error-domain="alsahwdep-device-common-error-quark">
+      <doc xml:space="preserve"
+           filename="../src/hwdep/alsahwdep-enum-types.h"
+           line="71">A set of enumerations for code of ALSAHwDep.DeviceCommonError error domain.</doc>
+      <member name="failed"
+              value="1"
+              c:identifier="ALSAHWDEP_DEVICE_COMMON_ERROR_FAILED"
+              glib:nick="failed"
+              glib:name="ALSAHWDEP_DEVICE_COMMON_ERROR_FAILED">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="73">The operation failed due to unspecified reason.</doc>
+      </member>
+      <member name="is_opened"
+              value="2"
+              c:identifier="ALSAHWDEP_DEVICE_COMMON_ERROR_IS_OPENED"
+              glib:nick="is-opened"
+              glib:name="ALSAHWDEP_DEVICE_COMMON_ERROR_IS_OPENED">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="74">The instance is already associated to character device.</doc>
+      </member>
+      <member name="is_not_opened"
+              value="3"
+              c:identifier="ALSAHWDEP_DEVICE_COMMON_ERROR_IS_NOT_OPENED"
+              glib:nick="is-not-opened"
+              glib:name="ALSAHWDEP_DEVICE_COMMON_ERROR_IS_NOT_OPENED">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="75">The instance is not associated to character device yet.</doc>
+      </member>
+      <member name="is_used"
+              value="4"
+              c:identifier="ALSAHWDEP_DEVICE_COMMON_ERROR_IS_USED"
+              glib:nick="is-used"
+              glib:name="ALSAHWDEP_DEVICE_COMMON_ERROR_IS_USED">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="76">The character device is already used.</doc>
+      </member>
+      <member name="is_not_supported"
+              value="5"
+              c:identifier="ALSAHWDEP_DEVICE_COMMON_ERROR_IS_NOT_SUPPORTED"
+              glib:nick="is-not-supported"
+              glib:name="ALSAHWDEP_DEVICE_COMMON_ERROR_IS_NOT_SUPPORTED">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="77">The HwDep device associated to the character device is not supported.</doc>
+      </member>
+      <member name="is_disconnected"
+              value="6"
+              c:identifier="ALSAHWDEP_DEVICE_COMMON_ERROR_IS_DISCONNECTED"
+              glib:nick="is-disconnected"
+              glib:name="ALSAHWDEP_DEVICE_COMMON_ERROR_IS_DISCONNECTED">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/alsahwdep-enum-types.h"
+             line="78">The sound card is under disconnected state.</doc>
+      </member>
+      <function name="quark"
+                c:identifier="alsahwdep_device_common_error_quark">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/device-common.c"
+             line="17">Return the [alias@GLib.Quark] for [struct@GLib.Error] with code in ALSAHwdep.DeviceCommonError
+enumerations.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/hwdep/device-common.c"
+               line="23">A [alias@GLib.Quark].</doc>
+          <type name="GLib.Quark" c:type="GQuark"/>
+        </return-value>
+      </function>
+      <function name="to_label"
+                c:identifier="alsahwdep_device_common_error_to_label">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/device-common.c"
+             line="27">Retrieve the string label of error from code.</doc>
+        <source-position filename="../src/hwdep/device-common.h" line="15"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <parameter name="code" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.c"
+                 line="29">A ALSAHwdep.DeviceCommonError.</doc>
+            <type name="DeviceCommonError"
+                  c:type="ALSAHwdepDeviceCommonError"/>
+          </parameter>
+          <parameter name="label"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.c"
+                 line="30">The string label of error.</doc>
+            <type name="utf8" c:type="const char**"/>
+          </parameter>
+        </parameters>
+      </function>
+    </enumeration>
+    <record name="DeviceCommonInterface"
+            c:type="ALSAHwdepDeviceCommonInterface"
+            glib:is-gtype-struct-for="DeviceCommon">
+      <source-position filename="../src/hwdep/device-common.h" line="88"/>
+      <field name="parent_iface">
+        <type name="GObject.TypeInterface" c:type="GTypeInterface"/>
+      </field>
+      <field name="open">
+        <callback name="open" throws="1">
+          <source-position filename="../src/hwdep/device-common.h" line="34"/>
+          <return-value transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.h"
+                 line="32">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+            <type name="gboolean" c:type="gboolean"/>
+          </return-value>
+          <parameters>
+            <parameter name="self" transfer-ownership="none">
+              <doc xml:space="preserve"
+                   filename="../src/hwdep/device-common.h"
+                   line="22">A [iface@DeviceCommon].</doc>
+              <type name="DeviceCommon" c:type="ALSAHwdepDeviceCommon*"/>
+            </parameter>
+            <parameter name="path" transfer-ownership="none">
+              <doc xml:space="preserve"
+                   filename="../src/hwdep/device-common.h"
+                   line="23">The path to special file for ALSA HwDep character device.</doc>
+              <type name="utf8" c:type="const gchar*"/>
+            </parameter>
+            <parameter name="open_flag" transfer-ownership="none">
+              <doc xml:space="preserve"
+                   filename="../src/hwdep/device-common.h"
+                   line="24">The flag of `open(2)` system call.</doc>
+              <type name="gint" c:type="gint"/>
+            </parameter>
+          </parameters>
+        </callback>
+      </field>
+      <field name="get_protocol_version">
+        <callback name="get_protocol_version" throws="1">
+          <source-position filename="../src/hwdep/device-common.h" line="49"/>
+          <return-value transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.c"
+                 line="130">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+            <type name="gboolean" c:type="gboolean"/>
+          </return-value>
+          <parameters>
+            <parameter name="self" transfer-ownership="none">
+              <doc xml:space="preserve"
+                   filename="../src/hwdep/device-common.c"
+                   line="121">A [iface@DeviceCommon].</doc>
+              <type name="DeviceCommon" c:type="ALSAHwdepDeviceCommon*"/>
+            </parameter>
+            <parameter name="proto_ver_triplet"
+                       direction="inout"
+                       caller-allocates="0"
+                       transfer-ownership="none">
+              <doc xml:space="preserve"
+                   filename="../src/hwdep/device-common.c"
+                   line="122">The version of protocol used
+                    currently.</doc>
+              <array zero-terminated="0"
+                     c:type="guint16* const*"
+                     fixed-size="3">
+                <type name="guint16" c:type="guint16"/>
+              </array>
+            </parameter>
+          </parameters>
+        </callback>
+      </field>
+      <field name="get_device_info">
+        <callback name="get_device_info" throws="1">
+          <source-position filename="../src/hwdep/device-common.h" line="64"/>
+          <return-value transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.c"
+                 line="154">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+            <type name="gboolean" c:type="gboolean"/>
+          </return-value>
+          <parameters>
+            <parameter name="self" transfer-ownership="none">
+              <doc xml:space="preserve"
+                   filename="../src/hwdep/device-common.c"
+                   line="146">A [iface@DeviceCommon].</doc>
+              <type name="DeviceCommon" c:type="ALSAHwdepDeviceCommon*"/>
+            </parameter>
+            <parameter name="device_info"
+                       direction="out"
+                       caller-allocates="0"
+                       transfer-ownership="full">
+              <doc xml:space="preserve"
+                   filename="../src/hwdep/device-common.c"
+                   line="147">The information of device.</doc>
+              <type name="DeviceInfo" c:type="ALSAHwdepDeviceInfo**"/>
+            </parameter>
+          </parameters>
+        </callback>
+      </field>
+      <field name="create_source">
+        <callback name="create_source" throws="1">
+          <source-position filename="../src/hwdep/device-common.h" line="79"/>
+          <return-value transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/hwdep/device-common.c"
+                 line="176">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+            <type name="gboolean" c:type="gboolean"/>
+          </return-value>
+          <parameters>
+            <parameter name="self" transfer-ownership="none">
+              <doc xml:space="preserve"
+                   filename="../src/hwdep/device-common.c"
+                   line="168">A [iface@DeviceCommon].</doc>
+              <type name="DeviceCommon" c:type="ALSAHwdepDeviceCommon*"/>
+            </parameter>
+            <parameter name="source"
+                       direction="out"
+                       caller-allocates="0"
+                       transfer-ownership="full">
+              <doc xml:space="preserve"
+                   filename="../src/hwdep/device-common.c"
+                   line="169">A [struct@GLib.Source] to handle events from ALSA hwdep character device.</doc>
+              <type name="GLib.Source" c:type="GSource**"/>
+            </parameter>
+          </parameters>
+        </callback>
+      </field>
+      <field name="handle_disconnection">
+        <callback name="handle_disconnection">
+          <source-position filename="../src/hwdep/device-common.h" line="87"/>
+          <return-value transfer-ownership="none">
+            <type name="none" c:type="void"/>
+          </return-value>
+          <parameters>
+            <parameter name="self" transfer-ownership="none">
+              <doc xml:space="preserve"
+                   filename="../src/hwdep/device-common.h"
+                   line="83">A [iface@DeviceCommon].</doc>
+              <type name="DeviceCommon" c:type="ALSAHwdepDeviceCommon*"/>
+            </parameter>
+          </parameters>
+        </callback>
+      </field>
+    </record>
     <class name="DeviceInfo"
            c:symbol-prefix="device_info"
            c:type="ALSAHwdepDeviceInfo"
@@ -24,25 +592,55 @@ and/or use gtk-doc annotations.  -->
            glib:type-struct="DeviceInfoClass">
       <doc xml:space="preserve"
            filename="../src/hwdep/device-info.c"
-           line="4">A GObject-derived object to represent information of ALSA hwdep device.
-A [class@DeviceInfo] is a GObject-derived object to represent information of ALSA hwdep device.
+           line="4">A GObject-derived object to express information of ALSA hwdep device.
+A [class@DeviceInfo] is a GObject-derived object to express information of ALSA hwdep device.
 The call of [func@get_device_info] returns an instance of the object.
 
 The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
       <source-position filename="../src/hwdep/device-info.h" line="15"/>
-      <property name="card-id" transfer-ownership="none">
+      <property name="card-id"
+                writable="1"
+                construct-only="1"
+                transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/device-info.c"
+             line="103">The numeric ID of sound card.</doc>
         <type name="gint" c:type="gint"/>
       </property>
-      <property name="device-id" transfer-ownership="none">
+      <property name="device-id"
+                writable="1"
+                construct-only="1"
+                transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/device-info.c"
+             line="91">The numeric ID of device.</doc>
         <type name="guint" c:type="guint"/>
       </property>
-      <property name="id" transfer-ownership="none">
+      <property name="id"
+                writable="1"
+                construct-only="1"
+                transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/device-info.c"
+             line="115">The string ID of the hwdep device.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
-      <property name="iface" transfer-ownership="none">
+      <property name="iface"
+                writable="1"
+                construct-only="1"
+                transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/device-info.c"
+             line="137">The type of interface for the hwdep device, one of ALSAHwdepIfaceType.</doc>
         <type name="IfaceType"/>
       </property>
-      <property name="name" transfer-ownership="none">
+      <property name="name"
+                writable="1"
+                construct-only="1"
+                transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/device-info.c"
+             line="126">The name of the hwdep device.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <field name="parent_instance">
@@ -63,7 +661,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
                  c:type="ALSAHwdepIfaceType">
       <doc xml:space="preserve"
            filename="../src/hwdep/alsahwdep-enum-types.h"
-           line="20">A set of enumerations for the interface of hwdep device.</doc>
+           line="9">A set of enumerations for the interface of hwdep device.</doc>
       <member name="opl2"
               value="0"
               c:identifier="ALSAHWDEP_IFACE_TYPE_OPL2"
@@ -71,7 +669,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_OPL2">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="22">For OPL2 sound chip.</doc>
+             line="11">For OPL2 sound chip.</doc>
       </member>
       <member name="opl3"
               value="1"
@@ -80,7 +678,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_OPL3">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="23">For OPL3 sound chip.</doc>
+             line="12">For OPL3 sound chip.</doc>
       </member>
       <member name="opl4"
               value="2"
@@ -89,7 +687,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_OPL4">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="24">For OPL4 sound chip.</doc>
+             line="13">For OPL4 sound chip.</doc>
       </member>
       <member name="sb16csp"
               value="3"
@@ -98,7 +696,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_SB16CSP">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="25">For Creative Signal Processor.</doc>
+             line="14">For Creative Signal Processor.</doc>
       </member>
       <member name="emu10k1"
               value="4"
@@ -107,7 +705,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_EMU10K1">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="26">For FX8010 processor in EMU10K1 chip.</doc>
+             line="15">For FX8010 processor in EMU10K1 chip.</doc>
       </member>
       <member name="yss225"
               value="5"
@@ -116,7 +714,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_YSS225">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="27">For Yamaha FX processor.</doc>
+             line="16">For Yamaha FX processor.</doc>
       </member>
       <member name="ics2115"
               value="6"
@@ -125,7 +723,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_ICS2115">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="28">For Wavetable synth.</doc>
+             line="17">For Wavetable synth.</doc>
       </member>
       <member name="sscape"
               value="7"
@@ -134,7 +732,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_SSCAPE">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="29">For Ensoniq SoundScape ISA card (MC68EC000).</doc>
+             line="18">For Ensoniq SoundScape ISA card (MC68EC000).</doc>
       </member>
       <member name="vx"
               value="8"
@@ -143,7 +741,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_VX">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="30">For Digigram VX cards.</doc>
+             line="19">For Digigram VX cards.</doc>
       </member>
       <member name="mixart"
               value="9"
@@ -152,7 +750,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_MIXART">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="31">For Digigram miXart cards.</doc>
+             line="20">For Digigram miXart cards.</doc>
       </member>
       <member name="usx2y"
               value="10"
@@ -161,7 +759,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_USX2Y">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="32">For Tascam US122, US224 &amp; US428 usb.</doc>
+             line="21">For Tascam US122, US224 &amp; US428 usb.</doc>
       </member>
       <member name="emux_wavetable"
               value="11"
@@ -170,7 +768,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_EMUX_WAVETABLE">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="33">For EmuX wavetable.</doc>
+             line="22">For EmuX wavetable.</doc>
       </member>
       <member name="bluetooth"
               value="12"
@@ -179,7 +777,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_BLUETOOTH">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="34">For Bluetooth audio.</doc>
+             line="23">For Bluetooth audio.</doc>
       </member>
       <member name="usx2y_pcm"
               value="13"
@@ -188,7 +786,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_USX2Y_PCM">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="35">For Tascam US122, US224 &amp; US428 rawusb pcm.</doc>
+             line="24">For Tascam US122, US224 &amp; US428 rawusb pcm.</doc>
       </member>
       <member name="pcxhr"
               value="14"
@@ -197,7 +795,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_PCXHR">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="36">For Digigram PCXHR.</doc>
+             line="25">For Digigram PCXHR.</doc>
       </member>
       <member name="sb_rc"
               value="15"
@@ -206,7 +804,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_SB_RC">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="37">For SB Extigy/Audigy2NX remote control.</doc>
+             line="26">For SB Extigy/Audigy2NX remote control.</doc>
       </member>
       <member name="hda"
               value="16"
@@ -215,7 +813,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_HDA">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="38">For HD-audio.</doc>
+             line="27">For HD-audio.</doc>
       </member>
       <member name="usb_stream"
               value="17"
@@ -224,7 +822,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_USB_STREAM">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="39">For direct access to usb stream.</doc>
+             line="28">For direct access to usb stream.</doc>
       </member>
       <member name="fw_dice"
               value="18"
@@ -233,7 +831,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_FW_DICE">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="40">For TC DICE FireWire device.</doc>
+             line="29">For TC DICE FireWire device.</doc>
       </member>
       <member name="fw_fireworks"
               value="19"
@@ -242,7 +840,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_FW_FIREWORKS">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="41">For Echo Audio Fireworks based devices.</doc>
+             line="30">For Echo Audio Fireworks based devices.</doc>
       </member>
       <member name="fw_bebob"
               value="20"
@@ -251,7 +849,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_FW_BEBOB">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="42">For BridgeCo BeBoB based device.</doc>
+             line="31">For BridgeCo BeBoB based device.</doc>
       </member>
       <member name="fw_oxfw"
               value="21"
@@ -260,7 +858,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_FW_OXFW">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="43">For Oxford OXFW970/971 based devices.</doc>
+             line="32">For Oxford OXFW970/971 based devices.</doc>
       </member>
       <member name="fw_digi00x"
               value="22"
@@ -269,7 +867,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_FW_DIGI00X">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="44">For Digidesign Digi 002/003 family.</doc>
+             line="33">For Digidesign Digi 002/003 family.</doc>
       </member>
       <member name="fw_tascam"
               value="23"
@@ -278,7 +876,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_FW_TASCAM">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="45">For TASCAM FireWire series.</doc>
+             line="34">For TASCAM FireWire series.</doc>
       </member>
       <member name="line6"
               value="24"
@@ -287,7 +885,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_LINE6">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="46">For Line6 USB processors. Available in Linux kernel 4.9.0 or later.</doc>
+             line="35">For Line6 USB processors. Available in Linux kernel 4.9.0 or later.</doc>
       </member>
       <member name="fw_motu"
               value="25"
@@ -296,7 +894,7 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_FW_MOTU">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="47">For MOTU FireWire series. Available in Linux kernel 4.12.0 or later.</doc>
+             line="36">For MOTU FireWire series. Available in Linux kernel 4.12.0 or later.</doc>
       </member>
       <member name="fw_fireface"
               value="26"
@@ -305,9 +903,51 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
               glib:name="ALSAHWDEP_IFACE_TYPE_FW_FIREFACE">
         <doc xml:space="preserve"
              filename="../src/hwdep/alsahwdep-enum-types.h"
-             line="48">For RME Fireface series. Available in Linux kernel 4.12.0 or later.</doc>
+             line="37">For RME Fireface series. Available in Linux kernel 4.12.0 or later.</doc>
       </member>
     </enumeration>
+    <function name="device_common_error_quark"
+              c:identifier="alsahwdep_device_common_error_quark"
+              moved-to="DeviceCommonError.quark">
+      <doc xml:space="preserve"
+           filename="../src/hwdep/device-common.c"
+           line="17">Return the [alias@GLib.Quark] for [struct@GLib.Error] with code in ALSAHwdep.DeviceCommonError
+enumerations.</doc>
+      <return-value transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="../src/hwdep/device-common.c"
+             line="23">A [alias@GLib.Quark].</doc>
+        <type name="GLib.Quark" c:type="GQuark"/>
+      </return-value>
+    </function>
+    <function name="device_common_error_to_label"
+              c:identifier="alsahwdep_device_common_error_to_label"
+              moved-to="DeviceCommonError.to_label">
+      <doc xml:space="preserve"
+           filename="../src/hwdep/device-common.c"
+           line="27">Retrieve the string label of error from code.</doc>
+      <source-position filename="../src/hwdep/device-common.h" line="15"/>
+      <return-value transfer-ownership="none">
+        <type name="none" c:type="void"/>
+      </return-value>
+      <parameters>
+        <parameter name="code" transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/hwdep/device-common.c"
+               line="29">A ALSAHwdep.DeviceCommonError.</doc>
+          <type name="DeviceCommonError" c:type="ALSAHwdepDeviceCommonError"/>
+        </parameter>
+        <parameter name="label"
+                   direction="out"
+                   caller-allocates="0"
+                   transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/hwdep/device-common.c"
+               line="30">The string label of error.</doc>
+          <type name="utf8" c:type="const char**"/>
+        </parameter>
+      </parameters>
+    </function>
     <function name="get_device_id_list"
               c:identifier="alsahwdep_get_device_id_list"
               throws="1">
@@ -318,7 +958,10 @@ The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.</doc>
 Nodes under sound subsystem in sysfs are used to gather the information.</doc>
       <source-position filename="../src/hwdep/query.h" line="9"/>
       <return-value transfer-ownership="none">
-        <type name="none" c:type="void"/>
+        <doc xml:space="preserve"
+             filename="../src/hwdep/query.c"
+             line="19">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+        <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
         <parameter name="card_id" transfer-ownership="none">
@@ -354,25 +997,28 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/hwdep/query.c"
-           line="81">Get the information according to given numeric IDs for card and device.
+           line="99">Get the information according to given numeric IDs for card and device.
 
 The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call
 with `SNDRV_CTL_IOCTL_HWDEP_INFO` command for ALSA control character device.</doc>
       <source-position filename="../src/hwdep/query.h" line="18"/>
       <return-value transfer-ownership="none">
-        <type name="none" c:type="void"/>
+        <doc xml:space="preserve"
+             filename="../src/hwdep/query.c"
+             line="111">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+        <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
         <parameter name="card_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="83">The numeric value for sound card to query.</doc>
+               line="101">The numeric value for sound card to query.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="device_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="84">The numeric value of hwdep device to query.</doc>
+               line="102">The numeric value of hwdep device to query.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="device_info"
@@ -381,7 +1027,7 @@ with `SNDRV_CTL_IOCTL_HWDEP_INFO` command for ALSA control character device.</do
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="85">The information of the device.</doc>
+               line="103">The information of the device.</doc>
           <type name="DeviceInfo" c:type="ALSAHwdepDeviceInfo**"/>
         </parameter>
       </parameters>
@@ -391,24 +1037,27 @@ with `SNDRV_CTL_IOCTL_HWDEP_INFO` command for ALSA control character device.</do
               throws="1">
       <doc xml:space="preserve"
            filename="../src/hwdep/query.c"
-           line="57">Allocate devnode string for hwdep device and return it when exists.
+           line="69">Allocate devnode string for hwdep device and return it when exists.
 
 Nodes under sound subsystem in sysfs are used to gather the information.</doc>
       <source-position filename="../src/hwdep/query.h" line="15"/>
       <return-value transfer-ownership="none">
-        <type name="none" c:type="void"/>
+        <doc xml:space="preserve"
+             filename="../src/hwdep/query.c"
+             line="80">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+        <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
         <parameter name="card_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="59">The numeridcal ID of sound card.</doc>
+               line="71">The numeridcal ID of sound card.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="device_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="60">The numeric ID of hwdep device for the sound card.</doc>
+               line="72">The numeric ID of hwdep device for the sound card.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="devnode"
@@ -417,7 +1066,7 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="61">The string for devnode of hwdep device.</doc>
+               line="73">The string for devnode of hwdep device.</doc>
           <type name="utf8" c:type="char**"/>
         </parameter>
       </parameters>
@@ -427,24 +1076,27 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="../src/hwdep/query.c"
-           line="33">Allocate sysname for hwdep device and return it when it exists.
+           line="39">Allocate sysname for hwdep device and return it when it exists.
 
 Nodes under sound subsystem in sysfs are used to gather the information.</doc>
       <source-position filename="../src/hwdep/query.h" line="12"/>
       <return-value transfer-ownership="none">
-        <type name="none" c:type="void"/>
+        <doc xml:space="preserve"
+             filename="../src/hwdep/query.c"
+             line="50">%TRUE when the overall operation finishes successfully, else %FALSE.</doc>
+        <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
         <parameter name="card_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="35">The numeridcal ID of sound card.</doc>
+               line="41">The numeridcal ID of sound card.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="device_id" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="36">The numeric ID of hwdep device for the sound card.</doc>
+               line="42">The numeric ID of hwdep device for the sound card.</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="sysname"
@@ -453,7 +1105,7 @@ Nodes under sound subsystem in sysfs are used to gather the information.</doc>
                    transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/hwdep/query.c"
-               line="37">The string for sysname of hwdep device.</doc>
+               line="43">The string for sysname of hwdep device.</doc>
           <type name="utf8" c:type="char**"/>
         </parameter>
       </parameters>
