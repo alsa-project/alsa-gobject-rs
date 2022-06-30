@@ -11,6 +11,8 @@ extern crate libc;
 mod auto;
 mod stream_pair;
 
+pub mod subclass;
+
 pub use {auto::*, stream_pair::*};
 
 use glib::{object::IsA, translate::*};
