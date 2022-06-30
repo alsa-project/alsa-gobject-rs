@@ -32,25 +32,25 @@ name = "ALSACtl.Card"
 status = "generate"
 manual_traits = ["CardExtManual"]
     [[object.function]]
-    pattern = "get_protocol_version"
+    name = "get_protocol_version"
     ignore = true
     [[object.function]]
-    pattern = "read_elem_value"
+    name = "read_elem_value"
     ignore = true
     [[object.function]]
-    pattern = "command_elem_tlv"
+    name = "command_elem_tlv"
     ignore = true
     [[object.function]]
-    pattern = "read_elem_tlv"
+    name = "read_elem_tlv"
     ignore = true
     [[object.function]]
-    pattern = "get_elem_id_list"
+    name = "get_elem_id_list"
     ignore = true
     [[object.function]]
-    pattern = "add_elems"
+    name = "add_elems"
     ignore = true
     [[object.function]]
-    pattern = "replace_elems"
+    name = "replace_elems"
     ignore = true
 
 [[object]]
@@ -63,16 +63,16 @@ name = "ALSACtl.ElemInfo"
 status = "generate"
 manual_traits = ["ElemInfoExtManual"]
     [[object.function]]
-    pattern = "get_int_data"
+    name = "get_int_data"
     ignore = true
     [[object.function]]
-    pattern = "set_int_data"
+    name = "set_int_data"
     ignore = true
     [[object.function]]
-    pattern = "get_int64_data"
+    name = "get_int64_data"
     ignore = true
     [[object.function]]
-    pattern = "set_int64_data"
+    name = "set_int64_data"
     ignore = true
 
 [[object]]
@@ -80,26 +80,26 @@ name = "ALSACtl.ElemValue"
 status = "generate"
 manual_traits = ["ElemValueExtManual"]
     [[object.function]]
-    pattern = "set_bool"
+    name = "set_bool"
     ignore = true
     [[object.function]]
-    pattern = "get_bool"
+    name = "get_bool"
     ignore = true
     [[object.function]]
-    pattern = "get_bytes"
+    name = "get_bytes"
     ignore = true
     [[object.function]]
-    pattern = "get_int"
+    name = "get_int"
     ignore = true
     [[object.function]]
-    pattern = "get_enum"
+    name = "get_enum"
     ignore = true
     [[object.function]]
-    pattern = "get_int64"
+    name = "get_int64"
     ignore = true
     [[object.function]]
-    pattern = "get_iec60958_channel_status"
+    name = "get_iec60958_channel_status"
     ignore = true
     [[object.function]]
-    pattern = "get_iec60958_user_data"
+    name = "get_iec60958_user_data"
     ignore = true
