@@ -12,6 +12,8 @@ mod auto;
 mod card;
 mod elem_value;
 
+pub mod subclass;
+
 pub use {auto::*, card::*, elem_value::*};
 
 use glib::{object::IsA, translate::*, Cast};
