@@ -119,15 +119,137 @@ impl ::std::fmt::Debug for ALSACtlElemId {
 
 #[repr(C)]
 #[derive(Copy, Clone)]
-pub struct ALSACtlElemInfoClass {
+pub struct ALSACtlElemInfoBooleanClass {
     pub parent_class: gobject::GObjectClass,
 }
 
-impl ::std::fmt::Debug for ALSACtlElemInfoClass {
+impl ::std::fmt::Debug for ALSACtlElemInfoBooleanClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSACtlElemInfoClass @ {:?}", self as *const _))
-            .field("parent_class", &self.parent_class)
-            .finish()
+        f.debug_struct(&format!(
+            "ALSACtlElemInfoBooleanClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .finish()
+    }
+}
+
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct ALSACtlElemInfoBytesClass {
+    pub parent_class: gobject::GObjectClass,
+}
+
+impl ::std::fmt::Debug for ALSACtlElemInfoBytesClass {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!(
+            "ALSACtlElemInfoBytesClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .finish()
+    }
+}
+
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct ALSACtlElemInfoCommonInterface {
+    pub parent_iface: gobject::GTypeInterface,
+}
+
+impl ::std::fmt::Debug for ALSACtlElemInfoCommonInterface {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!(
+            "ALSACtlElemInfoCommonInterface @ {:?}",
+            self as *const _
+        ))
+        .field("parent_iface", &self.parent_iface)
+        .finish()
+    }
+}
+
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct ALSACtlElemInfoEnumeratedClass {
+    pub parent_class: gobject::GObjectClass,
+}
+
+impl ::std::fmt::Debug for ALSACtlElemInfoEnumeratedClass {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!(
+            "ALSACtlElemInfoEnumeratedClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .finish()
+    }
+}
+
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct ALSACtlElemInfoIec60958Class {
+    pub parent_class: gobject::GObjectClass,
+}
+
+impl ::std::fmt::Debug for ALSACtlElemInfoIec60958Class {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!(
+            "ALSACtlElemInfoIec60958Class @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .finish()
+    }
+}
+
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct ALSACtlElemInfoInteger64Class {
+    pub parent_class: gobject::GObjectClass,
+}
+
+impl ::std::fmt::Debug for ALSACtlElemInfoInteger64Class {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!(
+            "ALSACtlElemInfoInteger64Class @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .finish()
+    }
+}
+
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct ALSACtlElemInfoIntegerClass {
+    pub parent_class: gobject::GObjectClass,
+}
+
+impl ::std::fmt::Debug for ALSACtlElemInfoIntegerClass {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!(
+            "ALSACtlElemInfoIntegerClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .finish()
+    }
+}
+
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct ALSACtlElemInfoSingleArrayInterface {
+    pub parent_iface: gobject::GTypeInterface,
+}
+
+impl ::std::fmt::Debug for ALSACtlElemInfoSingleArrayInterface {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!(
+            "ALSACtlElemInfoSingleArrayInterface @ {:?}",
+            self as *const _
+        ))
+        .field("parent_iface", &self.parent_iface)
+        .finish()
     }
 }
 
@@ -176,15 +298,91 @@ impl ::std::fmt::Debug for ALSACtlCardInfo {
 
 #[repr(C)]
 #[derive(Copy, Clone)]
-pub struct ALSACtlElemInfo {
+pub struct ALSACtlElemInfoBoolean {
     pub parent_instance: gobject::GObject,
 }
 
-impl ::std::fmt::Debug for ALSACtlElemInfo {
+impl ::std::fmt::Debug for ALSACtlElemInfoBoolean {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSACtlElemInfo @ {:?}", self as *const _))
+        f.debug_struct(&format!("ALSACtlElemInfoBoolean @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
             .finish()
+    }
+}
+
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct ALSACtlElemInfoBytes {
+    pub parent_instance: gobject::GObject,
+}
+
+impl ::std::fmt::Debug for ALSACtlElemInfoBytes {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("ALSACtlElemInfoBytes @ {:?}", self as *const _))
+            .field("parent_instance", &self.parent_instance)
+            .finish()
+    }
+}
+
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct ALSACtlElemInfoEnumerated {
+    pub parent_instance: gobject::GObject,
+}
+
+impl ::std::fmt::Debug for ALSACtlElemInfoEnumerated {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!(
+            "ALSACtlElemInfoEnumerated @ {:?}",
+            self as *const _
+        ))
+        .field("parent_instance", &self.parent_instance)
+        .finish()
+    }
+}
+
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct ALSACtlElemInfoIec60958 {
+    pub parent_instance: gobject::GObject,
+}
+
+impl ::std::fmt::Debug for ALSACtlElemInfoIec60958 {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("ALSACtlElemInfoIec60958 @ {:?}", self as *const _))
+            .field("parent_instance", &self.parent_instance)
+            .finish()
+    }
+}
+
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct ALSACtlElemInfoInteger {
+    pub parent_instance: gobject::GObject,
+}
+
+impl ::std::fmt::Debug for ALSACtlElemInfoInteger {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("ALSACtlElemInfoInteger @ {:?}", self as *const _))
+            .field("parent_instance", &self.parent_instance)
+            .finish()
+    }
+}
+
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct ALSACtlElemInfoInteger64 {
+    pub parent_instance: gobject::GObject,
+}
+
+impl ::std::fmt::Debug for ALSACtlElemInfoInteger64 {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!(
+            "ALSACtlElemInfoInteger64 @ {:?}",
+            self as *const _
+        ))
+        .field("parent_instance", &self.parent_instance)
+        .finish()
     }
 }
 
@@ -199,6 +397,25 @@ impl ::std::fmt::Debug for ALSACtlElemValue {
         f.debug_struct(&format!("ALSACtlElemValue @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
             .finish()
+    }
+}
+
+// Interfaces
+#[repr(C)]
+pub struct ALSACtlElemInfoCommon(c_void);
+
+impl ::std::fmt::Debug for ALSACtlElemInfoCommon {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        write!(f, "ALSACtlElemInfoCommon @ {:?}", self as *const _)
+    }
+}
+
+#[repr(C)]
+pub struct ALSACtlElemInfoSingleArray(c_void);
+
+impl ::std::fmt::Debug for ALSACtlElemInfoSingleArray {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        write!(f, "ALSACtlElemInfoSingleArray @ {:?}", self as *const _)
     }
 }
 
@@ -267,94 +484,94 @@ extern "C" {
         self_: *mut ALSACtlCard,
         elem_id: *const ALSACtlElemId,
         elem_count: c_uint,
-        elem_info: *mut ALSACtlElemInfo,
+        elem_info: *mut ALSACtlElemInfoCommon,
         entries: *mut *mut glib::GList,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsactl_card_command_elem_tlv(
         self_: *mut ALSACtlCard,
         elem_id: *const ALSACtlElemId,
         container: *const *mut u32,
         container_count: *mut size_t,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsactl_card_create_source(
         self_: *mut ALSACtlCard,
         gsrc: *mut *mut glib::GSource,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsactl_card_get_elem_id_list(
         self_: *mut ALSACtlCard,
         entries: *mut *mut glib::GList,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsactl_card_get_elem_info(
         self_: *mut ALSACtlCard,
         elem_id: *const ALSACtlElemId,
-        elem_info: *mut *mut ALSACtlElemInfo,
+        elem_info: *mut *mut ALSACtlElemInfoCommon,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsactl_card_get_info(
         self_: *mut ALSACtlCard,
         card_info: *mut *mut ALSACtlCardInfo,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsactl_card_get_protocol_version(
         self_: *mut ALSACtlCard,
         proto_ver_triplet: *mut *const [u16; 3],
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsactl_card_lock_elem(
         self_: *mut ALSACtlCard,
         elem_id: *const ALSACtlElemId,
         lock: gboolean,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsactl_card_open(
         self_: *mut ALSACtlCard,
         card_id: c_uint,
         open_flag: c_int,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsactl_card_read_elem_tlv(
         self_: *mut ALSACtlCard,
         elem_id: *const ALSACtlElemId,
         container: *const *mut u32,
         container_count: *mut size_t,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsactl_card_read_elem_value(
         self_: *mut ALSACtlCard,
         elem_id: *const ALSACtlElemId,
         elem_value: *const *mut ALSACtlElemValue,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsactl_card_remove_elems(
         self_: *mut ALSACtlCard,
         elem_id: *const ALSACtlElemId,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsactl_card_replace_elems(
         self_: *mut ALSACtlCard,
         elem_id: *const ALSACtlElemId,
         elem_count: c_uint,
-        elem_info: *mut ALSACtlElemInfo,
+        elem_info: *mut ALSACtlElemInfoCommon,
         entries: *mut *mut glib::GList,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsactl_card_write_elem_tlv(
         self_: *mut ALSACtlCard,
         elem_id: *const ALSACtlElemId,
         container: *const u32,
         container_count: size_t,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsactl_card_write_elem_value(
         self_: *mut ALSACtlCard,
         elem_id: *const ALSACtlElemId,
         elem_value: *const ALSACtlElemValue,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
 
     //=========================================================================
     // ALSACtlCardInfo
@@ -362,43 +579,40 @@ extern "C" {
     pub fn alsactl_card_info_get_type() -> GType;
 
     //=========================================================================
-    // ALSACtlElemInfo
+    // ALSACtlElemInfoBoolean
     //=========================================================================
-    pub fn alsactl_elem_info_get_type() -> GType;
-    pub fn alsactl_elem_info_new(
-        elem_type: ALSACtlElemType,
-        error: *mut *mut glib::GError,
-    ) -> *mut ALSACtlElemInfo;
-    pub fn alsactl_elem_info_get_enum_data(
-        self_: *mut ALSACtlElemInfo,
-        data: *mut *mut *const c_char,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsactl_elem_info_get_int64_data(
-        self_: *mut ALSACtlElemInfo,
-        data: *mut *const [i64; 3],
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsactl_elem_info_get_int_data(
-        self_: *mut ALSACtlElemInfo,
-        data: *mut *const [i32; 3],
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsactl_elem_info_set_enum_data(
-        self_: *mut ALSACtlElemInfo,
-        data: *mut *const c_char,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsactl_elem_info_set_int64_data(
-        self_: *mut ALSACtlElemInfo,
-        data: *const [i64; 3],
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsactl_elem_info_set_int_data(
-        self_: *mut ALSACtlElemInfo,
-        data: *const [i32; 3],
-        error: *mut *mut glib::GError,
-    );
+    pub fn alsactl_elem_info_boolean_get_type() -> GType;
+    pub fn alsactl_elem_info_boolean_new() -> *mut ALSACtlElemInfoBoolean;
+
+    //=========================================================================
+    // ALSACtlElemInfoBytes
+    //=========================================================================
+    pub fn alsactl_elem_info_bytes_get_type() -> GType;
+    pub fn alsactl_elem_info_bytes_new() -> *mut ALSACtlElemInfoBytes;
+
+    //=========================================================================
+    // ALSACtlElemInfoEnumerated
+    //=========================================================================
+    pub fn alsactl_elem_info_enumerated_get_type() -> GType;
+    pub fn alsactl_elem_info_enumerated_new() -> *mut ALSACtlElemInfoEnumerated;
+
+    //=========================================================================
+    // ALSACtlElemInfoIec60958
+    //=========================================================================
+    pub fn alsactl_elem_info_iec60958_get_type() -> GType;
+    pub fn alsactl_elem_info_iec60958_new() -> *mut ALSACtlElemInfoIec60958;
+
+    //=========================================================================
+    // ALSACtlElemInfoInteger
+    //=========================================================================
+    pub fn alsactl_elem_info_integer_get_type() -> GType;
+    pub fn alsactl_elem_info_integer_new() -> *mut ALSACtlElemInfoInteger;
+
+    //=========================================================================
+    // ALSACtlElemInfoInteger64
+    //=========================================================================
+    pub fn alsactl_elem_info_integer64_get_type() -> GType;
+    pub fn alsactl_elem_info_integer64_new() -> *mut ALSACtlElemInfoInteger64;
 
     //=========================================================================
     // ALSACtlElemValue
@@ -411,38 +625,28 @@ extern "C" {
     ) -> gboolean;
     pub fn alsactl_elem_value_get_bool(
         self_: *mut ALSACtlElemValue,
-        values: *const *mut gboolean,
-        value_count: *mut size_t,
+        values: *mut *const [gboolean; 128],
     );
     pub fn alsactl_elem_value_get_bytes(
         self_: *mut ALSACtlElemValue,
-        values: *const *mut u8,
-        value_count: *mut size_t,
+        values: *mut *const [u8; 512],
     );
     pub fn alsactl_elem_value_get_enum(
         self_: *mut ALSACtlElemValue,
-        values: *const *mut u32,
-        value_count: *mut size_t,
+        values: *mut *const [u32; 128],
     );
     pub fn alsactl_elem_value_get_iec60958_channel_status(
         self_: *mut ALSACtlElemValue,
-        status: *const *mut u8,
-        length: *mut size_t,
+        status: *mut *const [u8; 24],
     );
     pub fn alsactl_elem_value_get_iec60958_user_data(
         self_: *mut ALSACtlElemValue,
-        data: *const *mut u8,
-        length: *mut size_t,
+        data: *mut *const [u8; 147],
     );
-    pub fn alsactl_elem_value_get_int(
-        self_: *mut ALSACtlElemValue,
-        values: *const *mut i32,
-        value_count: *mut size_t,
-    );
+    pub fn alsactl_elem_value_get_int(self_: *mut ALSACtlElemValue, values: *mut *const [i32; 128]);
     pub fn alsactl_elem_value_get_int64(
         self_: *mut ALSACtlElemValue,
-        values: *const *mut i64,
-        value_count: *mut size_t,
+        values: *mut *const [i64; 64],
     );
     pub fn alsactl_elem_value_set_bool(
         self_: *mut ALSACtlElemValue,
@@ -481,28 +685,38 @@ extern "C" {
     );
 
     //=========================================================================
+    // ALSACtlElemInfoCommon
+    //=========================================================================
+    pub fn alsactl_elem_info_common_get_type() -> GType;
+
+    //=========================================================================
+    // ALSACtlElemInfoSingleArray
+    //=========================================================================
+    pub fn alsactl_elem_info_single_array_get_type() -> GType;
+
+    //=========================================================================
     // Other functions
     //=========================================================================
     pub fn alsactl_get_card_id_list(
         entries: *mut *mut c_uint,
         entry_count: *mut size_t,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsactl_get_card_sysname(
         card_id: c_uint,
         sysname: *mut *mut c_char,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsactl_get_control_devnode(
         card_id: c_uint,
         devnode: *mut *mut c_char,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsactl_get_control_sysname(
         card_id: c_uint,
         sysname: *mut *mut c_char,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsactl_sigs_marshal_VOID__BOXED_FLAGS(
         closure: *mut gobject::GClosure,
         return_value: *mut gobject::GValue,

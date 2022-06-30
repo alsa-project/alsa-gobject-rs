@@ -8,4 +8,9 @@ extern crate gobject_sys;
 extern crate libc;
 
 mod auto;
-pub use auto::*;
+mod device_common;
+mod enums;
+
+pub use {auto::*, device_common::*, enums::*};
+
+use glib::{translate::*, IsA};

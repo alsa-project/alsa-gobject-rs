@@ -45,6 +45,20 @@ pub fn get_devnode() -> Result<GString, glib::Error> {
     }
 }
 
+pub fn get_real_time_clock_id() -> Result<i32, glib::Error> {
+    unsafe {
+        let mut clock_id = mem::MaybeUninit::uninit();
+        let mut error = ptr::null_mut();
+        let _ = alsatimer_sys::alsatimer_get_real_time_clock_id(clock_id.as_mut_ptr(), &mut error);
+        let clock_id = clock_id.assume_init();
+        if error.is_null() {
+            Ok(clock_id)
+        } else {
+            Err(from_glib_full(error))
+        }
+    }
+}
+
 pub fn get_sysname() -> Result<GString, glib::Error> {
     unsafe {
         let mut sysname = ptr::null_mut();
@@ -52,20 +66,6 @@ pub fn get_sysname() -> Result<GString, glib::Error> {
         let _ = alsatimer_sys::alsatimer_get_sysname(&mut sysname, &mut error);
         if error.is_null() {
             Ok(from_glib_full(sysname))
-        } else {
-            Err(from_glib_full(error))
-        }
-    }
-}
-
-pub fn get_tstamp_source() -> Result<i32, glib::Error> {
-    unsafe {
-        let mut clock_id = mem::MaybeUninit::uninit();
-        let mut error = ptr::null_mut();
-        let _ = alsatimer_sys::alsatimer_get_tstamp_source(clock_id.as_mut_ptr(), &mut error);
-        let clock_id = clock_id.assume_init();
-        if error.is_null() {
-            Ok(clock_id)
         } else {
             Err(from_glib_full(error))
         }

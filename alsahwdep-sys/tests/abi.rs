@@ -253,6 +253,20 @@ fn get_c_value(dir: &Path, cc: &Compiler, name: &str) -> Result<String, Box<dyn 
 
 const RUST_LAYOUTS: &[(&str, Layout)] = &[
     (
+        "ALSAHwdepDeviceCommonError",
+        Layout {
+            size: size_of::<ALSAHwdepDeviceCommonError>(),
+            alignment: align_of::<ALSAHwdepDeviceCommonError>(),
+        },
+    ),
+    (
+        "ALSAHwdepDeviceCommonInterface",
+        Layout {
+            size: size_of::<ALSAHwdepDeviceCommonInterface>(),
+            alignment: align_of::<ALSAHwdepDeviceCommonInterface>(),
+        },
+    ),
+    (
         "ALSAHwdepDeviceInfo",
         Layout {
             size: size_of::<ALSAHwdepDeviceInfo>(),
@@ -276,6 +290,12 @@ const RUST_LAYOUTS: &[(&str, Layout)] = &[
 ];
 
 const RUST_CONSTANTS: &[(&str, &str)] = &[
+    ("(gint) ALSAHWDEP_DEVICE_COMMON_ERROR_FAILED", "1"),
+    ("(gint) ALSAHWDEP_DEVICE_COMMON_ERROR_IS_DISCONNECTED", "6"),
+    ("(gint) ALSAHWDEP_DEVICE_COMMON_ERROR_IS_NOT_OPENED", "3"),
+    ("(gint) ALSAHWDEP_DEVICE_COMMON_ERROR_IS_NOT_SUPPORTED", "5"),
+    ("(gint) ALSAHWDEP_DEVICE_COMMON_ERROR_IS_OPENED", "2"),
+    ("(gint) ALSAHWDEP_DEVICE_COMMON_ERROR_IS_USED", "4"),
     ("(gint) ALSAHWDEP_IFACE_TYPE_BLUETOOTH", "12"),
     ("(gint) ALSAHWDEP_IFACE_TYPE_EMU10K1", "4"),
     ("(gint) ALSAHWDEP_IFACE_TYPE_EMUX_WAVETABLE", "11"),

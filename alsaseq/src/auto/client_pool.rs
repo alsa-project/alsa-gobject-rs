@@ -41,25 +41,25 @@ pub const NONE_CLIENT_POOL: Option<&ClientPool> = None;
 pub trait ClientPoolExt: 'static {
     fn get_property_client_id(&self) -> u8;
 
-    fn get_property_input_free(&self) -> i32;
+    fn get_property_input_free(&self) -> u32;
 
-    fn set_property_input_free(&self, input_free: i32);
+    fn set_property_input_free(&self, input_free: u32);
 
-    fn get_property_input_pool(&self) -> i32;
+    fn get_property_input_pool(&self) -> u32;
 
-    fn set_property_input_pool(&self, input_pool: i32);
+    fn set_property_input_pool(&self, input_pool: u32);
 
-    fn get_property_output_free(&self) -> i32;
+    fn get_property_output_free(&self) -> u32;
 
-    fn set_property_output_free(&self, output_free: i32);
+    fn set_property_output_free(&self, output_free: u32);
 
-    fn get_property_output_pool(&self) -> i32;
+    fn get_property_output_pool(&self) -> u32;
 
-    fn set_property_output_pool(&self, output_pool: i32);
+    fn set_property_output_pool(&self, output_pool: u32);
 
-    fn get_property_output_room(&self) -> i32;
+    fn get_property_output_room(&self) -> u32;
 
-    fn set_property_output_room(&self, output_room: i32);
+    fn set_property_output_room(&self, output_room: u32);
 
     fn connect_property_client_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
@@ -90,9 +90,9 @@ impl<O: IsA<ClientPool>> ClientPoolExt for O {
         }
     }
 
-    fn get_property_input_free(&self) -> i32 {
+    fn get_property_input_free(&self) -> u32 {
         unsafe {
-            let mut value = Value::from_type(<i32 as StaticType>::static_type());
+            let mut value = Value::from_type(<u32 as StaticType>::static_type());
             gobject_sys::g_object_get_property(
                 self.to_glib_none().0 as *mut gobject_sys::GObject,
                 b"input-free\0".as_ptr() as *const _,
@@ -105,7 +105,7 @@ impl<O: IsA<ClientPool>> ClientPoolExt for O {
         }
     }
 
-    fn set_property_input_free(&self, input_free: i32) {
+    fn set_property_input_free(&self, input_free: u32) {
         unsafe {
             gobject_sys::g_object_set_property(
                 self.to_glib_none().0 as *mut gobject_sys::GObject,
@@ -115,9 +115,9 @@ impl<O: IsA<ClientPool>> ClientPoolExt for O {
         }
     }
 
-    fn get_property_input_pool(&self) -> i32 {
+    fn get_property_input_pool(&self) -> u32 {
         unsafe {
-            let mut value = Value::from_type(<i32 as StaticType>::static_type());
+            let mut value = Value::from_type(<u32 as StaticType>::static_type());
             gobject_sys::g_object_get_property(
                 self.to_glib_none().0 as *mut gobject_sys::GObject,
                 b"input-pool\0".as_ptr() as *const _,
@@ -130,7 +130,7 @@ impl<O: IsA<ClientPool>> ClientPoolExt for O {
         }
     }
 
-    fn set_property_input_pool(&self, input_pool: i32) {
+    fn set_property_input_pool(&self, input_pool: u32) {
         unsafe {
             gobject_sys::g_object_set_property(
                 self.to_glib_none().0 as *mut gobject_sys::GObject,
@@ -140,9 +140,9 @@ impl<O: IsA<ClientPool>> ClientPoolExt for O {
         }
     }
 
-    fn get_property_output_free(&self) -> i32 {
+    fn get_property_output_free(&self) -> u32 {
         unsafe {
-            let mut value = Value::from_type(<i32 as StaticType>::static_type());
+            let mut value = Value::from_type(<u32 as StaticType>::static_type());
             gobject_sys::g_object_get_property(
                 self.to_glib_none().0 as *mut gobject_sys::GObject,
                 b"output-free\0".as_ptr() as *const _,
@@ -155,7 +155,7 @@ impl<O: IsA<ClientPool>> ClientPoolExt for O {
         }
     }
 
-    fn set_property_output_free(&self, output_free: i32) {
+    fn set_property_output_free(&self, output_free: u32) {
         unsafe {
             gobject_sys::g_object_set_property(
                 self.to_glib_none().0 as *mut gobject_sys::GObject,
@@ -165,9 +165,9 @@ impl<O: IsA<ClientPool>> ClientPoolExt for O {
         }
     }
 
-    fn get_property_output_pool(&self) -> i32 {
+    fn get_property_output_pool(&self) -> u32 {
         unsafe {
-            let mut value = Value::from_type(<i32 as StaticType>::static_type());
+            let mut value = Value::from_type(<u32 as StaticType>::static_type());
             gobject_sys::g_object_get_property(
                 self.to_glib_none().0 as *mut gobject_sys::GObject,
                 b"output-pool\0".as_ptr() as *const _,
@@ -180,7 +180,7 @@ impl<O: IsA<ClientPool>> ClientPoolExt for O {
         }
     }
 
-    fn set_property_output_pool(&self, output_pool: i32) {
+    fn set_property_output_pool(&self, output_pool: u32) {
         unsafe {
             gobject_sys::g_object_set_property(
                 self.to_glib_none().0 as *mut gobject_sys::GObject,
@@ -190,9 +190,9 @@ impl<O: IsA<ClientPool>> ClientPoolExt for O {
         }
     }
 
-    fn get_property_output_room(&self) -> i32 {
+    fn get_property_output_room(&self) -> u32 {
         unsafe {
-            let mut value = Value::from_type(<i32 as StaticType>::static_type());
+            let mut value = Value::from_type(<u32 as StaticType>::static_type());
             gobject_sys::g_object_get_property(
                 self.to_glib_none().0 as *mut gobject_sys::GObject,
                 b"output-room\0".as_ptr() as *const _,
@@ -205,7 +205,7 @@ impl<O: IsA<ClientPool>> ClientPoolExt for O {
         }
     }
 
-    fn set_property_output_room(&self, output_room: i32) {
+    fn set_property_output_room(&self, output_room: u32) {
         unsafe {
             gobject_sys::g_object_set_property(
                 self.to_glib_none().0 as *mut gobject_sys::GObject,

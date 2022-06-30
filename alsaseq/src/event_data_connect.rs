@@ -28,8 +28,8 @@ mod test {
         let dst_expected = Addr::new(192, 168);
         let src_expected = Addr::new(169, 254);
 
-        let cntr = EventCntr::new(1).unwrap();
-        let mut data = cntr.get_connect_data(0).unwrap();
+        let mut ev = Event::new(EventType::PortSubscribed);
+        let mut data = ev.get_connect_data().unwrap();
         let dst_orig = data.get_dst();
         let src_orig = data.get_src();
 
@@ -37,8 +37,8 @@ mod test {
         conn.set_dst(&dst_expected);
         conn.set_src(&src_expected);
 
-        cntr.set_connect_data(0, &conn).unwrap();
-        let mut data = cntr.get_connect_data(0).unwrap();
+        ev.set_connect_data(&conn).unwrap();
+        let mut data = ev.get_connect_data().unwrap();
         let dst_target = data.get_dst();
         let src_target = data.get_src();
 

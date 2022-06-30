@@ -10,7 +10,7 @@ repository = "https://github.com/alsa-project/alsa-gobject-rs"
 features = ["dox"]
 [package.metadata.system-deps.alsahwdep]
 name = "alsahwdep"
-version = "0.2"
+version = "0.3"
 
 [lib]
 name = "alsahwdep_sys"

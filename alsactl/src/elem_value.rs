@@ -2,130 +2,109 @@
 use super::*;
 
 pub trait ElemValueExtManual {
+    // NOTE: conversion between gboolean(=i32) and bool(=uchar in most ABIs). Read:
+    // https://gitlab.gnome.org/GNOME/gobject-introspection/-/issues/392
     fn set_bool(&self, values: &[bool]);
-    fn get_bool(&self, values: &mut [bool]);
+    fn get_bool(&self) -> Vec<bool>;
 
-    fn get_bytes(&self, values: &mut [u8]);
+    fn get_bytes(&self) -> &[u8];
 
-    fn get_int(&self, values: &mut [i32]);
+    fn get_int(&self) -> &[i32];
 
-    fn get_enum(&self, values: &mut [u32]);
+    fn get_enum(&self) -> &[u32];
 
-    fn get_int64(&self, values: &mut [i64]);
+    fn get_int64(&self) -> &[i64];
 
-    fn get_iec60958_channel_status(&self, status: &mut [u8]);
-    fn get_iec60958_user_data(&self, data: &mut [u8]);
+    fn get_iec60958_channel_status(&self) -> &[u8];
+    fn get_iec60958_user_data(&self) -> &[u8];
 }
 
 impl<O: IsA<ElemValue>> ElemValueExtManual for O {
-    // The type of 'gboolean' is alias to 'int'.
     fn set_bool(&self, values: &[bool]) {
-        let value_count = values.len() as usize;
-        let mut int_values = Vec::<i32>::with_capacity(value_count);
-
-        for &val in values.into_iter() {
-            int_values.push(val as i32);
-        }
+        let entries: Vec<glib_sys::gboolean> = values.iter().map(|&val| val.to_glib()).collect();
 
         unsafe {
             alsactl_sys::alsactl_elem_value_set_bool(
                 self.as_ref().to_glib_none().0,
-                int_values.as_ptr(),
-                value_count,
+                entries.as_ptr(),
+                entries.len(),
             );
         }
     }
 
-    fn get_bool(&self, values: &mut [bool]) {
-        let mut value_count = values.len() as usize;
-        let mut int_values = Vec::<i32>::with_capacity(value_count);
-
-        for &mut val in values.into_iter() {
-            int_values.push(val as i32)
-        }
+    fn get_bool(&self) -> Vec<bool> {
+        let mut data = std::ptr::null_mut() as *const [glib_sys::gboolean; 128];
 
         unsafe {
-            alsactl_sys::alsactl_elem_value_get_bool(
-                self.as_ref().to_glib_none().0,
-                &int_values.as_mut_ptr(),
-                &mut value_count,
-            );
+            alsactl_sys::alsactl_elem_value_get_bool(self.as_ref().to_glib_none().0, &mut data);
 
-            for (i, val) in int_values.into_iter().enumerate() {
-                values[i] = val != 0;
-            }
+            (*data).iter().map(|&val| from_glib(val)).collect()
         }
     }
 
-    fn get_bytes(&self, values: &mut [u8]) {
+    fn get_bytes(&self) -> &[u8] {
         unsafe {
-            let mut value_count = values.len() as usize;
+            let mut data = std::ptr::null_mut() as *const [u8; 512];
 
-            alsactl_sys::alsactl_elem_value_get_bytes(
-                self.as_ref().to_glib_none().0,
-                &values.as_mut_ptr(),
-                &mut value_count,
-            );
+            alsactl_sys::alsactl_elem_value_get_bytes(self.as_ref().to_glib_none().0, &mut data);
+
+            &*data
         }
     }
 
-    fn get_int(&self, values: &mut [i32]) {
+    fn get_int(&self) -> &[i32] {
         unsafe {
-            let mut value_count = values.len() as usize;
+            let mut data = std::ptr::null_mut() as *const [i32; 128];
 
-            alsactl_sys::alsactl_elem_value_get_int(
-                self.as_ref().to_glib_none().0,
-                &values.as_mut_ptr(),
-                &mut value_count,
-            );
+            alsactl_sys::alsactl_elem_value_get_int(self.as_ref().to_glib_none().0, &mut data);
+
+            &*data
         }
     }
 
-    fn get_enum(&self, values: &mut [u32]) {
+    fn get_enum(&self) -> &[u32] {
         unsafe {
-            let mut value_count = values.len() as usize;
+            let mut data = std::ptr::null_mut() as *const [u32; 128];
 
-            alsactl_sys::alsactl_elem_value_get_enum(
-                self.as_ref().to_glib_none().0,
-                &values.as_mut_ptr(),
-                &mut value_count,
-            );
+            alsactl_sys::alsactl_elem_value_get_enum(self.as_ref().to_glib_none().0, &mut data);
+
+            &*data
         }
     }
 
-    fn get_int64(&self, values: &mut [i64]) {
+    fn get_int64(&self) -> &[i64] {
         unsafe {
-            let mut value_count = values.len() as usize;
+            let mut data = std::ptr::null_mut() as *const [i64; 64];
 
-            alsactl_sys::alsactl_elem_value_get_int64(
-                self.as_ref().to_glib_none().0,
-                &values.as_mut_ptr(),
-                &mut value_count,
-            );
+            alsactl_sys::alsactl_elem_value_get_int64(self.as_ref().to_glib_none().0, &mut data);
+
+            &*data
         }
     }
 
-    fn get_iec60958_channel_status(&self, status: &mut [u8]) {
+    fn get_iec60958_channel_status(&self) -> &[u8] {
         unsafe {
-            let mut count = status.len() as usize;
+            let mut data = std::ptr::null_mut() as *const [u8; 24];
 
             alsactl_sys::alsactl_elem_value_get_iec60958_channel_status(
                 self.as_ref().to_glib_none().0,
-                &status.as_mut_ptr(),
-                &mut count,
+                &mut data,
             );
+
+            &*data
         }
     }
 
-    fn get_iec60958_user_data(&self, data: &mut [u8]) {
+    fn get_iec60958_user_data(&self) -> &[u8] {
         unsafe {
-            let mut count = data.len() as usize;
+            let mut data = std::ptr::null_mut() as *const [u8; 147];
 
             alsactl_sys::alsactl_elem_value_get_iec60958_user_data(
                 self.as_ref().to_glib_none().0,
-                &data.as_mut_ptr(),
-                &mut count,
+                &mut data,
             );
+
+            &*data
         }
     }
 }
@@ -139,66 +118,37 @@ mod test {
         let val = ElemValue::new();
 
         let bool_expected = [false, true, false, true, true, false];
-        let mut bool_orig = vec![false; bool_expected.len()];
-        val.get_bool(&mut bool_orig);
         val.set_bool(&bool_expected);
-        let mut bool_target = vec![false; bool_expected.len()];
-        val.get_bool(&mut bool_target);
-        assert_ne!(&bool_expected.to_vec(), &bool_orig);
-        assert_eq!(&bool_expected.to_vec(), &bool_target);
+        assert_eq!(bool_expected, val.get_bool()[..bool_expected.len()]);
 
         let bytes_expected = [5, 4, 0, 2, 1, 8, 19, 21, 128, 212, 192];
-        let mut bytes_orig = vec![0; bytes_expected.len()];
-        val.get_bytes(&mut bytes_orig);
         val.set_bytes(&bytes_expected);
-        let mut bytes_target = vec![0; bytes_expected.len()];
-        val.get_bytes(&mut bytes_target);
-        assert_ne!(&bytes_expected.to_vec(), &bytes_orig);
-        assert_eq!(&bytes_expected.to_vec(), &bytes_target);
+        assert_eq!(bytes_expected, val.get_bytes()[..bytes_expected.len()]);
 
         let int_expected = [5, -4, 0, 2, 1, 8, 19, 21, -128, 212, -192000];
-        let mut int_orig = vec![0; int_expected.len()];
-        val.get_int(&mut int_orig);
         val.set_int(&int_expected);
-        let mut int_target = vec![0; int_expected.len()];
-        val.get_int(&mut int_target);
-        assert_ne!(&int_expected.to_vec(), &int_orig);
-        assert_eq!(&int_expected.to_vec(), &int_target);
+        assert_eq!(int_expected, val.get_int()[..int_expected.len()]);
 
         let enum_expected = [5, 4, 0, 2, 1, 8, 19, 21, 128, 212, 192];
-        let mut enum_orig = vec![0; enum_expected.len()];
-        val.get_enum(&mut enum_orig);
         val.set_enum(&enum_expected);
-        let mut enum_target = vec![0; enum_expected.len()];
-        val.get_enum(&mut enum_target);
-        assert_ne!(&enum_expected.to_vec(), &enum_orig);
-        assert_eq!(&enum_expected.to_vec(), &enum_target);
+        assert_eq!(enum_expected, val.get_enum()[..enum_expected.len()]);
 
         let int64_expected = [5, 4, 0, 2, 1, 8, -1938754, 21, 128, 212, -92854];
-        let mut int64_orig = vec![0; int64_expected.len()];
-        val.get_int64(&mut int64_orig);
         val.set_int64(&int64_expected);
-        let mut int64_target = vec![0; int64_expected.len()];
-        val.get_int64(&mut int64_target);
-        assert_ne!(&int64_expected.to_vec(), &int64_orig);
-        assert_eq!(&int64_expected.to_vec(), &int64_target);
+        assert_eq!(int64_expected, val.get_int64()[..int64_expected.len()]);
 
         let status_expected = [9, 7, 4, 124, 67];
-        let mut status_orig = vec![0; status_expected.len()];
-        val.get_iec60958_channel_status(&mut status_orig);
         val.set_iec60958_channel_status(&status_expected);
-        let mut status_target = vec![0; status_expected.len()];
-        val.get_iec60958_channel_status(&mut status_target);
-        assert_ne!(&status_expected.to_vec(), &status_orig);
-        assert_eq!(&status_expected.to_vec(), &status_target);
+        assert_eq!(
+            status_expected,
+            val.get_iec60958_channel_status()[..status_expected.len()]
+        );
 
         let data_expected = [31, 211, 198, 90, 28, 8, 49];
-        let mut data_orig = vec![0; data_expected.len()];
-        val.get_iec60958_user_data(&mut data_orig);
         val.set_iec60958_user_data(&data_expected);
-        let mut data_target = vec![0; data_expected.len()];
-        val.get_iec60958_user_data(&mut data_target);
-        assert_ne!(&data_expected.to_vec(), &data_orig);
-        assert_eq!(&data_expected.to_vec(), &data_target);
+        assert_eq!(
+            data_expected,
+            val.get_iec60958_user_data()[..data_expected.len()]
+        );
     }
 }

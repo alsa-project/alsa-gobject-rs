@@ -6,24 +6,24 @@ use alsatimer_sys;
 use glib::translate::*;
 use gobject_sys;
 use std::mem;
-use EventType;
+use RealTimeEventType;
 
 glib_wrapper! {
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
-    pub struct EventDataTstamp(Boxed<alsatimer_sys::ALSATimerEventDataTstamp>);
+    pub struct RealTimeEvent(Boxed<alsatimer_sys::ALSATimerRealTimeEvent>);
 
     match fn {
-        copy => |ptr| gobject_sys::g_boxed_copy(alsatimer_sys::alsatimer_event_data_tstamp_get_type(), ptr as *mut _) as *mut alsatimer_sys::ALSATimerEventDataTstamp,
-        free => |ptr| gobject_sys::g_boxed_free(alsatimer_sys::alsatimer_event_data_tstamp_get_type(), ptr as *mut _),
-        get_type => || alsatimer_sys::alsatimer_event_data_tstamp_get_type(),
+        copy => |ptr| gobject_sys::g_boxed_copy(alsatimer_sys::alsatimer_real_time_event_get_type(), ptr as *mut _) as *mut alsatimer_sys::ALSATimerRealTimeEvent,
+        free => |ptr| gobject_sys::g_boxed_free(alsatimer_sys::alsatimer_real_time_event_get_type(), ptr as *mut _),
+        get_type => || alsatimer_sys::alsatimer_real_time_event_get_type(),
     }
 }
 
-impl EventDataTstamp {
-    pub fn get_event(&self) -> EventType {
+impl RealTimeEvent {
+    pub fn get_event(&self) -> RealTimeEventType {
         unsafe {
             let mut event = mem::MaybeUninit::uninit();
-            alsatimer_sys::alsatimer_event_data_tstamp_get_event(
+            alsatimer_sys::alsatimer_real_time_event_get_event(
                 self.to_glib_none().0,
                 event.as_mut_ptr(),
             );
@@ -35,7 +35,7 @@ impl EventDataTstamp {
     pub fn get_val(&self) -> u32 {
         unsafe {
             let mut val = mem::MaybeUninit::uninit();
-            alsatimer_sys::alsatimer_event_data_tstamp_get_val(
+            alsatimer_sys::alsatimer_real_time_event_get_val(
                 self.to_glib_none().0,
                 val.as_mut_ptr(),
             );
@@ -45,4 +45,4 @@ impl EventDataTstamp {
     }
 }
 
-unsafe impl Send for EventDataTstamp {}
+unsafe impl Send for RealTimeEvent {}

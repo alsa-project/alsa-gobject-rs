@@ -10,7 +10,7 @@ repository = "https://github.com/alsa-project/alsa-gobject-rs"
 features = ["dox"]
 [package.metadata.system-deps.alsarawmidi]
 name = "alsarawmidi"
-version = "0.2"
+version = "0.3"
 
 [lib]
 name = "alsarawmidi_sys"

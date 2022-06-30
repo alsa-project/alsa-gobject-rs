@@ -56,14 +56,23 @@ impl EventDataQueue {
         }
     }
 
-    pub fn get_tstamp_param(&mut self) -> Tstamp {
+    pub fn get_real_time_param(&mut self) -> &[u32; 2] {
         unsafe {
-            let mut tstamp = std::ptr::null_mut() as *const alsaseq_sys::ALSASeqTstamp;
-            alsaseq_sys::alsaseq_event_data_queue_get_tstamp_param(
+            let mut ptr = std::ptr::null_mut() as *const [u32; 2];
+            alsaseq_sys::alsaseq_event_data_queue_get_real_time_param(
                 self.to_glib_none_mut().0,
-                &mut tstamp,
+                &mut ptr as *mut *const [u32; 2],
             );
-            from_glib_none(tstamp)
+            &*ptr
+        }
+    }
+
+    pub fn set_real_time_param(&mut self, real_time: &[u32; 2]) {
+        unsafe {
+            alsaseq_sys::alsaseq_event_data_queue_set_real_time_param(
+                self.to_glib_none_mut().0,
+                real_time,
+            );
         }
     }
 }
@@ -75,51 +84,47 @@ mod test {
     #[test]
     fn test_manual_bindings() {
         let bytes_expected = [9, 2, 4, 7, 1, 8, 5, 3];
-        let cntr = EventCntr::new(1).unwrap();
-        let mut data = cntr.get_queue_data(0).unwrap();
+        let mut ev = Event::new(EventType::Start);
+        let mut data = ev.get_queue_data().unwrap();
         let bytes_orig = data.get_byte_param().clone();
         data.set_byte_param(&bytes_expected);
-        cntr.set_queue_data(0, &data).unwrap();
-        let mut data = cntr.get_queue_data(0).unwrap();
+        ev.set_queue_data(&data).unwrap();
+        let mut data = ev.get_queue_data().unwrap();
         let bytes_target = data.get_byte_param();
         assert_ne!(bytes_expected, bytes_orig);
         assert_eq!(&bytes_expected, bytes_target);
 
         let quads_expected = [54321, 12345];
-        let cntr = EventCntr::new(1).unwrap();
-        let mut data = cntr.get_queue_data(0).unwrap();
+        let mut ev = Event::new(EventType::Start);
+        let mut data = ev.get_queue_data().unwrap();
         let quads_orig = data.get_quadlet_param().clone();
         data.set_quadlet_param(&quads_expected);
-        cntr.set_queue_data(0, &data).unwrap();
-        let mut data = cntr.get_queue_data(0).unwrap();
+        ev.set_queue_data(&data).unwrap();
+        let mut data = ev.get_queue_data().unwrap();
         let quads_target = data.get_quadlet_param();
         assert_ne!(quads_expected, quads_orig);
         assert_eq!(&quads_expected, quads_target);
 
         let skew_expected = [45678, 987654];
-        let cntr = EventCntr::new(1).unwrap();
-        let mut data = cntr.get_queue_data(0).unwrap();
+        let mut ev = Event::new(EventType::Start);
+        let mut data = ev.get_queue_data().unwrap();
         let skew_orig = data.get_skew_param().clone();
         data.set_skew_param(&skew_expected);
-        cntr.set_queue_data(0, &data).unwrap();
-        let mut data = cntr.get_queue_data(0).unwrap();
+        ev.set_queue_data(&data).unwrap();
+        let mut data = ev.get_queue_data().unwrap();
         let skew_target = data.get_skew_param();
         assert_ne!(skew_expected, skew_orig);
         assert_eq!(&skew_expected, skew_target);
 
-        let cntr = EventCntr::new(1).unwrap();
-        let mut data = cntr.get_queue_data(0).unwrap();
-        let tstamp_orig = data.get_tstamp_param();
-        let mut tstamp_expected = tstamp_orig.clone();
-        tstamp_expected.set_tick_time(123456789);
-        data.set_tstamp_param(&tstamp_expected);
-        cntr.set_queue_data(0, &data).unwrap();
-        let mut data = cntr.get_queue_data(0).unwrap();
-        let tstamp_target = data.get_tstamp_param();
-        assert_ne!(tstamp_expected.get_tick_time(), tstamp_orig.get_tick_time());
-        assert_eq!(
-            tstamp_expected.get_tick_time(),
-            tstamp_target.get_tick_time()
-        );
+        let tick_time_expected = 123456789;
+        let mut ev = Event::new(EventType::Start);
+        let mut data = ev.get_queue_data().unwrap();
+        let tick_time_orig = data.get_tick_time_param();
+        data.set_tick_time_param(tick_time_expected);
+        ev.set_queue_data(&data).unwrap();
+        let data = ev.get_queue_data().unwrap();
+        let tick_time = data.get_tick_time_param();
+        assert_ne!(tick_time_orig, tick_time);
+        assert_eq!(tick_time_expected, tick_time);
     }
 }

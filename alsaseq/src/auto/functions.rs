@@ -147,10 +147,6 @@ pub fn get_queue_info_by_name(name: &str) -> Result<QueueInfo, glib::Error> {
     }
 }
 
-//pub fn get_queue_status<P: IsA<QueueStatus>>(queue_id: u8, queue_status: &P) -> Result<(), glib::Error> {
-//    unsafe { TODO: call alsaseq_sys:alsaseq_get_queue_status() }
-//}
-
 pub fn get_seq_devnode() -> Result<GString, glib::Error> {
     unsafe {
         let mut devnode = ptr::null_mut();
@@ -176,10 +172,6 @@ pub fn get_seq_sysname() -> Result<GString, glib::Error> {
         }
     }
 }
-
-//pub fn get_subscription_list(addr: &Addr, query_type: QuerySubscribeType, entries: /*Unimplemented*/Vec<SubscribeData>) -> Result<(), glib::Error> {
-//    unsafe { TODO: call alsaseq_sys:alsaseq_get_subscription_list() }
-//}
 
 pub fn get_system_info() -> Result<SystemInfo, glib::Error> {
     unsafe {

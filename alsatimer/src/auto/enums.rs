@@ -96,93 +96,9 @@ impl SetValue for Class {
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
-pub enum EventDataType {
-    Tick,
-    Tstamp,
-    #[doc(hidden)]
-    __Unknown(i32),
-}
-
-impl fmt::Display for EventDataType {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "EventDataType::{}",
-            match *self {
-                EventDataType::Tick => "Tick",
-                EventDataType::Tstamp => "Tstamp",
-                _ => "Unknown",
-            }
-        )
-    }
-}
-
-#[doc(hidden)]
-impl ToGlib for EventDataType {
-    type GlibType = alsatimer_sys::ALSATimerEventDataType;
-
-    fn to_glib(&self) -> alsatimer_sys::ALSATimerEventDataType {
-        match *self {
-            EventDataType::Tick => alsatimer_sys::ALSATIMER_EVENT_DATA_TYPE_TICK,
-            EventDataType::Tstamp => alsatimer_sys::ALSATIMER_EVENT_DATA_TYPE_TSTAMP,
-            EventDataType::__Unknown(value) => value,
-        }
-    }
-}
-
-#[doc(hidden)]
-impl FromGlib<alsatimer_sys::ALSATimerEventDataType> for EventDataType {
-    fn from_glib(value: alsatimer_sys::ALSATimerEventDataType) -> Self {
-        match value {
-            0 => EventDataType::Tick,
-            1 => EventDataType::Tstamp,
-            value => EventDataType::__Unknown(value),
-        }
-    }
-}
-
-impl StaticType for EventDataType {
-    fn static_type() -> Type {
-        unsafe { from_glib(alsatimer_sys::alsatimer_event_data_type_get_type()) }
-    }
-}
-
-impl<'a> FromValueOptional<'a> for EventDataType {
-    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
-        Some(FromValue::from_value(value))
-    }
-}
-
-impl<'a> FromValue<'a> for EventDataType {
-    unsafe fn from_value(value: &Value) -> Self {
-        from_glib(gobject_sys::g_value_get_enum(value.to_glib_none().0))
-    }
-}
-
-impl SetValue for EventDataType {
-    unsafe fn set_value(value: &mut Value, this: &Self) {
-        gobject_sys::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
-    }
-}
-
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
-#[non_exhaustive]
 pub enum EventType {
-    Resolution,
-    Tick,
-    Start,
-    Stop,
-    Continue,
-    Pause,
-    Early,
-    Suspend,
-    Resume,
-    Mstart,
-    Mstop,
-    Mcontinue,
-    Mpause,
-    Msuspend,
-    Mresume,
+    TickTime,
+    RealTime,
     #[doc(hidden)]
     __Unknown(i32),
 }
@@ -193,21 +109,8 @@ impl fmt::Display for EventType {
             f,
             "EventType::{}",
             match *self {
-                EventType::Resolution => "Resolution",
-                EventType::Tick => "Tick",
-                EventType::Start => "Start",
-                EventType::Stop => "Stop",
-                EventType::Continue => "Continue",
-                EventType::Pause => "Pause",
-                EventType::Early => "Early",
-                EventType::Suspend => "Suspend",
-                EventType::Resume => "Resume",
-                EventType::Mstart => "Mstart",
-                EventType::Mstop => "Mstop",
-                EventType::Mcontinue => "Mcontinue",
-                EventType::Mpause => "Mpause",
-                EventType::Msuspend => "Msuspend",
-                EventType::Mresume => "Mresume",
+                EventType::TickTime => "TickTime",
+                EventType::RealTime => "RealTime",
                 _ => "Unknown",
             }
         )
@@ -220,21 +123,8 @@ impl ToGlib for EventType {
 
     fn to_glib(&self) -> alsatimer_sys::ALSATimerEventType {
         match *self {
-            EventType::Resolution => alsatimer_sys::ALSATIMER_EVENT_TYPE_RESOLUTION,
-            EventType::Tick => alsatimer_sys::ALSATIMER_EVENT_TYPE_TICK,
-            EventType::Start => alsatimer_sys::ALSATIMER_EVENT_TYPE_START,
-            EventType::Stop => alsatimer_sys::ALSATIMER_EVENT_TYPE_STOP,
-            EventType::Continue => alsatimer_sys::ALSATIMER_EVENT_TYPE_CONTINUE,
-            EventType::Pause => alsatimer_sys::ALSATIMER_EVENT_TYPE_PAUSE,
-            EventType::Early => alsatimer_sys::ALSATIMER_EVENT_TYPE_EARLY,
-            EventType::Suspend => alsatimer_sys::ALSATIMER_EVENT_TYPE_SUSPEND,
-            EventType::Resume => alsatimer_sys::ALSATIMER_EVENT_TYPE_RESUME,
-            EventType::Mstart => alsatimer_sys::ALSATIMER_EVENT_TYPE_MSTART,
-            EventType::Mstop => alsatimer_sys::ALSATIMER_EVENT_TYPE_MSTOP,
-            EventType::Mcontinue => alsatimer_sys::ALSATIMER_EVENT_TYPE_MCONTINUE,
-            EventType::Mpause => alsatimer_sys::ALSATIMER_EVENT_TYPE_MPAUSE,
-            EventType::Msuspend => alsatimer_sys::ALSATIMER_EVENT_TYPE_MSUSPEND,
-            EventType::Mresume => alsatimer_sys::ALSATIMER_EVENT_TYPE_MRESUME,
+            EventType::TickTime => alsatimer_sys::ALSATIMER_EVENT_TYPE_TICK_TIME,
+            EventType::RealTime => alsatimer_sys::ALSATIMER_EVENT_TYPE_REAL_TIME,
             EventType::__Unknown(value) => value,
         }
     }
@@ -244,21 +134,8 @@ impl ToGlib for EventType {
 impl FromGlib<alsatimer_sys::ALSATimerEventType> for EventType {
     fn from_glib(value: alsatimer_sys::ALSATimerEventType) -> Self {
         match value {
-            0 => EventType::Resolution,
-            1 => EventType::Tick,
-            2 => EventType::Start,
-            3 => EventType::Stop,
-            4 => EventType::Continue,
-            5 => EventType::Pause,
-            6 => EventType::Early,
-            7 => EventType::Suspend,
-            8 => EventType::Resume,
-            12 => EventType::Mstart,
-            13 => EventType::Mstop,
-            14 => EventType::Mcontinue,
-            15 => EventType::Mpause,
-            17 => EventType::Msuspend,
-            18 => EventType::Mresume,
+            0 => EventType::TickTime,
+            1 => EventType::RealTime,
             value => EventType::__Unknown(value),
         }
     }
@@ -283,6 +160,131 @@ impl<'a> FromValue<'a> for EventType {
 }
 
 impl SetValue for EventType {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_sys::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
+pub enum RealTimeEventType {
+    Resolution,
+    Tick,
+    Start,
+    Stop,
+    Continue,
+    Pause,
+    Early,
+    Suspend,
+    Resume,
+    Mstart,
+    Mstop,
+    Mcontinue,
+    Mpause,
+    Msuspend,
+    Mresume,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+impl fmt::Display for RealTimeEventType {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "RealTimeEventType::{}",
+            match *self {
+                RealTimeEventType::Resolution => "Resolution",
+                RealTimeEventType::Tick => "Tick",
+                RealTimeEventType::Start => "Start",
+                RealTimeEventType::Stop => "Stop",
+                RealTimeEventType::Continue => "Continue",
+                RealTimeEventType::Pause => "Pause",
+                RealTimeEventType::Early => "Early",
+                RealTimeEventType::Suspend => "Suspend",
+                RealTimeEventType::Resume => "Resume",
+                RealTimeEventType::Mstart => "Mstart",
+                RealTimeEventType::Mstop => "Mstop",
+                RealTimeEventType::Mcontinue => "Mcontinue",
+                RealTimeEventType::Mpause => "Mpause",
+                RealTimeEventType::Msuspend => "Msuspend",
+                RealTimeEventType::Mresume => "Mresume",
+                _ => "Unknown",
+            }
+        )
+    }
+}
+
+#[doc(hidden)]
+impl ToGlib for RealTimeEventType {
+    type GlibType = alsatimer_sys::ALSATimerRealTimeEventType;
+
+    fn to_glib(&self) -> alsatimer_sys::ALSATimerRealTimeEventType {
+        match *self {
+            RealTimeEventType::Resolution => {
+                alsatimer_sys::ALSATIMER_REAL_TIME_EVENT_TYPE_RESOLUTION
+            }
+            RealTimeEventType::Tick => alsatimer_sys::ALSATIMER_REAL_TIME_EVENT_TYPE_TICK,
+            RealTimeEventType::Start => alsatimer_sys::ALSATIMER_REAL_TIME_EVENT_TYPE_START,
+            RealTimeEventType::Stop => alsatimer_sys::ALSATIMER_REAL_TIME_EVENT_TYPE_STOP,
+            RealTimeEventType::Continue => alsatimer_sys::ALSATIMER_REAL_TIME_EVENT_TYPE_CONTINUE,
+            RealTimeEventType::Pause => alsatimer_sys::ALSATIMER_REAL_TIME_EVENT_TYPE_PAUSE,
+            RealTimeEventType::Early => alsatimer_sys::ALSATIMER_REAL_TIME_EVENT_TYPE_EARLY,
+            RealTimeEventType::Suspend => alsatimer_sys::ALSATIMER_REAL_TIME_EVENT_TYPE_SUSPEND,
+            RealTimeEventType::Resume => alsatimer_sys::ALSATIMER_REAL_TIME_EVENT_TYPE_RESUME,
+            RealTimeEventType::Mstart => alsatimer_sys::ALSATIMER_REAL_TIME_EVENT_TYPE_MSTART,
+            RealTimeEventType::Mstop => alsatimer_sys::ALSATIMER_REAL_TIME_EVENT_TYPE_MSTOP,
+            RealTimeEventType::Mcontinue => alsatimer_sys::ALSATIMER_REAL_TIME_EVENT_TYPE_MCONTINUE,
+            RealTimeEventType::Mpause => alsatimer_sys::ALSATIMER_REAL_TIME_EVENT_TYPE_MPAUSE,
+            RealTimeEventType::Msuspend => alsatimer_sys::ALSATIMER_REAL_TIME_EVENT_TYPE_MSUSPEND,
+            RealTimeEventType::Mresume => alsatimer_sys::ALSATIMER_REAL_TIME_EVENT_TYPE_MRESUME,
+            RealTimeEventType::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<alsatimer_sys::ALSATimerRealTimeEventType> for RealTimeEventType {
+    fn from_glib(value: alsatimer_sys::ALSATimerRealTimeEventType) -> Self {
+        match value {
+            0 => RealTimeEventType::Resolution,
+            1 => RealTimeEventType::Tick,
+            2 => RealTimeEventType::Start,
+            3 => RealTimeEventType::Stop,
+            4 => RealTimeEventType::Continue,
+            5 => RealTimeEventType::Pause,
+            6 => RealTimeEventType::Early,
+            7 => RealTimeEventType::Suspend,
+            8 => RealTimeEventType::Resume,
+            12 => RealTimeEventType::Mstart,
+            13 => RealTimeEventType::Mstop,
+            14 => RealTimeEventType::Mcontinue,
+            15 => RealTimeEventType::Mpause,
+            17 => RealTimeEventType::Msuspend,
+            18 => RealTimeEventType::Mresume,
+            value => RealTimeEventType::__Unknown(value),
+        }
+    }
+}
+
+impl StaticType for RealTimeEventType {
+    fn static_type() -> Type {
+        unsafe { from_glib(alsatimer_sys::alsatimer_real_time_event_type_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for RealTimeEventType {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for RealTimeEventType {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_sys::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for RealTimeEventType {
     unsafe fn set_value(value: &mut Value, this: &Self) {
         gobject_sys::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
     }

@@ -33,16 +33,16 @@ pub use self::user_instance::{UserInstance, UserInstanceClass, NONE_USER_INSTANC
 mod device_id;
 pub use self::device_id::DeviceId;
 
-mod event_data_tick;
-pub use self::event_data_tick::EventDataTick;
+mod real_time_event;
+pub use self::real_time_event::RealTimeEvent;
 
-mod event_data_tstamp;
-pub use self::event_data_tstamp::EventDataTstamp;
+mod tick_time_event;
+pub use self::tick_time_event::TickTimeEvent;
 
 mod enums;
 pub use self::enums::Class;
-pub use self::enums::EventDataType;
 pub use self::enums::EventType;
+pub use self::enums::RealTimeEventType;
 pub use self::enums::SlaveClass;
 pub use self::enums::SpecificGlobalDevice;
 pub use self::enums::UserInstanceError;

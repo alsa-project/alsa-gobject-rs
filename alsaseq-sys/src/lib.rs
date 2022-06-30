@@ -29,6 +29,12 @@ pub const ALSASEQ_CLIENT_TYPE_NONE: ALSASeqClientType = 0;
 pub const ALSASEQ_CLIENT_TYPE_USER: ALSASeqClientType = 1;
 pub const ALSASEQ_CLIENT_TYPE_KERNEL: ALSASeqClientType = 2;
 
+pub type ALSASeqEventError = c_int;
+pub const ALSASEQ_EVENT_ERROR_FAILED: ALSASeqEventError = 0;
+pub const ALSASEQ_EVENT_ERROR_INVALID_DATA_TYPE: ALSASeqEventError = 1;
+pub const ALSASEQ_EVENT_ERROR_INVALID_LENGTH_MODE: ALSASeqEventError = 2;
+pub const ALSASEQ_EVENT_ERROR_INVALID_TSTAMP_MODE: ALSASeqEventError = 3;
+
 pub type ALSASeqEventLengthMode = c_int;
 pub const ALSASEQ_EVENT_LENGTH_MODE_FIXED: ALSASeqEventLengthMode = 0;
 pub const ALSASEQ_EVENT_LENGTH_MODE_VARIABLE: ALSASeqEventLengthMode = 4;
@@ -42,9 +48,9 @@ pub type ALSASeqEventTimeMode = c_int;
 pub const ALSASEQ_EVENT_TIME_MODE_ABS: ALSASeqEventTimeMode = 0;
 pub const ALSASEQ_EVENT_TIME_MODE_REL: ALSASeqEventTimeMode = 2;
 
-pub type ALSASeqEventTimestampMode = c_int;
-pub const ALSASEQ_EVENT_TIMESTAMP_MODE_TICK: ALSASeqEventTimestampMode = 0;
-pub const ALSASEQ_EVENT_TIMESTAMP_MODE_REAL: ALSASeqEventTimestampMode = 1;
+pub type ALSASeqEventTstampMode = c_int;
+pub const ALSASEQ_EVENT_TSTAMP_MODE_TICK: ALSASeqEventTstampMode = 0;
+pub const ALSASEQ_EVENT_TSTAMP_MODE_REAL: ALSASeqEventTstampMode = 1;
 
 pub type ALSASeqEventType = c_int;
 pub const ALSASEQ_EVENT_TYPE_SYSTEM: ALSASeqEventType = 0;
@@ -134,6 +140,7 @@ pub type ALSASeqUserClientError = c_int;
 pub const ALSASEQ_USER_CLIENT_ERROR_FAILED: ALSASeqUserClientError = 0;
 pub const ALSASEQ_USER_CLIENT_ERROR_PORT_PERMISSION: ALSASeqUserClientError = 1;
 pub const ALSASEQ_USER_CLIENT_ERROR_QUEUE_PERMISSION: ALSASeqUserClientError = 2;
+pub const ALSASEQ_USER_CLIENT_ERROR_EVENT_UNDELIVERABLE: ALSASeqUserClientError = 3;
 
 // Flags
 pub type ALSASeqFilterAttrFlag = c_uint;
@@ -163,25 +170,17 @@ pub const ALSASEQ_PORT_CAP_FLAG_SUBS_READ: ALSASeqPortCapFlag = 32;
 pub const ALSASEQ_PORT_CAP_FLAG_SUBS_WRITE: ALSASeqPortCapFlag = 64;
 pub const ALSASEQ_PORT_CAP_FLAG_NO_EXPORT: ALSASeqPortCapFlag = 128;
 
-pub type ALSASeqPortSubscribeFlag = c_uint;
-pub const ALSASEQ_PORT_SUBSCRIBE_FLAG_EXCLUSIVE: ALSASeqPortSubscribeFlag = 1;
-pub const ALSASEQ_PORT_SUBSCRIBE_FLAG_TIMESTAMP: ALSASeqPortSubscribeFlag = 2;
-pub const ALSASEQ_PORT_SUBSCRIBE_FLAG_TIME_REAL: ALSASeqPortSubscribeFlag = 4;
-
 pub type ALSASeqRemoveFilterFlag = c_uint;
 pub const ALSASEQ_REMOVE_FILTER_FLAG_INPUT: ALSASeqRemoveFilterFlag = 1;
 pub const ALSASEQ_REMOVE_FILTER_FLAG_OUTPUT: ALSASeqRemoveFilterFlag = 2;
-
-// Unions
-#[repr(C)]
-pub struct ALSASeqTstamp(c_void);
-
-impl ::std::fmt::Debug for ALSASeqTstamp {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqTstamp @ {:?}", self as *const _))
-            .finish()
-    }
-}
+pub const ALSASEQ_REMOVE_FILTER_FLAG_DEST: ALSASeqRemoveFilterFlag = 4;
+pub const ALSASEQ_REMOVE_FILTER_FLAG_DEST_CHANNEL: ALSASeqRemoveFilterFlag = 8;
+pub const ALSASEQ_REMOVE_FILTER_FLAG_TIME_BEFORE: ALSASeqRemoveFilterFlag = 16;
+pub const ALSASEQ_REMOVE_FILTER_FLAG_TIME_AFTER: ALSASeqRemoveFilterFlag = 32;
+pub const ALSASEQ_REMOVE_FILTER_FLAG_TIME_TICK: ALSASeqRemoveFilterFlag = 64;
+pub const ALSASEQ_REMOVE_FILTER_FLAG_EVENT_TYPE: ALSASeqRemoveFilterFlag = 128;
+pub const ALSASEQ_REMOVE_FILTER_FLAG_IGNORE_OFF: ALSASeqRemoveFilterFlag = 256;
+pub const ALSASEQ_REMOVE_FILTER_FLAG_TAG_MATCH: ALSASeqRemoveFilterFlag = 512;
 
 // Records
 #[repr(C)]
@@ -223,15 +222,26 @@ impl ::std::fmt::Debug for ALSASeqClientPoolClass {
 }
 
 #[repr(C)]
-#[derive(Copy, Clone)]
-pub struct ALSASeqEventCntrClass {
-    pub parent_class: gobject::GObjectClass,
+pub struct ALSASeqEvent(c_void);
+
+impl ::std::fmt::Debug for ALSASeqEvent {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("ALSASeqEvent @ {:?}", self as *const _))
+            .finish()
+    }
 }
 
-impl ::std::fmt::Debug for ALSASeqEventCntrClass {
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct ALSASeqEventCntr {
+    pub buf: *mut u8,
+    pub length: size_t,
+    pub aligned: gboolean,
+}
+
+impl ::std::fmt::Debug for ALSASeqEventCntr {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqEventCntrClass @ {:?}", self as *const _))
-            .field("parent_class", &self.parent_class)
+        f.debug_struct(&format!("ALSASeqEventCntr @ {:?}", self as *const _))
             .finish()
     }
 }
@@ -344,41 +354,52 @@ impl ::std::fmt::Debug for ALSASeqQueueTempoClass {
 
 #[repr(C)]
 #[derive(Copy, Clone)]
-pub struct ALSASeqQueueTimerClass {
+pub struct ALSASeqQueueTimerAlsaClass {
     pub parent_class: gobject::GObjectClass,
 }
 
-impl ::std::fmt::Debug for ALSASeqQueueTimerClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqQueueTimerClass @ {:?}", self as *const _))
-            .field("parent_class", &self.parent_class)
-            .finish()
-    }
-}
-
-#[repr(C)]
-pub struct ALSASeqQueueTimerDataAlsa {
-    _truncated_record_marker: c_void,
-    // /*Ignored*/field device_id has incomplete type
-}
-
-impl ::std::fmt::Debug for ALSASeqQueueTimerDataAlsa {
+impl ::std::fmt::Debug for ALSASeqQueueTimerAlsaClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!(
-            "ALSASeqQueueTimerDataAlsa @ {:?}",
+            "ALSASeqQueueTimerAlsaClass @ {:?}",
             self as *const _
         ))
+        .field("parent_class", &self.parent_class)
         .finish()
     }
 }
 
 #[repr(C)]
-pub struct ALSASeqRemoveFilter(c_void);
+#[derive(Copy, Clone)]
+pub struct ALSASeqQueueTimerCommonInterface {
+    pub parent_iface: gobject::GTypeInterface,
+}
 
-impl ::std::fmt::Debug for ALSASeqRemoveFilter {
+impl ::std::fmt::Debug for ALSASeqQueueTimerCommonInterface {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqRemoveFilter @ {:?}", self as *const _))
-            .finish()
+        f.debug_struct(&format!(
+            "ALSASeqQueueTimerCommonInterface @ {:?}",
+            self as *const _
+        ))
+        .field("parent_iface", &self.parent_iface)
+        .finish()
+    }
+}
+
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct ALSASeqRemoveFilterClass {
+    pub parent_class: gobject::GObjectClass,
+}
+
+impl ::std::fmt::Debug for ALSASeqRemoveFilterClass {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!(
+            "ALSASeqRemoveFilterClass @ {:?}",
+            self as *const _
+        ))
+        .field("parent_class", &self.parent_class)
+        .finish()
     }
 }
 
@@ -460,20 +481,6 @@ impl ::std::fmt::Debug for ALSASeqClientPool {
 
 #[repr(C)]
 #[derive(Copy, Clone)]
-pub struct ALSASeqEventCntr {
-    pub parent_instance: gobject::GObject,
-}
-
-impl ::std::fmt::Debug for ALSASeqEventCntr {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqEventCntr @ {:?}", self as *const _))
-            .field("parent_instance", &self.parent_instance)
-            .finish()
-    }
-}
-
-#[repr(C)]
-#[derive(Copy, Clone)]
 pub struct ALSASeqPortInfo {
     pub parent_instance: gobject::GObject,
 }
@@ -530,13 +537,27 @@ impl ::std::fmt::Debug for ALSASeqQueueTempo {
 
 #[repr(C)]
 #[derive(Copy, Clone)]
-pub struct ALSASeqQueueTimer {
+pub struct ALSASeqQueueTimerAlsa {
     pub parent_instance: gobject::GObject,
 }
 
-impl ::std::fmt::Debug for ALSASeqQueueTimer {
+impl ::std::fmt::Debug for ALSASeqQueueTimerAlsa {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqQueueTimer @ {:?}", self as *const _))
+        f.debug_struct(&format!("ALSASeqQueueTimerAlsa @ {:?}", self as *const _))
+            .field("parent_instance", &self.parent_instance)
+            .finish()
+    }
+}
+
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct ALSASeqRemoveFilter {
+    pub parent_instance: gobject::GObject,
+}
+
+impl ::std::fmt::Debug for ALSASeqRemoveFilter {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("ALSASeqRemoveFilter @ {:?}", self as *const _))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -584,12 +605,28 @@ impl ::std::fmt::Debug for ALSASeqUserClient {
     }
 }
 
+// Interfaces
+#[repr(C)]
+pub struct ALSASeqQueueTimerCommon(c_void);
+
+impl ::std::fmt::Debug for ALSASeqQueueTimerCommon {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        write!(f, "ALSASeqQueueTimerCommon @ {:?}", self as *const _)
+    }
+}
+
 extern "C" {
 
     //=========================================================================
     // ALSASeqClientType
     //=========================================================================
     pub fn alsaseq_client_type_get_type() -> GType;
+
+    //=========================================================================
+    // ALSASeqEventError
+    //=========================================================================
+    pub fn alsaseq_event_error_get_type() -> GType;
+    pub fn alsaseq_event_error_quark() -> glib::GQuark;
 
     //=========================================================================
     // ALSASeqEventLengthMode
@@ -607,9 +644,9 @@ extern "C" {
     pub fn alsaseq_event_time_mode_get_type() -> GType;
 
     //=========================================================================
-    // ALSASeqEventTimestampMode
+    // ALSASeqEventTstampMode
     //=========================================================================
-    pub fn alsaseq_event_timestamp_mode_get_type() -> GType;
+    pub fn alsaseq_event_tstamp_mode_get_type() -> GType;
 
     //=========================================================================
     // ALSASeqEventType
@@ -668,26 +705,9 @@ extern "C" {
     pub fn alsaseq_port_cap_flag_get_type() -> GType;
 
     //=========================================================================
-    // ALSASeqPortSubscribeFlag
-    //=========================================================================
-    pub fn alsaseq_port_subscribe_flag_get_type() -> GType;
-
-    //=========================================================================
     // ALSASeqRemoveFilterFlag
     //=========================================================================
     pub fn alsaseq_remove_filter_flag_get_type() -> GType;
-
-    //=========================================================================
-    // ALSASeqTstamp
-    //=========================================================================
-    pub fn alsaseq_tstamp_get_type() -> GType;
-    pub fn alsaseq_tstamp_get_real_time(
-        self_: *const ALSASeqTstamp,
-        real_time: *mut *const [u32; 2],
-    );
-    pub fn alsaseq_tstamp_get_tick_time(self_: *const ALSASeqTstamp, tick_time: *mut u32);
-    pub fn alsaseq_tstamp_set_real_time(self_: *mut ALSASeqTstamp, real_time: *const [u32; 2]);
-    pub fn alsaseq_tstamp_set_tick_time(self_: *mut ALSASeqTstamp, tick_time: u32);
 
     //=========================================================================
     // ALSASeqAddr
@@ -697,6 +717,199 @@ extern "C" {
     pub fn alsaseq_addr_equal(self_: *const ALSASeqAddr, target: *const ALSASeqAddr) -> gboolean;
     pub fn alsaseq_addr_get_client_id(self_: *const ALSASeqAddr, client_id: *mut u8);
     pub fn alsaseq_addr_get_port_id(self_: *const ALSASeqAddr, port_id: *mut u8);
+
+    //=========================================================================
+    // ALSASeqEvent
+    //=========================================================================
+    pub fn alsaseq_event_get_type() -> GType;
+    pub fn alsaseq_event_new(event_type: ALSASeqEventType) -> *mut ALSASeqEvent;
+    pub fn alsaseq_event_calculate_pool_consumption(self_: *const ALSASeqEvent, cells: *mut c_uint);
+    pub fn alsaseq_event_get_addr_data(
+        self_: *const ALSASeqEvent,
+        data: *mut *const ALSASeqAddr,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_get_blob_data(
+        self_: *const ALSASeqEvent,
+        data: *mut *const u8,
+        length: *mut size_t,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_get_byte_data(
+        self_: *const ALSASeqEvent,
+        data: *mut *const [u8; 12],
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_get_connect_data(
+        self_: *const ALSASeqEvent,
+        data: *mut *const ALSASeqEventDataConnect,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_get_ctl_data(
+        self_: *const ALSASeqEvent,
+        data: *mut *const ALSASeqEventDataCtl,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_get_destination(self_: *const ALSASeqEvent, addr: *mut *const ALSASeqAddr);
+    pub fn alsaseq_event_get_event_type(
+        self_: *const ALSASeqEvent,
+        event_type: *mut ALSASeqEventType,
+    );
+    pub fn alsaseq_event_get_length_mode(
+        self_: *const ALSASeqEvent,
+        length_mode: *mut ALSASeqEventLengthMode,
+    );
+    pub fn alsaseq_event_get_note_data(
+        self_: *const ALSASeqEvent,
+        data: *mut *const ALSASeqEventDataNote,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_get_pointer_data(
+        self_: *const ALSASeqEvent,
+        data: *mut gconstpointer,
+        length: *mut size_t,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_get_priority_mode(
+        self_: *const ALSASeqEvent,
+        priority_mode: *mut ALSASeqEventPriorityMode,
+    );
+    pub fn alsaseq_event_get_quadlet_data(
+        self_: *const ALSASeqEvent,
+        data: *mut *const [u32; 3],
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_get_queue_data(
+        self_: *const ALSASeqEvent,
+        data: *mut *const ALSASeqEventDataQueue,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_get_queue_id(self_: *const ALSASeqEvent, queue_id: *mut u8);
+    pub fn alsaseq_event_get_real_time(
+        self_: *const ALSASeqEvent,
+        real_time: *mut *const [u32; 2],
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_get_real_time_data(
+        self_: *const ALSASeqEvent,
+        real_time: *mut *const [u32; 2],
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_get_result_data(
+        self_: *const ALSASeqEvent,
+        data: *mut *const ALSASeqEventDataResult,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_get_source(self_: *const ALSASeqEvent, addr: *mut *const ALSASeqAddr);
+    pub fn alsaseq_event_get_tag(self_: *const ALSASeqEvent, tag: *mut i8);
+    pub fn alsaseq_event_get_tick_time(
+        self_: *const ALSASeqEvent,
+        tick_time: *mut c_uint,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_get_tick_time_data(
+        self_: *const ALSASeqEvent,
+        tick_time: *mut c_uint,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_get_time_mode(
+        self_: *const ALSASeqEvent,
+        time_mode: *mut ALSASeqEventTimeMode,
+    );
+    pub fn alsaseq_event_get_tstamp_mode(
+        self_: *const ALSASeqEvent,
+        tstamp_mode: *mut ALSASeqEventTstampMode,
+    );
+    pub fn alsaseq_event_set_addr_data(
+        self_: *mut ALSASeqEvent,
+        data: *const ALSASeqAddr,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_set_blob_data(
+        self_: *mut ALSASeqEvent,
+        data: *const u8,
+        length: size_t,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_set_byte_data(
+        self_: *mut ALSASeqEvent,
+        data: *const [u8; 12],
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_set_connect_data(
+        self_: *mut ALSASeqEvent,
+        data: *const ALSASeqEventDataConnect,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_set_ctl_data(
+        self_: *mut ALSASeqEvent,
+        data: *const ALSASeqEventDataCtl,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_set_destination(self_: *mut ALSASeqEvent, addr: *const ALSASeqAddr);
+    pub fn alsaseq_event_set_note_data(
+        self_: *mut ALSASeqEvent,
+        data: *const ALSASeqEventDataNote,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_set_pointer_data(
+        self_: *mut ALSASeqEvent,
+        data: gpointer,
+        length: size_t,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_set_priority_mode(
+        self_: *mut ALSASeqEvent,
+        priority_mode: ALSASeqEventPriorityMode,
+    );
+    pub fn alsaseq_event_set_quadlet_data(
+        self_: *mut ALSASeqEvent,
+        data: *const [u32; 3],
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_set_queue_data(
+        self_: *mut ALSASeqEvent,
+        data: *const ALSASeqEventDataQueue,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_set_queue_id(self_: *mut ALSASeqEvent, queue_id: u8);
+    pub fn alsaseq_event_set_real_time(
+        self_: *mut ALSASeqEvent,
+        real_time: *const [u32; 2],
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_set_real_time_data(
+        self_: *mut ALSASeqEvent,
+        real_time: *const [u32; 2],
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_set_result_data(
+        self_: *mut ALSASeqEvent,
+        data: *const ALSASeqEventDataResult,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_set_source(self_: *mut ALSASeqEvent, addr: *const ALSASeqAddr);
+    pub fn alsaseq_event_set_tag(self_: *mut ALSASeqEvent, tag: i8);
+    pub fn alsaseq_event_set_tick_time(
+        self_: *mut ALSASeqEvent,
+        tick_time: c_uint,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_set_tick_time_data(
+        self_: *mut ALSASeqEvent,
+        tick_time: c_uint,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_event_set_time_mode(self_: *mut ALSASeqEvent, time_mode: ALSASeqEventTimeMode);
+
+    //=========================================================================
+    // ALSASeqEventCntr
+    //=========================================================================
+    pub fn alsaseq_event_cntr_get_type() -> GType;
+    pub fn alsaseq_event_cntr_deserialize(
+        self_: *const ALSASeqEventCntr,
+        events: *mut *mut glib::GList,
+    );
 
     //=========================================================================
     // ALSASeqEventDataConnect
@@ -780,13 +993,17 @@ extern "C" {
         self_: *const ALSASeqEventDataQueue,
         queue_id: *mut u8,
     );
+    pub fn alsaseq_event_data_queue_get_real_time_param(
+        self_: *const ALSASeqEventDataQueue,
+        real_time: *mut *const [u32; 2],
+    );
     pub fn alsaseq_event_data_queue_get_skew_param(
         self_: *const ALSASeqEventDataQueue,
         skew: *mut *const [c_uint; 2],
     );
-    pub fn alsaseq_event_data_queue_get_tstamp_param(
+    pub fn alsaseq_event_data_queue_get_tick_time_param(
         self_: *const ALSASeqEventDataQueue,
-        tstamp: *mut *const ALSASeqTstamp,
+        tick_time: *mut c_uint,
     );
     pub fn alsaseq_event_data_queue_get_value_param(
         self_: *const ALSASeqEventDataQueue,
@@ -805,13 +1022,17 @@ extern "C" {
         quadlets: *const [u32; 2],
     );
     pub fn alsaseq_event_data_queue_set_queue_id(self_: *mut ALSASeqEventDataQueue, queue_id: u8);
+    pub fn alsaseq_event_data_queue_set_real_time_param(
+        self_: *mut ALSASeqEventDataQueue,
+        real_time: *const [u32; 2],
+    );
     pub fn alsaseq_event_data_queue_set_skew_param(
         self_: *mut ALSASeqEventDataQueue,
         skew: *const [c_uint; 2],
     );
-    pub fn alsaseq_event_data_queue_set_tstamp_param(
+    pub fn alsaseq_event_data_queue_set_tick_time_param(
         self_: *mut ALSASeqEventDataQueue,
-        tstamp: *const ALSASeqTstamp,
+        tick_time: c_uint,
     );
     pub fn alsaseq_event_data_queue_set_value_param(
         self_: *mut ALSASeqEventDataQueue,
@@ -837,76 +1058,6 @@ extern "C" {
     pub fn alsaseq_event_data_result_set_result(self_: *mut ALSASeqEventDataResult, result: c_int);
 
     //=========================================================================
-    // ALSASeqQueueTimerDataAlsa
-    //=========================================================================
-    pub fn alsaseq_queue_timer_data_alsa_get_type() -> GType;
-    pub fn alsaseq_queue_timer_data_alsa_get_device_id(
-        self_: *const ALSASeqQueueTimerDataAlsa,
-        device_id: *mut *const alsatimer::ALSATimerDeviceId,
-    );
-    pub fn alsaseq_queue_timer_data_alsa_get_resolution(
-        self_: *const ALSASeqQueueTimerDataAlsa,
-        resolution: *mut c_uint,
-    );
-    pub fn alsaseq_queue_timer_data_alsa_set_device_id(
-        self_: *mut ALSASeqQueueTimerDataAlsa,
-        device_id: *const alsatimer::ALSATimerDeviceId,
-    );
-    pub fn alsaseq_queue_timer_data_alsa_set_resolution(
-        self_: *mut ALSASeqQueueTimerDataAlsa,
-        resolution: c_uint,
-    );
-
-    //=========================================================================
-    // ALSASeqRemoveFilter
-    //=========================================================================
-    pub fn alsaseq_remove_filter_get_type() -> GType;
-    pub fn alsaseq_remove_filter_new_with_dest_addr(
-        inout: ALSASeqRemoveFilterFlag,
-        queue_id: u8,
-        dest: *mut ALSASeqAddr,
-        error: *mut *mut glib::GError,
-    ) -> *mut ALSASeqRemoveFilter;
-    pub fn alsaseq_remove_filter_new_with_event_type(
-        inout: ALSASeqRemoveFilterFlag,
-        queue_id: u8,
-        ev_type: ALSASeqEventType,
-        error: *mut *mut glib::GError,
-    ) -> *mut ALSASeqRemoveFilter;
-    pub fn alsaseq_remove_filter_new_with_note(
-        inout: ALSASeqRemoveFilterFlag,
-        queue_id: u8,
-        error: *mut *mut glib::GError,
-    ) -> *mut ALSASeqRemoveFilter;
-    pub fn alsaseq_remove_filter_new_with_note_channel(
-        inout: ALSASeqRemoveFilterFlag,
-        queue_id: u8,
-        channel: u8,
-        error: *mut *mut glib::GError,
-    ) -> *mut ALSASeqRemoveFilter;
-    pub fn alsaseq_remove_filter_new_with_real_time(
-        inout: ALSASeqRemoveFilterFlag,
-        queue_id: u8,
-        tv_sec: i32,
-        tv_nsec: u32,
-        after: gboolean,
-        error: *mut *mut glib::GError,
-    ) -> *mut ALSASeqRemoveFilter;
-    pub fn alsaseq_remove_filter_new_with_tag(
-        inout: ALSASeqRemoveFilterFlag,
-        queue_id: u8,
-        tag: i8,
-        error: *mut *mut glib::GError,
-    ) -> *mut ALSASeqRemoveFilter;
-    pub fn alsaseq_remove_filter_new_with_tick_time(
-        inout: ALSASeqRemoveFilterFlag,
-        queue_id: u8,
-        tick_time: i32,
-        after: gboolean,
-        error: *mut *mut glib::GError,
-    ) -> *mut ALSASeqRemoveFilter;
-
-    //=========================================================================
     // ALSASeqClientInfo
     //=========================================================================
     pub fn alsaseq_client_info_get_type() -> GType;
@@ -916,271 +1067,19 @@ extern "C" {
         event_types: *mut *mut ALSASeqEventType,
         event_type_count: *mut size_t,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_client_info_set_event_filter(
         self_: *mut ALSASeqClientInfo,
         event_types: *const ALSASeqEventType,
         event_type_count: size_t,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
 
     //=========================================================================
     // ALSASeqClientPool
     //=========================================================================
     pub fn alsaseq_client_pool_get_type() -> GType;
     pub fn alsaseq_client_pool_new() -> *mut ALSASeqClientPool;
-
-    //=========================================================================
-    // ALSASeqEventCntr
-    //=========================================================================
-    pub fn alsaseq_event_cntr_get_type() -> GType;
-    pub fn alsaseq_event_cntr_new(
-        count: c_uint,
-        error: *mut *mut glib::GError,
-    ) -> *mut ALSASeqEventCntr;
-    pub fn alsaseq_event_cntr_calculate_pool_consumption(
-        self_: *mut ALSASeqEventCntr,
-        count: size_t,
-        cells: *mut size_t,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_count_events(self_: *mut ALSASeqEventCntr, count: *mut size_t);
-    pub fn alsaseq_event_cntr_get_addr_data(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        data: *mut *const ALSASeqAddr,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_get_blob_data(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        data: *mut *const u8,
-        size: *mut size_t,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_get_byte_data(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        data: *mut *const [u8; 12],
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_get_connect_data(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        data: *mut *const ALSASeqEventDataConnect,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_get_ctl_data(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        data: *mut *const ALSASeqEventDataCtl,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_get_dst(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        dst: *mut *const ALSASeqAddr,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_get_event_type(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        ev_type: *mut ALSASeqEventType,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_get_length_mode(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        mode: *mut ALSASeqEventLengthMode,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_get_note_data(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        data: *mut *const ALSASeqEventDataNote,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_get_priority_mode(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        mode: *mut ALSASeqEventPriorityMode,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_get_quadlet_data(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        data: *mut *const [u32; 3],
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_get_queue_data(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        data: *mut *const ALSASeqEventDataQueue,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_get_queue_id(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        queue_id: *mut u8,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_get_result_data(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        data: *mut *const ALSASeqEventDataResult,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_get_src(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        src: *mut *const ALSASeqAddr,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_get_tag(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        tag: *mut i8,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_get_time_mode(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        mode: *mut ALSASeqEventTimeMode,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_get_tstamp(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        tstamp: *mut *const ALSASeqTstamp,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_get_tstamp_data(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        data: *mut *const ALSASeqTstamp,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_get_tstamp_mode(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        mode: *mut ALSASeqEventTimestampMode,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_set_addr_data(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        data: *const ALSASeqAddr,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_set_blob_data(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        data: *const u8,
-        size: size_t,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_set_byte_data(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        data: *const [u8; 12],
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_set_connect_data(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        data: *const ALSASeqEventDataConnect,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_set_ctl_data(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        data: *const ALSASeqEventDataCtl,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_set_dst(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        dst: *const ALSASeqAddr,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_set_event_type(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        ev_type: ALSASeqEventType,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_set_note_data(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        data: *const ALSASeqEventDataNote,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_set_priority_mode(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        mode: ALSASeqEventPriorityMode,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_set_quadlet_data(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        data: *const [u32; 3],
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_set_queue_data(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        data: *const ALSASeqEventDataQueue,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_set_queue_id(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        queue_id: u8,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_set_result_data(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        data: *const ALSASeqEventDataResult,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_set_src(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        src: *const ALSASeqAddr,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_set_tag(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        tag: i8,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_set_time_mode(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        mode: ALSASeqEventTimeMode,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_set_tstamp(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        tstamp: *const ALSASeqTstamp,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_set_tstamp_data(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        data: *const ALSASeqTstamp,
-        error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_event_cntr_set_tstamp_mode(
-        self_: *mut ALSASeqEventCntr,
-        index: size_t,
-        mode: ALSASeqEventTimestampMode,
-        error: *mut *mut glib::GError,
-    );
 
     //=========================================================================
     // ALSASeqPortInfo
@@ -1217,18 +1116,29 @@ extern "C" {
     pub fn alsaseq_queue_tempo_set_skew(self_: *mut ALSASeqQueueTempo, skew: *const [u32; 2]);
 
     //=========================================================================
-    // ALSASeqQueueTimer
+    // ALSASeqQueueTimerAlsa
     //=========================================================================
-    pub fn alsaseq_queue_timer_get_type() -> GType;
-    pub fn alsaseq_queue_timer_new() -> *mut ALSASeqQueueTimer;
-    pub fn alsaseq_queue_timer_get_alsa_data(
-        self_: *mut ALSASeqQueueTimer,
-        data: *mut *const ALSASeqQueueTimerDataAlsa,
+    pub fn alsaseq_queue_timer_alsa_get_type() -> GType;
+    pub fn alsaseq_queue_timer_alsa_new() -> *mut ALSASeqQueueTimerAlsa;
+
+    //=========================================================================
+    // ALSASeqRemoveFilter
+    //=========================================================================
+    pub fn alsaseq_remove_filter_get_type() -> GType;
+    pub fn alsaseq_remove_filter_new() -> *mut ALSASeqRemoveFilter;
+    pub fn alsaseq_remove_filter_get_real_time(
+        self_: *mut ALSASeqRemoveFilter,
+        real_time: *mut *const [u32; 2],
     );
-    pub fn alsaseq_queue_timer_set_alsa_data(
-        self_: *mut ALSASeqQueueTimer,
-        data: *const ALSASeqQueueTimerDataAlsa,
+    pub fn alsaseq_remove_filter_get_tick_time(
+        self_: *mut ALSASeqRemoveFilter,
+        tick_time: *mut c_uint,
     );
+    pub fn alsaseq_remove_filter_set_real_time(
+        self_: *mut ALSASeqRemoveFilter,
+        real_time: *const [u32; 2],
+    );
+    pub fn alsaseq_remove_filter_set_tick_time(self_: *mut ALSASeqRemoveFilter, tick_time: c_uint);
 
     //=========================================================================
     // ALSASeqSubscribeData
@@ -1250,127 +1160,137 @@ extern "C" {
         self_: *mut ALSASeqUserClient,
         port_info: *const *mut ALSASeqPortInfo,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_user_client_create_port_at(
         self_: *mut ALSASeqUserClient,
         port_info: *const *mut ALSASeqPortInfo,
         port_id: u8,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_user_client_create_queue(
         self_: *mut ALSASeqUserClient,
         queue_info: *const *mut ALSASeqQueueInfo,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_user_client_create_source(
         self_: *mut ALSASeqUserClient,
         gsrc: *mut *mut glib::GSource,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_user_client_delete_port(
         self_: *mut ALSASeqUserClient,
         port_id: u8,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_user_client_delete_queue(
         self_: *mut ALSASeqUserClient,
         queue_id: u8,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_user_client_get_info(
         self_: *mut ALSASeqUserClient,
         client_info: *const *mut ALSASeqClientInfo,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_user_client_get_pool(
         self_: *mut ALSASeqUserClient,
         client_pool: *const *mut ALSASeqClientPool,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_user_client_get_protocol_version(
         self_: *mut ALSASeqUserClient,
         proto_ver_triplet: *mut *const [u16; 3],
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_user_client_get_queue_tempo(
         self_: *mut ALSASeqUserClient,
         queue_id: u8,
         queue_tempo: *mut *mut ALSASeqQueueTempo,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_user_client_get_queue_timer(
         self_: *mut ALSASeqUserClient,
         queue_id: u8,
-        queue_timer: *mut *mut ALSASeqQueueTimer,
+        queue_timer: *mut *mut ALSASeqQueueTimerCommon,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_user_client_get_queue_usage(
         self_: *mut ALSASeqUserClient,
         queue_id: u8,
         use_: *mut gboolean,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_user_client_open(
         self_: *mut ALSASeqUserClient,
         open_flag: c_int,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_user_client_operate_subscription(
         self_: *mut ALSASeqUserClient,
         subs_data: *mut ALSASeqSubscribeData,
         establish: gboolean,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_user_client_remove_events(
         self_: *mut ALSASeqUserClient,
         filter: *mut ALSASeqRemoveFilter,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_user_client_schedule_event(
         self_: *mut ALSASeqUserClient,
-        ev_cntr: *mut ALSASeqEventCntr,
-        count: size_t,
+        event: *const ALSASeqEvent,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
+    pub fn alsaseq_user_client_schedule_events(
+        self_: *mut ALSASeqUserClient,
+        events: *const glib::GList,
+        count: *mut size_t,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
     pub fn alsaseq_user_client_set_info(
         self_: *mut ALSASeqUserClient,
         client_info: *mut ALSASeqClientInfo,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_user_client_set_pool(
         self_: *mut ALSASeqUserClient,
         client_pool: *mut ALSASeqClientPool,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_user_client_set_queue_tempo(
         self_: *mut ALSASeqUserClient,
         queue_id: u8,
         queue_tempo: *mut ALSASeqQueueTempo,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_user_client_set_queue_timer(
         self_: *mut ALSASeqUserClient,
         queue_id: u8,
-        queue_timer: *mut ALSASeqQueueTimer,
+        queue_timer: *mut ALSASeqQueueTimerCommon,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_user_client_set_queue_usage(
         self_: *mut ALSASeqUserClient,
         queue_id: u8,
         use_: gboolean,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_user_client_update_port(
         self_: *mut ALSASeqUserClient,
         port_info: *mut ALSASeqPortInfo,
         port_id: u8,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_user_client_update_queue(
         self_: *mut ALSASeqUserClient,
         queue_info: *mut ALSASeqQueueInfo,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
+
+    //=========================================================================
+    // ALSASeqQueueTimerCommon
+    //=========================================================================
+    pub fn alsaseq_queue_timer_common_get_type() -> GType;
 
     //=========================================================================
     // Other functions
@@ -1379,60 +1299,66 @@ extern "C" {
         entries: *mut *mut u8,
         entry_count: *mut size_t,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_get_client_info(
         client_id: u8,
         client_info: *mut *mut ALSASeqClientInfo,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_get_client_pool(
         client_id: u8,
         client_pool: *mut *mut ALSASeqClientPool,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_get_port_id_list(
         client_id: u8,
         entries: *mut *mut u8,
         entry_count: *mut size_t,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_get_port_info(
         client_id: u8,
         port_id: u8,
         port_info: *mut *mut ALSASeqPortInfo,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_get_queue_id_list(
         entries: *mut *mut u8,
         entry_count: *mut size_t,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_get_queue_info_by_id(
         queue_id: u8,
         queue_info: *mut *mut ALSASeqQueueInfo,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_get_queue_info_by_name(
         name: *const c_char,
         queue_info: *mut *mut ALSASeqQueueInfo,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_get_queue_status(
         queue_id: u8,
         queue_status: *const *mut ALSASeqQueueStatus,
         error: *mut *mut glib::GError,
-    );
-    pub fn alsaseq_get_seq_devnode(devnode: *mut *mut c_char, error: *mut *mut glib::GError);
-    pub fn alsaseq_get_seq_sysname(sysname: *mut *mut c_char, error: *mut *mut glib::GError);
+    ) -> gboolean;
+    pub fn alsaseq_get_seq_devnode(
+        devnode: *mut *mut c_char,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsaseq_get_seq_sysname(
+        sysname: *mut *mut c_char,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
     pub fn alsaseq_get_subscription_list(
         addr: *const ALSASeqAddr,
         query_type: ALSASeqQuerySubscribeType,
         entries: *mut *mut glib::GList,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsaseq_get_system_info(
         system_info: *mut *mut ALSASeqSystemInfo,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
 
 }

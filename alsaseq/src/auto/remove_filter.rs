@@ -3,173 +3,380 @@
 // DO NOT EDIT
 
 use alsaseq_sys;
-use glib;
+use glib::object::Cast;
+use glib::object::IsA;
+use glib::signal::connect_raw;
+use glib::signal::SignalHandlerId;
 use glib::translate::*;
+use glib::StaticType;
+use glib::Value;
+use glib_sys;
 use gobject_sys;
-use std::ptr;
+use std::boxed::Box as Box_;
+use std::fmt;
+use std::mem;
+use std::mem::transmute;
 use Addr;
 use EventType;
 use RemoveFilterFlag;
 
 glib_wrapper! {
-    #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
-    pub struct RemoveFilter(Boxed<alsaseq_sys::ALSASeqRemoveFilter>);
+    pub struct RemoveFilter(Object<alsaseq_sys::ALSASeqRemoveFilter, alsaseq_sys::ALSASeqRemoveFilterClass, RemoveFilterClass>);
 
     match fn {
-        copy => |ptr| gobject_sys::g_boxed_copy(alsaseq_sys::alsaseq_remove_filter_get_type(), ptr as *mut _) as *mut alsaseq_sys::ALSASeqRemoveFilter,
-        free => |ptr| gobject_sys::g_boxed_free(alsaseq_sys::alsaseq_remove_filter_get_type(), ptr as *mut _),
         get_type => || alsaseq_sys::alsaseq_remove_filter_get_type(),
     }
 }
 
 impl RemoveFilter {
-    pub fn with_dest_addr(
-        inout: RemoveFilterFlag,
-        queue_id: u8,
-        dest: &mut Addr,
-    ) -> Result<RemoveFilter, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = alsaseq_sys::alsaseq_remove_filter_new_with_dest_addr(
-                inout.to_glib(),
-                queue_id,
-                dest.to_glib_none_mut().0,
-                &mut error,
-            );
-            if error.is_null() {
-                Ok(from_glib_full(ret))
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
+    pub fn new() -> RemoveFilter {
+        unsafe { from_glib_full(alsaseq_sys::alsaseq_remove_filter_new()) }
     }
+}
 
-    pub fn with_event_type(
-        inout: RemoveFilterFlag,
-        queue_id: u8,
-        ev_type: EventType,
-    ) -> Result<RemoveFilter, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = alsaseq_sys::alsaseq_remove_filter_new_with_event_type(
-                inout.to_glib(),
-                queue_id,
-                ev_type.to_glib(),
-                &mut error,
-            );
-            if error.is_null() {
-                Ok(from_glib_full(ret))
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    pub fn with_note(inout: RemoveFilterFlag, queue_id: u8) -> Result<RemoveFilter, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = alsaseq_sys::alsaseq_remove_filter_new_with_note(
-                inout.to_glib(),
-                queue_id,
-                &mut error,
-            );
-            if error.is_null() {
-                Ok(from_glib_full(ret))
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    pub fn with_note_channel(
-        inout: RemoveFilterFlag,
-        queue_id: u8,
-        channel: u8,
-    ) -> Result<RemoveFilter, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = alsaseq_sys::alsaseq_remove_filter_new_with_note_channel(
-                inout.to_glib(),
-                queue_id,
-                channel,
-                &mut error,
-            );
-            if error.is_null() {
-                Ok(from_glib_full(ret))
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    pub fn with_real_time(
-        inout: RemoveFilterFlag,
-        queue_id: u8,
-        tv_sec: i32,
-        tv_nsec: u32,
-        after: bool,
-    ) -> Result<RemoveFilter, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = alsaseq_sys::alsaseq_remove_filter_new_with_real_time(
-                inout.to_glib(),
-                queue_id,
-                tv_sec,
-                tv_nsec,
-                after.to_glib(),
-                &mut error,
-            );
-            if error.is_null() {
-                Ok(from_glib_full(ret))
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    pub fn with_tag(
-        inout: RemoveFilterFlag,
-        queue_id: u8,
-        tag: i8,
-    ) -> Result<RemoveFilter, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = alsaseq_sys::alsaseq_remove_filter_new_with_tag(
-                inout.to_glib(),
-                queue_id,
-                tag,
-                &mut error,
-            );
-            if error.is_null() {
-                Ok(from_glib_full(ret))
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    pub fn with_tick_time(
-        inout: RemoveFilterFlag,
-        queue_id: u8,
-        tick_time: i32,
-        after: bool,
-    ) -> Result<RemoveFilter, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = alsaseq_sys::alsaseq_remove_filter_new_with_tick_time(
-                inout.to_glib(),
-                queue_id,
-                tick_time,
-                after.to_glib(),
-                &mut error,
-            );
-            if error.is_null() {
-                Ok(from_glib_full(ret))
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
+impl Default for RemoveFilter {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
 unsafe impl Send for RemoveFilter {}
+
+pub const NONE_REMOVE_FILTER: Option<&RemoveFilter> = None;
+
+pub trait RemoveFilterExt: 'static {
+    fn get_tick_time(&self) -> u32;
+
+    fn set_tick_time(&self, tick_time: u32);
+
+    fn get_property_channel(&self) -> u8;
+
+    fn set_property_channel(&self, channel: u8);
+
+    fn get_property_destination(&self) -> Option<Addr>;
+
+    fn set_property_destination(&self, destination: Option<&Addr>);
+
+    fn get_property_event_type(&self) -> EventType;
+
+    fn set_property_event_type(&self, event_type: EventType);
+
+    fn get_property_flags(&self) -> RemoveFilterFlag;
+
+    fn set_property_flags(&self, flags: RemoveFilterFlag);
+
+    fn get_property_queue_id(&self) -> u8;
+
+    fn set_property_queue_id(&self, queue_id: u8);
+
+    fn connect_property_channel_notify<F: Fn(&Self) + Send + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId;
+
+    fn connect_property_destination_notify<F: Fn(&Self) + Send + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId;
+
+    fn connect_property_event_type_notify<F: Fn(&Self) + Send + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId;
+
+    fn connect_property_flags_notify<F: Fn(&Self) + Send + 'static>(&self, f: F)
+        -> SignalHandlerId;
+
+    fn connect_property_queue_id_notify<F: Fn(&Self) + Send + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId;
+}
+
+impl<O: IsA<RemoveFilter>> RemoveFilterExt for O {
+    fn get_tick_time(&self) -> u32 {
+        unsafe {
+            let mut tick_time = mem::MaybeUninit::uninit();
+            alsaseq_sys::alsaseq_remove_filter_get_tick_time(
+                self.as_ref().to_glib_none().0,
+                tick_time.as_mut_ptr(),
+            );
+            let tick_time = tick_time.assume_init();
+            tick_time
+        }
+    }
+
+    fn set_tick_time(&self, tick_time: u32) {
+        unsafe {
+            alsaseq_sys::alsaseq_remove_filter_set_tick_time(
+                self.as_ref().to_glib_none().0,
+                tick_time,
+            );
+        }
+    }
+
+    fn get_property_channel(&self) -> u8 {
+        unsafe {
+            let mut value = Value::from_type(<u8 as StaticType>::static_type());
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"channel\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `channel` getter")
+                .unwrap()
+        }
+    }
+
+    fn set_property_channel(&self, channel: u8) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"channel\0".as_ptr() as *const _,
+                Value::from(&channel).to_glib_none().0,
+            );
+        }
+    }
+
+    fn get_property_destination(&self) -> Option<Addr> {
+        unsafe {
+            let mut value = Value::from_type(<Addr as StaticType>::static_type());
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"destination\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `destination` getter")
+        }
+    }
+
+    fn set_property_destination(&self, destination: Option<&Addr>) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"destination\0".as_ptr() as *const _,
+                Value::from(destination).to_glib_none().0,
+            );
+        }
+    }
+
+    fn get_property_event_type(&self) -> EventType {
+        unsafe {
+            let mut value = Value::from_type(<EventType as StaticType>::static_type());
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"event-type\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `event-type` getter")
+                .unwrap()
+        }
+    }
+
+    fn set_property_event_type(&self, event_type: EventType) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"event-type\0".as_ptr() as *const _,
+                Value::from(&event_type).to_glib_none().0,
+            );
+        }
+    }
+
+    fn get_property_flags(&self) -> RemoveFilterFlag {
+        unsafe {
+            let mut value = Value::from_type(<RemoveFilterFlag as StaticType>::static_type());
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"flags\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `flags` getter")
+                .unwrap()
+        }
+    }
+
+    fn set_property_flags(&self, flags: RemoveFilterFlag) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"flags\0".as_ptr() as *const _,
+                Value::from(&flags).to_glib_none().0,
+            );
+        }
+    }
+
+    fn get_property_queue_id(&self) -> u8 {
+        unsafe {
+            let mut value = Value::from_type(<u8 as StaticType>::static_type());
+            gobject_sys::g_object_get_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"queue-id\0".as_ptr() as *const _,
+                value.to_glib_none_mut().0,
+            );
+            value
+                .get()
+                .expect("Return Value for property `queue-id` getter")
+                .unwrap()
+        }
+    }
+
+    fn set_property_queue_id(&self, queue_id: u8) {
+        unsafe {
+            gobject_sys::g_object_set_property(
+                self.to_glib_none().0 as *mut gobject_sys::GObject,
+                b"queue-id\0".as_ptr() as *const _,
+                Value::from(&queue_id).to_glib_none().0,
+            );
+        }
+    }
+
+    fn connect_property_channel_notify<F: Fn(&Self) + Send + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_channel_trampoline<P, F: Fn(&P) + Send + 'static>(
+            this: *mut alsaseq_sys::ALSASeqRemoveFilter,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<RemoveFilter>,
+        {
+            let f: &F = &*(f as *const F);
+            f(&RemoveFilter::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::channel\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_channel_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    fn connect_property_destination_notify<F: Fn(&Self) + Send + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_destination_trampoline<P, F: Fn(&P) + Send + 'static>(
+            this: *mut alsaseq_sys::ALSASeqRemoveFilter,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<RemoveFilter>,
+        {
+            let f: &F = &*(f as *const F);
+            f(&RemoveFilter::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::destination\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_destination_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    fn connect_property_event_type_notify<F: Fn(&Self) + Send + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_event_type_trampoline<P, F: Fn(&P) + Send + 'static>(
+            this: *mut alsaseq_sys::ALSASeqRemoveFilter,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<RemoveFilter>,
+        {
+            let f: &F = &*(f as *const F);
+            f(&RemoveFilter::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::event-type\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_event_type_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    fn connect_property_flags_notify<F: Fn(&Self) + Send + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_flags_trampoline<P, F: Fn(&P) + Send + 'static>(
+            this: *mut alsaseq_sys::ALSASeqRemoveFilter,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<RemoveFilter>,
+        {
+            let f: &F = &*(f as *const F);
+            f(&RemoveFilter::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::flags\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_flags_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    fn connect_property_queue_id_notify<F: Fn(&Self) + Send + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn notify_queue_id_trampoline<P, F: Fn(&P) + Send + 'static>(
+            this: *mut alsaseq_sys::ALSASeqRemoveFilter,
+            _param_spec: glib_sys::gpointer,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<RemoveFilter>,
+        {
+            let f: &F = &*(f as *const F);
+            f(&RemoveFilter::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::queue-id\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_queue_id_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+}
+
+impl fmt::Display for RemoveFilter {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "RemoveFilter")
+    }
+}

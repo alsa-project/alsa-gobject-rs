@@ -21,7 +21,6 @@ use std::ptr;
 use CardInfo;
 use ElemEventMask;
 use ElemId;
-use ElemInfo;
 use ElemValue;
 
 glib_wrapper! {
@@ -48,8 +47,6 @@ pub const NONE_CARD: Option<&Card> = None;
 
 pub trait CardExt: 'static {
     fn create_source(&self) -> Result<glib::Source, glib::Error>;
-
-    fn get_elem_info(&self, elem_id: &ElemId) -> Result<ElemInfo, glib::Error>;
 
     fn get_info(&self) -> Result<CardInfo, glib::Error>;
 
@@ -95,24 +92,6 @@ impl<O: IsA<Card>> CardExt for O {
             );
             if error.is_null() {
                 Ok(from_glib_full(gsrc))
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn get_elem_info(&self, elem_id: &ElemId) -> Result<ElemInfo, glib::Error> {
-        unsafe {
-            let mut elem_info = ptr::null_mut();
-            let mut error = ptr::null_mut();
-            let _ = alsactl_sys::alsactl_card_get_elem_info(
-                self.as_ref().to_glib_none().0,
-                elem_id.to_glib_none().0,
-                &mut elem_info,
-                &mut error,
-            );
-            if error.is_null() {
-                Ok(from_glib_full(elem_info))
             } else {
                 Err(from_glib_full(error))
             }

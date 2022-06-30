@@ -295,10 +295,10 @@ const RUST_LAYOUTS: &[(&str, Layout)] = &[
         },
     ),
     (
-        "ALSASeqEventCntrClass",
+        "ALSASeqEventError",
         Layout {
-            size: size_of::<ALSASeqEventCntrClass>(),
-            alignment: align_of::<ALSASeqEventCntrClass>(),
+            size: size_of::<ALSASeqEventError>(),
+            alignment: align_of::<ALSASeqEventError>(),
         },
     ),
     (
@@ -323,10 +323,10 @@ const RUST_LAYOUTS: &[(&str, Layout)] = &[
         },
     ),
     (
-        "ALSASeqEventTimestampMode",
+        "ALSASeqEventTstampMode",
         Layout {
-            size: size_of::<ALSASeqEventTimestampMode>(),
-            alignment: align_of::<ALSASeqEventTimestampMode>(),
+            size: size_of::<ALSASeqEventTstampMode>(),
+            alignment: align_of::<ALSASeqEventTstampMode>(),
         },
     ),
     (
@@ -369,13 +369,6 @@ const RUST_LAYOUTS: &[(&str, Layout)] = &[
         Layout {
             size: size_of::<ALSASeqPortInfoClass>(),
             alignment: align_of::<ALSASeqPortInfoClass>(),
-        },
-    ),
-    (
-        "ALSASeqPortSubscribeFlag",
-        Layout {
-            size: size_of::<ALSASeqPortSubscribeFlag>(),
-            alignment: align_of::<ALSASeqPortSubscribeFlag>(),
         },
     ),
     (
@@ -428,17 +421,24 @@ const RUST_LAYOUTS: &[(&str, Layout)] = &[
         },
     ),
     (
-        "ALSASeqQueueTimer",
+        "ALSASeqQueueTimerAlsa",
         Layout {
-            size: size_of::<ALSASeqQueueTimer>(),
-            alignment: align_of::<ALSASeqQueueTimer>(),
+            size: size_of::<ALSASeqQueueTimerAlsa>(),
+            alignment: align_of::<ALSASeqQueueTimerAlsa>(),
         },
     ),
     (
-        "ALSASeqQueueTimerClass",
+        "ALSASeqQueueTimerAlsaClass",
         Layout {
-            size: size_of::<ALSASeqQueueTimerClass>(),
-            alignment: align_of::<ALSASeqQueueTimerClass>(),
+            size: size_of::<ALSASeqQueueTimerAlsaClass>(),
+            alignment: align_of::<ALSASeqQueueTimerAlsaClass>(),
+        },
+    ),
+    (
+        "ALSASeqQueueTimerCommonInterface",
+        Layout {
+            size: size_of::<ALSASeqQueueTimerCommonInterface>(),
+            alignment: align_of::<ALSASeqQueueTimerCommonInterface>(),
         },
     ),
     (
@@ -446,6 +446,20 @@ const RUST_LAYOUTS: &[(&str, Layout)] = &[
         Layout {
             size: size_of::<ALSASeqQueueTimerType>(),
             alignment: align_of::<ALSASeqQueueTimerType>(),
+        },
+    ),
+    (
+        "ALSASeqRemoveFilter",
+        Layout {
+            size: size_of::<ALSASeqRemoveFilter>(),
+            alignment: align_of::<ALSASeqRemoveFilter>(),
+        },
+    ),
+    (
+        "ALSASeqRemoveFilterClass",
+        Layout {
+            size: size_of::<ALSASeqRemoveFilterClass>(),
+            alignment: align_of::<ALSASeqRemoveFilterClass>(),
         },
     ),
     (
@@ -538,15 +552,19 @@ const RUST_CONSTANTS: &[(&str, &str)] = &[
     ("(gint) ALSASEQ_CLIENT_TYPE_KERNEL", "2"),
     ("(gint) ALSASEQ_CLIENT_TYPE_NONE", "0"),
     ("(gint) ALSASEQ_CLIENT_TYPE_USER", "1"),
+    ("(gint) ALSASEQ_EVENT_ERROR_FAILED", "0"),
+    ("(gint) ALSASEQ_EVENT_ERROR_INVALID_DATA_TYPE", "1"),
+    ("(gint) ALSASEQ_EVENT_ERROR_INVALID_LENGTH_MODE", "2"),
+    ("(gint) ALSASEQ_EVENT_ERROR_INVALID_TSTAMP_MODE", "3"),
     ("(gint) ALSASEQ_EVENT_LENGTH_MODE_FIXED", "0"),
     ("(gint) ALSASEQ_EVENT_LENGTH_MODE_POINTER", "8"),
     ("(gint) ALSASEQ_EVENT_LENGTH_MODE_VARIABLE", "4"),
     ("(gint) ALSASEQ_EVENT_PRIORITY_MODE_HIGH", "16"),
     ("(gint) ALSASEQ_EVENT_PRIORITY_MODE_NORMAL", "0"),
-    ("(gint) ALSASEQ_EVENT_TIMESTAMP_MODE_REAL", "1"),
-    ("(gint) ALSASEQ_EVENT_TIMESTAMP_MODE_TICK", "0"),
     ("(gint) ALSASEQ_EVENT_TIME_MODE_ABS", "0"),
     ("(gint) ALSASEQ_EVENT_TIME_MODE_REL", "2"),
+    ("(gint) ALSASEQ_EVENT_TSTAMP_MODE_REAL", "1"),
+    ("(gint) ALSASEQ_EVENT_TSTAMP_MODE_TICK", "0"),
     ("(gint) ALSASEQ_EVENT_TYPE_BOUNCE", "131"),
     ("(gint) ALSASEQ_EVENT_TYPE_CHANPRESS", "12"),
     ("(gint) ALSASEQ_EVENT_TYPE_CLIENT_CHANGE", "62"),
@@ -626,14 +644,19 @@ const RUST_CONSTANTS: &[(&str, &str)] = &[
     ("(guint) ALSASEQ_PORT_CAP_FLAG_SUBS_READ", "32"),
     ("(guint) ALSASEQ_PORT_CAP_FLAG_SUBS_WRITE", "64"),
     ("(guint) ALSASEQ_PORT_CAP_FLAG_WRITE", "2"),
-    ("(guint) ALSASEQ_PORT_SUBSCRIBE_FLAG_EXCLUSIVE", "1"),
-    ("(guint) ALSASEQ_PORT_SUBSCRIBE_FLAG_TIMESTAMP", "2"),
-    ("(guint) ALSASEQ_PORT_SUBSCRIBE_FLAG_TIME_REAL", "4"),
     ("(gint) ALSASEQ_QUERY_SUBSCRIBE_TYPE_READ", "0"),
     ("(gint) ALSASEQ_QUERY_SUBSCRIBE_TYPE_WRITE", "1"),
     ("(gint) ALSASEQ_QUEUE_TIMER_TYPE_ALSA", "0"),
+    ("(guint) ALSASEQ_REMOVE_FILTER_FLAG_DEST", "4"),
+    ("(guint) ALSASEQ_REMOVE_FILTER_FLAG_DEST_CHANNEL", "8"),
+    ("(guint) ALSASEQ_REMOVE_FILTER_FLAG_EVENT_TYPE", "128"),
+    ("(guint) ALSASEQ_REMOVE_FILTER_FLAG_IGNORE_OFF", "256"),
     ("(guint) ALSASEQ_REMOVE_FILTER_FLAG_INPUT", "1"),
     ("(guint) ALSASEQ_REMOVE_FILTER_FLAG_OUTPUT", "2"),
+    ("(guint) ALSASEQ_REMOVE_FILTER_FLAG_TAG_MATCH", "512"),
+    ("(guint) ALSASEQ_REMOVE_FILTER_FLAG_TIME_AFTER", "32"),
+    ("(guint) ALSASEQ_REMOVE_FILTER_FLAG_TIME_BEFORE", "16"),
+    ("(guint) ALSASEQ_REMOVE_FILTER_FLAG_TIME_TICK", "64"),
     ("(gint) ALSASEQ_SPECIFIC_ADDRESS_BROADCAST", "255"),
     ("(gint) ALSASEQ_SPECIFIC_ADDRESS_SUBSCRIBERS", "254"),
     ("(gint) ALSASEQ_SPECIFIC_ADDRESS_UNKNOWN", "253"),
@@ -643,6 +666,7 @@ const RUST_CONSTANTS: &[(&str, &str)] = &[
     ("(gint) ALSASEQ_SPECIFIC_PORT_ID_SYSTEM_ANNOUNCE", "1"),
     ("(gint) ALSASEQ_SPECIFIC_PORT_ID_SYSTEM_TIMER", "0"),
     ("(gint) ALSASEQ_SPECIFIC_QUEUE_ID_DIRECT", "253"),
+    ("(gint) ALSASEQ_USER_CLIENT_ERROR_EVENT_UNDELIVERABLE", "3"),
     ("(gint) ALSASEQ_USER_CLIENT_ERROR_FAILED", "0"),
     ("(gint) ALSASEQ_USER_CLIENT_ERROR_PORT_PERMISSION", "1"),
     ("(gint) ALSASEQ_USER_CLIENT_ERROR_QUEUE_PERMISSION", "2"),

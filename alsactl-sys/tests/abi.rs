@@ -309,17 +309,101 @@ const RUST_LAYOUTS: &[(&str, Layout)] = &[
         },
     ),
     (
-        "ALSACtlElemInfo",
+        "ALSACtlElemInfoBoolean",
         Layout {
-            size: size_of::<ALSACtlElemInfo>(),
-            alignment: align_of::<ALSACtlElemInfo>(),
+            size: size_of::<ALSACtlElemInfoBoolean>(),
+            alignment: align_of::<ALSACtlElemInfoBoolean>(),
         },
     ),
     (
-        "ALSACtlElemInfoClass",
+        "ALSACtlElemInfoBooleanClass",
         Layout {
-            size: size_of::<ALSACtlElemInfoClass>(),
-            alignment: align_of::<ALSACtlElemInfoClass>(),
+            size: size_of::<ALSACtlElemInfoBooleanClass>(),
+            alignment: align_of::<ALSACtlElemInfoBooleanClass>(),
+        },
+    ),
+    (
+        "ALSACtlElemInfoBytes",
+        Layout {
+            size: size_of::<ALSACtlElemInfoBytes>(),
+            alignment: align_of::<ALSACtlElemInfoBytes>(),
+        },
+    ),
+    (
+        "ALSACtlElemInfoBytesClass",
+        Layout {
+            size: size_of::<ALSACtlElemInfoBytesClass>(),
+            alignment: align_of::<ALSACtlElemInfoBytesClass>(),
+        },
+    ),
+    (
+        "ALSACtlElemInfoCommonInterface",
+        Layout {
+            size: size_of::<ALSACtlElemInfoCommonInterface>(),
+            alignment: align_of::<ALSACtlElemInfoCommonInterface>(),
+        },
+    ),
+    (
+        "ALSACtlElemInfoEnumerated",
+        Layout {
+            size: size_of::<ALSACtlElemInfoEnumerated>(),
+            alignment: align_of::<ALSACtlElemInfoEnumerated>(),
+        },
+    ),
+    (
+        "ALSACtlElemInfoEnumeratedClass",
+        Layout {
+            size: size_of::<ALSACtlElemInfoEnumeratedClass>(),
+            alignment: align_of::<ALSACtlElemInfoEnumeratedClass>(),
+        },
+    ),
+    (
+        "ALSACtlElemInfoIec60958",
+        Layout {
+            size: size_of::<ALSACtlElemInfoIec60958>(),
+            alignment: align_of::<ALSACtlElemInfoIec60958>(),
+        },
+    ),
+    (
+        "ALSACtlElemInfoIec60958Class",
+        Layout {
+            size: size_of::<ALSACtlElemInfoIec60958Class>(),
+            alignment: align_of::<ALSACtlElemInfoIec60958Class>(),
+        },
+    ),
+    (
+        "ALSACtlElemInfoInteger",
+        Layout {
+            size: size_of::<ALSACtlElemInfoInteger>(),
+            alignment: align_of::<ALSACtlElemInfoInteger>(),
+        },
+    ),
+    (
+        "ALSACtlElemInfoInteger64",
+        Layout {
+            size: size_of::<ALSACtlElemInfoInteger64>(),
+            alignment: align_of::<ALSACtlElemInfoInteger64>(),
+        },
+    ),
+    (
+        "ALSACtlElemInfoInteger64Class",
+        Layout {
+            size: size_of::<ALSACtlElemInfoInteger64Class>(),
+            alignment: align_of::<ALSACtlElemInfoInteger64Class>(),
+        },
+    ),
+    (
+        "ALSACtlElemInfoIntegerClass",
+        Layout {
+            size: size_of::<ALSACtlElemInfoIntegerClass>(),
+            alignment: align_of::<ALSACtlElemInfoIntegerClass>(),
+        },
+    ),
+    (
+        "ALSACtlElemInfoSingleArrayInterface",
+        Layout {
+            size: size_of::<ALSACtlElemInfoSingleArrayInterface>(),
+            alignment: align_of::<ALSACtlElemInfoSingleArrayInterface>(),
         },
     ),
     (

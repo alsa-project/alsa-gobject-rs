@@ -57,26 +57,24 @@ fn prepare_queue(client: &UserClient, port: &PortInfo, name: &str) -> Result<Que
 
     client.create_queue(&mut info)?;
 
-    let ev_cntr = EventCntr::new(1)?;
-    ev_cntr.set_event_type(0, EventType::Start)?;
-    ev_cntr.set_tstamp_mode(0, EventTimestampMode::Real)?;
-    ev_cntr.set_time_mode(0, EventTimeMode::Rel)?;
-    ev_cntr.set_priority_mode(0, EventPriorityMode::Normal)?;
-    ev_cntr.set_tag(0, 0)?;
-    ev_cntr.set_queue_id(0, SpecificQueueId::Direct.to_glib() as u8)?;
+    let mut ev = Event::new(EventType::Start);
+    ev.set_time_mode(EventTimeMode::Rel);
+    ev.set_priority_mode(EventPriorityMode::Normal);
+    ev.set_tag(0);
+    ev.set_queue_id(SpecificQueueId::Direct.to_glib() as u8);
     let addr = Addr::new(
         SpecificClientId::System.to_glib() as u8,
         SpecificPortId::Timer.to_glib() as u8,
     );
-    ev_cntr.set_dst(0, &addr)?;
+    ev.set_destination(&addr);
     if let Some(addr) = port.get_property_addr() {
-        ev_cntr.set_src(0, &addr)?;
+        ev.set_source(&addr);
     }
-    let mut data = ev_cntr.get_queue_data(0)?;
-    data.set_queue_id(info.get_property_queue_id() as u8);
-    ev_cntr.set_queue_data(0, &data)?;
+    let mut data = ev.get_queue_data().unwrap();
+    data.set_queue_id(info.get_property_queue_id().into());
+    let _ = ev.set_queue_data(&data);
 
-    client.schedule_event(&ev_cntr, 1)?;
+    client.schedule_event(&ev)?;
 
     Ok(info)
 }
@@ -137,13 +135,10 @@ fn dump_info(client: &ClientInfo, port: &PortInfo, queue: &QueueInfo) {
         "  synth voices:           {}",
         port.get_property_synth_voices()
     );
+    println!("  tstamp-mode:         {}", port.get_property_tstamp_mode());
     println!(
-        "  timestamp-mode:         {}",
-        port.get_property_timestamp_mode()
-    );
-    println!(
-        "  timestamp-overwrite:    {}",
-        port.get_property_timestamp_overwrite()
+        "  tstamp-overwrite:    {}",
+        port.get_property_tstamp_overwrite()
     );
     println!(
         "  write users:            {}",
@@ -184,44 +179,46 @@ fn run_dispatcher(client: &UserClient) -> Result<(), Error> {
     src.attach(Some(&ctx));
 
     client.connect_handle_event(|_, ev_cntr| {
-        let count = ev_cntr.count_events();
-        println!("Event count: {}", count);
-        (0..count)
-            .try_for_each(|i| {
-                let ev_type = ev_cntr.get_event_type(i)?;
-                let tstamp_mode = ev_cntr.get_tstamp_mode(i)?;
+        let events = ev_cntr.deserialize();
+        println!("Event count: {}", events.len());
+        events
+            .iter()
+            .enumerate()
+            .try_for_each(|(i, ev)| {
+                let ev_type = ev.get_event_type();
+                let tstamp_mode = ev.get_tstamp_mode();
                 println!("  Event {}:           {}", i, ev_type);
-                println!("    length-mode:      {}", ev_cntr.get_length_mode(i)?);
-                println!("    priority-mode:    {}", ev_cntr.get_priority_mode(i)?);
-                println!("    time-mode:        {}", ev_cntr.get_time_mode(i)?);
+                println!("    length-mode:      {}", ev.get_length_mode());
+                println!("    priority-mode:    {}", ev.get_priority_mode());
+                println!("    time-mode:        {}", ev.get_time_mode());
                 println!("    tstamp-mode:      {}", tstamp_mode);
-                println!("    queue-id:         {}", ev_cntr.get_queue_id(i)?);
-                println!("    tag:              {}", ev_cntr.get_tag(i)?);
+                println!("    queue-id:         {}", ev.get_queue_id());
+                println!("    tag:              {}", ev.get_tag());
 
-                let tstamp = ev_cntr.get_tstamp(i)?;
-                if tstamp_mode == EventTimestampMode::Tick {
-                    println!("    tick-time:        {}", tstamp.get_tick_time());
+                if tstamp_mode == EventTstampMode::Tick {
+                    println!("    tick-time:        {}", ev.get_tick_time().unwrap());
                 } else {
-                    let real_time = tstamp.get_real_time();
+                    let real_time = ev.get_real_time().unwrap();
                     println!("    real-time:        {}.{}", real_time[0], real_time[1]);
                 }
 
-                let src = ev_cntr.get_src(i)?;
+                let src = ev.get_source();
                 println!("    src:");
                 println!("      client-id:      {}", src.get_client_id());
                 println!("      port-id:        {}", src.get_port_id());
 
-                let dst = ev_cntr.get_dst(i)?;
+                let dst = ev.get_destination();
                 println!("    dst:");
                 println!("      client-id:      {}", dst.get_client_id());
                 println!("      port-id:        {}", dst.get_port_id());
 
+                // Just for events used frequently.
                 match ev_type {
                     EventType::Note
                     | EventType::Noteon
                     | EventType::Noteoff
                     | EventType::Keypress => {
-                        let data = ev_cntr.get_note_data(i)?;
+                        let data = ev.get_note_data().unwrap();
                         println!("    note data:");
                         println!("      channel:        {}", data.get_channel());
                         println!("      note:           {}", data.get_note());
@@ -240,7 +237,7 @@ fn run_dispatcher(client: &UserClient) -> Result<(), Error> {
                     | EventType::Qframe
                     | EventType::Timesign
                     | EventType::Keysign => {
-                        let data = ev_cntr.get_ctl_data(i)?;
+                        let data = ev.get_ctl_data().unwrap();
                         println!("    ctl data:");
                         println!("      channel:        {}", data.get_channel());
                         println!("      param:          {}", data.get_param());

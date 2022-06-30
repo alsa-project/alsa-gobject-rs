@@ -23,6 +23,14 @@ use libc::{
 use glib::{gboolean, gconstpointer, gpointer, GType};
 
 // Enums
+pub type ALSAHwdepDeviceCommonError = c_int;
+pub const ALSAHWDEP_DEVICE_COMMON_ERROR_FAILED: ALSAHwdepDeviceCommonError = 1;
+pub const ALSAHWDEP_DEVICE_COMMON_ERROR_IS_OPENED: ALSAHwdepDeviceCommonError = 2;
+pub const ALSAHWDEP_DEVICE_COMMON_ERROR_IS_NOT_OPENED: ALSAHwdepDeviceCommonError = 3;
+pub const ALSAHWDEP_DEVICE_COMMON_ERROR_IS_USED: ALSAHwdepDeviceCommonError = 4;
+pub const ALSAHWDEP_DEVICE_COMMON_ERROR_IS_NOT_SUPPORTED: ALSAHwdepDeviceCommonError = 5;
+pub const ALSAHWDEP_DEVICE_COMMON_ERROR_IS_DISCONNECTED: ALSAHwdepDeviceCommonError = 6;
+
 pub type ALSAHwdepIfaceType = c_int;
 pub const ALSAHWDEP_IFACE_TYPE_OPL2: ALSAHwdepIfaceType = 0;
 pub const ALSAHWDEP_IFACE_TYPE_OPL3: ALSAHwdepIfaceType = 1;
@@ -55,6 +63,58 @@ pub const ALSAHWDEP_IFACE_TYPE_FW_FIREFACE: ALSAHwdepIfaceType = 26;
 // Records
 #[repr(C)]
 #[derive(Copy, Clone)]
+pub struct ALSAHwdepDeviceCommonInterface {
+    pub parent_iface: gobject::GTypeInterface,
+    pub open: Option<
+        unsafe extern "C" fn(
+            *mut ALSAHwdepDeviceCommon,
+            *const c_char,
+            c_int,
+            *mut *mut glib::GError,
+        ) -> gboolean,
+    >,
+    pub get_protocol_version: Option<
+        unsafe extern "C" fn(
+            *mut ALSAHwdepDeviceCommon,
+            *const *mut [u16; 3],
+            *mut *mut glib::GError,
+        ) -> gboolean,
+    >,
+    pub get_device_info: Option<
+        unsafe extern "C" fn(
+            *mut ALSAHwdepDeviceCommon,
+            *mut *mut ALSAHwdepDeviceInfo,
+            *mut *mut glib::GError,
+        ) -> gboolean,
+    >,
+    pub create_source: Option<
+        unsafe extern "C" fn(
+            *mut ALSAHwdepDeviceCommon,
+            *mut *mut glib::GSource,
+            *mut *mut glib::GError,
+        ) -> gboolean,
+    >,
+    pub handle_disconnection: Option<unsafe extern "C" fn(*mut ALSAHwdepDeviceCommon)>,
+}
+
+impl ::std::fmt::Debug for ALSAHwdepDeviceCommonInterface {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!(
+            "ALSAHwdepDeviceCommonInterface @ {:?}",
+            self as *const _
+        ))
+        .field("parent_iface", &self.parent_iface)
+        .field("open", &self.open)
+        .field("get_protocol_version", &self.get_protocol_version)
+        .field("get_device_info", &self.get_device_info)
+        .field("create_source", &self.create_source)
+        .field("handle_disconnection", &self.handle_disconnection)
+        .finish()
+    }
+}
+
+#[repr(C)]
+#[derive(Copy, Clone)]
 pub struct ALSAHwdepDeviceInfoClass {
     pub parent_class: gobject::GObjectClass,
 }
@@ -85,7 +145,27 @@ impl ::std::fmt::Debug for ALSAHwdepDeviceInfo {
     }
 }
 
+// Interfaces
+#[repr(C)]
+pub struct ALSAHwdepDeviceCommon(c_void);
+
+impl ::std::fmt::Debug for ALSAHwdepDeviceCommon {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        write!(f, "ALSAHwdepDeviceCommon @ {:?}", self as *const _)
+    }
+}
+
 extern "C" {
+
+    //=========================================================================
+    // ALSAHwdepDeviceCommonError
+    //=========================================================================
+    pub fn alsahwdep_device_common_error_get_type() -> GType;
+    pub fn alsahwdep_device_common_error_quark() -> glib::GQuark;
+    pub fn alsahwdep_device_common_error_to_label(
+        code: ALSAHwdepDeviceCommonError,
+        label: *mut *const c_char,
+    );
 
     //=========================================================================
     // ALSAHwdepIfaceType
@@ -98,6 +178,33 @@ extern "C" {
     pub fn alsahwdep_device_info_get_type() -> GType;
 
     //=========================================================================
+    // ALSAHwdepDeviceCommon
+    //=========================================================================
+    pub fn alsahwdep_device_common_get_type() -> GType;
+    pub fn alsahwdep_device_common_create_source(
+        self_: *mut ALSAHwdepDeviceCommon,
+        source: *mut *mut glib::GSource,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsahwdep_device_common_get_device_info(
+        self_: *mut ALSAHwdepDeviceCommon,
+        device_info: *mut *mut ALSAHwdepDeviceInfo,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsahwdep_device_common_get_protocol_version(
+        self_: *mut ALSAHwdepDeviceCommon,
+        proto_ver_triplet: *const *mut [u16; 3],
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsahwdep_device_common_open(
+        self_: *mut ALSAHwdepDeviceCommon,
+        card_id: c_uint,
+        device_id: c_uint,
+        open_flag: c_int,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+
+    //=========================================================================
     // Other functions
     //=========================================================================
     pub fn alsahwdep_get_device_id_list(
@@ -105,24 +212,24 @@ extern "C" {
         entries: *mut *mut c_uint,
         entry_count: *mut size_t,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsahwdep_get_device_info(
         card_id: c_uint,
         device_id: c_uint,
         device_info: *mut *mut ALSAHwdepDeviceInfo,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsahwdep_get_hwdep_devnode(
         card_id: c_uint,
         device_id: c_uint,
         devnode: *mut *mut c_char,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsahwdep_get_hwdep_sysname(
         card_id: c_uint,
         device_id: c_uint,
         sysname: *mut *mut c_char,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
 
 }

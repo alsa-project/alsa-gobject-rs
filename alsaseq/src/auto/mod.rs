@@ -10,10 +10,6 @@ mod client_pool;
 pub use self::client_pool::ClientPoolExt;
 pub use self::client_pool::{ClientPool, ClientPoolClass, NONE_CLIENT_POOL};
 
-mod event_cntr;
-pub use self::event_cntr::EventCntrExt;
-pub use self::event_cntr::{EventCntr, EventCntrClass, NONE_EVENT_CNTR};
-
 mod port_info;
 pub use self::port_info::PortInfoExt;
 pub use self::port_info::{PortInfo, PortInfoClass, NONE_PORT_INFO};
@@ -30,9 +26,17 @@ mod queue_tempo;
 pub use self::queue_tempo::QueueTempoExt;
 pub use self::queue_tempo::{QueueTempo, QueueTempoClass, NONE_QUEUE_TEMPO};
 
-mod queue_timer;
-pub use self::queue_timer::QueueTimerExt;
-pub use self::queue_timer::{QueueTimer, QueueTimerClass, NONE_QUEUE_TIMER};
+mod queue_timer_alsa;
+pub use self::queue_timer_alsa::QueueTimerAlsaExt;
+pub use self::queue_timer_alsa::{QueueTimerAlsa, QueueTimerAlsaClass, NONE_QUEUE_TIMER_ALSA};
+
+mod queue_timer_common;
+pub use self::queue_timer_common::QueueTimerCommonExt;
+pub use self::queue_timer_common::{QueueTimerCommon, NONE_QUEUE_TIMER_COMMON};
+
+mod remove_filter;
+pub use self::remove_filter::RemoveFilterExt;
+pub use self::remove_filter::{RemoveFilter, RemoveFilterClass, NONE_REMOVE_FILTER};
 
 mod subscribe_data;
 pub use self::subscribe_data::SubscribeDataExt;
@@ -49,6 +53,12 @@ pub use self::user_client::{UserClient, UserClientClass, NONE_USER_CLIENT};
 mod addr;
 pub use self::addr::Addr;
 
+mod event;
+pub use self::event::Event;
+
+mod event_cntr;
+pub use self::event_cntr::EventCntr;
+
 mod event_data_connect;
 pub use self::event_data_connect::EventDataConnect;
 
@@ -64,18 +74,13 @@ pub use self::event_data_queue::EventDataQueue;
 mod event_data_result;
 pub use self::event_data_result::EventDataResult;
 
-mod queue_timer_data_alsa;
-pub use self::queue_timer_data_alsa::QueueTimerDataAlsa;
-
-mod remove_filter;
-pub use self::remove_filter::RemoveFilter;
-
 mod enums;
 pub use self::enums::ClientType;
+pub use self::enums::EventError;
 pub use self::enums::EventLengthMode;
 pub use self::enums::EventPriorityMode;
 pub use self::enums::EventTimeMode;
-pub use self::enums::EventTimestampMode;
+pub use self::enums::EventTstampMode;
 pub use self::enums::EventType;
 pub use self::enums::QuerySubscribeType;
 pub use self::enums::QueueTimerType;
@@ -89,7 +94,6 @@ mod flags;
 pub use self::flags::FilterAttrFlag;
 pub use self::flags::PortAttrFlag;
 pub use self::flags::PortCapFlag;
-pub use self::flags::PortSubscribeFlag;
 pub use self::flags::RemoveFilterFlag;
 
 pub mod functions;
@@ -98,12 +102,13 @@ pub mod functions;
 pub mod traits {
     pub use super::ClientInfoExt;
     pub use super::ClientPoolExt;
-    pub use super::EventCntrExt;
     pub use super::PortInfoExt;
     pub use super::QueueInfoExt;
     pub use super::QueueStatusExt;
     pub use super::QueueTempoExt;
-    pub use super::QueueTimerExt;
+    pub use super::QueueTimerAlsaExt;
+    pub use super::QueueTimerCommonExt;
+    pub use super::RemoveFilterExt;
     pub use super::SubscribeDataExt;
     pub use super::SystemInfoExt;
     pub use super::UserClientExt;

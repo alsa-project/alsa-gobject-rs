@@ -3,15 +3,132 @@
 // DO NOT EDIT
 
 use alsahwdep_sys;
+use glib::error::ErrorDomain;
 use glib::translate::*;
 use glib::value::FromValue;
 use glib::value::FromValueOptional;
 use glib::value::SetValue;
 use glib::value::Value;
+use glib::Quark;
 use glib::StaticType;
 use glib::Type;
 use gobject_sys;
 use std::fmt;
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
+pub enum DeviceCommonError {
+    Failed,
+    IsOpened,
+    IsNotOpened,
+    IsUsed,
+    IsNotSupported,
+    IsDisconnected,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+impl fmt::Display for DeviceCommonError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "DeviceCommonError::{}",
+            match *self {
+                DeviceCommonError::Failed => "Failed",
+                DeviceCommonError::IsOpened => "IsOpened",
+                DeviceCommonError::IsNotOpened => "IsNotOpened",
+                DeviceCommonError::IsUsed => "IsUsed",
+                DeviceCommonError::IsNotSupported => "IsNotSupported",
+                DeviceCommonError::IsDisconnected => "IsDisconnected",
+                _ => "Unknown",
+            }
+        )
+    }
+}
+
+#[doc(hidden)]
+impl ToGlib for DeviceCommonError {
+    type GlibType = alsahwdep_sys::ALSAHwdepDeviceCommonError;
+
+    fn to_glib(&self) -> alsahwdep_sys::ALSAHwdepDeviceCommonError {
+        match *self {
+            DeviceCommonError::Failed => alsahwdep_sys::ALSAHWDEP_DEVICE_COMMON_ERROR_FAILED,
+            DeviceCommonError::IsOpened => alsahwdep_sys::ALSAHWDEP_DEVICE_COMMON_ERROR_IS_OPENED,
+            DeviceCommonError::IsNotOpened => {
+                alsahwdep_sys::ALSAHWDEP_DEVICE_COMMON_ERROR_IS_NOT_OPENED
+            }
+            DeviceCommonError::IsUsed => alsahwdep_sys::ALSAHWDEP_DEVICE_COMMON_ERROR_IS_USED,
+            DeviceCommonError::IsNotSupported => {
+                alsahwdep_sys::ALSAHWDEP_DEVICE_COMMON_ERROR_IS_NOT_SUPPORTED
+            }
+            DeviceCommonError::IsDisconnected => {
+                alsahwdep_sys::ALSAHWDEP_DEVICE_COMMON_ERROR_IS_DISCONNECTED
+            }
+            DeviceCommonError::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<alsahwdep_sys::ALSAHwdepDeviceCommonError> for DeviceCommonError {
+    fn from_glib(value: alsahwdep_sys::ALSAHwdepDeviceCommonError) -> Self {
+        match value {
+            1 => DeviceCommonError::Failed,
+            2 => DeviceCommonError::IsOpened,
+            3 => DeviceCommonError::IsNotOpened,
+            4 => DeviceCommonError::IsUsed,
+            5 => DeviceCommonError::IsNotSupported,
+            6 => DeviceCommonError::IsDisconnected,
+            value => DeviceCommonError::__Unknown(value),
+        }
+    }
+}
+
+impl ErrorDomain for DeviceCommonError {
+    fn domain() -> Quark {
+        unsafe { from_glib(alsahwdep_sys::alsahwdep_device_common_error_quark()) }
+    }
+
+    fn code(self) -> i32 {
+        self.to_glib()
+    }
+
+    fn from(code: i32) -> Option<Self> {
+        match code {
+            1 => Some(DeviceCommonError::Failed),
+            2 => Some(DeviceCommonError::IsOpened),
+            3 => Some(DeviceCommonError::IsNotOpened),
+            4 => Some(DeviceCommonError::IsUsed),
+            5 => Some(DeviceCommonError::IsNotSupported),
+            6 => Some(DeviceCommonError::IsDisconnected),
+            _ => Some(DeviceCommonError::Failed),
+        }
+    }
+}
+
+impl StaticType for DeviceCommonError {
+    fn static_type() -> Type {
+        unsafe { from_glib(alsahwdep_sys::alsahwdep_device_common_error_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for DeviceCommonError {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for DeviceCommonError {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_sys::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for DeviceCommonError {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_sys::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]

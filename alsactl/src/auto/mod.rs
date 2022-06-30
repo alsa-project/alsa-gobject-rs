@@ -10,9 +10,40 @@ mod card_info;
 pub use self::card_info::CardInfoExt;
 pub use self::card_info::{CardInfo, CardInfoClass, NONE_CARD_INFO};
 
-mod elem_info;
-pub use self::elem_info::ElemInfoExt;
-pub use self::elem_info::{ElemInfo, ElemInfoClass, NONE_ELEM_INFO};
+mod elem_info_boolean;
+pub use self::elem_info_boolean::{ElemInfoBoolean, ElemInfoBooleanClass, NONE_ELEM_INFO_BOOLEAN};
+
+mod elem_info_bytes;
+pub use self::elem_info_bytes::{ElemInfoBytes, ElemInfoBytesClass, NONE_ELEM_INFO_BYTES};
+
+mod elem_info_common;
+pub use self::elem_info_common::ElemInfoCommonExt;
+pub use self::elem_info_common::{ElemInfoCommon, NONE_ELEM_INFO_COMMON};
+
+mod elem_info_enumerated;
+pub use self::elem_info_enumerated::ElemInfoEnumeratedExt;
+pub use self::elem_info_enumerated::{
+    ElemInfoEnumerated, ElemInfoEnumeratedClass, NONE_ELEM_INFO_ENUMERATED,
+};
+
+mod elem_info_iec60958;
+pub use self::elem_info_iec60958::{
+    ElemInfoIec60958, ElemInfoIec60958Class, NONE_ELEM_INFO_IEC60958,
+};
+
+mod elem_info_integer;
+pub use self::elem_info_integer::ElemInfoIntegerExt;
+pub use self::elem_info_integer::{ElemInfoInteger, ElemInfoIntegerClass, NONE_ELEM_INFO_INTEGER};
+
+mod elem_info_integer64;
+pub use self::elem_info_integer64::ElemInfoInteger64Ext;
+pub use self::elem_info_integer64::{
+    ElemInfoInteger64, ElemInfoInteger64Class, NONE_ELEM_INFO_INTEGER64,
+};
+
+mod elem_info_single_array;
+pub use self::elem_info_single_array::ElemInfoSingleArrayExt;
+pub use self::elem_info_single_array::{ElemInfoSingleArray, NONE_ELEM_INFO_SINGLE_ARRAY};
 
 mod elem_value;
 pub use self::elem_value::ElemValueExt;
@@ -37,6 +68,10 @@ pub mod functions;
 pub mod traits {
     pub use super::CardExt;
     pub use super::CardInfoExt;
-    pub use super::ElemInfoExt;
+    pub use super::ElemInfoCommonExt;
+    pub use super::ElemInfoEnumeratedExt;
+    pub use super::ElemInfoInteger64Ext;
+    pub use super::ElemInfoIntegerExt;
+    pub use super::ElemInfoSingleArrayExt;
     pub use super::ElemValueExt;
 }

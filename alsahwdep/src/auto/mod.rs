@@ -2,16 +2,22 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+mod device_common;
+pub use self::device_common::DeviceCommonExt;
+pub use self::device_common::{DeviceCommon, NONE_DEVICE_COMMON};
+
 mod device_info;
 pub use self::device_info::DeviceInfoExt;
 pub use self::device_info::{DeviceInfo, DeviceInfoClass, NONE_DEVICE_INFO};
 
 mod enums;
+pub use self::enums::DeviceCommonError;
 pub use self::enums::IfaceType;
 
 pub mod functions;
 
 #[doc(hidden)]
 pub mod traits {
+    pub use super::DeviceCommonExt;
     pub use super::DeviceInfoExt;
 }

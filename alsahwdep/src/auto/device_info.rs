@@ -3,19 +3,13 @@
 // DO NOT EDIT
 
 use alsahwdep_sys;
-use glib::object::Cast;
 use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
 use glib::translate::*;
 use glib::GString;
 use glib::StaticType;
 use glib::Value;
-use glib_sys;
 use gobject_sys;
-use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem::transmute;
 use IfaceType;
 
 glib_wrapper! {
@@ -38,16 +32,6 @@ pub trait DeviceInfoExt: 'static {
     fn get_property_iface(&self) -> IfaceType;
 
     fn get_property_name(&self) -> Option<GString>;
-
-    fn connect_property_card_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    fn connect_property_device_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    fn connect_property_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    fn connect_property_iface_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    fn connect_property_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
 impl<O: IsA<DeviceInfo>> DeviceInfoExt for O {
@@ -119,126 +103,6 @@ impl<O: IsA<DeviceInfo>> DeviceInfoExt for O {
             value
                 .get()
                 .expect("Return Value for property `name` getter")
-        }
-    }
-
-    fn connect_property_card_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_card_id_trampoline<P, F: Fn(&P) + 'static>(
-            this: *mut alsahwdep_sys::ALSAHwdepDeviceInfo,
-            _param_spec: glib_sys::gpointer,
-            f: glib_sys::gpointer,
-        ) where
-            P: IsA<DeviceInfo>,
-        {
-            let f: &F = &*(f as *const F);
-            f(&DeviceInfo::from_glib_borrow(this).unsafe_cast_ref())
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::card-id\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_card_id_trampoline::<Self, F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
-
-    fn connect_property_device_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_device_id_trampoline<P, F: Fn(&P) + 'static>(
-            this: *mut alsahwdep_sys::ALSAHwdepDeviceInfo,
-            _param_spec: glib_sys::gpointer,
-            f: glib_sys::gpointer,
-        ) where
-            P: IsA<DeviceInfo>,
-        {
-            let f: &F = &*(f as *const F);
-            f(&DeviceInfo::from_glib_borrow(this).unsafe_cast_ref())
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::device-id\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_device_id_trampoline::<Self, F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
-
-    fn connect_property_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_id_trampoline<P, F: Fn(&P) + 'static>(
-            this: *mut alsahwdep_sys::ALSAHwdepDeviceInfo,
-            _param_spec: glib_sys::gpointer,
-            f: glib_sys::gpointer,
-        ) where
-            P: IsA<DeviceInfo>,
-        {
-            let f: &F = &*(f as *const F);
-            f(&DeviceInfo::from_glib_borrow(this).unsafe_cast_ref())
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::id\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_id_trampoline::<Self, F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
-
-    fn connect_property_iface_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_iface_trampoline<P, F: Fn(&P) + 'static>(
-            this: *mut alsahwdep_sys::ALSAHwdepDeviceInfo,
-            _param_spec: glib_sys::gpointer,
-            f: glib_sys::gpointer,
-        ) where
-            P: IsA<DeviceInfo>,
-        {
-            let f: &F = &*(f as *const F);
-            f(&DeviceInfo::from_glib_borrow(this).unsafe_cast_ref())
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::iface\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_iface_trampoline::<Self, F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
-
-    fn connect_property_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_name_trampoline<P, F: Fn(&P) + 'static>(
-            this: *mut alsahwdep_sys::ALSAHwdepDeviceInfo,
-            _param_spec: glib_sys::gpointer,
-            f: glib_sys::gpointer,
-        ) where
-            P: IsA<DeviceInfo>,
-        {
-            let f: &F = &*(f as *const F);
-            f(&DeviceInfo::from_glib_borrow(this).unsafe_cast_ref())
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::name\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_name_trampoline::<Self, F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
         }
     }
 }

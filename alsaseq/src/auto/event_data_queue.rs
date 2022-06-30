@@ -6,7 +6,6 @@ use alsaseq_sys;
 use glib::translate::*;
 use gobject_sys;
 use std::mem;
-use Tstamp;
 
 glib_wrapper! {
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -44,6 +43,18 @@ impl EventDataQueue {
         }
     }
 
+    pub fn get_tick_time_param(&self) -> u32 {
+        unsafe {
+            let mut tick_time = mem::MaybeUninit::uninit();
+            alsaseq_sys::alsaseq_event_data_queue_get_tick_time_param(
+                self.to_glib_none().0,
+                tick_time.as_mut_ptr(),
+            );
+            let tick_time = tick_time.assume_init();
+            tick_time
+        }
+    }
+
     pub fn get_value_param(&self) -> i32 {
         unsafe {
             let mut value = mem::MaybeUninit::uninit();
@@ -71,11 +82,11 @@ impl EventDataQueue {
         }
     }
 
-    pub fn set_tstamp_param(&mut self, tstamp: &Tstamp) {
+    pub fn set_tick_time_param(&mut self, tick_time: u32) {
         unsafe {
-            alsaseq_sys::alsaseq_event_data_queue_set_tstamp_param(
+            alsaseq_sys::alsaseq_event_data_queue_set_tick_time_param(
                 self.to_glib_none_mut().0,
-                tstamp.to_glib_none().0,
+                tick_time,
             );
         }
     }

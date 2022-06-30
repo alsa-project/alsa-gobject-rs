@@ -204,34 +204,34 @@ extern "C" {
         self_: *mut ALSARawmidiStreamPair,
         gsrc: *mut *mut glib::GSource,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsarawmidi_stream_pair_drain_substream(
         self_: *mut ALSARawmidiStreamPair,
         direction: ALSARawmidiStreamDirection,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsarawmidi_stream_pair_drop_substream(
         self_: *mut ALSARawmidiStreamPair,
         direction: ALSARawmidiStreamDirection,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsarawmidi_stream_pair_get_protocol_version(
         self_: *mut ALSARawmidiStreamPair,
         proto_ver_triplet: *mut *const [u16; 3],
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsarawmidi_stream_pair_get_substream_info(
         self_: *mut ALSARawmidiStreamPair,
         direction: ALSARawmidiStreamDirection,
         substream_info: *mut *mut ALSARawmidiSubstreamInfo,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsarawmidi_stream_pair_get_substream_status(
         self_: *mut ALSARawmidiStreamPair,
         direction: ALSARawmidiStreamDirection,
         substream_status: *const *mut ALSARawmidiSubstreamStatus,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsarawmidi_stream_pair_open(
         self_: *mut ALSARawmidiStreamPair,
         card_id: c_uint,
@@ -240,25 +240,25 @@ extern "C" {
         access_modes: ALSARawmidiStreamPairInfoFlag,
         open_flag: c_int,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsarawmidi_stream_pair_read_from_substream(
         self_: *mut ALSARawmidiStreamPair,
         buf: *const *mut u8,
         buf_size: *mut size_t,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsarawmidi_stream_pair_set_substream_params(
         self_: *mut ALSARawmidiStreamPair,
         direction: ALSARawmidiStreamDirection,
         substream_params: *mut ALSARawmidiSubstreamParams,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsarawmidi_stream_pair_write_to_substream(
         self_: *mut ALSARawmidiStreamPair,
         buf: *const u8,
         buf_size: size_t,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
 
     //=========================================================================
     // ALSARawmidiSubstreamInfo
@@ -285,19 +285,19 @@ extern "C" {
         entries: *mut *mut c_uint,
         entry_count: *mut size_t,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsarawmidi_get_rawmidi_devnode(
         card_id: c_uint,
         device_id: c_uint,
         devnode: *mut *mut c_char,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsarawmidi_get_rawmidi_sysname(
         card_id: c_uint,
         device_id: c_uint,
         sysname: *mut *mut c_char,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsarawmidi_get_subdevice_id_list(
         card_id: c_uint,
         device_id: c_uint,
@@ -305,7 +305,7 @@ extern "C" {
         entries: *mut *mut c_uint,
         entry_count: *mut size_t,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsarawmidi_get_substream_info(
         card_id: c_uint,
         device_id: c_uint,
@@ -313,6 +313,6 @@ extern "C" {
         subdevice_id: c_uint,
         substream_info: *mut *mut ALSARawmidiSubstreamInfo,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
 
 }

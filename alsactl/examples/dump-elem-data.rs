@@ -14,32 +14,72 @@ fn dump_elem_data(card: &alsactl::Card, elem_id: &alsactl::ElemId) -> Result<(),
 
     let elem_info = card.get_elem_info(elem_id)?;
 
-    let elem_access = elem_info.get_property_access();
-    let elem_type = elem_info.get_property_type();
-    let value_count = elem_info.get_property_value_count() as usize;
+    let (elem_access, elem_owner, elem_type) = match &elem_info {
+        ElemInfo::Iec60958(info) => (
+            info.get_property_access(),
+            info.get_property_owner(),
+            info.get_property_elem_type(),
+        ),
+        ElemInfo::Boolean(info) => (
+            info.get_property_access(),
+            info.get_property_owner(),
+            info.get_property_elem_type(),
+        ),
+        ElemInfo::Bytes(info) => (
+            info.get_property_access(),
+            info.get_property_owner(),
+            info.get_property_elem_type(),
+        ),
+        ElemInfo::Integer(info) => (
+            info.get_property_access(),
+            info.get_property_owner(),
+            info.get_property_elem_type(),
+        ),
+        ElemInfo::Integer64(info) => (
+            info.get_property_access(),
+            info.get_property_owner(),
+            info.get_property_elem_type(),
+        ),
+        ElemInfo::Enumerated(info) => (
+            info.get_property_access(),
+            info.get_property_owner(),
+            info.get_property_elem_type(),
+        ),
+    };
     println!("  access:         {:?}", elem_access);
-    println!("  owner:          {}", elem_info.get_property_owner());
-    println!("  value-count:    {}", value_count);
+    println!("  owner:          {}", elem_owner);
     println!("  type:           {}", elem_type);
 
-    match elem_type {
-        ElemType::Integer => {
-            let data = elem_info.get_int_data()?;
-            println!("    min:          {}", data[0]);
-            println!("    max:          {}", data[1]);
-            println!("    step:         {}", data[2]);
+    let value_count = match &elem_info {
+        ElemInfo::Iec60958(_) => 0,
+        ElemInfo::Boolean(info) => info.get_property_value_count(),
+        ElemInfo::Bytes(info) => info.get_property_value_count(),
+        ElemInfo::Integer(info) => info.get_property_value_count(),
+        ElemInfo::Integer64(info) => info.get_property_value_count(),
+        ElemInfo::Enumerated(info) => info.get_property_value_count(),
+    };
+    if value_count > 0 {
+        println!("  value-count:    {}", value_count);
+    }
+
+    match &elem_info {
+        ElemInfo::Integer(info) => {
+            println!("    min:          {}", info.get_property_value_min());
+            println!("    max:          {}", info.get_property_value_max());
+            println!("    step:         {}", info.get_property_value_step());
         }
-        ElemType::Enumerated => {
-            let data = elem_info.get_enum_data()?;
-            data.iter().enumerate().for_each(|(i, label)| {
-                println!("    {}:       {}", i, label);
-            });
+        ElemInfo::Integer64(info) => {
+            println!("    min:          {}", info.get_property_value_min());
+            println!("    max:          {}", info.get_property_value_max());
+            println!("    step:         {}", info.get_property_value_step());
         }
-        ElemType::Integer64 => {
-            let data = elem_info.get_int64_data()?;
-            println!("    min:          {}", data[0]);
-            println!("    max:          {}", data[1]);
-            println!("    step:         {}", data[2]);
+        ElemInfo::Enumerated(info) => {
+            info.get_property_labels()
+                .iter()
+                .enumerate()
+                .for_each(|(i, label)| {
+                    println!("    {}:       {}", i, label);
+                });
         }
         _ => (),
     }
@@ -47,41 +87,56 @@ fn dump_elem_data(card: &alsactl::Card, elem_id: &alsactl::ElemId) -> Result<(),
     let mut elem_value = ElemValue::new();
     card.read_elem_value(elem_id, &mut elem_value)?;
 
-    match elem_type {
-        ElemType::Boolean => {
-            let mut vals = vec![false; value_count];
-            elem_value.get_bool(&mut vals);
+    match &elem_info {
+        ElemInfo::Iec60958(_) => {
+            println!(
+                "  channel_status: {:?}",
+                elem_value.get_iec60958_channel_status()
+            );
+            println!(
+                "  user_data:      {:?}",
+                elem_value.get_iec60958_user_data()
+            );
+        }
+        ElemInfo::Boolean(info) => {
+            let value_count = info.get_property_value_count() as usize;
+            println!(
+                "  values:         {:?}",
+                &elem_value.get_bool()[..value_count]
+            );
+        }
+        ElemInfo::Bytes(info) => {
+            let value_count = info.get_property_value_count() as usize;
+            println!(
+                "  values:         {:?}",
+                &elem_value.get_bytes()[..value_count]
+            );
+        }
+        ElemInfo::Integer(info) => {
+            let value_count = info.get_property_value_count() as usize;
+            println!(
+                "  values:         {:?}",
+                &elem_value.get_int()[..value_count]
+            );
+        }
+        ElemInfo::Integer64(info) => {
+            let value_count = info.get_property_value_count() as usize;
+            println!(
+                "  values:         {:?}",
+                &elem_value.get_int64()[..value_count]
+            );
+        }
+        ElemInfo::Enumerated(info) => {
+            let labels = info.get_property_labels();
+            let value_count = info.get_property_value_count() as usize;
+            let vals: Vec<_> = elem_value
+                .get_enum()
+                .iter()
+                .take(value_count)
+                .map(|&val| &labels[val as usize])
+                .collect();
             println!("  values:         {:?}", vals);
         }
-        ElemType::Integer => {
-            let mut vals = vec![0; value_count];
-            elem_value.get_int(&mut vals);
-            println!("  values:         {:?}", vals);
-        }
-        ElemType::Enumerated => {
-            let mut vals = vec![0; value_count];
-            elem_value.get_enum(&mut vals);
-            println!("  values:         {:?}", vals);
-        }
-        ElemType::Bytes => {
-            let mut vals = vec![0; value_count];
-            elem_value.get_bytes(&mut vals);
-            println!("  values:         {:?}", vals);
-        }
-        ElemType::Iec60958 => {
-            let mut channel_status = vec![0; 24];
-            let mut user_data = vec![0; 147];
-            elem_value.get_iec60958_channel_status(&mut channel_status);
-            elem_value.get_iec60958_user_data(&mut user_data);
-            println!("  channel_status: {:?}", channel_status);
-            println!("  user_data:      {:?}", user_data);
-        }
-        ElemType::Integer64 => {
-            let mut vals = vec![0; value_count];
-            elem_value.get_int64(&mut vals);
-            println!("  values:         {:?}", vals);
-        }
-        _ => {}
     }
 
     if elem_access.contains(ElemAccessFlag::TLV_READ) {

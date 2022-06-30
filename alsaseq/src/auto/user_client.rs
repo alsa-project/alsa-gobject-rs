@@ -20,11 +20,11 @@ use std::mem::transmute;
 use std::ptr;
 use ClientInfo;
 use ClientPool;
+use Event;
 use EventCntr;
 use PortInfo;
 use QueueInfo;
 use QueueTempo;
-use QueueTimer;
 use RemoveFilter;
 use SubscribeData;
 
@@ -59,8 +59,6 @@ pub trait UserClientExt: 'static {
 
     fn get_queue_tempo(&self, queue_id: u8) -> Result<QueueTempo, glib::Error>;
 
-    fn get_queue_timer(&self, queue_id: u8) -> Result<QueueTimer, glib::Error>;
-
     fn get_queue_usage(&self, queue_id: u8) -> Result<bool, glib::Error>;
 
     fn open(&self, open_flag: i32) -> Result<(), glib::Error>;
@@ -71,13 +69,9 @@ pub trait UserClientExt: 'static {
         establish: bool,
     ) -> Result<(), glib::Error>;
 
-    fn remove_events(&self, filter: &mut RemoveFilter) -> Result<(), glib::Error>;
+    fn remove_events<P: IsA<RemoveFilter>>(&self, filter: &P) -> Result<(), glib::Error>;
 
-    fn schedule_event<P: IsA<EventCntr>>(
-        &self,
-        ev_cntr: &P,
-        count: usize,
-    ) -> Result<(), glib::Error>;
+    fn schedule_event(&self, event: &Event) -> Result<(), glib::Error>;
 
     fn set_info<P: IsA<ClientInfo>>(&self, client_info: &P) -> Result<(), glib::Error>;
 
@@ -87,12 +81,6 @@ pub trait UserClientExt: 'static {
         &self,
         queue_id: u8,
         queue_tempo: &P,
-    ) -> Result<(), glib::Error>;
-
-    fn set_queue_timer<P: IsA<QueueTimer>>(
-        &self,
-        queue_id: u8,
-        queue_timer: &P,
     ) -> Result<(), glib::Error>;
 
     fn set_queue_usage(&self, queue_id: u8, use_: bool) -> Result<(), glib::Error>;
@@ -176,24 +164,6 @@ impl<O: IsA<UserClient>> UserClientExt for O {
         }
     }
 
-    fn get_queue_timer(&self, queue_id: u8) -> Result<QueueTimer, glib::Error> {
-        unsafe {
-            let mut queue_timer = ptr::null_mut();
-            let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_user_client_get_queue_timer(
-                self.as_ref().to_glib_none().0,
-                queue_id,
-                &mut queue_timer,
-                &mut error,
-            );
-            if error.is_null() {
-                Ok(from_glib_full(queue_timer))
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
     fn get_queue_usage(&self, queue_id: u8) -> Result<bool, glib::Error> {
         unsafe {
             let mut use_ = mem::MaybeUninit::uninit();
@@ -250,12 +220,12 @@ impl<O: IsA<UserClient>> UserClientExt for O {
         }
     }
 
-    fn remove_events(&self, filter: &mut RemoveFilter) -> Result<(), glib::Error> {
+    fn remove_events<P: IsA<RemoveFilter>>(&self, filter: &P) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
             let _ = alsaseq_sys::alsaseq_user_client_remove_events(
                 self.as_ref().to_glib_none().0,
-                filter.to_glib_none_mut().0,
+                filter.as_ref().to_glib_none().0,
                 &mut error,
             );
             if error.is_null() {
@@ -266,17 +236,12 @@ impl<O: IsA<UserClient>> UserClientExt for O {
         }
     }
 
-    fn schedule_event<P: IsA<EventCntr>>(
-        &self,
-        ev_cntr: &P,
-        count: usize,
-    ) -> Result<(), glib::Error> {
+    fn schedule_event(&self, event: &Event) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
             let _ = alsaseq_sys::alsaseq_user_client_schedule_event(
                 self.as_ref().to_glib_none().0,
-                ev_cntr.as_ref().to_glib_none().0,
-                count,
+                event.to_glib_none().0,
                 &mut error,
             );
             if error.is_null() {
@@ -330,27 +295,6 @@ impl<O: IsA<UserClient>> UserClientExt for O {
                 self.as_ref().to_glib_none().0,
                 queue_id,
                 queue_tempo.as_ref().to_glib_none().0,
-                &mut error,
-            );
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn set_queue_timer<P: IsA<QueueTimer>>(
-        &self,
-        queue_id: u8,
-        queue_timer: &P,
-    ) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = alsaseq_sys::alsaseq_user_client_set_queue_timer(
-                self.as_ref().to_glib_none().0,
-                queue_id,
-                queue_timer.as_ref().to_glib_none().0,
                 &mut error,
             );
             if error.is_null() {

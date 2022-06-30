@@ -2,25 +2,21 @@
 use super::*;
 
 pub trait InstanceParamsExtManual {
-    fn set_event_filter(&self, event_filter: &Vec<EventType>) -> Result<(), glib::Error>;
-    fn get_event_filter(&self) -> Result<Vec<EventType>, glib::Error>;
+    fn set_event_filter(&self, event_filter: &[RealTimeEventType]) -> Result<(), glib::Error>;
+    fn get_event_filter(&self) -> Result<Vec<RealTimeEventType>, glib::Error>;
 }
 
 impl<O: IsA<InstanceParams>> InstanceParamsExtManual for O {
-    fn set_event_filter(&self, event_filter: &Vec<EventType>) -> Result<(), glib::Error> {
+    fn set_event_filter(&self, event_filter: &[RealTimeEventType]) -> Result<(), glib::Error> {
         unsafe {
-            let entry_count = event_filter.len();
-            let mut entries = Vec::<alsatimer_sys::ALSATimerEventType>::with_capacity(entry_count);
+            let entries: Vec<alsatimer_sys::ALSATimerRealTimeEventType> =
+                event_filter.iter().map(|entry| entry.to_glib()).collect();
             let mut error = std::ptr::null_mut();
-
-            for entry in event_filter {
-                entries.push(EventType::to_glib(entry))
-            }
 
             alsatimer_sys::alsatimer_instance_params_set_event_filter(
                 self.as_ref().to_glib_none().0,
                 entries.as_ptr(),
-                entry_count,
+                event_filter.len(),
                 &mut error,
             );
 
@@ -32,7 +28,7 @@ impl<O: IsA<InstanceParams>> InstanceParamsExtManual for O {
         }
     }
 
-    fn get_event_filter(&self) -> Result<Vec<EventType>, glib::Error> {
+    fn get_event_filter(&self) -> Result<Vec<RealTimeEventType>, glib::Error> {
         unsafe {
             let mut entries = std::ptr::null_mut();
             let mut entry_count = 0 as usize;
@@ -46,13 +42,12 @@ impl<O: IsA<InstanceParams>> InstanceParamsExtManual for O {
             );
 
             if error.is_null() {
-                let entries: Vec<alsatimer_sys::ALSATimerEventType> =
+                let entries: Vec<alsatimer_sys::ALSATimerRealTimeEventType> =
                     FromGlibContainer::from_glib_full_num(entries, entry_count);
-                let mut return_entries = Vec::<EventType>::with_capacity(entries.len());
-
-                for entry in entries.into_iter() {
-                    return_entries.push(EventType::from_glib(entry))
-                }
+                let return_entries: Vec<RealTimeEventType> = entries
+                    .iter()
+                    .map(|&entry| RealTimeEventType::from_glib(entry))
+                    .collect();
 
                 Ok(return_entries)
             } else {
@@ -69,11 +64,11 @@ mod test {
     #[test]
     fn test_manual_bindings() {
         let filter_expected = vec![
-            EventType::Tick,
-            EventType::Start,
-            EventType::Stop,
-            EventType::Suspend,
-            EventType::Resume,
+            RealTimeEventType::Tick,
+            RealTimeEventType::Start,
+            RealTimeEventType::Stop,
+            RealTimeEventType::Suspend,
+            RealTimeEventType::Resume,
         ];
 
         let params = InstanceParams::new();

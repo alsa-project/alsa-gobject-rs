@@ -6,6 +6,8 @@ pub trait CardExtManual {
 
     fn get_elem_id_list(&self) -> Result<Vec<ElemId>, glib::Error>;
 
+    fn get_elem_info(&self, elem_id: &ElemId) -> Result<ElemInfo, glib::Error>;
+
     fn command_elem_tlv(&self, elem_id: &ElemId, container: &mut [u32]) -> Result<(), glib::Error>;
 
     fn read_elem_tlv(&self, elem_id: &ElemId, container: &mut [u32]) -> Result<(), glib::Error>;
@@ -16,14 +18,14 @@ pub trait CardExtManual {
         elem_value: &mut P,
     ) -> Result<(), glib::Error>;
 
-    fn add_elems<P: IsA<ElemInfo>>(
+    fn add_elems<P: AsRef<ElemInfoCommon>>(
         &self,
         elem_id: &ElemId,
         elem_count: u32,
         elem_info: &P,
     ) -> Result<Vec<ElemId>, glib::Error>;
 
-    fn replace_elems<P: IsA<ElemInfo>>(
+    fn replace_elems<P: AsRef<ElemInfoCommon>>(
         &self,
         elem_id: &ElemId,
         elem_count: u32,
@@ -64,6 +66,25 @@ impl<O: IsA<Card>> CardExtManual for O {
 
             if error.is_null() {
                 Ok(FromGlibPtrContainer::from_glib_full(entries))
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
+
+    fn get_elem_info(&self, elem_id: &ElemId) -> Result<ElemInfo, glib::Error> {
+        unsafe {
+            let mut elem_info = std::ptr::null_mut();
+            let mut error = std::ptr::null_mut();
+            let _ = alsactl_sys::alsactl_card_get_elem_info(
+                self.as_ref().to_glib_none().0,
+                elem_id.to_glib_none().0,
+                &mut elem_info,
+                &mut error,
+            );
+            if error.is_null() {
+                let obj = ElemInfoCommon::from_glib_full(elem_info);
+                Ok(ElemInfo::from(obj))
             } else {
                 Err(from_glib_full(error))
             }
@@ -135,7 +156,7 @@ impl<O: IsA<Card>> CardExtManual for O {
         }
     }
 
-    fn add_elems<P: IsA<ElemInfo>>(
+    fn add_elems<P: AsRef<ElemInfoCommon>>(
         &self,
         elem_id: &ElemId,
         elem_count: u32,
@@ -162,7 +183,7 @@ impl<O: IsA<Card>> CardExtManual for O {
         }
     }
 
-    fn replace_elems<P: IsA<ElemInfo>>(
+    fn replace_elems<P: AsRef<ElemInfoCommon>>(
         &self,
         elem_id: &ElemId,
         elem_count: u32,

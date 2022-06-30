@@ -15,10 +15,11 @@ use std::fmt;
 use std::mem::transmute;
 use std::ptr;
 use DeviceId;
-use Event;
-use EventDataType;
+use EventType;
 use InstanceInfo;
+use RealTimeEvent;
 use SlaveClass;
+use TickTimeEvent;
 
 glib_wrapper! {
     pub struct UserInstance(Object<alsatimer_sys::ALSATimerUserInstance, alsatimer_sys::ALSATimerUserInstanceClass, UserInstanceClass>);
@@ -47,7 +48,7 @@ pub trait UserInstanceExt: 'static {
 
     fn attach_as_slave(&self, slave_class: SlaveClass, slave_id: i32) -> Result<(), glib::Error>;
 
-    fn choose_event_data_type(&self, event_data_type: EventDataType) -> Result<(), glib::Error>;
+    fn choose_event_type(&self, event_type: EventType) -> Result<(), glib::Error>;
 
     fn continue_(&self) -> Result<(), glib::Error>;
 
@@ -65,7 +66,15 @@ pub trait UserInstanceExt: 'static {
 
     fn connect_handle_disconnection<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
-    fn connect_handle_event<F: Fn(&Self, &Event) + 'static>(&self, f: F) -> SignalHandlerId;
+    fn connect_handle_real_time_event<F: Fn(&Self, &RealTimeEvent) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId;
+
+    fn connect_handle_tick_time_event<F: Fn(&Self, &TickTimeEvent) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId;
 }
 
 impl<O: IsA<UserInstance>> UserInstanceExt for O {
@@ -102,12 +111,12 @@ impl<O: IsA<UserInstance>> UserInstanceExt for O {
         }
     }
 
-    fn choose_event_data_type(&self, event_data_type: EventDataType) -> Result<(), glib::Error> {
+    fn choose_event_type(&self, event_type: EventType) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
-            let _ = alsatimer_sys::alsatimer_user_instance_choose_event_data_type(
+            let _ = alsatimer_sys::alsatimer_user_instance_choose_event_type(
                 self.as_ref().to_glib_none().0,
-                event_data_type.to_glib(),
+                event_type.to_glib(),
                 &mut error,
             );
             if error.is_null() {
@@ -251,10 +260,16 @@ impl<O: IsA<UserInstance>> UserInstanceExt for O {
         }
     }
 
-    fn connect_handle_event<F: Fn(&Self, &Event) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn handle_event_trampoline<P, F: Fn(&P, &Event) + 'static>(
+    fn connect_handle_real_time_event<F: Fn(&Self, &RealTimeEvent) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn handle_real_time_event_trampoline<
+            P,
+            F: Fn(&P, &RealTimeEvent) + 'static,
+        >(
             this: *mut alsatimer_sys::ALSATimerUserInstance,
-            event: *mut alsatimer_sys::ALSATimerEvent,
+            event: *mut alsatimer_sys::ALSATimerRealTimeEvent,
             f: glib_sys::gpointer,
         ) where
             P: IsA<UserInstance>,
@@ -262,16 +277,49 @@ impl<O: IsA<UserInstance>> UserInstanceExt for O {
             let f: &F = &*(f as *const F);
             f(
                 &UserInstance::from_glib_borrow(this).unsafe_cast_ref(),
-                &from_glib_none(event),
+                &from_glib_borrow(event),
             )
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"handle-event\0".as_ptr() as *const _,
+                b"handle-real-time-event\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
-                    handle_event_trampoline::<Self, F> as *const (),
+                    handle_real_time_event_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    fn connect_handle_tick_time_event<F: Fn(&Self, &TickTimeEvent) + 'static>(
+        &self,
+        f: F,
+    ) -> SignalHandlerId {
+        unsafe extern "C" fn handle_tick_time_event_trampoline<
+            P,
+            F: Fn(&P, &TickTimeEvent) + 'static,
+        >(
+            this: *mut alsatimer_sys::ALSATimerUserInstance,
+            event: *mut alsatimer_sys::ALSATimerTickTimeEvent,
+            f: glib_sys::gpointer,
+        ) where
+            P: IsA<UserInstance>,
+        {
+            let f: &F = &*(f as *const F);
+            f(
+                &UserInstance::from_glib_borrow(this).unsafe_cast_ref(),
+                &from_glib_borrow(event),
+            )
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"handle-tick-time-event\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    handle_tick_time_event_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

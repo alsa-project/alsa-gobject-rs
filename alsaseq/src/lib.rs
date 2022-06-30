@@ -11,21 +11,42 @@ extern crate libc;
 
 mod auto;
 mod client_info;
+mod enums;
+mod event;
 mod event_cntr;
 mod event_data_connect;
 mod event_data_queue;
 mod query;
 mod queue_status;
 mod queue_tempo;
-mod queue_timer;
-mod queue_timer_data_alsa;
-mod tstamp;
+mod remove_filter;
 mod user_client;
 
 pub use {
-    auto::*, client_info::*, event_cntr::*, event_data_connect::*, event_data_queue::*, query::*,
-    queue_status::*, queue_tempo::*, queue_timer::*, queue_timer_data_alsa::*, tstamp::*,
+    auto::*, client_info::*, enums::*, event::*, event_cntr::*, event_data_connect::*,
+    event_data_queue::*, query::*, queue_status::*, queue_tempo::*, remove_filter::*,
     user_client::*,
 };
 
-use glib::{object::IsA, translate::*};
+use glib::{object::IsA, translate::*, Cast, Error, StaticType, Value};
+
+pub enum QueueTimer {
+    Alsa(QueueTimerAlsa),
+}
+
+impl From<QueueTimerCommon> for QueueTimer {
+    fn from(obj: QueueTimerCommon) -> Self {
+        match obj.get_property_timer_type() {
+            QueueTimerType::Alsa => QueueTimer::Alsa(obj.downcast().unwrap()),
+            _ => unreachable!(),
+        }
+    }
+}
+
+impl AsRef<QueueTimerCommon> for QueueTimer {
+    fn as_ref(&self) -> &QueueTimerCommon {
+        match self {
+            QueueTimer::Alsa(timer) => timer.upcast_ref(),
+        }
+    }
+}

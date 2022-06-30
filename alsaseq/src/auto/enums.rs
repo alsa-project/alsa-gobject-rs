@@ -92,6 +92,105 @@ impl SetValue for ClientType {
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
+pub enum EventError {
+    Failed,
+    InvalidDataType,
+    InvalidLengthMode,
+    InvalidTstampMode,
+    #[doc(hidden)]
+    __Unknown(i32),
+}
+
+impl fmt::Display for EventError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "EventError::{}",
+            match *self {
+                EventError::Failed => "Failed",
+                EventError::InvalidDataType => "InvalidDataType",
+                EventError::InvalidLengthMode => "InvalidLengthMode",
+                EventError::InvalidTstampMode => "InvalidTstampMode",
+                _ => "Unknown",
+            }
+        )
+    }
+}
+
+#[doc(hidden)]
+impl ToGlib for EventError {
+    type GlibType = alsaseq_sys::ALSASeqEventError;
+
+    fn to_glib(&self) -> alsaseq_sys::ALSASeqEventError {
+        match *self {
+            EventError::Failed => alsaseq_sys::ALSASEQ_EVENT_ERROR_FAILED,
+            EventError::InvalidDataType => alsaseq_sys::ALSASEQ_EVENT_ERROR_INVALID_DATA_TYPE,
+            EventError::InvalidLengthMode => alsaseq_sys::ALSASEQ_EVENT_ERROR_INVALID_LENGTH_MODE,
+            EventError::InvalidTstampMode => alsaseq_sys::ALSASEQ_EVENT_ERROR_INVALID_TSTAMP_MODE,
+            EventError::__Unknown(value) => value,
+        }
+    }
+}
+
+#[doc(hidden)]
+impl FromGlib<alsaseq_sys::ALSASeqEventError> for EventError {
+    fn from_glib(value: alsaseq_sys::ALSASeqEventError) -> Self {
+        match value {
+            0 => EventError::Failed,
+            1 => EventError::InvalidDataType,
+            2 => EventError::InvalidLengthMode,
+            3 => EventError::InvalidTstampMode,
+            value => EventError::__Unknown(value),
+        }
+    }
+}
+
+impl ErrorDomain for EventError {
+    fn domain() -> Quark {
+        unsafe { from_glib(alsaseq_sys::alsaseq_event_error_quark()) }
+    }
+
+    fn code(self) -> i32 {
+        self.to_glib()
+    }
+
+    fn from(code: i32) -> Option<Self> {
+        match code {
+            0 => Some(EventError::Failed),
+            1 => Some(EventError::InvalidDataType),
+            2 => Some(EventError::InvalidLengthMode),
+            3 => Some(EventError::InvalidTstampMode),
+            _ => Some(EventError::Failed),
+        }
+    }
+}
+
+impl StaticType for EventError {
+    fn static_type() -> Type {
+        unsafe { from_glib(alsaseq_sys::alsaseq_event_error_get_type()) }
+    }
+}
+
+impl<'a> FromValueOptional<'a> for EventError {
+    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+        Some(FromValue::from_value(value))
+    }
+}
+
+impl<'a> FromValue<'a> for EventError {
+    unsafe fn from_value(value: &Value) -> Self {
+        from_glib(gobject_sys::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl SetValue for EventError {
+    unsafe fn set_value(value: &mut Value, this: &Self) {
+        gobject_sys::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum EventLengthMode {
     Fixed,
     Variable,
@@ -309,21 +408,21 @@ impl SetValue for EventTimeMode {
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
-pub enum EventTimestampMode {
+pub enum EventTstampMode {
     Tick,
     Real,
     #[doc(hidden)]
     __Unknown(i32),
 }
 
-impl fmt::Display for EventTimestampMode {
+impl fmt::Display for EventTstampMode {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
-            "EventTimestampMode::{}",
+            "EventTstampMode::{}",
             match *self {
-                EventTimestampMode::Tick => "Tick",
-                EventTimestampMode::Real => "Real",
+                EventTstampMode::Tick => "Tick",
+                EventTstampMode::Real => "Real",
                 _ => "Unknown",
             }
         )
@@ -331,48 +430,48 @@ impl fmt::Display for EventTimestampMode {
 }
 
 #[doc(hidden)]
-impl ToGlib for EventTimestampMode {
-    type GlibType = alsaseq_sys::ALSASeqEventTimestampMode;
+impl ToGlib for EventTstampMode {
+    type GlibType = alsaseq_sys::ALSASeqEventTstampMode;
 
-    fn to_glib(&self) -> alsaseq_sys::ALSASeqEventTimestampMode {
+    fn to_glib(&self) -> alsaseq_sys::ALSASeqEventTstampMode {
         match *self {
-            EventTimestampMode::Tick => alsaseq_sys::ALSASEQ_EVENT_TIMESTAMP_MODE_TICK,
-            EventTimestampMode::Real => alsaseq_sys::ALSASEQ_EVENT_TIMESTAMP_MODE_REAL,
-            EventTimestampMode::__Unknown(value) => value,
+            EventTstampMode::Tick => alsaseq_sys::ALSASEQ_EVENT_TSTAMP_MODE_TICK,
+            EventTstampMode::Real => alsaseq_sys::ALSASEQ_EVENT_TSTAMP_MODE_REAL,
+            EventTstampMode::__Unknown(value) => value,
         }
     }
 }
 
 #[doc(hidden)]
-impl FromGlib<alsaseq_sys::ALSASeqEventTimestampMode> for EventTimestampMode {
-    fn from_glib(value: alsaseq_sys::ALSASeqEventTimestampMode) -> Self {
+impl FromGlib<alsaseq_sys::ALSASeqEventTstampMode> for EventTstampMode {
+    fn from_glib(value: alsaseq_sys::ALSASeqEventTstampMode) -> Self {
         match value {
-            0 => EventTimestampMode::Tick,
-            1 => EventTimestampMode::Real,
-            value => EventTimestampMode::__Unknown(value),
+            0 => EventTstampMode::Tick,
+            1 => EventTstampMode::Real,
+            value => EventTstampMode::__Unknown(value),
         }
     }
 }
 
-impl StaticType for EventTimestampMode {
+impl StaticType for EventTstampMode {
     fn static_type() -> Type {
-        unsafe { from_glib(alsaseq_sys::alsaseq_event_timestamp_mode_get_type()) }
+        unsafe { from_glib(alsaseq_sys::alsaseq_event_tstamp_mode_get_type()) }
     }
 }
 
-impl<'a> FromValueOptional<'a> for EventTimestampMode {
+impl<'a> FromValueOptional<'a> for EventTstampMode {
     unsafe fn from_value_optional(value: &Value) -> Option<Self> {
         Some(FromValue::from_value(value))
     }
 }
 
-impl<'a> FromValue<'a> for EventTimestampMode {
+impl<'a> FromValue<'a> for EventTstampMode {
     unsafe fn from_value(value: &Value) -> Self {
         from_glib(gobject_sys::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
-impl SetValue for EventTimestampMode {
+impl SetValue for EventTstampMode {
     unsafe fn set_value(value: &mut Value, this: &Self) {
         gobject_sys::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
     }
@@ -1105,6 +1204,7 @@ pub enum UserClientError {
     Failed,
     PortPermission,
     QueuePermission,
+    EventUndeliverable,
     #[doc(hidden)]
     __Unknown(i32),
 }
@@ -1118,6 +1218,7 @@ impl fmt::Display for UserClientError {
                 UserClientError::Failed => "Failed",
                 UserClientError::PortPermission => "PortPermission",
                 UserClientError::QueuePermission => "QueuePermission",
+                UserClientError::EventUndeliverable => "EventUndeliverable",
                 _ => "Unknown",
             }
         )
@@ -1137,6 +1238,9 @@ impl ToGlib for UserClientError {
             UserClientError::QueuePermission => {
                 alsaseq_sys::ALSASEQ_USER_CLIENT_ERROR_QUEUE_PERMISSION
             }
+            UserClientError::EventUndeliverable => {
+                alsaseq_sys::ALSASEQ_USER_CLIENT_ERROR_EVENT_UNDELIVERABLE
+            }
             UserClientError::__Unknown(value) => value,
         }
     }
@@ -1149,6 +1253,7 @@ impl FromGlib<alsaseq_sys::ALSASeqUserClientError> for UserClientError {
             0 => UserClientError::Failed,
             1 => UserClientError::PortPermission,
             2 => UserClientError::QueuePermission,
+            3 => UserClientError::EventUndeliverable,
             value => UserClientError::__Unknown(value),
         }
     }
@@ -1168,6 +1273,7 @@ impl ErrorDomain for UserClientError {
             0 => Some(UserClientError::Failed),
             1 => Some(UserClientError::PortPermission),
             2 => Some(UserClientError::QueuePermission),
+            3 => Some(UserClientError::EventUndeliverable),
             _ => Some(UserClientError::Failed),
         }
     }

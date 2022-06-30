@@ -29,26 +29,26 @@ pub const ALSATIMER_CLASS_GLOBAL: ALSATimerClass = 1;
 pub const ALSATIMER_CLASS_CARD: ALSATimerClass = 2;
 pub const ALSATIMER_CLASS_PCM: ALSATimerClass = 3;
 
-pub type ALSATimerEventDataType = c_int;
-pub const ALSATIMER_EVENT_DATA_TYPE_TICK: ALSATimerEventDataType = 0;
-pub const ALSATIMER_EVENT_DATA_TYPE_TSTAMP: ALSATimerEventDataType = 1;
-
 pub type ALSATimerEventType = c_int;
-pub const ALSATIMER_EVENT_TYPE_RESOLUTION: ALSATimerEventType = 0;
-pub const ALSATIMER_EVENT_TYPE_TICK: ALSATimerEventType = 1;
-pub const ALSATIMER_EVENT_TYPE_START: ALSATimerEventType = 2;
-pub const ALSATIMER_EVENT_TYPE_STOP: ALSATimerEventType = 3;
-pub const ALSATIMER_EVENT_TYPE_CONTINUE: ALSATimerEventType = 4;
-pub const ALSATIMER_EVENT_TYPE_PAUSE: ALSATimerEventType = 5;
-pub const ALSATIMER_EVENT_TYPE_EARLY: ALSATimerEventType = 6;
-pub const ALSATIMER_EVENT_TYPE_SUSPEND: ALSATimerEventType = 7;
-pub const ALSATIMER_EVENT_TYPE_RESUME: ALSATimerEventType = 8;
-pub const ALSATIMER_EVENT_TYPE_MSTART: ALSATimerEventType = 12;
-pub const ALSATIMER_EVENT_TYPE_MSTOP: ALSATimerEventType = 13;
-pub const ALSATIMER_EVENT_TYPE_MCONTINUE: ALSATimerEventType = 14;
-pub const ALSATIMER_EVENT_TYPE_MPAUSE: ALSATimerEventType = 15;
-pub const ALSATIMER_EVENT_TYPE_MSUSPEND: ALSATimerEventType = 17;
-pub const ALSATIMER_EVENT_TYPE_MRESUME: ALSATimerEventType = 18;
+pub const ALSATIMER_EVENT_TYPE_TICK_TIME: ALSATimerEventType = 0;
+pub const ALSATIMER_EVENT_TYPE_REAL_TIME: ALSATimerEventType = 1;
+
+pub type ALSATimerRealTimeEventType = c_int;
+pub const ALSATIMER_REAL_TIME_EVENT_TYPE_RESOLUTION: ALSATimerRealTimeEventType = 0;
+pub const ALSATIMER_REAL_TIME_EVENT_TYPE_TICK: ALSATimerRealTimeEventType = 1;
+pub const ALSATIMER_REAL_TIME_EVENT_TYPE_START: ALSATimerRealTimeEventType = 2;
+pub const ALSATIMER_REAL_TIME_EVENT_TYPE_STOP: ALSATimerRealTimeEventType = 3;
+pub const ALSATIMER_REAL_TIME_EVENT_TYPE_CONTINUE: ALSATimerRealTimeEventType = 4;
+pub const ALSATIMER_REAL_TIME_EVENT_TYPE_PAUSE: ALSATimerRealTimeEventType = 5;
+pub const ALSATIMER_REAL_TIME_EVENT_TYPE_EARLY: ALSATimerRealTimeEventType = 6;
+pub const ALSATIMER_REAL_TIME_EVENT_TYPE_SUSPEND: ALSATimerRealTimeEventType = 7;
+pub const ALSATIMER_REAL_TIME_EVENT_TYPE_RESUME: ALSATimerRealTimeEventType = 8;
+pub const ALSATIMER_REAL_TIME_EVENT_TYPE_MSTART: ALSATimerRealTimeEventType = 12;
+pub const ALSATIMER_REAL_TIME_EVENT_TYPE_MSTOP: ALSATimerRealTimeEventType = 13;
+pub const ALSATIMER_REAL_TIME_EVENT_TYPE_MCONTINUE: ALSATimerRealTimeEventType = 14;
+pub const ALSATIMER_REAL_TIME_EVENT_TYPE_MPAUSE: ALSATimerRealTimeEventType = 15;
+pub const ALSATIMER_REAL_TIME_EVENT_TYPE_MSUSPEND: ALSATimerRealTimeEventType = 17;
+pub const ALSATIMER_REAL_TIME_EVENT_TYPE_MRESUME: ALSATimerRealTimeEventType = 18;
 
 pub type ALSATimerSlaveClass = c_int;
 pub const ALSATIMER_SLAVE_CLASS_NONE: ALSATimerSlaveClass = 0;
@@ -73,17 +73,6 @@ pub type ALSATimerInstanceParamFlag = c_uint;
 pub const ALSATIMER_INSTANCE_PARAM_FLAG_AUTO: ALSATimerInstanceParamFlag = 1;
 pub const ALSATIMER_INSTANCE_PARAM_FLAG_EXCLUSIVE: ALSATimerInstanceParamFlag = 2;
 pub const ALSATIMER_INSTANCE_PARAM_FLAG_EARLY_EVENT: ALSATimerInstanceParamFlag = 4;
-
-// Unions
-#[repr(C)]
-pub struct ALSATimerEvent(c_void);
-
-impl ::std::fmt::Debug for ALSATimerEvent {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerEvent @ {:?}", self as *const _))
-            .finish()
-    }
-}
 
 // Records
 #[repr(C)]
@@ -148,29 +137,6 @@ impl ::std::fmt::Debug for ALSATimerDeviceStatusClass {
 }
 
 #[repr(C)]
-pub struct ALSATimerEventDataTick(c_void);
-
-impl ::std::fmt::Debug for ALSATimerEventDataTick {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerEventDataTick @ {:?}", self as *const _))
-            .finish()
-    }
-}
-
-#[repr(C)]
-pub struct ALSATimerEventDataTstamp(c_void);
-
-impl ::std::fmt::Debug for ALSATimerEventDataTstamp {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!(
-            "ALSATimerEventDataTstamp @ {:?}",
-            self as *const _
-        ))
-        .finish()
-    }
-}
-
-#[repr(C)]
 #[derive(Copy, Clone)]
 pub struct ALSATimerInstanceInfoClass {
     pub parent_class: gobject::GObjectClass,
@@ -222,11 +188,33 @@ impl ::std::fmt::Debug for ALSATimerInstanceStatusClass {
 }
 
 #[repr(C)]
+pub struct ALSATimerRealTimeEvent(c_void);
+
+impl ::std::fmt::Debug for ALSATimerRealTimeEvent {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("ALSATimerRealTimeEvent @ {:?}", self as *const _))
+            .finish()
+    }
+}
+
+#[repr(C)]
+pub struct ALSATimerTickTimeEvent(c_void);
+
+impl ::std::fmt::Debug for ALSATimerTickTimeEvent {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("ALSATimerTickTimeEvent @ {:?}", self as *const _))
+            .finish()
+    }
+}
+
+#[repr(C)]
 #[derive(Copy, Clone)]
 pub struct ALSATimerUserInstanceClass {
     pub parent_class: gobject::GObjectClass,
-    pub handle_event:
-        Option<unsafe extern "C" fn(*mut ALSATimerUserInstance, *const ALSATimerEvent)>,
+    pub handle_tick_time_event:
+        Option<unsafe extern "C" fn(*mut ALSATimerUserInstance, *const ALSATimerTickTimeEvent)>,
+    pub handle_real_time_event:
+        Option<unsafe extern "C" fn(*mut ALSATimerUserInstance, *const ALSATimerRealTimeEvent)>,
     pub handle_disconnection: Option<unsafe extern "C" fn(*mut ALSATimerUserInstance)>,
 }
 
@@ -237,7 +225,8 @@ impl ::std::fmt::Debug for ALSATimerUserInstanceClass {
             self as *const _
         ))
         .field("parent_class", &self.parent_class)
-        .field("handle_event", &self.handle_event)
+        .field("handle_tick_time_event", &self.handle_tick_time_event)
+        .field("handle_real_time_event", &self.handle_real_time_event)
         .field("handle_disconnection", &self.handle_disconnection)
         .finish()
     }
@@ -350,14 +339,14 @@ extern "C" {
     pub fn alsatimer_class_get_type() -> GType;
 
     //=========================================================================
-    // ALSATimerEventDataType
-    //=========================================================================
-    pub fn alsatimer_event_data_type_get_type() -> GType;
-
-    //=========================================================================
     // ALSATimerEventType
     //=========================================================================
     pub fn alsatimer_event_type_get_type() -> GType;
+
+    //=========================================================================
+    // ALSATimerRealTimeEventType
+    //=========================================================================
+    pub fn alsatimer_real_time_event_type_get_type() -> GType;
 
     //=========================================================================
     // ALSATimerSlaveClass
@@ -386,20 +375,6 @@ extern "C" {
     pub fn alsatimer_instance_param_flag_get_type() -> GType;
 
     //=========================================================================
-    // ALSATimerEvent
-    //=========================================================================
-    pub fn alsatimer_event_get_type() -> GType;
-    pub fn alsatimer_event_new() -> *mut ALSATimerEvent;
-    pub fn alsatimer_event_get_tick_data(
-        self_: *mut ALSATimerEvent,
-        tick: *mut *const ALSATimerEventDataTick,
-    );
-    pub fn alsatimer_event_get_tstamp_data(
-        self_: *mut ALSATimerEvent,
-        tstamp: *mut *const ALSATimerEventDataTstamp,
-    );
-
-    //=========================================================================
     // ALSATimerDeviceId
     //=========================================================================
     pub fn alsatimer_device_id_get_type() -> GType;
@@ -424,33 +399,33 @@ extern "C" {
     );
 
     //=========================================================================
-    // ALSATimerEventDataTick
+    // ALSATimerRealTimeEvent
     //=========================================================================
-    pub fn alsatimer_event_data_tick_get_type() -> GType;
-    pub fn alsatimer_event_data_tick_get_resolution(
-        self_: *const ALSATimerEventDataTick,
-        resolution: *mut c_uint,
+    pub fn alsatimer_real_time_event_get_type() -> GType;
+    pub fn alsatimer_real_time_event_get_event(
+        self_: *const ALSATimerRealTimeEvent,
+        event: *mut ALSATimerRealTimeEventType,
     );
-    pub fn alsatimer_event_data_tick_get_ticks(
-        self_: *const ALSATimerEventDataTick,
-        ticks: *mut c_uint,
+    pub fn alsatimer_real_time_event_get_time(
+        self_: *const ALSATimerRealTimeEvent,
+        real_time: *const *mut [i64; 2],
+    );
+    pub fn alsatimer_real_time_event_get_val(
+        self_: *const ALSATimerRealTimeEvent,
+        val: *mut c_uint,
     );
 
     //=========================================================================
-    // ALSATimerEventDataTstamp
+    // ALSATimerTickTimeEvent
     //=========================================================================
-    pub fn alsatimer_event_data_tstamp_get_type() -> GType;
-    pub fn alsatimer_event_data_tstamp_get_event(
-        self_: *const ALSATimerEventDataTstamp,
-        event: *mut ALSATimerEventType,
+    pub fn alsatimer_tick_time_event_get_type() -> GType;
+    pub fn alsatimer_tick_time_event_get_count(
+        self_: *const ALSATimerTickTimeEvent,
+        count: *mut c_uint,
     );
-    pub fn alsatimer_event_data_tstamp_get_tstamp(
-        self_: *const ALSATimerEventDataTstamp,
-        tstamp: *const *mut [i64; 2],
-    );
-    pub fn alsatimer_event_data_tstamp_get_val(
-        self_: *const ALSATimerEventDataTstamp,
-        val: *mut c_uint,
+    pub fn alsatimer_tick_time_event_get_resolution(
+        self_: *const ALSATimerTickTimeEvent,
+        resolution: *mut c_uint,
     );
 
     //=========================================================================
@@ -482,25 +457,25 @@ extern "C" {
     pub fn alsatimer_instance_params_new() -> *mut ALSATimerInstanceParams;
     pub fn alsatimer_instance_params_get_event_filter(
         self_: *mut ALSATimerInstanceParams,
-        entries: *mut *mut ALSATimerEventType,
+        entries: *mut *mut ALSATimerRealTimeEventType,
         entry_count: *mut size_t,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsatimer_instance_params_set_event_filter(
         self_: *mut ALSATimerInstanceParams,
-        entries: *const ALSATimerEventType,
+        entries: *const ALSATimerRealTimeEventType,
         entry_count: size_t,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
 
     //=========================================================================
     // ALSATimerInstanceStatus
     //=========================================================================
     pub fn alsatimer_instance_status_get_type() -> GType;
     pub fn alsatimer_instance_status_new() -> *mut ALSATimerInstanceStatus;
-    pub fn alsatimer_instance_status_get_tstamp(
+    pub fn alsatimer_instance_status_get_time(
         self_: *mut ALSATimerInstanceStatus,
-        tstamp: *mut *const [i64; 2],
+        real_time: *mut *const [i64; 2],
     );
 
     //=========================================================================
@@ -512,64 +487,64 @@ extern "C" {
         self_: *mut ALSATimerUserInstance,
         device_id: *mut ALSATimerDeviceId,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsatimer_user_instance_attach_as_slave(
         self_: *mut ALSATimerUserInstance,
         slave_class: ALSATimerSlaveClass,
         slave_id: c_int,
         error: *mut *mut glib::GError,
-    );
-    pub fn alsatimer_user_instance_choose_event_data_type(
+    ) -> gboolean;
+    pub fn alsatimer_user_instance_choose_event_type(
         self_: *mut ALSATimerUserInstance,
-        event_data_type: ALSATimerEventDataType,
+        event_type: ALSATimerEventType,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsatimer_user_instance_continue(
         self_: *mut ALSATimerUserInstance,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsatimer_user_instance_create_source(
         self_: *mut ALSATimerUserInstance,
         gsrc: *mut *mut glib::GSource,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsatimer_user_instance_get_info(
         self_: *mut ALSATimerUserInstance,
         instance_info: *mut *mut ALSATimerInstanceInfo,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsatimer_user_instance_get_protocol_version(
         self_: *mut ALSATimerUserInstance,
         proto_ver_triplet: *mut *const [u16; 3],
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsatimer_user_instance_get_status(
         self_: *mut ALSATimerUserInstance,
         instance_status: *const *mut ALSATimerInstanceStatus,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsatimer_user_instance_open(
         self_: *mut ALSATimerUserInstance,
         open_flag: c_int,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsatimer_user_instance_pause(
         self_: *mut ALSATimerUserInstance,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsatimer_user_instance_set_params(
         self_: *mut ALSATimerUserInstance,
         instance_params: *const *mut ALSATimerInstanceParams,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsatimer_user_instance_start(
         self_: *mut ALSATimerUserInstance,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsatimer_user_instance_stop(
         self_: *mut ALSATimerUserInstance,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
 
     //=========================================================================
     // Other functions
@@ -577,24 +552,33 @@ extern "C" {
     pub fn alsatimer_get_device_id_list(
         entries: *mut *mut glib::GList,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsatimer_get_device_info(
         device_id: *mut ALSATimerDeviceId,
         device_info: *mut *mut ALSATimerDeviceInfo,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
     pub fn alsatimer_get_device_status(
         device_id: *mut ALSATimerDeviceId,
         device_status: *const *mut ALSATimerDeviceStatus,
         error: *mut *mut glib::GError,
-    );
-    pub fn alsatimer_get_devnode(devnode: *mut *mut c_char, error: *mut *mut glib::GError);
-    pub fn alsatimer_get_sysname(sysname: *mut *mut c_char, error: *mut *mut glib::GError);
-    pub fn alsatimer_get_tstamp_source(clock_id: *mut c_int, error: *mut *mut glib::GError);
+    ) -> gboolean;
+    pub fn alsatimer_get_devnode(
+        devnode: *mut *mut c_char,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsatimer_get_real_time_clock_id(
+        clock_id: *mut c_int,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn alsatimer_get_sysname(
+        sysname: *mut *mut c_char,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
     pub fn alsatimer_set_device_params(
         device_id: *mut ALSATimerDeviceId,
         device_params: *const ALSATimerDeviceParams,
         error: *mut *mut glib::GError,
-    );
+    ) -> gboolean;
 
 }
