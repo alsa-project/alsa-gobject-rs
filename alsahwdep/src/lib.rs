@@ -11,6 +11,8 @@ mod auto;
 mod device_common;
 mod enums;
 
+pub mod subclass;
+
 pub use {auto::*, device_common::*, enums::*};
 
 use glib::{translate::*, IsA};
