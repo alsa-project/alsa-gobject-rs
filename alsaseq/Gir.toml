@@ -1,17 +1,18 @@
 [crate_name_overrides]
 "alsa_seq" = "alsaseq"
+"alsa_timer" = "alsatimer"
 
 [options]
 work_mode = "normal"
 library = "ALSASeq"
 version = "0.0"
-min_cfg_version = "0.2"
+min_cfg_version = "0.3"
 single_version_file = true
 
 manual = [
     "GLib.Error",
     "GLib.Source",
-    "ALSASeq.Tstamp",
+    "ALSATimer.DeviceId",
 ]
 
 generate = [
@@ -22,13 +23,13 @@ generate = [
     "ALSASeq.SpecificPortId",
     "ALSASeq.PortCapFlag",
     "ALSASeq.PortAttrFlag",
+    "ALSASeq.EventError",
     "ALSASeq.EventType",
-    "ALSASeq.EventTimestampMode",
+    "ALSASeq.EventTstampMode",
     "ALSASeq.EventTimeMode",
     "ALSASeq.EventLengthMode",
     "ALSASeq.EventPriorityMode",
     "ALSASeq.SpecificQueueId",
-    "ALSASeq.PortSubscribeFlag",
     "ALSASeq.QuerySubscribeType",
     "ALSASeq.QueueTimerType",
     "ALSASeq.RemoveFilterFlag",
@@ -38,11 +39,19 @@ generate = [
     "ALSASeq.SubscribeData",
     "ALSASeq.QueueInfo",
     "ALSASeq.UserClientError",
+    "ALSASeq.QueueTimerCommon",
+    "ALSASeq.QueueTimerAlsa",
 ]
 
 [[object]]
 name = "ALSASeq.*"
 status = "generate"
+    [[object.function]]
+    name = "get_queue_status"
+    ignore = true
+    [[object.function]]
+    name = "get_subscription_list"
+    ignore = true
 
 [[object]]
 name = "ALSASeq.UserClient"
@@ -66,6 +75,16 @@ manual_traits = ["UserClientExtManual"]
     [[object.function]]
     name = "get_pool"
     ignore = true
+    [[object.function]]
+    name = "set_queue_timer"
+    ignore = true
+    [[object.function]]
+    name = "get_queue_timer"
+    ignore = true
+    [[object.function]]
+    name = "schedule_events"
+    ignore = true
+
 
 [[object]]
 name = "ALSASeq.EventDataConnect"
@@ -116,7 +135,10 @@ concurrency = "send"
     name = "set_quadlet_param"
     ignore = true
     [[object.function]]
-    name = "get_tstamp_param"
+    name = "get_real_time_param"
+    ignore = true
+    [[object.function]]
+    name = "set_real_time_param"
     ignore = true
 
 [[object]]
@@ -155,28 +177,24 @@ manual_traits = ["QueueTempoExtManual"]
     ignore = true
 
 [[object]]
-name = "ALSASeq.QueueTimer"
+name = "ALSASeq.RemoveFilter"
 status = "generate"
-manual_traits = ["QueueTimerExtManual"]
-    [[object.function]]
-    name = "get_alsa_data"
-    ignore = true
-
-[[object]]
-name = "ALSASeq.QueueTimerDataAlsa"
-status = "generate"
+manual_traits = ["RemoveFilterExtManual"]
 concurrency = "send"
     [[object.function]]
-    name = "get_device_id"
+    name = "get_real_time"
     ignore = true
     [[object.function]]
-    name = "set_device_id"
+    name = "set_real_time"
+    ignore = true
+    [[object.property]]
+    name = "tag"
     ignore = true
 
 [[object]]
-name = "ALSASeq.EventCntr"
+name = "ALSASeq.Event"
 status = "generate"
-manual_traits = ["EventCntrExtManual"]
+concurrency = "send"
     [[object.function]]
     name = "get_addr_data"
     ignore = true
@@ -193,10 +211,13 @@ manual_traits = ["EventCntrExtManual"]
     name = "get_ctl_data"
     ignore = true
     [[object.function]]
-    name = "get_dst"
+    name = "get_destination"
     ignore = true
     [[object.function]]
     name = "get_note_data"
+    ignore = true
+    [[object.function]]
+    name = "get_pointer_data"
     ignore = true
     [[object.function]]
     name = "get_quadlet_data"
@@ -205,25 +226,43 @@ manual_traits = ["EventCntrExtManual"]
     name = "get_queue_data"
     ignore = true
     [[object.function]]
+    name = "get_real_time"
+    ignore = true
+    [[object.function]]
+    name = "get_real_time_data"
+    ignore = true
+    [[object.function]]
     name = "get_result_data"
     ignore = true
     [[object.function]]
-    name = "get_src"
+    name = "get_source"
     ignore = true
     [[object.function]]
-    name = "get_tstamp"
+    name = "get_tick_time"
     ignore = true
     [[object.function]]
-    name = "get_tstamp_data"
+    name = "get_tick_time_data"
     ignore = true
     [[object.function]]
     name = "set_byte_data"
     ignore = true
     [[object.function]]
+    name = "set_pointer_data"
+    ignore = true
+    [[object.function]]
     name = "set_quadlet_data"
+    ignore = true
+    [[object.function]]
+    name = "set_real_time"
+    ignore = true
+    [[object.function]]
+    name = "set_real_time_data"
     ignore = true
 
 [[object]]
-name = "ALSASeq.RemoveFilter"
+name = "ALSASeq.EventCntr"
 status = "generate"
 concurrency = "send"
+    [[object.function]]
+    name = "deserialize"
+    ignore = true

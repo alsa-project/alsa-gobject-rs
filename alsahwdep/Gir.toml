@@ -5,7 +5,7 @@
 work_mode = "normal"
 library = "ALSAHwdep"
 version = "0.0"
-min_cfg_version = "0.2"
+min_cfg_version = "0.3"
 single_version_file = true
 
 manual = [
@@ -16,6 +16,7 @@ manual = [
 generate = [
     "ALSAHwdep.IfaceType",
     "ALSAHwdep.DeviceInfo",
+    "ALSAHwdep.DeviceCommonError",
 ]
 
 [[object]]
@@ -29,3 +30,11 @@ status = "generate"
     name = "get_hwdep_devnode"
     [[object.function]]
     name = "get_device_info"
+
+[[object]]
+name = "ALSAHwdep.DeviceCommon"
+status = "generate"
+manual_traits = ["DeviceCommonExtManual"]
+    [[object.function]]
+    pattern = "get_protocol_version"
+    ignore = true

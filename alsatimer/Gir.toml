@@ -5,13 +5,12 @@
 work_mode = "normal"
 library = "ALSATimer"
 version = "0.0"
-min_cfg_version = "0.2"
+min_cfg_version = "0.3"
 single_version_file = true
 
 manual = [
     "GLib.Error",
     "GLib.Source",
-    "ALSATimer.Event",
 ]
 
 generate = [
@@ -21,7 +20,7 @@ generate = [
     "ALSATimer.DeviceInfoFlag",
     "ALSATimer.InstanceParamFlag",
     "ALSATimer.EventType",
-    "ALSATimer.EventDataType",
+    "ALSATimer.RealTimeEventType",
     "ALSATimer.DeviceInfo",
     "ALSATimer.DeviceStatus",
     "ALSATimer.DeviceParams",
@@ -45,7 +44,7 @@ status = "generate"
     name = "set_device_params"
     ignore = true
     [[object.function]]
-    name = "get_tstamp_source"
+    name = "get_real_time_clock_id"
 
 [[object]]
 name = "ALSATimer.UserInstance"
@@ -77,7 +76,7 @@ name = "ALSATimer.InstanceStatus"
 status = "generate"
 manual_traits = ["InstanceStatusExtManual"]
     [[object.function]]
-    name = "get_tstamp"
+    name = "get_time"
     ignore = true
 
 [[object]]
@@ -86,14 +85,14 @@ status = "generate"
 concurrency = "send"
 
 [[object]]
-name = "ALSATimer.EventDataTick"
+name = "ALSATimer.TickTimeEvent"
 status = "generate"
 concurrency = "send"
 
 [[object]]
-name = "ALSATimer.EventDataTstamp"
+name = "ALSATimer.RealTimeEvent"
 status = "generate"
 concurrency = "send"
     [[object.function]]
-    name = "get_tstamp"
+    name = "get_time"
     ignore = true

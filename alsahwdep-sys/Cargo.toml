@@ -12,8 +12,6 @@ features = ["dox"]
 name = "alsahwdep"
 version = "0.2"
 
-[package.metadata.system-deps.alsahwdep.feature-versions]
-
 [lib]
 name = "alsahwdep_sys"
 

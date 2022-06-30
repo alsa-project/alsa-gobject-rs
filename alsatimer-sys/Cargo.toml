@@ -12,8 +12,6 @@ features = ["dox"]
 name = "alsatimer"
 version = "0.2"
 
-[package.metadata.system-deps.alsatimer.feature-versions]
-
 [lib]
 name = "alsatimer_sys"
 

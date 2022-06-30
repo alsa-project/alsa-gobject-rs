@@ -5,7 +5,7 @@
 work_mode = "normal"
 library = "ALSACtl"
 version = "0.0"
-min_cfg_version = "0.2"
+min_cfg_version = "0.3"
 single_version_file = true
 
 manual = [
@@ -21,6 +21,14 @@ generate = [
     "ALSACtl.ElemEventMask",
     "ALSACtl.CardInfo",
     "ALSACtl.CardError",
+    "ALSACtl.ElemInfoCommon",
+    "ALSACtl.ElemInfoSingleArray",
+    "ALSACtl.ElemInfoIec60958",
+    "ALSACtl.ElemInfoBoolean",
+    "ALSACtl.ElemInfoBytes",
+    "ALSACtl.ElemInfoInteger",
+    "ALSACtl.ElemInfoInteger64",
+    "ALSACtl.ElemInfoEnumerated",
 ]
 
 [[object]]
@@ -33,6 +41,9 @@ status = "generate"
 manual_traits = ["CardExtManual"]
     [[object.function]]
     name = "get_protocol_version"
+    ignore = true
+    [[object.function]]
+    name = "get_elem_info"
     ignore = true
     [[object.function]]
     name = "read_elem_value"
@@ -57,23 +68,6 @@ manual_traits = ["CardExtManual"]
 name = "ALSACtl.ElemId"
 status = "generate"
 concurrency = "send+sync"
-
-[[object]]
-name = "ALSACtl.ElemInfo"
-status = "generate"
-manual_traits = ["ElemInfoExtManual"]
-    [[object.function]]
-    name = "get_int_data"
-    ignore = true
-    [[object.function]]
-    name = "set_int_data"
-    ignore = true
-    [[object.function]]
-    name = "get_int64_data"
-    ignore = true
-    [[object.function]]
-    name = "set_int64_data"
-    ignore = true
 
 [[object]]
 name = "ALSACtl.ElemValue"

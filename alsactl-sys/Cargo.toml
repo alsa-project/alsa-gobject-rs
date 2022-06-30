@@ -12,8 +12,6 @@ features = ["dox"]
 name = "alsactl"
 version = "0.2"
 
-[package.metadata.system-deps.alsactl.feature-versions]
-
 [lib]
 name = "alsactl_sys"
 

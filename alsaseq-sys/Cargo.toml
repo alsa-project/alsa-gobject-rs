@@ -12,8 +12,6 @@ features = ["dox"]
 name = "alsaseq"
 version = "0.2"
 
-[package.metadata.system-deps.alsaseq.feature-versions]
-
 [lib]
 name = "alsaseq_sys"
 
