@@ -15,6 +15,8 @@ mod query;
 mod real_time_event;
 mod user_instance;
 
+pub mod subclass;
+
 pub use {
     auto::*, instance_params::*, instance_status::*, query::*, real_time_event::*, user_instance::*,
 };
