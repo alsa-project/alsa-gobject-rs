@@ -1,9 +1,30 @@
 // SPDX-License-Identifier: MIT
 use super::*;
 
+/// Trait containing the rest of [`struct@InstanceParams`] methods.
 pub trait InstanceParamsExtManual {
+    /// Set the list of [`RealTimeEventType`][crate::RealTimeEventType] to filter events. This
+    /// parameter is effective only for target instance with
+    /// [`EventType`][crate::EventType].TIMESTAMP.
+    /// ## `entries`
+    /// The array with elements for entries of [`RealTimeEventType`][crate::RealTimeEventType].
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsatimer_instance_params_set_event_filter")]
     fn set_event_filter(&self, event_filter: &[RealTimeEventType]) -> Result<(), glib::Error>;
+
+    /// Get the list of [`RealTimeEventType`][crate::RealTimeEventType] to filter events. This
+    /// parameter is effective only for target instance with
+    /// [`EventType`][crate::EventType].REAL_TIME.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
+    ///
+    /// ## `entries`
+    /// The array with elements for entries of [`RealTimeEventType`][crate::RealTimeEventType].
     #[doc(alias = "alsatimer_instance_params_get_event_filter")]
     #[doc(alias = "get_event_filter")]
     fn event_filter(&self) -> Result<Vec<RealTimeEventType>, glib::Error>;

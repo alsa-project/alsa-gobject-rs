@@ -13,6 +13,17 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// A GObject-derived object to express parameters of substream.
+    ///
+    /// A [`SubstreamParams`][crate::SubstreamParams] is a GObject-derived object to express parameters of substream
+    /// attached to the pair of streams. The call of [`StreamPairExt::set_substream_params()`][crate::prelude::StreamPairExt::set_substream_params()] requires
+    /// the instance of object.
+    ///
+    /// The object wraps `struct snd_rawmidi_params` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`SubstreamParamsExt`][trait@crate::prelude::SubstreamParamsExt]
     #[doc(alias = "ALSARawmidiSubstreamParams")]
     pub struct SubstreamParams(Object<ffi::ALSARawmidiSubstreamParams, ffi::ALSARawmidiSubstreamParamsClass>);
 
@@ -24,6 +35,11 @@ glib::wrapper! {
 impl SubstreamParams {
     pub const NONE: Option<&'static SubstreamParams> = None;
 
+    /// Allocate and return an instance of [`SubstreamParams`][crate::SubstreamParams].
+    ///
+    /// # Returns
+    ///
+    /// An instance of [`SubstreamParams`][crate::SubstreamParams].
     #[doc(alias = "alsarawmidi_substream_params_new")]
     pub fn new() -> SubstreamParams {
         unsafe { from_glib_full(ffi::alsarawmidi_substream_params_new()) }
@@ -36,22 +52,33 @@ impl Default for SubstreamParams {
     }
 }
 
+/// Trait containing all [`struct@SubstreamParams`] methods.
+///
+/// # Implementors
+///
+/// [`SubstreamParams`][struct@crate::SubstreamParams]
 pub trait SubstreamParamsExt: 'static {
+    /// Whether to emit 0xfe one time when closing substream.
     #[doc(alias = "active-sensing")]
     fn is_active_sensing(&self) -> bool;
 
+    /// Whether to emit 0xfe one time when closing substream.
     #[doc(alias = "active-sensing")]
     fn set_active_sensing(&self, active_sensing: bool);
 
+    /// The threshold to wake up from any blocking operation such as poll(2), read(2) and write(2).
     #[doc(alias = "avail-min")]
     fn avail_min(&self) -> u32;
 
+    /// The threshold to wake up from any blocking operation such as poll(2), read(2) and write(2).
     #[doc(alias = "avail-min")]
     fn set_avail_min(&self, avail_min: u32);
 
+    /// The size of intermediate buffer for substream.
     #[doc(alias = "buffer-size")]
     fn buffer_size(&self) -> u32;
 
+    /// The size of intermediate buffer for substream.
     #[doc(alias = "buffer-size")]
     fn set_buffer_size(&self, buffer_size: u32);
 

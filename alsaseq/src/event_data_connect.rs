@@ -2,6 +2,13 @@
 use super::*;
 
 impl EventDataConnect {
+    /// Get the destination of connection event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `dst`
+    /// The destination of connection event.
     #[doc(alias = "alsaseq_event_data_connect_get_dst")]
     #[doc(alias = "get_dst")]
     pub fn dst(&mut self) -> Addr {
@@ -12,6 +19,13 @@ impl EventDataConnect {
         }
     }
 
+    /// Get the source of connection event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `src`
+    /// The source of connection event.
     #[doc(alias = "alsaseq_event_data_connect_get_src")]
     #[doc(alias = "get_src")]
     pub fn src(&mut self) -> Addr {

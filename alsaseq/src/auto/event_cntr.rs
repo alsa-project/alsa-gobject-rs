@@ -4,6 +4,10 @@
 // DO NOT EDIT
 
 glib::wrapper! {
+    /// A boxed structure for container which includes batch of events.
+    ///
+    /// For batch of events, [`EventCntr`][crate::EventCntr] keeps flatten buffer which serialize the events without
+    /// pointing to extra data blob for variable type.
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub struct EventCntr(Boxed<ffi::ALSASeqEventCntr>);
 

@@ -14,6 +14,17 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// A GObject-derived object to express information of user instance.
+    ///
+    /// A [`InstanceInfo`][crate::InstanceInfo] is a GObject-derived object to express information of user instance
+    /// attached to any timer device or the other instance as slave. The call of
+    /// [`UserInstanceExt::info()`][crate::prelude::UserInstanceExt::info()] returns the instance of object.
+    ///
+    /// The object wraps `struct snd_timer_info` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`InstanceInfoExt`][trait@crate::prelude::InstanceInfoExt]
     #[doc(alias = "ALSATimerInstanceInfo")]
     pub struct InstanceInfo(Object<ffi::ALSATimerInstanceInfo, ffi::ALSATimerInstanceInfoClass>);
 
@@ -26,16 +37,26 @@ impl InstanceInfo {
     pub const NONE: Option<&'static InstanceInfo> = None;
 }
 
+/// Trait containing all [`struct@InstanceInfo`] methods.
+///
+/// # Implementors
+///
+/// [`InstanceInfo`][struct@crate::InstanceInfo]
 pub trait InstanceInfoExt: 'static {
+    /// The numeric ID of sound card for attached timer.
     #[doc(alias = "card-id")]
     fn card_id(&self) -> i32;
 
+    /// The flags for attached timer.
     fn flags(&self) -> DeviceInfoFlag;
 
+    /// The string ID of attached timer.
     fn id(&self) -> Option<glib::GString>;
 
+    /// The name of attached timer.
     fn name(&self) -> Option<glib::GString>;
 
+    /// The resolution of attached timer in nano seconds.
     fn resolution(&self) -> u64;
 
     #[doc(alias = "card-id")]

@@ -12,8 +12,10 @@ use glib::Type;
 use std::fmt;
 
 bitflags! {
+    /// A set of flags for the information of timer device.
     #[doc(alias = "ALSATimerDeviceInfoFlag")]
     pub struct DeviceInfoFlag: u32 {
+        /// The timer device is slave to any timer device.
         #[doc(alias = "ALSATIMER_DEVICE_INFO_FLAG_SLAVE")]
         const SLAVE = ffi::ALSATIMER_DEVICE_INFO_FLAG_SLAVE as u32;
     }
@@ -74,12 +76,16 @@ impl ToValue for DeviceInfoFlag {
 }
 
 bitflags! {
+    /// A set of flags for the parameters of user client.
     #[doc(alias = "ALSATimerInstanceParamFlag")]
     pub struct InstanceParamFlag: u32 {
+        /// The instance receives any events after configured.
         #[doc(alias = "ALSATIMER_INSTANCE_PARAM_FLAG_AUTO")]
         const AUTO = ffi::ALSATIMER_INSTANCE_PARAM_FLAG_AUTO as u32;
+        /// The instance occupies the attached timer device.
         #[doc(alias = "ALSATIMER_INSTANCE_PARAM_FLAG_EXCLUSIVE")]
         const EXCLUSIVE = ffi::ALSATIMER_INSTANCE_PARAM_FLAG_EXCLUSIVE as u32;
+        /// The instance receives early event after configured even if not started.
         #[doc(alias = "ALSATIMER_INSTANCE_PARAM_FLAG_EARLY_EVENT")]
         const EARLY_EVENT = ffi::ALSATIMER_INSTANCE_PARAM_FLAG_EARLY_EVENT as u32;
     }

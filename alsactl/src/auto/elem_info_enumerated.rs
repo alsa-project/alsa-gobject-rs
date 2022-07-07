@@ -15,6 +15,15 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// An object to express information for enumerated type of element.
+    ///
+    /// A `GObject::Object` derived object class for enumerated type of element.
+    ///
+    /// The object wraps `struct snd_ctl_elem_info` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`ElemInfoEnumeratedExt`][trait@crate::prelude::ElemInfoEnumeratedExt], [`ElemInfoCommonExt`][trait@crate::prelude::ElemInfoCommonExt], [`ElemInfoSingleArrayExt`][trait@crate::prelude::ElemInfoSingleArrayExt]
     #[doc(alias = "ALSACtlElemInfoEnumerated")]
     pub struct ElemInfoEnumerated(Object<ffi::ALSACtlElemInfoEnumerated, ffi::ALSACtlElemInfoEnumeratedClass>) @implements ElemInfoCommon, ElemInfoSingleArray;
 
@@ -26,6 +35,11 @@ glib::wrapper! {
 impl ElemInfoEnumerated {
     pub const NONE: Option<&'static ElemInfoEnumerated> = None;
 
+    /// Allocate and return an instance of [`ElemInfoEnumerated`][crate::ElemInfoEnumerated].
+    ///
+    /// # Returns
+    ///
+    /// An instance of [`ElemInfoEnumerated`][crate::ElemInfoEnumerated].
     #[doc(alias = "alsactl_elem_info_enumerated_new")]
     pub fn new() -> ElemInfoEnumerated {
         unsafe { from_glib_full(ffi::alsactl_elem_info_enumerated_new()) }
@@ -38,9 +52,22 @@ impl Default for ElemInfoEnumerated {
     }
 }
 
+/// Trait containing all [`struct@ElemInfoEnumerated`] methods.
+///
+/// # Implementors
+///
+/// [`ElemInfoEnumerated`][struct@crate::ElemInfoEnumerated]
 pub trait ElemInfoEnumeratedExt: 'static {
+    /// The list of indexed labels for the element. There is limitation that:
+    ///
+    ///  - The length of label including terminator should be within 64 bytes.
+    ///  - The total length of labels including terminators should be within (64 * 1024) bytes.
     fn labels(&self) -> Vec<glib::GString>;
 
+    /// The list of indexed labels for the element. There is limitation that:
+    ///
+    ///  - The length of label including terminator should be within 64 bytes.
+    ///  - The total length of labels including terminators should be within (64 * 1024) bytes.
     fn set_labels(&self, labels: &[&str]);
 
     #[doc(alias = "labels")]

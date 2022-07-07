@@ -13,6 +13,16 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// A GObject-derived object to express parameter of timer device.
+    ///
+    /// A [`DeviceParams`][crate::DeviceParams] is a GObject-derived object to express parameter of timer device. The
+    /// call of alsatimer_set_device_params() requires the instance of object.
+    ///
+    /// The object wraps `struct snd_timer_gparams` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`DeviceParamsExt`][trait@crate::prelude::DeviceParamsExt]
     #[doc(alias = "ALSATimerDeviceParams")]
     pub struct DeviceParams(Object<ffi::ALSATimerDeviceParams, ffi::ALSATimerDeviceParamsClass>);
 
@@ -24,6 +34,11 @@ glib::wrapper! {
 impl DeviceParams {
     pub const NONE: Option<&'static DeviceParams> = None;
 
+    /// Instantiate [`DeviceParams`][crate::DeviceParams] object and return the instance.
+    ///
+    /// # Returns
+    ///
+    /// an instance of [`DeviceParams`][crate::DeviceParams].
     #[doc(alias = "alsatimer_device_params_new")]
     pub fn new() -> DeviceParams {
         unsafe { from_glib_full(ffi::alsatimer_device_params_new()) }
@@ -36,16 +51,25 @@ impl Default for DeviceParams {
     }
 }
 
+/// Trait containing all [`struct@DeviceParams`] methods.
+///
+/// # Implementors
+///
+/// [`DeviceParams`][struct@crate::DeviceParams]
 pub trait DeviceParamsExt: 'static {
+    /// The denominator of period for timer.
     #[doc(alias = "period-denominator")]
     fn period_denominator(&self) -> u64;
 
+    /// The denominator of period for timer.
     #[doc(alias = "period-denominator")]
     fn set_period_denominator(&self, period_denominator: u64);
 
+    /// The numerator of period for timer.
     #[doc(alias = "period-numerator")]
     fn period_numerator(&self) -> u64;
 
+    /// The numerator of period for timer.
     #[doc(alias = "period-numerator")]
     fn set_period_numerator(&self, period_numerator: u64);
 

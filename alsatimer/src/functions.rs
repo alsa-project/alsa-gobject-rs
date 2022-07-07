@@ -1,6 +1,17 @@
 // SPDX-License-Identifier: MIT
 use super::*;
 
+/// Get the list of existent timer device.
+///
+/// The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call with
+/// `SNDRV_TIMER_IOCTL_NEXT_DEVICE` command for ALSA timer character device.</doc>
+///
+/// # Returns
+///
+/// [`true`] when the overall operation finishes successfully, else [`false`].
+///
+/// ## `entries`
+/// The array with entries of [`DeviceId`][crate::DeviceId].
 #[doc(alias = "alsatimer_get_device_id_list")]
 pub fn device_id_list() -> Result<Vec<DeviceId>, glib::Error> {
     unsafe {
@@ -17,6 +28,20 @@ pub fn device_id_list() -> Result<Vec<DeviceId>, glib::Error> {
     }
 }
 
+/// Set the given parameters to the timer indicated by the identifier.
+///
+/// The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call with
+/// `SNDRV_TIMER_IOCTL_GPARAMS` command for ALSA timer character device.</doc>
+///
+/// ## `device_id`
+/// A [`DeviceId`][crate::DeviceId] to identify the timer device.
+///
+/// ## `device_params`
+/// The parameter of timer device.
+///
+/// # Returns
+///
+/// [`true`] when the overall operation finishes successfully, else [`false`].
 #[doc(alias = "alsatimer_set_device_params")]
 pub fn set_device_params(
     device_id: &mut DeviceId,
@@ -39,6 +64,18 @@ pub fn set_device_params(
     }
 }
 
+/// Get the status of timer device.
+///
+/// The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call with
+/// `SNDRV_TIMER_IOCTL_GSTATUS` command for ALSA timer character device.
+/// ## `device_id`
+/// A [`DeviceId`][crate::DeviceId] to identify the timer device.
+/// ## `device_status`
+/// The status of timer device.
+///
+/// # Returns
+///
+/// [`true`] when the overall operation finishes successfully, else [`false`].
 #[doc(alias = "alsatimer_get_device_status")]
 pub fn device_status<P: IsA<DeviceStatus>>(
     device_id: &mut DeviceId,

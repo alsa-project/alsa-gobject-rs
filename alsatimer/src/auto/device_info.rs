@@ -14,6 +14,17 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// A GObject-derived object to express information of timer device.
+    ///
+    /// A [`DeviceInfo`][crate::DeviceInfo] is a GObject-derived object to express information of timer device.
+    /// The call of alsatimer_get_device_info() returns an instance of the object according to the
+    /// identifier of timer device.
+    ///
+    /// The object wraps `struct snd_timer_ginfo` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`DeviceInfoExt`][trait@crate::prelude::DeviceInfoExt]
     #[doc(alias = "ALSATimerDeviceInfo")]
     pub struct DeviceInfo(Object<ffi::ALSATimerDeviceInfo, ffi::ALSATimerDeviceInfoClass>);
 
@@ -26,24 +37,37 @@ impl DeviceInfo {
     pub const NONE: Option<&'static DeviceInfo> = None;
 }
 
+/// Trait containing all [`struct@DeviceInfo`] methods.
+///
+/// # Implementors
+///
+/// [`DeviceInfo`][struct@crate::DeviceInfo]
 pub trait DeviceInfoExt: 'static {
+    /// The numeric ID of sound card.
     #[doc(alias = "card-id")]
     fn card_id(&self) -> i32;
 
+    /// The flags of timer, one of [`DeviceInfoFlag`][crate::DeviceInfoFlag].
     fn flags(&self) -> DeviceInfoFlag;
 
+    /// The string ID of timer.
     fn id(&self) -> Option<glib::GString>;
 
+    /// The number of instances for the timer.
     #[doc(alias = "instance-count")]
     fn instance_count(&self) -> u32;
 
+    /// The name of timer.
     fn name(&self) -> Option<glib::GString>;
 
+    /// The resolution in nano seconds.
     fn resolution(&self) -> u64;
 
+    /// The maximum resolution in nano seconds.
     #[doc(alias = "resolution-max")]
     fn resolution_max(&self) -> u64;
 
+    /// The minimum resolution in nano seconds.
     #[doc(alias = "resolution-min")]
     fn resolution_min(&self) -> u64;
 

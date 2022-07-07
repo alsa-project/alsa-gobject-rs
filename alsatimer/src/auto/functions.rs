@@ -9,6 +9,19 @@ use glib::translate::*;
 use std::mem;
 use std::ptr;
 
+/// Get the information of timer device.
+///
+/// The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call with
+/// `SNDRV_TIMER_IOCTL_GINFO` command for ALSA timer character device.
+/// ## `device_id`
+/// A [`DeviceId`][crate::DeviceId] to identify the timer device.
+///
+/// # Returns
+///
+/// [`true`] when the overall operation finishes successfully, else [`false`].
+///
+/// ## `device_info`
+/// The information of timer device.
 #[doc(alias = "alsatimer_get_device_info")]
 #[doc(alias = "get_device_info")]
 pub fn device_info(device_id: &mut DeviceId) -> Result<DeviceInfo, glib::Error> {
@@ -35,6 +48,16 @@ pub fn device_info(device_id: &mut DeviceId) -> Result<DeviceInfo, glib::Error> 
 //    unsafe { TODO: call ffi:alsatimer_get_device_status() }
 //}
 
+/// Allocate string of devnode for ALSA Timer and return it if exists.
+///
+/// Nodes under sound subsystem in sysfs are used to gather the information.
+///
+/// # Returns
+///
+/// [`true`] when the overall operation finishes successfully, else [`false`].
+///
+/// ## `devnode`
+/// The string for devnode of ALSA Timer.
 #[doc(alias = "alsatimer_get_devnode")]
 #[doc(alias = "get_devnode")]
 pub fn devnode() -> Result<glib::GString, glib::Error> {
@@ -51,6 +74,23 @@ pub fn devnode() -> Result<glib::GString, glib::Error> {
     }
 }
 
+/// Get `clock_id` for real time.
+///
+/// The `clock_id` governs real time retrieved by both `RealTimeEvent::get_time()` and
+/// [`InstanceStatusExtManual::time()`][crate::prelude::InstanceStatusExtManual::time()].
+///
+/// The call of function is just to refer to parameter of `snd-timer` kernel module. `0` means
+/// `CLOCK_REALTIME` is used. `1` means `CLOCK_MONOTONIC` is used.
+///
+/// The call of function executes `open(2)`, `read(2)`, `close(2)` system calls for the sysfs node
+/// corresponding to the parameter.
+///
+/// # Returns
+///
+/// [`true`] when the overall operation finishes successfully, else [`false`].
+///
+/// ## `clock_id`
+/// The clock_id for real time. The value of `CLOCK_XXX` in UAPI of Linux kernel.
 #[doc(alias = "alsatimer_get_real_time_clock_id")]
 #[doc(alias = "get_real_time_clock_id")]
 pub fn real_time_clock_id() -> Result<i32, glib::Error> {
@@ -68,6 +108,16 @@ pub fn real_time_clock_id() -> Result<i32, glib::Error> {
     }
 }
 
+/// Allocate sysname for ALSA Timer and return it when it exists.
+///
+/// Nodes under sound subsystem in sysfs are used to gather the information.
+///
+/// # Returns
+///
+/// [`true`] when the overall operation finishes successfully, else [`false`].
+///
+/// ## `sysname`
+/// The string for sysname of ALSA Timer.
 #[doc(alias = "alsatimer_get_sysname")]
 #[doc(alias = "get_sysname")]
 pub fn sysname() -> Result<glib::GString, glib::Error> {

@@ -2,6 +2,7 @@
 
 use super::*;
 
+/// Trait which should be implemented by subclass of [`Card`][crate::Card].
 pub trait CardImpl: ObjectImpl + CardImplExt {
     fn handle_elem_event(&self, card: &Self::Type, elem_id: &ElemId, events: ElemEventMask) {
         self.parent_handle_elem_event(card, elem_id, events)
@@ -11,6 +12,7 @@ pub trait CardImpl: ObjectImpl + CardImplExt {
     }
 }
 
+/// Trait which is automatically implemented to implementator of [`CardImpl`][self::CardImpl].
 pub trait CardImplExt: ObjectSubclass {
     fn parent_handle_elem_event(&self, card: &Self::Type, elem_id: &ElemId, events: ElemEventMask);
     fn parent_handle_disconnection(&self, card: &Self::Type);

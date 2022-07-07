@@ -9,6 +9,13 @@ use std::mem;
 use std::ptr;
 
 glib::wrapper! {
+    /// A boxed object to express the identifier of element.
+    ///
+    /// A [`ElemId`][crate::ElemId] is a boxed object to express the identifier of element. It points to a
+    /// element by two ways; by the numeric identifier, or by the combination of the type of interface,
+    /// the numeric identifier of device, the numeric identifier of subdevice, the name, and the index.
+    ///
+    /// The object wraps `struct snd_ctl_elem_id` in UAPI of Linux sound subsystem.
     #[derive(Debug, PartialOrd, Ord, Hash)]
     pub struct ElemId(Boxed<ffi::ALSACtlElemId>);
 
@@ -20,6 +27,22 @@ glib::wrapper! {
 }
 
 impl ElemId {
+    /// Allocates and return an instance of [`ElemId`][crate::ElemId] by the name.
+    /// ## `iface`
+    /// The interface of element, one of ALSACtlElemIfaceType.
+    /// ## `device_id`
+    /// The numeric identifier of device to which the element belongs.
+    /// ## `subdevice_id`
+    /// The numeric identifier of subdevice to which the element belongs.
+    /// ## `name`
+    /// The name of element, up to 44 byte (=`SNDRV_CTL_ELEM_ID_NAME_MAXLEN`) including
+    ///                  terminator.
+    /// ## `index`
+    /// The index of element in a set of elements with the same name.
+    ///
+    /// # Returns
+    ///
+    /// A [`ElemId`][crate::ElemId].
     #[doc(alias = "alsactl_elem_id_new_by_name")]
     pub fn new_by_name(
         iface: ElemIfaceType,
@@ -39,6 +62,13 @@ impl ElemId {
         }
     }
 
+    /// Allocates and return an instance of [`ElemId`][crate::ElemId] by the numeric identifier.
+    /// ## `numid`
+    /// The numeric identifier of the element.
+    ///
+    /// # Returns
+    ///
+    /// A [`ElemId`][crate::ElemId].
     #[doc(alias = "alsactl_elem_id_new_by_numid")]
     pub fn new_by_numid(numid: u32) -> ElemId {
         unsafe { from_glib_full(ffi::alsactl_elem_id_new_by_numid(numid)) }
@@ -54,6 +84,13 @@ impl ElemId {
         }
     }
 
+    /// Get the numeric identifier of device to which the element belongs.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `device_id`
+    /// The numeric identifier of device to which the element belongs.
     #[doc(alias = "alsactl_elem_id_get_device_id")]
     #[doc(alias = "get_device_id")]
     pub fn device_id(&self) -> u32 {
@@ -65,6 +102,13 @@ impl ElemId {
         }
     }
 
+    /// Get the interface of element.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `iface`
+    /// The interface of element.
     #[doc(alias = "alsactl_elem_id_get_iface")]
     #[doc(alias = "get_iface")]
     pub fn iface(&self) -> ElemIfaceType {
@@ -76,6 +120,13 @@ impl ElemId {
         }
     }
 
+    /// Get the index of element.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `index`
+    /// The index of element.
     #[doc(alias = "alsactl_elem_id_get_index")]
     #[doc(alias = "get_index")]
     pub fn index(&self) -> u32 {
@@ -87,6 +138,13 @@ impl ElemId {
         }
     }
 
+    /// Get the name of element.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `name`
+    /// The name of element.
     #[doc(alias = "alsactl_elem_id_get_name")]
     #[doc(alias = "get_name")]
     pub fn name(&self) -> glib::GString {
@@ -97,6 +155,13 @@ impl ElemId {
         }
     }
 
+    /// Get the numeric identifier of element.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `numid`
+    /// The numeric identifier of element.
     #[doc(alias = "alsactl_elem_id_get_numid")]
     #[doc(alias = "get_numid")]
     pub fn numid(&self) -> u32 {
@@ -108,6 +173,13 @@ impl ElemId {
         }
     }
 
+    /// Get the numeric identifier of element.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `subdevice_id`
+    /// The numeric identifier of subdevice to which the element belongs.
     #[doc(alias = "alsactl_elem_id_get_subdevice_id")]
     #[doc(alias = "get_subdevice_id")]
     pub fn subdevice_id(&self) -> u32 {

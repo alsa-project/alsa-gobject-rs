@@ -14,6 +14,18 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// A GObject-derived object to express the container of array for values specific to element type.
+    ///
+    /// A [`ElemValue`][crate::ElemValue] includes several types of array for values specific to element type. The
+    /// arrays shares the same internal storage, thus the user application should decide the type of
+    /// array according to the type of element when accessing to the array. The object is used for the
+    /// call of [`CardExt::write_elem_value()`][crate::prelude::CardExt::write_elem_value()] and [`CardExtManual::read_elem_value()`][crate::prelude::CardExtManual::read_elem_value()].
+    ///
+    /// The object wraps `struct snd_ctl_elem_value` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`ElemValueExt`][trait@crate::prelude::ElemValueExt], [`ElemValueExtManual`][trait@crate::prelude::ElemValueExtManual]
     #[doc(alias = "ALSACtlElemValue")]
     pub struct ElemValue(Object<ffi::ALSACtlElemValue, ffi::ALSACtlElemValueClass>);
 
@@ -25,6 +37,11 @@ glib::wrapper! {
 impl ElemValue {
     pub const NONE: Option<&'static ElemValue> = None;
 
+    /// Allocate and return an instance of [`ElemValue`][crate::ElemValue].
+    ///
+    /// # Returns
+    ///
+    /// An instance of [`ElemValue`][crate::ElemValue].
     #[doc(alias = "alsactl_elem_value_new")]
     pub fn new() -> ElemValue {
         unsafe { from_glib_full(ffi::alsactl_elem_value_new()) }
@@ -37,28 +54,52 @@ impl Default for ElemValue {
     }
 }
 
+/// Trait containing the part of [`struct@ElemValue`] methods.
+///
+/// # Implementors
+///
+/// [`ElemValue`][struct@crate::ElemValue]
 pub trait ElemValueExt: 'static {
     #[doc(alias = "alsactl_elem_value_equal")]
     fn equal(&self, target: &impl IsA<ElemValue>) -> bool;
 
+    /// Copy the array into internal storage for [`ElemType`][crate::ElemType].BYTES element.
+    /// ## `values`
+    /// The array for 8 bit unsigned integer values.
     #[doc(alias = "alsactl_elem_value_set_bytes")]
     fn set_bytes(&self, values: &[u8]);
 
+    /// Copy the array into internal storage for [`ElemType`][crate::ElemType].ENUMERATED element.
+    /// ## `values`
+    /// The array for enumeration index values.
     #[doc(alias = "alsactl_elem_value_set_enum")]
     fn set_enum(&self, values: &[u32]);
 
+    /// Copy the channel status bits into internal storage for [`ElemType`][crate::ElemType].IEC60958 element.
+    /// ## `status`
+    /// The array of byte data for channel status bits of IEC 60958.
     #[doc(alias = "alsactl_elem_value_set_iec60958_channel_status")]
     fn set_iec60958_channel_status(&self, status: &[u8]);
 
+    /// Copy the user data bits into internal storage for [`ElemType`][crate::ElemType].IEC60958 element.
+    /// ## `data`
+    /// The array of byte data for user data bits of IEC 60958.
     #[doc(alias = "alsactl_elem_value_set_iec60958_user_data")]
     fn set_iec60958_user_data(&self, data: &[u8]);
 
+    /// Copy the array into internal storage for [`ElemType`][crate::ElemType].INTEGER element.
+    /// ## `values`
+    /// The array for 32 bit signed integer values.
     #[doc(alias = "alsactl_elem_value_set_int")]
     fn set_int(&self, values: &[i32]);
 
+    /// Copy the array into internal storage for [`ElemType`][crate::ElemType].INTEGER64 element.
+    /// ## `values`
+    /// The array for 64 bit signed integer values.
     #[doc(alias = "alsactl_elem_value_set_int64")]
     fn set_int64(&self, values: &[i64]);
 
+    /// The identifier of element.
     #[doc(alias = "elem-id")]
     fn elem_id(&self) -> Option<ElemId>;
 

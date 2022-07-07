@@ -2,12 +2,15 @@
 
 use super::*;
 
+/// Trait which should be implemented by subclass of [`UserClient`][crate::UserClient].
 pub trait UserClientImpl: ObjectImpl + UserClientImplExt {
     fn handle_event(&self, user_client: &Self::Type, event_cntr: &EventCntr) {
         self.parent_handle_event(user_client, event_cntr)
     }
 }
 
+/// Trait which is automatically implemented to implementator of
+/// [`UserClientImpl`][self::UserClientImpl].
 pub trait UserClientImplExt: ObjectSubclass {
     fn parent_handle_event(&self, user_client: &Self::Type, event_cntr: &EventCntr);
 }

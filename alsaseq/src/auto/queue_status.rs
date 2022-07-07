@@ -14,6 +14,16 @@ use std::mem;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// A GObject-derived object to express status of queue.
+    ///
+    /// A [`QueueStatus`][crate::QueueStatus] is a GObject-derived object to express status of queue. The call of
+    /// `get_queue_status()` returns the instance of object.
+    ///
+    /// The object wraps `struct snd_seq_queue_status` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`QueueStatusExt`][trait@crate::prelude::QueueStatusExt], [`QueueStatusExtManual`][trait@crate::prelude::QueueStatusExtManual]
     #[doc(alias = "ALSASeqQueueStatus")]
     pub struct QueueStatus(Object<ffi::ALSASeqQueueStatus, ffi::ALSASeqQueueStatusClass>);
 
@@ -25,6 +35,11 @@ glib::wrapper! {
 impl QueueStatus {
     pub const NONE: Option<&'static QueueStatus> = None;
 
+    /// Allocate and returns an instance of [`QueueStatus`][crate::QueueStatus].
+    ///
+    /// # Returns
+    ///
+    /// An instance of [`QueueStatus`][crate::QueueStatus].
     #[doc(alias = "alsaseq_queue_status_new")]
     pub fn new() -> QueueStatus {
         unsafe { from_glib_full(ffi::alsaseq_queue_status_new()) }
@@ -37,17 +52,32 @@ impl Default for QueueStatus {
     }
 }
 
+/// Trait containing the part of[`struct@QueueStatus`] methods.
+///
+/// # Implementors
+///
+/// [`QueueStatus`][struct@crate::QueueStatus]
 pub trait QueueStatusExt: 'static {
+    /// Get time as MIDI ticks.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `tick_time`
+    /// The value of MIDI ticks.
     #[doc(alias = "alsaseq_queue_status_get_tick_time")]
     #[doc(alias = "get_tick_time")]
     fn tick_time(&self) -> u32;
 
+    /// The number of available events in the queue.
     #[doc(alias = "event-count")]
     fn event_count(&self) -> i32;
 
+    /// The numeric ID of queue. An entry of ALSASeqSpecificQueueId is available as well.
     #[doc(alias = "queue-id")]
     fn queue_id(&self) -> u8;
 
+    /// Whether the queue is running or not.
     fn is_running(&self) -> bool;
 
     #[doc(alias = "event-count")]

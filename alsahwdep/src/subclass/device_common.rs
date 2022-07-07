@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 use super::*;
 
+/// Trait which should be implemented by subclass of [`DeviceCommon`][crate::DeviceCommon].
 pub trait DeviceCommonImpl: ObjectImpl + ObjectSubclass {
     fn open(&self, device: &Self::Type, path: &str, open_flag: i32) -> Result<(), Error>;
     fn get_protocol_version(
@@ -13,6 +14,8 @@ pub trait DeviceCommonImpl: ObjectImpl + ObjectSubclass {
     fn handle_disconnection(&self, device: &Self::Type);
 }
 
+/// Trait which is automatically implemented to implementator of
+/// [`DeviceCommonImpl`][self::DeviceCommonImpl].
 pub trait DeviceCommonImplExt: ObjectSubclass {
     fn parent_open(&self, device: &Self::Type, path: &str, open_flag: i32) -> Result<(), Error>;
     fn parent_get_protocol_version(

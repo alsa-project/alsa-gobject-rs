@@ -7,6 +7,12 @@ use glib::translate::*;
 use std::mem;
 
 glib::wrapper! {
+    /// A boxed object to express data of note event.
+    ///
+    /// A [`EventDataNote`][crate::EventDataNote] is a boxed object to express data of note event. The instance of
+    /// object is one of data properties in event.
+    ///
+    /// The object wraps `struct snd_seq_ev_note` in UAPI of Linux sound subsystem.
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub struct EventDataNote(Boxed<ffi::ALSASeqEventDataNote>);
 
@@ -18,6 +24,13 @@ glib::wrapper! {
 }
 
 impl EventDataNote {
+    /// Get the value of channel in the note event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `channel`
+    /// The value of channel in the note event.
     #[doc(alias = "alsaseq_event_data_note_get_channel")]
     #[doc(alias = "get_channel")]
     pub fn channel(&self) -> u8 {
@@ -29,6 +42,13 @@ impl EventDataNote {
         }
     }
 
+    /// Get the value of duration in the note event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `duration`
+    /// The value of duratino in the note event.
     #[doc(alias = "alsaseq_event_data_note_get_duration")]
     #[doc(alias = "get_duration")]
     pub fn duration(&self) -> u8 {
@@ -40,6 +60,13 @@ impl EventDataNote {
         }
     }
 
+    /// Get the value of note in the note event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `note`
+    /// The value of note in the note event.
     #[doc(alias = "alsaseq_event_data_note_get_note")]
     #[doc(alias = "get_note")]
     pub fn note(&self) -> u8 {
@@ -51,6 +78,13 @@ impl EventDataNote {
         }
     }
 
+    /// Get the value of off-velocity in the note event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `off_velocity`
+    /// The value of off-velocity in the note event.
     #[doc(alias = "alsaseq_event_data_note_get_off_velocity")]
     #[doc(alias = "get_off_velocity")]
     pub fn off_velocity(&self) -> u8 {
@@ -65,6 +99,13 @@ impl EventDataNote {
         }
     }
 
+    /// Get the value of velocity in the note event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `velocity`
+    /// The value of velocity in the note event.
     #[doc(alias = "alsaseq_event_data_note_get_velocity")]
     #[doc(alias = "get_velocity")]
     pub fn velocity(&self) -> u8 {
@@ -76,6 +117,9 @@ impl EventDataNote {
         }
     }
 
+    /// Set the value of channel for the note event.
+    /// ## `channel`
+    /// The value of channel for the note event.
     #[doc(alias = "alsaseq_event_data_note_set_channel")]
     pub fn set_channel(&mut self, channel: u8) {
         unsafe {
@@ -83,6 +127,9 @@ impl EventDataNote {
         }
     }
 
+    /// Set the value of duration for the note event.
+    /// ## `duration`
+    /// The value of duration for the note event.
     #[doc(alias = "alsaseq_event_data_note_set_duration")]
     pub fn set_duration(&mut self, duration: u8) {
         unsafe {
@@ -90,6 +137,9 @@ impl EventDataNote {
         }
     }
 
+    /// Set the value of note for the note event.
+    /// ## `note`
+    /// The value of note for the note event.
     #[doc(alias = "alsaseq_event_data_note_set_note")]
     pub fn set_note(&mut self, note: u8) {
         unsafe {
@@ -97,6 +147,9 @@ impl EventDataNote {
         }
     }
 
+    /// Set the value of note for the off-velocity event.
+    /// ## `off_velocity`
+    /// The value of note for the off-velocity event.
     #[doc(alias = "alsaseq_event_data_note_set_off_velocity")]
     pub fn set_off_velocity(&mut self, off_velocity: u8) {
         unsafe {
@@ -104,6 +157,9 @@ impl EventDataNote {
         }
     }
 
+    /// Set the value of note for the velocity event.
+    /// ## `velocity`
+    /// The value of note for the velocity event.
     #[doc(alias = "alsaseq_event_data_note_set_velocity")]
     pub fn set_velocity(&mut self, velocity: u8) {
         unsafe {

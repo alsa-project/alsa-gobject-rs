@@ -15,6 +15,17 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// A GObject-derived object to express data for subscription between ports.
+    ///
+    /// A [`SubscribeData`][crate::SubscribeData] is a GObject-derived object to express data for subscription between
+    /// a pair of ports. The call of `get_subscription_list()` returns the list of data. The call of
+    /// [`UserClientExt::operate_subscription()`][crate::prelude::UserClientExt::operate_subscription()] requires the instance of object.
+    ///
+    /// The object wraps `struct snd_seq_port_subscribe` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`SubscribeDataExt`][trait@crate::prelude::SubscribeDataExt]
     #[doc(alias = "ALSASeqSubscribeData")]
     pub struct SubscribeData(Object<ffi::ALSASeqSubscribeData, ffi::ALSASeqSubscribeDataClass>);
 
@@ -26,6 +37,11 @@ glib::wrapper! {
 impl SubscribeData {
     pub const NONE: Option<&'static SubscribeData> = None;
 
+    /// Allocates and returns the instance of [`SubscribeData`][crate::SubscribeData].
+    ///
+    /// # Returns
+    ///
+    /// A [`SubscribeData`][crate::SubscribeData].
     #[doc(alias = "alsaseq_subscribe_data_new")]
     pub fn new() -> SubscribeData {
         unsafe { from_glib_full(ffi::alsaseq_subscribe_data_new()) }
@@ -38,36 +54,55 @@ impl Default for SubscribeData {
     }
 }
 
+/// Trait containing all [`struct@SubscribeData`] methods.
+///
+/// # Implementors
+///
+/// [`SubscribeData`][struct@crate::SubscribeData]
 pub trait SubscribeDataExt: 'static {
+    /// The address of destination.
     fn dest(&self) -> Option<Addr>;
 
+    /// The address of destination.
     fn set_dest(&self, dest: Option<&Addr>);
 
+    /// Any event for the subscription has time stamp,
     #[doc(alias = "has-tstamp")]
     fn has_tstamp(&self) -> bool;
 
+    /// Any event for the subscription has time stamp,
     #[doc(alias = "has-tstamp")]
     fn set_has_tstamp(&self, has_tstamp: bool);
 
+    /// Whether the subscription can be changed by originator only,
     #[doc(alias = "is-exclusive")]
     fn is_exclusive(&self) -> bool;
 
+    /// Whether the subscription can be changed by originator only,
     #[doc(alias = "is-exclusive")]
     fn set_is_exclusive(&self, is_exclusive: bool);
 
+    /// The numeric ID of queue to deliver. One of ALSASeqSpecificQueueId is available as well as
+    /// any numeric value.
     #[doc(alias = "queue-id")]
     fn queue_id(&self) -> u8;
 
+    /// The numeric ID of queue to deliver. One of ALSASeqSpecificQueueId is available as well as
+    /// any numeric value.
     #[doc(alias = "queue-id")]
     fn set_queue_id(&self, queue_id: u8);
 
+    /// The address of sender.
     fn sender(&self) -> Option<Addr>;
 
+    /// The address of sender.
     fn set_sender(&self, sender: Option<&Addr>);
 
+    /// The type of time stamp. This is effective when the has-tstamp property enabled.
     #[doc(alias = "tstamp-mode")]
     fn tstamp_mode(&self) -> EventTstampMode;
 
+    /// The type of time stamp. This is effective when the has-tstamp property enabled.
     #[doc(alias = "tstamp-mode")]
     fn set_tstamp_mode(&self, tstamp_mode: EventTstampMode);
 

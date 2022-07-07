@@ -24,6 +24,21 @@ use std::mem::transmute;
 use std::ptr;
 
 glib::wrapper! {
+    /// A GObject-derived object to express user client.
+    ///
+    /// A [`UserClient`][crate::UserClient] is a GObject-derived object to express user client. Any port can be added
+    /// to the client as destination or source for any event.
+    ///
+    /// When the call of [`UserClientExt::open()`][crate::prelude::UserClientExt::open()] the object maintain file descriptor till object
+    /// destruction. The call of [`UserClientExt::create_source()`][crate::prelude::UserClientExt::create_source()] returns the instance of
+    /// [`glib::Source`][crate::glib::Source]. Once attached to the [`glib::Source`][crate::glib::Source],
+    /// `GLib::MainContext` / `GLib::MainLoop` is available as event dispatcher. The
+    /// `signal::UserClient::handle-event` signal is emitted in the event dispatcher to notify the
+    /// event. The call of [`UserClientExt::schedule_event()`][crate::prelude::UserClientExt::schedule_event()] schedules event with given parameters.
+    ///
+    /// # Implements
+    ///
+    /// [`UserClientExt`][trait@crate::prelude::UserClientExt], [`UserClientExtManual`][trait@crate::prelude::UserClientExtManual]
     #[doc(alias = "ALSASeqUserClient")]
     pub struct UserClient(Object<ffi::ALSASeqUserClient, ffi::ALSASeqUserClientClass>);
 
@@ -35,6 +50,11 @@ glib::wrapper! {
 impl UserClient {
     pub const NONE: Option<&'static UserClient> = None;
 
+    /// Allocate and return an instance of [`UserClient`][crate::UserClient].
+    ///
+    /// # Returns
+    ///
+    /// An instance of [`UserClient`][crate::UserClient].
     #[doc(alias = "alsaseq_user_client_new")]
     pub fn new() -> UserClient {
         unsafe { from_glib_full(ffi::alsaseq_user_client_new()) }
@@ -47,27 +67,111 @@ impl Default for UserClient {
     }
 }
 
+/// Trait containing the part of [`struct@UserClient`] methods.
+///
+/// # Implementors
+///
+/// [`UserClient`][struct@crate::UserClient]
 pub trait UserClientExt: 'static {
+    /// Allocate [`glib::Source`][crate::glib::Source] structure to handle events from ALSA seq character device. In each
+    /// iteration of `GLib::MainContext`, the `read(2)` system call is exected to dispatch
+    /// sequencer event for `signal::UserClient::handle-event` signal, according to the result of
+    /// `poll(2)` system call.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
+    ///
+    /// ## `gsrc`
+    /// A #GSource to handle events from ALSA seq character device.
     #[doc(alias = "alsaseq_user_client_create_source")]
     fn create_source(&self) -> Result<glib::Source, glib::Error>;
 
+    /// Delete a port from the client.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_SEQ_IOCTL_DELETE_PORT` command
+    /// for ALSA sequencer character device.
+    /// ## `port_id`
+    /// The numeric ID of port.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_delete_port")]
     fn delete_port(&self, port_id: u8) -> Result<(), glib::Error>;
 
+    /// Delete the queue owned by the client.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_SEQ_IOCTL_DELETE_QUEUE` command
+    /// for ALSA sequencer character device.
+    /// ## `queue_id`
+    /// The numeric ID of queue. An entry of [`SpecificQueueId`][crate::SpecificQueueId] is available as well.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_delete_queue")]
     fn delete_queue(&self, queue_id: u8) -> Result<(), glib::Error>;
 
+    /// Get the data of tempo for the queue.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_SEQ_IOCTL_GET_QUEUE_TEMPO`
+    /// command for ALSA sequencer character device.
+    /// ## `queue_id`
+    /// The numeric ID of queue. An entry of [`SpecificQueueId`][crate::SpecificQueueId] is available as well.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
+    ///
+    /// ## `queue_tempo`
+    /// The data of tempo for queue.
     #[doc(alias = "alsaseq_user_client_get_queue_tempo")]
     #[doc(alias = "get_queue_tempo")]
     fn queue_tempo(&self, queue_id: u8) -> Result<QueueTempo, glib::Error>;
 
+    /// Get usage of the queue by the client.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_SEQ_IOCTL_GET_QUEUE_CLIENT`
+    /// command for ALSA sequencer character device.
+    /// ## `queue_id`
+    /// The numeric ID of queue. An entry of [`SpecificQueueId`][crate::SpecificQueueId] is available as well.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
+    ///
+    /// ## `use_`
+    /// Whether the client uses the queue or not.
     #[doc(alias = "alsaseq_user_client_get_queue_usage")]
     #[doc(alias = "get_queue_usage")]
     fn queue_usage(&self, queue_id: u8) -> Result<bool, glib::Error>;
 
+    /// Open ALSA sequencer character device.
+    ///
+    /// The call of function executes `open(2)` system call, then executes `ioctl(2)` system call with
+    /// `SNDRV_SEQ_IOCTL_CLIENT_ID` command for ALSA sequencer character device.
+    /// ## `open_flag`
+    /// The flag of `open(2)` system call. `O_RDWR` is forced to fulfil internally.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_open")]
     fn open(&self, open_flag: i32) -> Result<(), glib::Error>;
 
+    /// Operate subscription between two ports pointed by the data.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_SEQ_IOCTL_SUBSCRIBE_PORT` and
+    /// `SNDRV_SEQ_IOCTL_UNSUBSCRIBE_PORT` commands for ALSA sequencer character device.
+    /// ## `subs_data`
+    /// A [`SubscribeData`][crate::SubscribeData].
+    /// ## `establish`
+    /// Whether to establish subscription between two ports, or break it.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_operate_subscription")]
     fn operate_subscription(
         &self,
@@ -75,18 +179,72 @@ pub trait UserClientExt: 'static {
         establish: bool,
     ) -> Result<(), glib::Error>;
 
+    /// Remove queued events according to the filter.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_SEQ_IOCTL_REMOVE_EVENTS`
+    /// command for ALSA sequencer character device.
+    /// ## `filter`
+    /// A [`RemoveFilter`][crate::RemoveFilter].
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_remove_events")]
     fn remove_events(&self, filter: &impl IsA<RemoveFilter>) -> Result<(), glib::Error>;
 
+    /// Deliver the event immediately, or schedule it into memory pool of the client.
+    ///
+    /// The call of function executes `write(2)` system call for ALSA sequencer character device. When
+    /// `property::ClientPool::output-free` is less than [`Event::calculate_pool_consumption()`][crate::Event::calculate_pool_consumption()] and
+    /// [`open()`][Self::open()] is called without non-blocking flag, the user process can be blocked
+    /// untill enough number of cells becomes available.
+    /// ## `event`
+    /// An instance of [`Event`][crate::Event].
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_schedule_event")]
     fn schedule_event(&self, event: &Event) -> Result<(), glib::Error>;
 
+    /// Get client information.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_SEQ_IOCTL_SET_CLIENT_INFO`
+    /// command for ALSA sequencer character device.
+    /// ## `client_info`
+    /// A [`ClientInfo`][crate::ClientInfo].
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_set_info")]
     fn set_info(&self, client_info: &impl IsA<ClientInfo>) -> Result<(), glib::Error>;
 
+    /// Configure memory pool in the client.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_SEQ_IOCTL_SET_CLIENT_POOL`
+    /// command for ALSA sequencer character device.
+    /// ## `client_pool`
+    /// A [`ClientPool`][crate::ClientPool] to be configured for the client.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_set_pool")]
     fn set_pool(&self, client_pool: &impl IsA<ClientPool>) -> Result<(), glib::Error>;
 
+    /// Set the data of tempo to the queue.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_SEQ_IOCTL_SET_QUEUE_TEMPO`
+    /// command for ALSA sequencer character device.
+    /// ## `queue_id`
+    /// The numeric ID of queue. An entry of [`SpecificQueueId`][crate::SpecificQueueId] is available as well.
+    /// ## `queue_tempo`
+    /// The data of tempo for queue.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_set_queue_tempo")]
     fn set_queue_tempo(
         &self,
@@ -94,18 +252,57 @@ pub trait UserClientExt: 'static {
         queue_tempo: &impl IsA<QueueTempo>,
     ) -> Result<(), glib::Error>;
 
+    /// Start the queue to use or not.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_SEQ_IOCTL_SET_QUEUE_CLIENT`
+    /// command for ALSA sequencer character device.
+    /// ## `queue_id`
+    /// The numeric ID of queue. An entry of [`SpecificQueueId`][crate::SpecificQueueId] is available as well.
+    /// ## `use_`
+    /// Whether to use the queue or not.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_set_queue_usage")]
     fn set_queue_usage(&self, queue_id: u8, use_: bool) -> Result<(), glib::Error>;
 
+    /// Update port information.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_SEQ_IOCTL_SET_PORT_INFO` command
+    /// for ALSA sequencer character device.
+    /// ## `port_info`
+    /// A [`PortInfo`][crate::PortInfo].
+    /// ## `port_id`
+    /// The numeric ID of port.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_update_port")]
     fn update_port(&self, port_info: &impl IsA<PortInfo>, port_id: u8) -> Result<(), glib::Error>;
 
+    /// Update owned queue according to the information.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_SEQ_IOCTL_SET_QUEUE_INFO`
+    /// command for ALSA sequencer character device.
+    /// ## `queue_info`
+    /// The information of queue to add.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_update_queue")]
     fn update_queue(&self, queue_info: &impl IsA<QueueInfo>) -> Result<(), glib::Error>;
 
+    /// The numeric ID of the client.
     #[doc(alias = "client-id")]
     fn client_id(&self) -> u8;
 
+    /// When event occurs, this signal is emit with the instance of object which includes batch of
+    /// of events.
+    /// ## `ev_cntr`
+    /// The instance of [`EventCntr`][crate::EventCntr] which includes batch of events.
     #[doc(alias = "handle-event")]
     fn connect_handle_event<F: Fn(&Self, &EventCntr) + 'static>(&self, f: F) -> SignalHandlerId;
 

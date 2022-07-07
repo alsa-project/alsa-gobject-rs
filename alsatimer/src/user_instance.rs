@@ -1,12 +1,45 @@
 // SPDX-License-Identifier: MIT
 use super::*;
 
+/// Trait containing the rest of [`struct@UserInstance`] methods.
 pub trait UserInstanceExtManual {
+    /// Get the version of timer protocol currently used. The version is expressed as the array with
+    /// three elements; major, minor, and micro version in the order. The length of major version is
+    /// 16 bit, the length of minor and micro version is 8 bit each.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
+    ///
+    /// ## `proto_ver_triplet`
+    /// The version of protocol currently used.
     #[doc(alias = "alsatimer_user_instance_get_protocol_version")]
     #[doc(alias = "get_protocol_version")]
     fn protocol_version(&self) -> Result<&[u16; 3], glib::Error>;
+
+    /// Configure the instance with the parameters and return the latest parameters.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_TIMER_IOCTL_PARAMS` command
+    /// for ALSA timer character device.
+    /// ## `instance_params`
+    /// A [`InstanceParams`][crate::InstanceParams].
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsatimer_user_instance_set_params")]
     fn set_params<P: IsA<InstanceParams>>(&self, params: &mut P) -> Result<(), glib::Error>;
+
+    /// Get the latest status of instance.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_TIMER_IOCTL_STATUS` command
+    /// for ALSA timer character device.
+    /// ## `instance_status`
+    /// A [`InstanceStatus`][crate::InstanceStatus].
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsatimer_user_instance_get_status")]
     #[doc(alias = "get_status")]
     fn status<P: IsA<InstanceStatus>>(&self, status: &mut P) -> Result<(), glib::Error>;

@@ -13,6 +13,18 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// A GObject-derived object to express information of pool owned by client.
+    ///
+    /// A [`ClientPool`][crate::ClientPool] is a GObject-derived object to express information of pool owned by
+    /// client. The pool consists of a batch of cells to store message contents in kernel space. The
+    /// call of [`client_pool()`][crate::client_pool()] returns the instance of object. The call of
+    /// [`UserClientExt::set_pool()`][crate::prelude::UserClientExt::set_pool()]) and [`UserClientExtManual::pool()`][crate::prelude::UserClientExtManual::pool()] require the instance of object.
+    ///
+    /// The object wraps `struct snd_seq_client_pool` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`ClientPoolExt`][trait@crate::prelude::ClientPoolExt]
     #[doc(alias = "ALSASeqClientPool")]
     pub struct ClientPool(Object<ffi::ALSASeqClientPool, ffi::ALSASeqClientPoolClass>);
 
@@ -36,37 +48,64 @@ impl Default for ClientPool {
     }
 }
 
+/// Trait containing all [`struct@ClientPool`] methods.
+///
+/// # Implementors
+///
+/// [`ClientPool`][struct@crate::ClientPool]
 pub trait ClientPoolExt: 'static {
+    /// The numeric ID of client. One of [`SpecificClientId`][crate::SpecificClientId] is available as well as any
+    /// numeric value.
     #[doc(alias = "client-id")]
     fn client_id(&self) -> u8;
 
+    /// The current number of free cells in memory pool for input direction.
     #[doc(alias = "input-free")]
     fn input_free(&self) -> u32;
 
+    /// The current number of free cells in memory pool for input direction.
     #[doc(alias = "input-free")]
     fn set_input_free(&self, input_free: u32);
 
+    /// The total number of cells in memory pool for input direction. The client dequeue any event
+    /// from the pool when the event is copied from the output memory pool of source client.
     #[doc(alias = "input-pool")]
     fn input_pool(&self) -> u32;
 
+    /// The total number of cells in memory pool for input direction. The client dequeue any event
+    /// from the pool when the event is copied from the output memory pool of source client.
     #[doc(alias = "input-pool")]
     fn set_input_pool(&self, input_pool: u32);
 
+    /// The current number of free cells in memory pool for output direction.
     #[doc(alias = "output-free")]
     fn output_free(&self) -> u32;
 
+    /// The current number of free cells in memory pool for output direction.
     #[doc(alias = "output-free")]
     fn set_output_free(&self, output_free: u32);
 
+    /// The total number of cells in memory pool for output direction. The client enqueue any event
+    /// into the pool at scheduling, then the event is copied to input memory pool of destination
+    /// client.
     #[doc(alias = "output-pool")]
     fn output_pool(&self) -> u32;
 
+    /// The total number of cells in memory pool for output direction. The client enqueue any event
+    /// into the pool at scheduling, then the event is copied to input memory pool of destination
+    /// client.
     #[doc(alias = "output-pool")]
     fn set_output_pool(&self, output_pool: u32);
 
+    /// The number of cells in memory pool for output direction as threshold for writable condition
+    /// at the result of poll(2). The property is useless for [`UserClient`][crate::UserClient] since it doesn't
+    /// perform poll(2) to check writable or not.
     #[doc(alias = "output-room")]
     fn output_room(&self) -> u32;
 
+    /// The number of cells in memory pool for output direction as threshold for writable condition
+    /// at the result of poll(2). The property is useless for [`UserClient`][crate::UserClient] since it doesn't
+    /// perform poll(2) to check writable or not.
     #[doc(alias = "output-room")]
     fn set_output_room(&self, output_room: u32);
 

@@ -14,6 +14,17 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// A GObject-derived object to express parameters of user instance.
+    ///
+    /// A [`InstanceParams`][crate::InstanceParams] is a GObject-derived object to express parameters of user instance
+    /// attached to any timer device or the other instance as slave. The call of
+    /// [`UserInstanceExtManual::set_params()`][crate::prelude::UserInstanceExtManual::set_params()] requires the instance of object.
+    ///
+    /// The object wraps `struct snd_timer_params` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`InstanceParamsExt`][trait@crate::prelude::InstanceParamsExt], [`InstanceParamsExtManual`][trait@crate::prelude::InstanceParamsExtManual]
     #[doc(alias = "ALSATimerInstanceParams")]
     pub struct InstanceParams(Object<ffi::ALSATimerInstanceParams, ffi::ALSATimerInstanceParamsClass>);
 
@@ -25,6 +36,11 @@ glib::wrapper! {
 impl InstanceParams {
     pub const NONE: Option<&'static InstanceParams> = None;
 
+    /// Allocate and return an instance of [`InstanceParams`][crate::InstanceParams].
+    ///
+    /// # Returns
+    ///
+    /// An instance of [`InstanceParams`][crate::InstanceParams].
     #[doc(alias = "alsatimer_instance_params_new")]
     pub fn new() -> InstanceParams {
         unsafe { from_glib_full(ffi::alsatimer_instance_params_new()) }
@@ -37,18 +53,29 @@ impl Default for InstanceParams {
     }
 }
 
+/// Trait containing the part of [`struct@InstanceParams`] methods.
+///
+/// # Implementors
+///
+/// [`InstanceParams`][struct@crate::InstanceParams]
 pub trait InstanceParamsExt: 'static {
+    /// The flags for user instance, as a set of [`InstanceParamFlag`][crate::InstanceParamFlag].
     fn flags(&self) -> InstanceParamFlag;
 
+    /// The flags for user instance, as a set of [`InstanceParamFlag`][crate::InstanceParamFlag].
     fn set_flags(&self, flags: InstanceParamFlag);
 
+    /// The interval to generate event in tick count.
     fn interval(&self) -> u32;
 
+    /// The interval to generate event in tick count.
     fn set_interval(&self, interval: u32);
 
+    /// The size of queue.
     #[doc(alias = "queue-size")]
     fn queue_size(&self) -> u32;
 
+    /// The size of queue.
     #[doc(alias = "queue-size")]
     fn set_queue_size(&self, queue_size: u32);
 

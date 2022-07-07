@@ -16,6 +16,13 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// An interface to express common features of element information.
+    ///
+    /// A [`ElemInfoCommon`][crate::ElemInfoCommon] should be implemented by any type of element information.
+    ///
+    /// # Implements
+    ///
+    /// [`ElemInfoCommonExt`][trait@crate::prelude::ElemInfoCommonExt]
     #[doc(alias = "ALSACtlElemInfoCommon")]
     pub struct ElemInfoCommon(Interface<ffi::ALSACtlElemInfoCommon, ffi::ALSACtlElemInfoCommonInterface>);
 
@@ -28,17 +35,27 @@ impl ElemInfoCommon {
     pub const NONE: Option<&'static ElemInfoCommon> = None;
 }
 
+/// Trait containing all [`struct@ElemInfoCommon`] methods.
+///
+/// # Implementors
+///
+/// [`ElemInfoBoolean`][struct@crate::ElemInfoBoolean], [`ElemInfoBytes`][struct@crate::ElemInfoBytes], [`ElemInfoCommon`][struct@crate::ElemInfoCommon], [`ElemInfoEnumerated`][struct@crate::ElemInfoEnumerated], [`ElemInfoIec60958`][struct@crate::ElemInfoIec60958], [`ElemInfoInteger64`][struct@crate::ElemInfoInteger64], [`ElemInfoInteger`][struct@crate::ElemInfoInteger], [`ElemInfoSingleArray`][struct@crate::ElemInfoSingleArray]
 pub trait ElemInfoCommonExt: 'static {
+    /// The access permission for the element with [`ElemAccessFlag`][crate::ElemAccessFlag].
     fn access(&self) -> ElemAccessFlag;
 
+    /// The access permission for the element with [`ElemAccessFlag`][crate::ElemAccessFlag].
     fn set_access(&self, access: ElemAccessFlag);
 
+    /// The identifier of element.
     #[doc(alias = "elem-id")]
     fn elem_id(&self) -> Option<ElemId>;
 
+    /// The type of element, one of [`ElemType`][crate::ElemType].
     #[doc(alias = "elem-type")]
     fn elem_type(&self) -> ElemType;
 
+    /// The value of PID for process to own the element.
     fn owner(&self) -> i32;
 
     #[doc(alias = "access")]

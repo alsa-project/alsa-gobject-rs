@@ -2,6 +2,7 @@
 
 use super::*;
 
+/// Trait which should be implemented by subclass of [`UserInstance`][crate::UserInstance].
 pub trait UserInstanceImpl: ObjectImpl + UserInstanceImplExt {
     fn handle_tick_time_event(&self, user_instance: &Self::Type, event: &TickTimeEvent) {
         self.parent_handle_tick_time_event(user_instance, event)
@@ -16,6 +17,8 @@ pub trait UserInstanceImpl: ObjectImpl + UserInstanceImplExt {
     }
 }
 
+/// Trait which is automatically implemented to implementator of
+/// [`UserInstanceImpl`][self::UserInstanceImpl].
 pub trait UserInstanceImplExt: ObjectSubclass {
     fn parent_handle_tick_time_event(&self, user_instance: &Self::Type, event: &TickTimeEvent);
     fn parent_handle_real_time_event(&self, user_instance: &Self::Type, event: &RealTimeEvent);

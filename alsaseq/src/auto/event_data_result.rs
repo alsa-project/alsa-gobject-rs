@@ -8,6 +8,12 @@ use glib::translate::*;
 use std::mem;
 
 glib::wrapper! {
+    /// A boxed object to express data of result event.
+    ///
+    /// A [`EventDataResult`][crate::EventDataResult] is a boxed object to express data of result event. The instance of
+    /// object is one of data properties in event.
+    ///
+    /// The object wraps `struct snd_seq_result` in UAPI of Linux sound subsystem.
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub struct EventDataResult(Boxed<ffi::ALSASeqEventDataResult>);
 
@@ -19,6 +25,13 @@ glib::wrapper! {
 }
 
 impl EventDataResult {
+    /// Get the type of event in which the data results.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `event_type`
+    /// The type of event in which the data results.
     #[doc(alias = "alsaseq_event_data_result_get_event")]
     #[doc(alias = "get_event")]
     pub fn event(&self) -> EventType {
@@ -33,6 +46,13 @@ impl EventDataResult {
         }
     }
 
+    /// Get the status of event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `result`
+    /// the status of the event.
     #[doc(alias = "alsaseq_event_data_result_get_result")]
     #[doc(alias = "get_result")]
     pub fn result(&self) -> i32 {
@@ -44,6 +64,9 @@ impl EventDataResult {
         }
     }
 
+    /// Set the type of event in which the data results.
+    /// ## `event_type`
+    /// A #ALSASeqEventType.
     #[doc(alias = "alsaseq_event_data_result_set_event")]
     pub fn set_event(&mut self, event_type: EventType) {
         unsafe {
@@ -54,6 +77,9 @@ impl EventDataResult {
         }
     }
 
+    /// Set the status of event.
+    /// ## `result`
+    /// The status of event.
     #[doc(alias = "alsaseq_event_data_result_set_result")]
     pub fn set_result(&mut self, result: i32) {
         unsafe {

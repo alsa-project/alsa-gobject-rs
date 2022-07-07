@@ -13,6 +13,17 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// A GObject-derived object to express status of user instance.
+    ///
+    /// A [`InstanceStatus`][crate::InstanceStatus] is a GObject-derived object to express status of user instance attached
+    /// to any timer device or the other instance as slave. The call of [`UserInstanceExtManual::status()`][crate::prelude::UserInstanceExtManual::status()]
+    /// returns the instance of object.
+    ///
+    /// The object wraps `struct snd_timer_status` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`InstanceStatusExt`][trait@crate::prelude::InstanceStatusExt], [`InstanceStatusExtManual`][trait@crate::prelude::InstanceStatusExtManual]
     #[doc(alias = "ALSATimerInstanceStatus")]
     pub struct InstanceStatus(Object<ffi::ALSATimerInstanceStatus, ffi::ALSATimerInstanceStatusClass>);
 
@@ -24,6 +35,11 @@ glib::wrapper! {
 impl InstanceStatus {
     pub const NONE: Option<&'static InstanceStatus> = None;
 
+    /// Allocate and return an instance of [`InstanceStatus`][crate::InstanceStatus].
+    ///
+    /// # Returns
+    ///
+    /// A [`InstanceStatus`][crate::InstanceStatus].
     #[doc(alias = "alsatimer_instance_status_new")]
     pub fn new() -> InstanceStatus {
         unsafe { from_glib_full(ffi::alsatimer_instance_status_new()) }
@@ -36,13 +52,22 @@ impl Default for InstanceStatus {
     }
 }
 
+/// Trait containing the part of [`struct@InstanceStatus`] methods.
+///
+/// # Implementors
+///
+/// [`InstanceStatus`][struct@crate::InstanceStatus]
 pub trait InstanceStatusExt: 'static {
+    /// The current interval in nano second.
     fn interval(&self) -> u32;
 
+    /// The count of losts master ticks.
     fn lost(&self) -> u32;
 
+    /// The count of overrun in read queue.
     fn overrun(&self) -> u32;
 
+    /// The current size of queue.
     #[doc(alias = "queue-size")]
     fn queue_size(&self) -> u32;
 

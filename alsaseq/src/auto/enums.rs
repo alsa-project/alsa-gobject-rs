@@ -12,14 +12,19 @@ use glib::StaticType;
 use glib::Type;
 use std::fmt;
 
+/// A set of error code for [`glib::Error`][crate::glib::Error] with
+/// [`EventError`][crate::EventError] domain.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSASeqClientType")]
 pub enum ClientType {
+    /// The client is invalid.
     #[doc(alias = "ALSASEQ_CLIENT_TYPE_NONE")]
     None,
+    /// The client is userspace application.
     #[doc(alias = "ALSASEQ_CLIENT_TYPE_USER")]
     User,
+    /// The client is kernel driver.
     #[doc(alias = "ALSASEQ_CLIENT_TYPE_KERNEL")]
     Kernel,
     #[doc(hidden)]
@@ -99,16 +104,22 @@ impl ToValue for ClientType {
     }
 }
 
+/// A set of error code for [`glib::Error`][crate::glib::Error] with
+/// [`EventError`][crate::EventError] domain.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSASeqEventError")]
 pub enum EventError {
+    /// General error due to unspecified reason.
     #[doc(alias = "ALSASEQ_EVENT_ERROR_FAILED")]
     Failed,
+    /// The type of requested data is invalid in the event.
     #[doc(alias = "ALSASEQ_EVENT_ERROR_INVALID_DATA_TYPE")]
     InvalidDataType,
+    /// The mode of length for requested data is invalid in the event.
     #[doc(alias = "ALSASEQ_EVENT_ERROR_INVALID_LENGTH_MODE")]
     InvalidLengthMode,
+    /// The type of time stamp for requested data is is invalid in the event.
     #[doc(alias = "ALSASEQ_EVENT_ERROR_INVALID_TSTAMP_MODE")]
     InvalidTstampMode,
     #[doc(hidden)]
@@ -211,14 +222,18 @@ impl ToValue for EventError {
     }
 }
 
+/// A set of enumeration for the mode of data length.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSASeqEventLengthMode")]
 pub enum EventLengthMode {
+    /// The data is fixed length.
     #[doc(alias = "ALSASEQ_EVENT_LENGTH_MODE_FIXED")]
     Fixed,
+    /// The data is variable length.
     #[doc(alias = "ALSASEQ_EVENT_LENGTH_MODE_VARIABLE")]
     Variable,
+    /// The data is a pointer and its length in userspace.
     #[doc(alias = "ALSASEQ_EVENT_LENGTH_MODE_POINTER")]
     Pointer,
     #[doc(hidden)]
@@ -298,12 +313,15 @@ impl ToValue for EventLengthMode {
     }
 }
 
+/// A set of enumerations for the mode of priority.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSASeqEventPriorityMode")]
 pub enum EventPriorityMode {
+    /// For normal priority.
     #[doc(alias = "ALSASEQ_EVENT_PRIORITY_MODE_NORMAL")]
     Normal,
+    /// For high priority.
     #[doc(alias = "ALSASEQ_EVENT_PRIORITY_MODE_HIGH")]
     High,
     #[doc(hidden)]
@@ -380,12 +398,15 @@ impl ToValue for EventPriorityMode {
     }
 }
 
+/// A set of enumerations for the mode of time.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSASeqEventTimeMode")]
 pub enum EventTimeMode {
+    /// The time is absolute.
     #[doc(alias = "ALSASEQ_EVENT_TIME_MODE_ABS")]
     Abs,
+    /// The time is relative.
     #[doc(alias = "ALSASEQ_EVENT_TIME_MODE_REL")]
     Rel,
     #[doc(hidden)]
@@ -462,12 +483,15 @@ impl ToValue for EventTimeMode {
     }
 }
 
+/// A set of enumeration for the mode of time stamp.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSASeqEventTstampMode")]
 pub enum EventTstampMode {
+    /// The time stamp includes tick count.
     #[doc(alias = "ALSASEQ_EVENT_TSTAMP_MODE_TICK")]
     Tick,
+    /// The time stamp includes real time.
     #[doc(alias = "ALSASEQ_EVENT_TSTAMP_MODE_REAL")]
     Real,
     #[doc(hidden)]
@@ -544,124 +568,183 @@ impl ToValue for EventTstampMode {
     }
 }
 
+/// The type of event.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSASeqEventType")]
 pub enum EventType {
+    /// For system status.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_SYSTEM")]
     System,
+    /// For result status.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_RESULT")]
     Result,
+    /// For note message with duration.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_NOTE")]
     Note,
+    /// For note on message.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_NOTEON")]
     Noteon,
+    /// For note off message.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_NOTEOFF")]
     Noteoff,
+    /// For keypress message.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_KEYPRESS")]
     Keypress,
+    /// For control change message.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_CONTROLLER")]
     Controller,
+    /// For program change message.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_PGMCHANGE")]
     Pgmchange,
+    /// For channel pressure message.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_CHANPRESS")]
     Chanpress,
+    /// For pitchbend message.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_PITCHBEND")]
     Pitchbend,
+    /// For control message with 14 bit value.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_CONTROL14")]
     Control14,
+    /// For 14 bit NRPN address and 14 bit unsigned value.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_NONREGPARAM")]
     Nonregparam,
+    /// For 14 bit RPN address and 14 bit unsigned value.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_REGPARAM")]
     Regparam,
+    /// For song position message with LSB and MSB values.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_SONGPOS")]
     Songpos,
+    /// For song select message with numerical ID of song.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_SONGSEL")]
     Songsel,
+    /// For time code quarter frame message of MIDI.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_QFRAME")]
     Qframe,
+    /// For time signature message of Standard MIDi File.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_TIMESIGN")]
     Timesign,
+    /// For key signature message of Standard MIDI File.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_KEYSIGN")]
     Keysign,
+    /// For Real Time Start message of MIDI.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_START")]
     Start,
+    /// For Real Time Continue message of MIDI.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_CONTINUE")]
     Continue,
+    /// For Real Time Stop message of MIDI.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_STOP")]
     Stop,
+    /// For position setting of tick queue.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_SETPOS_TICK")]
     SetposTick,
+    /// For position setting of realtime queue.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_SETPOS_TIME")]
     SetposTime,
+    /// For tempo message of Standard MIDI File.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_TEMPO")]
     Tempo,
+    /// For Real Time Clock message of MIDI.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_CLOCK")]
     Clock,
+    /// For Real Time Tick message of MIDI.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_TICK")]
     Tick,
+    /// For skew of tempo for queue.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_QUEUE_SKEW")]
     QueueSkew,
+    /// For requests to tune.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_TUNE_REQUEST")]
     TuneRequest,
+    /// For reset to power-on state.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_RESET")]
     Reset,
+    /// For active sensing message.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_SENSING")]
     Sensing,
+    /// For echo message.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_ECHO")]
     Echo,
+    /// For raw message from Open Sound System.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_OSS")]
     Oss,
+    /// For appear of the port.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_CLIENT_START")]
     ClientStart,
+    /// For disappear of the client.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_CLIENT_EXIT")]
     ClientExit,
+    /// For change of information or status of the client.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_CLIENT_CHANGE")]
     ClientChange,
+    /// For addition of the port.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_PORT_START")]
     PortStart,
+    /// For removal of the port.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_PORT_EXIT")]
     PortExit,
+    /// For change of information or status of the port.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_PORT_CHANGE")]
     PortChange,
+    /// For establishment of subscription about the port.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_PORT_SUBSCRIBED")]
     PortSubscribed,
+    /// For break of subscription about the port.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_PORT_UNSUBSCRIBED")]
     PortUnsubscribed,
+    /// For user-defined message 0.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR0")]
     Usr0,
+    /// For user-defined message 1.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR1")]
     Usr1,
+    /// For user-defined message 2.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR2")]
     Usr2,
+    /// For user-defined message 3.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR3")]
     Usr3,
+    /// For user-defined message 4.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR4")]
     Usr4,
+    /// For user-defined message 5.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR5")]
     Usr5,
+    /// For user-defined message 6.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR6")]
     Usr6,
+    /// For user-defined message 7.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR7")]
     Usr7,
+    /// For user-defined message 8.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR8")]
     Usr8,
+    /// For user-defined message 9.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR9")]
     Usr9,
+    /// For system exclisive message with variable length data.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_SYSEX")]
     Sysex,
+    /// For error message.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_BOUNCE")]
     Bounce,
+    /// For user-defined message 0 with variable length data.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR_VAR0")]
     UsrVar0,
+    /// For user-defined message 1 with variable length data.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR_VAR1")]
     UsrVar1,
+    /// For user-defined message 2 with variable length data.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR_VAR2")]
     UsrVar2,
+    /// For user-defined message 3 with variable length data.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR_VAR3")]
     UsrVar3,
+    /// For user-defined message 4 with variable length data.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR_VAR4")]
     UsrVar4,
+    /// For invalid or unknown message.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_NONE")]
     None,
     #[doc(hidden)]
@@ -906,12 +989,15 @@ impl ToValue for EventType {
     }
 }
 
+/// A set of enumerations for the type to query subscription.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSASeqQuerySubscribeType")]
 pub enum QuerySubscribeType {
+    /// To query subscribers to read from the port.
     #[doc(alias = "ALSASEQ_QUERY_SUBSCRIBE_TYPE_READ")]
     Read,
+    /// To query subscribers to write to the port.
     #[doc(alias = "ALSASEQ_QUERY_SUBSCRIBE_TYPE_WRITE")]
     Write,
     #[doc(hidden)]
@@ -988,10 +1074,12 @@ impl ToValue for QuerySubscribeType {
     }
 }
 
+/// A set of enumerations for the type of timer source for the queue.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSASeqQueueTimerType")]
 pub enum QueueTimerType {
+    /// Any ALSA timer device.
     #[doc(alias = "ALSASEQ_QUEUE_TIMER_TYPE_ALSA")]
     Alsa,
     #[doc(hidden)]
@@ -1065,14 +1153,18 @@ impl ToValue for QueueTimerType {
     }
 }
 
+/// A set of enumerations for specific addresses.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSASeqSpecificAddress")]
 pub enum SpecificAddress {
+    /// The address for unknown client/port/queue.
     #[doc(alias = "ALSASEQ_SPECIFIC_ADDRESS_UNKNOWN")]
     Unknown,
+    /// The client/port/queue address towards subscribers.
     #[doc(alias = "ALSASEQ_SPECIFIC_ADDRESS_SUBSCRIBERS")]
     Subscribers,
+    /// The client/port/queue address to broadcast.
     #[doc(alias = "ALSASEQ_SPECIFIC_ADDRESS_BROADCAST")]
     Broadcast,
     #[doc(hidden)]
@@ -1152,14 +1244,18 @@ impl ToValue for SpecificAddress {
     }
 }
 
+/// A set of enumerations for the numerical IDs of specific clients.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSASeqSpecificClientId")]
 pub enum SpecificClientId {
+    /// The numerical ID to system client.
     #[doc(alias = "ALSASEQ_SPECIFIC_CLIENT_ID_SYSTEM")]
     System,
+    /// The numerical ID to dummy client.
     #[doc(alias = "ALSASEQ_SPECIFIC_CLIENT_ID_DUMMY")]
     Dummy,
+    /// The numerical ID to OSS client.
     #[doc(alias = "ALSASEQ_SPECIFIC_CLIENT_ID_OSS")]
     Oss,
     #[doc(hidden)]
@@ -1239,12 +1335,15 @@ impl ToValue for SpecificClientId {
     }
 }
 
+/// A set of enumerations for the numerical IDs of port for specific purpose.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSASeqSpecificPortId")]
 pub enum SpecificPortId {
+    /// The numerical ID of port for system timer.
     #[doc(alias = "ALSASEQ_SPECIFIC_PORT_ID_SYSTEM_TIMER")]
     Timer,
+    /// The numerical ID of port for system announce.
     #[doc(alias = "ALSASEQ_SPECIFIC_PORT_ID_SYSTEM_ANNOUNCE")]
     Announce,
     #[doc(hidden)]
@@ -1321,10 +1420,12 @@ impl ToValue for SpecificPortId {
     }
 }
 
+/// A set of enumerations for the numerical IDs of queue for specific purpose.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSASeqSpecificQueueId")]
 pub enum SpecificQueueId {
+    /// The message is delivered immediately, instead of being queued.
     #[doc(alias = "ALSASEQ_SPECIFIC_QUEUE_ID_DIRECT")]
     Direct,
     #[doc(hidden)]
@@ -1398,16 +1499,21 @@ impl ToValue for SpecificQueueId {
     }
 }
 
+/// A set of error code for [structGLib.Error] with `struct@UserClientError` domain.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSASeqUserClientError")]
 pub enum UserClientError {
+    /// The system call failed.
     #[doc(alias = "ALSASEQ_USER_CLIENT_ERROR_FAILED")]
     Failed,
+    /// The operation fails due to access permission of port.
     #[doc(alias = "ALSASEQ_USER_CLIENT_ERROR_PORT_PERMISSION")]
     PortPermission,
+    /// The operation fails due to access permission of queue.
     #[doc(alias = "ALSASEQ_USER_CLIENT_ERROR_QUEUE_PERMISSION")]
     QueuePermission,
+    /// The operation failes due to undeliverable event.
     #[doc(alias = "ALSASEQ_USER_CLIENT_ERROR_EVENT_UNDELIVERABLE")]
     EventUndeliverable,
     #[doc(hidden)]

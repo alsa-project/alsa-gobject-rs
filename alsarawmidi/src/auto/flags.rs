@@ -12,12 +12,16 @@ use glib::Type;
 use std::fmt;
 
 bitflags! {
+    /// A set of flags for information of the pair of streams.
     #[doc(alias = "ALSARawmidiStreamPairInfoFlag")]
     pub struct StreamPairInfoFlag: u32 {
+        /// The pair of stream supports output substream.
         #[doc(alias = "ALSARAWMIDI_STREAM_PAIR_INFO_FLAG_OUTPUT")]
         const OUTPUT = ffi::ALSARAWMIDI_STREAM_PAIR_INFO_FLAG_OUTPUT as u32;
+        /// The pair of stream supports input substream.
         #[doc(alias = "ALSARAWMIDI_STREAM_PAIR_INFO_FLAG_INPUT")]
         const INPUT = ffi::ALSARAWMIDI_STREAM_PAIR_INFO_FLAG_INPUT as u32;
+        /// Both directions of stream are available at the same time.
         #[doc(alias = "ALSARAWMIDI_STREAM_PAIR_INFO_FLAG_DUPLEX")]
         const DUPLEX = ffi::ALSARAWMIDI_STREAM_PAIR_INFO_FLAG_DUPLEX as u32;
     }

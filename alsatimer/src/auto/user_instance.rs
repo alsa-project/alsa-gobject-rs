@@ -20,6 +20,17 @@ use std::mem::transmute;
 use std::ptr;
 
 glib::wrapper! {
+    /// A GObject-derived object to express user instance.
+    ///
+    /// A [`UserInstance`][crate::UserInstance] is a GObject-derived object to express information of user instance
+    /// attached to any timer device or the other instance as slave. After calling
+    /// [`UserInstanceExt::open()`][crate::prelude::UserInstanceExt::open()], the object maintains file descriptor till object destruction. After
+    /// calling [`UserInstanceExt::attach()`][crate::prelude::UserInstanceExt::attach()] or [`UserInstanceExt::attach_as_slave()`][crate::prelude::UserInstanceExt::attach_as_slave()], the user instance
+    /// is attached to any timer device or the other instance as slave.
+    ///
+    /// # Implements
+    ///
+    /// [`UserInstanceExt`][trait@crate::prelude::UserInstanceExt], [`UserInstanceExtManual`][trait@crate::prelude::UserInstanceExtManual]
     #[doc(alias = "ALSATimerUserInstance")]
     pub struct UserInstance(Object<ffi::ALSATimerUserInstance, ffi::ALSATimerUserInstanceClass>);
 
@@ -31,6 +42,11 @@ glib::wrapper! {
 impl UserInstance {
     pub const NONE: Option<&'static UserInstance> = None;
 
+    /// Allocate and return an instance of [`UserInstance`][crate::UserInstance].
+    ///
+    /// # Returns
+    ///
+    /// An instance of [`UserInstance`][crate::UserInstance].
     #[doc(alias = "alsatimer_user_instance_new")]
     pub fn new() -> UserInstance {
         unsafe { from_glib_full(ffi::alsatimer_user_instance_new()) }
@@ -43,48 +59,168 @@ impl Default for UserInstance {
     }
 }
 
+/// Trait containing the part of [`struct@UserInstance`] methods.
+///
+/// # Implementors
+///
+/// [`UserInstance`][struct@crate::UserInstance]
 pub trait UserInstanceExt: 'static {
+    /// Attach the instance to the timer device. If the given device_id is for absent timer device, the
+    /// instance can be detached with error.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_TIMER_IOCTL_SELECT` command
+    /// for ALSA timer character device.
+    /// ## `device_id`
+    /// A [`DeviceId`][crate::DeviceId] to which the instance is attached.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsatimer_user_instance_attach")]
     fn attach(&self, device_id: &mut DeviceId) -> Result<(), glib::Error>;
 
+    /// Attach the instance as an slave to another instance indicated by a pair of slave_class and
+    /// slave_id. If the slave_class is `SlaveClass:APPLICATION`, the slave_id is for the PID of
+    /// application process which owns the instance of timer. If the slave_class is
+    /// `SlaveClass:SEQUENCER`, the slave_id is the numeric ID of queue bound for timer device.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_TIMER_IOCTL_SELECT` command
+    /// for ALSA timer character device.
+    /// ## `slave_class`
+    /// The class identifier of master instance, one of [`SlaveClass`][crate::SlaveClass].
+    /// ## `slave_id`
+    /// The numeric identifier of master instance.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsatimer_user_instance_attach_as_slave")]
     fn attach_as_slave(&self, slave_class: SlaveClass, slave_id: i32) -> Result<(), glib::Error>;
 
+    /// Choose the type of event data to receive.
+    ///
+    /// The call of function is successful just before call of [`attach()`][Self::attach()].
+    /// [`EventType`][crate::EventType].TICK_TIME is used as a default if the function is not called for
+    /// [`EventType`][crate::EventType].REAL_TIME explicitly. When the former is configured, event for tick time is
+    /// available for `signal::UserInstance::handle_tick_time_event`. When the latter is configured,
+    /// event for real time is available for `signal::UserInstance::handle_real_time_event`.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_TIMER_IOCTL_TREAD` command
+    /// for ALSA timer character device.
+    /// ## `event_type`
+    /// The type of event data, one of [`EventType`][crate::EventType].
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsatimer_user_instance_choose_event_type")]
     fn choose_event_type(&self, event_type: EventType) -> Result<(), glib::Error>;
 
+    /// Continue timer event emission paused by [`pause()`][Self::pause()].
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_TIMER_IOCTL_CONTINUE`
+    /// command for ALSA timer character device.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsatimer_user_instance_continue")]
     #[doc(alias = "continue")]
     fn continue_(&self) -> Result<(), glib::Error>;
 
+    /// Allocate [`glib::Source`][crate::glib::Source] structure to handle events from ALSA timer character device. In
+    /// each iteration of `GLib::MainContext`, the `read(2)` system call is executed to dispatch
+    /// timer event for either `signal::UserInstance::handle-tick-time-event` or
+    /// `signal::UserInstance::handle-real-time-event` signals, according to the result of `poll(2)`
+    /// system call.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
+    ///
+    /// ## `gsrc`
+    /// A [`glib::Source`][crate::glib::Source] to handle events from ALSA timer character device.
     #[doc(alias = "alsatimer_user_instance_create_source")]
     fn create_source(&self) -> Result<glib::Source, glib::Error>;
 
+    /// Return the information of device if attached to the instance.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_TIMER_IOCTL_INFO` command for
+    /// ALSA timer character device.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
+    ///
+    /// ## `instance_info`
+    /// A [`InstanceInfo`][crate::InstanceInfo].
     #[doc(alias = "alsatimer_user_instance_get_info")]
     #[doc(alias = "get_info")]
     fn info(&self) -> Result<InstanceInfo, glib::Error>;
 
+    /// Open ALSA Timer character device to allocate queue.
+    ///
+    /// The call of function executes `open(2)` system call for ALSA timer character device.
+    /// ## `open_flag`
+    /// The flag of `open(2)` system call. `O_RDONLY` is forced to fulfil internally.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsatimer_user_instance_open")]
     fn open(&self, open_flag: i32) -> Result<(), glib::Error>;
 
+    /// Pause timer event emission.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_TIMER_IOCTL_PAUSE` command
+    /// for ALSA timer character device.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsatimer_user_instance_pause")]
     fn pause(&self) -> Result<(), glib::Error>;
 
+    /// Start timer event emission.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_TIMER_IOCTL_START` command
+    /// for ALSA timer character device.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsatimer_user_instance_start")]
     fn start(&self) -> Result<(), glib::Error>;
 
+    /// Stop timer event emission.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_TIMER_IOCTL_STOP` command
+    /// for ALSA timer character device.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsatimer_user_instance_stop")]
     fn stop(&self) -> Result<(), glib::Error>;
 
+    /// Emitted when the attached timer device is not available anymore due to unbinding driver or
+    /// hot unplugging. The owner of this object should call `GObject::Object::unref()` as quickly
+    /// as possible to release ALSA timer character device.
     #[doc(alias = "handle-disconnection")]
     fn connect_handle_disconnection<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
+    /// Emitted when event occurs to notify real time.
+    /// ## `event`
+    /// The instance of [`RealTimeEvent`][crate::RealTimeEvent].
     #[doc(alias = "handle-real-time-event")]
     fn connect_handle_real_time_event<F: Fn(&Self, &RealTimeEvent) + 'static>(
         &self,
         f: F,
     ) -> SignalHandlerId;
 
+    /// Emitted when event occurs to notify tick time.
+    /// ## `event`
+    /// The instance of [`TickTimeEvent`][crate::TickTimeEvent].
     #[doc(alias = "handle-tick-time-event")]
     fn connect_handle_tick_time_event<F: Fn(&Self, &TickTimeEvent) + 'static>(
         &self,

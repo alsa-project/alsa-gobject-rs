@@ -7,6 +7,12 @@ use glib::translate::*;
 use std::mem;
 
 glib::wrapper! {
+    /// A boxed object to express address in ALSA Sequencer.
+    ///
+    /// A [`Addr`][crate::Addr] is a boxed object to express address in ALSA Sequencer. The address consists
+    /// of two parts; the numeric ID of client and port.
+    ///
+    /// The object wraps `struct snd_seq_addr` in UAPI of Linux sound subsystem.
     #[derive(Debug, PartialOrd, Ord, Hash)]
     pub struct Addr(Boxed<ffi::ALSASeqAddr>);
 
@@ -18,6 +24,15 @@ glib::wrapper! {
 }
 
 impl Addr {
+    /// Allocate and return an instance of [`Addr`][crate::Addr].
+    /// ## `client_id`
+    /// The numeric ID of client to address.
+    /// ## `port_id`
+    /// The numeric ID of port to address.
+    ///
+    /// # Returns
+    ///
+    /// A [`Addr`][crate::Addr].
     #[doc(alias = "alsaseq_addr_new")]
     pub fn new(client_id: u8, port_id: u8) -> Addr {
         unsafe { from_glib_full(ffi::alsaseq_addr_new(client_id, port_id)) }
@@ -33,6 +48,13 @@ impl Addr {
         }
     }
 
+    /// Get the numeric ID of client to address.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `client_id`
+    /// The numeric ID of client to address.
     #[doc(alias = "alsaseq_addr_get_client_id")]
     #[doc(alias = "get_client_id")]
     pub fn client_id(&self) -> u8 {
@@ -44,6 +66,13 @@ impl Addr {
         }
     }
 
+    /// Get the numeric ID of port to address.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `port_id`
+    /// The numeric ID of port to address.
     #[doc(alias = "alsaseq_addr_get_port_id")]
     #[doc(alias = "get_port_id")]
     pub fn port_id(&self) -> u8 {

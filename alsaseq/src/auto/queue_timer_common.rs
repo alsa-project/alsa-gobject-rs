@@ -14,6 +14,15 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// An interface to express common features of queue timer.
+    ///
+    /// A [`QueueTimerCommon`][crate::QueueTimerCommon] should be implemented by any type of queue timer.
+    ///
+    /// The object wraps `struct snd_seq_queue_timer` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`QueueTimerCommonExt`][trait@crate::prelude::QueueTimerCommonExt]
     #[doc(alias = "ALSASeqQueueTimerCommon")]
     pub struct QueueTimerCommon(Interface<ffi::ALSASeqQueueTimerCommon, ffi::ALSASeqQueueTimerCommonInterface>);
 
@@ -26,10 +35,17 @@ impl QueueTimerCommon {
     pub const NONE: Option<&'static QueueTimerCommon> = None;
 }
 
+/// Trait containing all [`struct@QueueTimerCommon`] methods.
+///
+/// # Implementors
+///
+/// [`QueueTimerAlsa`][struct@crate::QueueTimerAlsa], [`QueueTimerCommon`][struct@crate::QueueTimerCommon]
 pub trait QueueTimerCommonExt: 'static {
+    /// The numeric identifier of queue. An entry of [`SpecificClientId`][crate::SpecificClientId] is available as well.
     #[doc(alias = "queue-id")]
     fn queue_id(&self) -> u8;
 
+    /// The type of timer for the queue, one of [`QueueTimerType`][crate::QueueTimerType].
     #[doc(alias = "timer-type")]
     fn timer_type(&self) -> QueueTimerType;
 

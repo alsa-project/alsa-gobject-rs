@@ -9,6 +9,15 @@ use glib::translate::*;
 use std::fmt;
 
 glib::wrapper! {
+    /// An object to express information for boolean type of element.
+    ///
+    /// A `GObject::Object` derived object class for boolean type of element.
+    ///
+    /// The object wraps `struct snd_ctl_elem_info` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`ElemInfoCommonExt`][trait@crate::prelude::ElemInfoCommonExt], [`ElemInfoSingleArrayExt`][trait@crate::prelude::ElemInfoSingleArrayExt]
     #[doc(alias = "ALSACtlElemInfoBoolean")]
     pub struct ElemInfoBoolean(Object<ffi::ALSACtlElemInfoBoolean, ffi::ALSACtlElemInfoBooleanClass>) @implements ElemInfoCommon, ElemInfoSingleArray;
 
@@ -20,6 +29,11 @@ glib::wrapper! {
 impl ElemInfoBoolean {
     pub const NONE: Option<&'static ElemInfoBoolean> = None;
 
+    /// Allocate and return an instance of [`ElemInfoBoolean`][crate::ElemInfoBoolean].
+    ///
+    /// # Returns
+    ///
+    /// An instance of [`ElemInfoBoolean`][crate::ElemInfoBoolean].
     #[doc(alias = "alsactl_elem_info_boolean_new")]
     pub fn new() -> ElemInfoBoolean {
         unsafe { from_glib_full(ffi::alsactl_elem_info_boolean_new()) }

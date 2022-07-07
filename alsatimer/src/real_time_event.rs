@@ -2,6 +2,13 @@
 use super::*;
 
 impl RealTimeEvent {
+    /// Get the seconds and nanoseconds part for the real time event.
+    ///
+    /// # Returns
+    ///
+    /// ## `real_time`
+    /// The array with two elements for the seconds and nanoseconds part of timestamp when the
+    /// real time event occurs.
     #[doc(alias = "alsatimer_real_time_event_get_time")]
     #[doc(alias = "get_time")]
     pub fn time(&mut self) -> [i64; 2] {

@@ -13,6 +13,16 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// A GObject-derived object to express information of sound card.
+    ///
+    /// A [`CardInfo`][crate::CardInfo] is information of sound card. The call of [`CardExt::info()`][crate::prelude::CardExt::info()] returns an
+    /// instance of the object.
+    ///
+    /// The object wraps `struct snd_ctl_card_info` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`CardInfoExt`][trait@crate::prelude::CardInfoExt]
     #[doc(alias = "ALSACtlCardInfo")]
     pub struct CardInfo(Object<ffi::ALSACtlCardInfo, ffi::ALSACtlCardInfoClass>);
 
@@ -25,22 +35,34 @@ impl CardInfo {
     pub const NONE: Option<&'static CardInfo> = None;
 }
 
+/// Trait containing all [`struct@CardInfo`] methods.
+///
+/// # Implementors
+///
+/// [`CardInfo`][struct@crate::CardInfo]
 pub trait CardInfoExt: 'static {
+    /// The numeric ID of sound card.
     #[doc(alias = "card-id")]
     fn card_id(&self) -> i32;
 
+    /// The The string with space-separated components for the sound card.,
     fn components(&self) -> Option<glib::GString>;
 
+    /// The name of driver bound to the sound card.
     fn driver(&self) -> Option<glib::GString>;
 
+    /// The string ID of sound card.
     fn id(&self) -> Option<glib::GString>;
 
+    /// The long name of sound card.
     #[doc(alias = "long-name")]
     fn long_name(&self) -> Option<glib::GString>;
 
+    /// The name of mixer for the sound card.
     #[doc(alias = "mixer-name")]
     fn mixer_name(&self) -> Option<glib::GString>;
 
+    /// The name of sound card.
     fn name(&self) -> Option<glib::GString>;
 
     #[doc(alias = "card-id")]

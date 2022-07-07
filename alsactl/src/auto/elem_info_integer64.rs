@@ -15,6 +15,15 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// An object to express information for integer64 type of element.
+    ///
+    /// A `GObject::Object` derived object class for integer64 type of element.
+    ///
+    /// The object wraps `struct snd_ctl_elem_info` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`ElemInfoInteger64Ext`][trait@crate::prelude::ElemInfoInteger64Ext], [`ElemInfoCommonExt`][trait@crate::prelude::ElemInfoCommonExt], [`ElemInfoSingleArrayExt`][trait@crate::prelude::ElemInfoSingleArrayExt]
     #[doc(alias = "ALSACtlElemInfoInteger64")]
     pub struct ElemInfoInteger64(Object<ffi::ALSACtlElemInfoInteger64, ffi::ALSACtlElemInfoInteger64Class>) @implements ElemInfoCommon, ElemInfoSingleArray;
 
@@ -26,6 +35,11 @@ glib::wrapper! {
 impl ElemInfoInteger64 {
     pub const NONE: Option<&'static ElemInfoInteger64> = None;
 
+    /// Allocate and return an instance of [`ElemInfoInteger64`][crate::ElemInfoInteger64].
+    ///
+    /// # Returns
+    ///
+    /// An instance of [`ElemInfoInteger64`][crate::ElemInfoInteger64].
     #[doc(alias = "alsactl_elem_info_integer64_new")]
     pub fn new() -> ElemInfoInteger64 {
         unsafe { from_glib_full(ffi::alsactl_elem_info_integer64_new()) }
@@ -38,22 +52,33 @@ impl Default for ElemInfoInteger64 {
     }
 }
 
+/// Trait containing all [`struct@ElemInfoInteger64`] methods.
+///
+/// # Implementors
+///
+/// [`ElemInfoInteger64`][struct@crate::ElemInfoInteger64]
 pub trait ElemInfoInteger64Ext: 'static {
+    /// The maximum value of element in value array for the element.
     #[doc(alias = "value-max")]
     fn value_max(&self) -> i64;
 
+    /// The maximum value of element in value array for the element.
     #[doc(alias = "value-max")]
     fn set_value_max(&self, value_max: i64);
 
+    /// The minimum value of element in value array for the element.
     #[doc(alias = "value-min")]
     fn value_min(&self) -> i64;
 
+    /// The minimum value of element in value array for the element.
     #[doc(alias = "value-min")]
     fn set_value_min(&self, value_min: i64);
 
+    /// The step value of element in value array for the element.
     #[doc(alias = "value-step")]
     fn value_step(&self) -> i64;
 
+    /// The step value of element in value array for the element.
     #[doc(alias = "value-step")]
     fn set_value_step(&self, value_step: i64);
 

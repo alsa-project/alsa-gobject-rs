@@ -12,28 +12,40 @@ use glib::Type;
 use std::fmt;
 
 bitflags! {
+    /// A set of flags for access information of the element.
     #[doc(alias = "ALSACtlElemAccessFlag")]
     pub struct ElemAccessFlag: u32 {
+        /// The element supports operation to get its values.
         #[doc(alias = "ALSACTL_ELEM_ACCESS_FLAG_READ")]
         const READ = ffi::ALSACTL_ELEM_ACCESS_FLAG_READ as u32;
+        /// The element supports operation to change its values.
         #[doc(alias = "ALSACTL_ELEM_ACCESS_FLAG_WRITE")]
         const WRITE = ffi::ALSACTL_ELEM_ACCESS_FLAG_WRITE as u32;
+        /// The state of element is mutable independent of operating system.
         #[doc(alias = "ALSACTL_ELEM_ACCESS_FLAG_VOLATILE")]
         const VOLATILE = ffi::ALSACTL_ELEM_ACCESS_FLAG_VOLATILE as u32;
+        /// The element supports operation to get Type-Length-Value data.
         #[doc(alias = "ALSACTL_ELEM_ACCESS_FLAG_TLV_READ")]
         const TLV_READ = ffi::ALSACTL_ELEM_ACCESS_FLAG_TLV_READ as u32;
+        /// The element supports operation to change Type-Length-Value data.
         #[doc(alias = "ALSACTL_ELEM_ACCESS_FLAG_TLV_WRITE")]
         const TLV_WRITE = ffi::ALSACTL_ELEM_ACCESS_FLAG_TLV_WRITE as u32;
+        /// The element supports operation to use Type-Length-Value data as any command.
         #[doc(alias = "ALSACTL_ELEM_ACCESS_FLAG_TLV_COMMAND")]
         const TLV_COMMAND = ffi::ALSACTL_ELEM_ACCESS_FLAG_TLV_COMMAND as u32;
+        /// The element is not activated yet.
         #[doc(alias = "ALSACTL_ELEM_ACCESS_FLAG_INACTIVE")]
         const INACTIVE = ffi::ALSACTL_ELEM_ACCESS_FLAG_INACTIVE as u32;
+        /// The element is under locked state from any write operation.
         #[doc(alias = "ALSACTL_ELEM_ACCESS_FLAG_LOCK")]
         const LOCK = ffi::ALSACTL_ELEM_ACCESS_FLAG_LOCK as u32;
+        /// The element is owned by the process.
         #[doc(alias = "ALSACTL_ELEM_ACCESS_FLAG_OWNER")]
         const OWNER = ffi::ALSACTL_ELEM_ACCESS_FLAG_OWNER as u32;
+        /// The element supports specific operation to process Type-Length-Value data.
         #[doc(alias = "ALSACTL_ELEM_ACCESS_FLAG_TLV_CALLBACK")]
         const TLV_CALLBACK = ffi::ALSACTL_ELEM_ACCESS_FLAG_TLV_CALLBACK as u32;
+        /// The element is maintained by any user application, instead of kernel driver.
         #[doc(alias = "ALSACTL_ELEM_ACCESS_FLAG_USER")]
         const USER = ffi::ALSACTL_ELEM_ACCESS_FLAG_USER as u32;
     }
@@ -94,16 +106,22 @@ impl ToValue for ElemAccessFlag {
 }
 
 bitflags! {
+    /// A set of flags for the content of event for the element.
     #[doc(alias = "ALSACtlElemEventMask")]
     pub struct ElemEventMask: u32 {
+        /// The event notifies any change of value for the element.
         #[doc(alias = "ALSACTL_ELEM_EVENT_MASK_VALUE")]
         const VALUE = ffi::ALSACTL_ELEM_EVENT_MASK_VALUE as u32;
+        /// The event notifies any change of information for the element.
         #[doc(alias = "ALSACTL_ELEM_EVENT_MASK_INFO")]
         const INFO = ffi::ALSACTL_ELEM_EVENT_MASK_INFO as u32;
+        /// The element notifies addition of the element.
         #[doc(alias = "ALSACTL_ELEM_EVENT_MASK_ADD")]
         const ADD = ffi::ALSACTL_ELEM_EVENT_MASK_ADD as u32;
+        /// The element notifies any change of Type-Length-Value data for the element.
         #[doc(alias = "ALSACTL_ELEM_EVENT_MASK_TLV")]
         const TLV = ffi::ALSACTL_ELEM_EVENT_MASK_TLV as u32;
+        /// The element notifies removal of the element.
         #[doc(alias = "ALSACTL_ELEM_EVENT_MASK_REMOVE")]
         const REMOVE = ffi::ALSACTL_ELEM_EVENT_MASK_REMOVE as u32;
     }

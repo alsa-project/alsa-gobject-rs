@@ -8,6 +8,13 @@ use glib::translate::*;
 use std::mem;
 
 glib::wrapper! {
+    /// A boxed object to express the identifier of timer device.
+    ///
+    /// A [`DeviceId`][crate::DeviceId] is a boxed object to express the identifier of timer device. The
+    /// identifier mainly consists of the class of timer device. The other members; the numeric ID of
+    /// card, device, and subdevice are optional according to the class of timer device.
+    ///
+    /// The object wraps `struct snd_timer_id` in UAPI of Linux sound subsystem.
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub struct DeviceId(Boxed<ffi::ALSATimerDeviceId>);
 
@@ -19,6 +26,19 @@ glib::wrapper! {
 }
 
 impl DeviceId {
+    /// Allocate and return an instance of [`DeviceId`][crate::DeviceId].
+    /// ## `class`
+    /// The class of device, one of [`Class`][crate::Class].
+    /// ## `card_id`
+    /// The numeric ID of relevant sound card.
+    /// ## `device_id`
+    /// The numeric ID of relevant device.
+    /// ## `subdevice_id`
+    /// The numeric ID of relevant subdevice.
+    ///
+    /// # Returns
+    ///
+    /// A [`DeviceId`][crate::DeviceId].
     #[doc(alias = "alsatimer_device_id_new")]
     pub fn new(class: Class, card_id: i32, device_id: i32, subdevice_id: i32) -> DeviceId {
         unsafe {
@@ -31,6 +51,13 @@ impl DeviceId {
         }
     }
 
+    /// Get the numeric ID of sound card to which the device belongs.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `card_id`
+    /// The numeric ID of sound card to which the timer belongs.
     #[doc(alias = "alsatimer_device_id_get_card_id")]
     #[doc(alias = "get_card_id")]
     pub fn card_id(&self) -> i32 {
@@ -42,6 +69,13 @@ impl DeviceId {
         }
     }
 
+    /// Get the class of timer.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `class`
+    /// The class of timer, one of [`Class`][crate::Class].
     #[doc(alias = "alsatimer_device_id_get_class")]
     #[doc(alias = "get_class")]
     pub fn class(&self) -> Class {
@@ -53,6 +87,13 @@ impl DeviceId {
         }
     }
 
+    /// Get the numeric ID of device to which the timer belongs.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `device_id`
+    /// The numeric ID of device to which the timer belongs.
     #[doc(alias = "alsatimer_device_id_get_device_id")]
     #[doc(alias = "get_device_id")]
     pub fn device_id(&self) -> i32 {
@@ -64,6 +105,13 @@ impl DeviceId {
         }
     }
 
+    /// Get the numeric ID of subdevice to which the timer belongs.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `subdevice_id`
+    /// The numeric ID of subdevice to which the timer belongs.
     #[doc(alias = "alsatimer_device_id_get_subdevice_id")]
     #[doc(alias = "get_subdevice_id")]
     pub fn subdevice_id(&self) -> i32 {

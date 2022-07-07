@@ -7,6 +7,16 @@ use glib::translate::*;
 use std::mem;
 use std::ptr;
 
+/// Get the list of numeric ID for available sound cards.
+///
+/// Nodes under sound subsystem in sysfs are used to gather the information.
+///
+/// # Returns
+///
+/// [`true`] when the overall operation finishes successfully, else [`false`].
+///
+/// ## `entries`
+/// The list of numeric ID for sound cards.
 #[doc(alias = "alsactl_get_card_id_list")]
 #[doc(alias = "get_card_id_list")]
 pub fn card_id_list() -> Result<Vec<u32>, glib::Error> {
@@ -28,6 +38,18 @@ pub fn card_id_list() -> Result<Vec<u32>, glib::Error> {
     }
 }
 
+/// Allocate sysname for the sound card and return it when it exists.
+///
+/// Nodes under sound subsystem in sysfs are used to gather the information.
+/// ## `card_id`
+/// The numeric ID of sound card.
+///
+/// # Returns
+///
+/// [`true`] when the overall operation finishes successfully, else [`false`].
+///
+/// ## `sysname`
+/// The string for sysname of the sound card.
 #[doc(alias = "alsactl_get_card_sysname")]
 #[doc(alias = "get_card_sysname")]
 pub fn card_sysname(card_id: u32) -> Result<glib::GString, glib::Error> {
@@ -44,6 +66,18 @@ pub fn card_sysname(card_id: u32) -> Result<glib::GString, glib::Error> {
     }
 }
 
+/// Allocate string of devnode for control device of the sound card and return it if exists.
+///
+/// Nodes under sound subsystem in sysfs are used to gather the information.
+/// ## `card_id`
+/// The numeric ID of sound card.
+///
+/// # Returns
+///
+/// [`true`] when the overall operation finishes successfully, else [`false`].
+///
+/// ## `devnode`
+/// The string for devnode of control device for the sound card.
 #[doc(alias = "alsactl_get_control_devnode")]
 #[doc(alias = "get_control_devnode")]
 pub fn control_devnode(card_id: u32) -> Result<glib::GString, glib::Error> {
@@ -60,6 +94,18 @@ pub fn control_devnode(card_id: u32) -> Result<glib::GString, glib::Error> {
     }
 }
 
+/// Allocate sysname of control device for the sound card and return it if exists.
+///
+/// Nodes under sound subsystem in sysfs are used to gather the information.
+/// ## `card_id`
+/// The numeridcal ID of sound card.
+///
+/// # Returns
+///
+/// [`true`] when the overall operation finishes successfully, else [`false`].
+///
+/// ## `sysname`
+/// The string for sysname of control device for the sound card.
 #[doc(alias = "alsactl_get_control_sysname")]
 #[doc(alias = "get_control_sysname")]
 pub fn control_sysname(card_id: u32) -> Result<glib::GString, glib::Error> {

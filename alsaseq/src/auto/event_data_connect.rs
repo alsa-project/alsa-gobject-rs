@@ -7,6 +7,12 @@ use crate::Addr;
 use glib::translate::*;
 
 glib::wrapper! {
+    /// A boxed object to express data of connect event.
+    ///
+    /// A [`EventDataConnect`][crate::EventDataConnect] is a boxed object to express data of connect event. The instance
+    /// of object is one of data properties in event.
+    ///
+    /// The object wraps `struct snd_seq_connect` in UAPI of Linux sound subsystem.
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub struct EventDataConnect(Boxed<ffi::ALSASeqEventDataConnect>);
 
@@ -18,6 +24,9 @@ glib::wrapper! {
 }
 
 impl EventDataConnect {
+    /// Set the source to the connection event.
+    /// ## `dst`
+    /// A [`Addr`][crate::Addr].
     #[doc(alias = "alsaseq_event_data_connect_set_dst")]
     pub fn set_dst(&mut self, dst: &Addr) {
         unsafe {
@@ -28,6 +37,9 @@ impl EventDataConnect {
         }
     }
 
+    /// Set the source to the connection event.
+    /// ## `src`
+    /// A [`Addr`][crate::Addr].
     #[doc(alias = "alsaseq_event_data_connect_set_src")]
     pub fn set_src(&mut self, src: &Addr) {
         unsafe {

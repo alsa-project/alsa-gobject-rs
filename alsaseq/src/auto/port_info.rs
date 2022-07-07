@@ -17,6 +17,17 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// A GObject-derived object to express information of port.
+    ///
+    /// A [`PortInfo`][crate::PortInfo] is a GObject-derived object to express information of port. The call of
+    /// [`port_info()`][crate::port_info()] returns the instance of object. The call of [`UserClientExtManual::create_port()`][crate::prelude::UserClientExtManual::create_port()]
+    /// and [`UserClientExt::update_port()`][crate::prelude::UserClientExt::update_port()] requires the instance of object.
+    ///
+    /// The object wraps `struct snd_port_info` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`PortInfoExt`][trait@crate::prelude::PortInfoExt]
     #[doc(alias = "ALSASeqPortInfo")]
     pub struct PortInfo(Object<ffi::ALSASeqPortInfo, ffi::ALSASeqPortInfoClass>);
 
@@ -28,6 +39,11 @@ glib::wrapper! {
 impl PortInfo {
     pub const NONE: Option<&'static PortInfo> = None;
 
+    /// Allocate and return an instance of [`PortInfo`][crate::PortInfo].
+    ///
+    /// # Returns
+    ///
+    /// An instance of [`PortInfo`][crate::PortInfo].
     #[doc(alias = "alsaseq_port_info_new")]
     pub fn new() -> PortInfo {
         unsafe { from_glib_full(ffi::alsaseq_port_info_new()) }
@@ -40,60 +56,90 @@ impl Default for PortInfo {
     }
 }
 
+/// Trait containing all [`struct@PortInfo`] methods.
+///
+/// # Implementors
+///
+/// [`PortInfo`][struct@crate::PortInfo]
 pub trait PortInfoExt: 'static {
+    /// The address of port.
     fn addr(&self) -> Option<Addr>;
 
+    /// The attributes of port, a set of [`PortAttrFlag`][crate::PortAttrFlag].
     fn attrs(&self) -> PortAttrFlag;
 
+    /// The attributes of port, a set of [`PortAttrFlag`][crate::PortAttrFlag].
     fn set_attrs(&self, attrs: PortAttrFlag);
 
+    /// The capabilities of port, a set of [`PortCapFlag`][crate::PortCapFlag].
     fn caps(&self) -> PortCapFlag;
 
+    /// The capabilities of port, a set of [`PortCapFlag`][crate::PortCapFlag].
     fn set_caps(&self, caps: PortCapFlag);
 
+    /// The number of channels per MIDI port.
     #[doc(alias = "midi-channels")]
     fn midi_channels(&self) -> i32;
 
+    /// The number of channels per MIDI port.
     #[doc(alias = "midi-channels")]
     fn set_midi_channels(&self, midi_channels: i32);
 
+    /// The number of voices per MIDI port.
     #[doc(alias = "midi-voices")]
     fn midi_voices(&self) -> i32;
 
+    /// The number of voices per MIDI port.
     #[doc(alias = "midi-voices")]
     fn set_midi_voices(&self, midi_voices: i32);
 
+    /// The name of port.
     fn name(&self) -> Option<glib::GString>;
 
+    /// The name of port.
     fn set_name(&self, name: Option<&str>);
 
+    /// The numeric ID of queue to update time stamp when `property::PortInfo::tstamp-overwrite` is
+    /// set to True. One of [`SpecificQueueId`][crate::SpecificQueueId] is available as well.
     #[doc(alias = "queue-id")]
     fn queue_id(&self) -> u8;
 
+    /// The numeric ID of queue to update time stamp when `property::PortInfo::tstamp-overwrite` is
+    /// set to True. One of [`SpecificQueueId`][crate::SpecificQueueId] is available as well.
     #[doc(alias = "queue-id")]
     fn set_queue_id(&self, queue_id: u8);
 
+    /// The current number of subscribers to read.
     #[doc(alias = "read-users")]
     fn read_users(&self) -> i32;
 
+    /// The number of voices per synth port.
     #[doc(alias = "synth-voices")]
     fn synth_voices(&self) -> i32;
 
+    /// The number of voices per synth port.
     #[doc(alias = "synth-voices")]
     fn set_synth_voices(&self, synth_voices: i32);
 
+    /// The mode of time stamp. This is effective when the `property::PortInfo::tstamp-overwrite` is
+    /// enabled.
     #[doc(alias = "tstamp-mode")]
     fn tstamp_mode(&self) -> EventTstampMode;
 
+    /// The mode of time stamp. This is effective when the `property::PortInfo::tstamp-overwrite` is
+    /// enabled.
     #[doc(alias = "tstamp-mode")]
     fn set_tstamp_mode(&self, tstamp_mode: EventTstampMode);
 
+    /// The mode whether to overwrite time stamp for event when the event is delivered from the port.
     #[doc(alias = "tstamp-overwrite")]
     fn is_tstamp_overwrite(&self) -> bool;
 
+    /// The mode whether to overwrite time stamp for event when the event is delivered from the port.
     #[doc(alias = "tstamp-overwrite")]
     fn set_tstamp_overwrite(&self, tstamp_overwrite: bool);
 
+    /// The current number of subscribers to write.
     #[doc(alias = "write-users")]
     fn write_users(&self) -> i32;
 

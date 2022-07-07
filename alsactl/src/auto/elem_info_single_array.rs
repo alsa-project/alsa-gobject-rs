@@ -14,6 +14,14 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// An interface to express information of element which has single value array.
+    ///
+    /// A [`ElemInfoSingleArray`][crate::ElemInfoSingleArray] should be implemented by the type of information for element
+    /// whieh has single value array.
+    ///
+    /// # Implements
+    ///
+    /// [`ElemInfoSingleArrayExt`][trait@crate::prelude::ElemInfoSingleArrayExt], [`ElemInfoCommonExt`][trait@crate::prelude::ElemInfoCommonExt]
     #[doc(alias = "ALSACtlElemInfoSingleArray")]
     pub struct ElemInfoSingleArray(Interface<ffi::ALSACtlElemInfoSingleArray, ffi::ALSACtlElemInfoSingleArrayInterface>) @requires ElemInfoCommon;
 
@@ -26,10 +34,17 @@ impl ElemInfoSingleArray {
     pub const NONE: Option<&'static ElemInfoSingleArray> = None;
 }
 
+/// Trait containing all [`struct@ElemInfoSingleArray`] methods.
+///
+/// # Implementors
+///
+/// [`ElemInfoBoolean`][struct@crate::ElemInfoBoolean], [`ElemInfoBytes`][struct@crate::ElemInfoBytes], [`ElemInfoEnumerated`][struct@crate::ElemInfoEnumerated], [`ElemInfoInteger64`][struct@crate::ElemInfoInteger64], [`ElemInfoInteger`][struct@crate::ElemInfoInteger], [`ElemInfoSingleArray`][struct@crate::ElemInfoSingleArray]
 pub trait ElemInfoSingleArrayExt: 'static {
+    /// The count of elements in value array of the element.
     #[doc(alias = "value-count")]
     fn value_count(&self) -> u32;
 
+    /// The count of elements in value array of the element.
     #[doc(alias = "value-count")]
     fn set_value_count(&self, value_count: u32);
 

@@ -7,6 +7,11 @@ use glib::translate::*;
 use std::mem;
 
 glib::wrapper! {
+    /// A boxed object to express event of timer with tick count.
+    ///
+    /// A [`TickTimeEvent`][crate::TickTimeEvent] includes tick count at which the event is queued.
+    ///
+    /// The object wraps `struct snd_timer_read` in UAPI of Linux sound subsystem.
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub struct TickTimeEvent(Boxed<ffi::ALSATimerTickTimeEvent>);
 
@@ -18,6 +23,13 @@ glib::wrapper! {
 }
 
 impl TickTimeEvent {
+    /// Get the tick count since the last event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `count`
+    /// The tick count since the last event.
     #[doc(alias = "alsatimer_tick_time_event_get_count")]
     #[doc(alias = "get_count")]
     pub fn count(&self) -> u32 {
@@ -29,6 +41,13 @@ impl TickTimeEvent {
         }
     }
 
+    /// Get the resolution of tick event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `resolution`
+    /// The resolution of tick event.
     #[doc(alias = "alsatimer_tick_time_event_get_resolution")]
     #[doc(alias = "get_resolution")]
     pub fn resolution(&self) -> u32 {

@@ -7,6 +7,12 @@ use glib::translate::*;
 use std::mem;
 
 glib::wrapper! {
+    /// A boxed object to express data of control event.
+    ///
+    /// A [`EventDataCtl`][crate::EventDataCtl] is a boxed object to express data of control event. The instance of
+    /// object is one of data properties in event.
+    ///
+    /// The object wraps `struct snd_seq_ev_ctrl` in UAPI of Linux sound subsystem.
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub struct EventDataCtl(Boxed<ffi::ALSASeqEventDataCtl>);
 
@@ -18,6 +24,13 @@ glib::wrapper! {
 }
 
 impl EventDataCtl {
+    /// Get the value of channel for the control event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `channel`
+    /// The value of channel for the control event.
     #[doc(alias = "alsaseq_event_data_ctl_get_channel")]
     #[doc(alias = "get_channel")]
     pub fn channel(&self) -> u8 {
@@ -29,6 +42,13 @@ impl EventDataCtl {
         }
     }
 
+    /// Get the parameter for the control event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `param`
+    /// The parameter for the control event.
     #[doc(alias = "alsaseq_event_data_ctl_get_param")]
     #[doc(alias = "get_param")]
     pub fn param(&self) -> u32 {
@@ -40,6 +60,13 @@ impl EventDataCtl {
         }
     }
 
+    /// Get the value for the control event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `value`
+    /// The value for the control event.
     #[doc(alias = "alsaseq_event_data_ctl_get_value")]
     #[doc(alias = "get_value")]
     pub fn value(&self) -> i32 {
@@ -51,6 +78,9 @@ impl EventDataCtl {
         }
     }
 
+    /// Set the channel for the control event.
+    /// ## `channel`
+    /// The channel for the control event.
     #[doc(alias = "alsaseq_event_data_ctl_set_channel")]
     pub fn set_channel(&mut self, channel: u8) {
         unsafe {
@@ -58,6 +88,9 @@ impl EventDataCtl {
         }
     }
 
+    /// Set the parameter for the control event.
+    /// ## `param`
+    /// The parameter for the control event.
     #[doc(alias = "alsaseq_event_data_ctl_set_param")]
     pub fn set_param(&mut self, param: u32) {
         unsafe {
@@ -65,6 +98,9 @@ impl EventDataCtl {
         }
     }
 
+    /// Set the value for the control event.
+    /// ## `value`
+    /// The value for the control event.
     #[doc(alias = "alsaseq_event_data_ctl_set_value")]
     pub fn set_value(&mut self, value: i32) {
         unsafe {

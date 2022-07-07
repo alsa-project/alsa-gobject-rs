@@ -12,16 +12,21 @@ use glib::StaticType;
 use glib::Type;
 use std::fmt;
 
+/// A set of enumerations for the class of timer device.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSATimerClass")]
 pub enum Class {
+    /// Invalid.
     #[doc(alias = "ALSATIMER_CLASS_NONE")]
     None,
+    /// The timer device is relevant to system.
     #[doc(alias = "ALSATIMER_CLASS_GLOBAL")]
     Global,
+    /// The timer device is relevant to sound card.
     #[doc(alias = "ALSATIMER_CLASS_CARD")]
     Card,
+    /// The timer device is relevant to PCM device.
     #[doc(alias = "ALSATIMER_CLASS_PCM")]
     Pcm,
     #[doc(hidden)]
@@ -104,12 +109,15 @@ impl ToValue for Class {
     }
 }
 
+/// A set of enumerations for the type of event.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSATimerEventType")]
 pub enum EventType {
+    /// Event for tick time.
     #[doc(alias = "ALSATIMER_EVENT_TYPE_TICK_TIME")]
     TickTime,
+    /// Event for real time.
     #[doc(alias = "ALSATIMER_EVENT_TYPE_REAL_TIME")]
     RealTime,
     #[doc(hidden)]
@@ -186,38 +194,54 @@ impl ToValue for EventType {
     }
 }
 
+/// A set of enumerations for the type of real time event.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSATimerRealTimeEventType")]
 pub enum RealTimeEventType {
+    /// The event for timer resolution.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_RESOLUTION")]
     Resolution,
+    /// The event for timer tick.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_TICK")]
     Tick,
+    /// The event for timer start.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_START")]
     Start,
+    /// The event for timer stop.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_STOP")]
     Stop,
+    /// The event for timer continue.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_CONTINUE")]
     Continue,
+    /// The event for timer pause.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_PAUSE")]
     Pause,
+    /// The event before timer start.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_EARLY")]
     Early,
+    /// The event for timer suspend.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_SUSPEND")]
     Suspend,
+    /// The event for timer resume.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_RESUME")]
     Resume,
+    /// The event for master timer start.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_MSTART")]
     Mstart,
+    /// The event for master timer stop.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_MSTOP")]
     Mstop,
+    /// The event for master timer continue.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_MCONTINUE")]
     Mcontinue,
+    /// The event for master timer pause.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_MPAUSE")]
     Mpause,
+    /// The event for master timer suspend.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_MSUSPEND")]
     Msuspend,
+    /// The event for master timer resume.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_MRESUME")]
     Mresume,
     #[doc(hidden)]
@@ -333,14 +357,18 @@ impl ToValue for RealTimeEventType {
     }
 }
 
+/// A set of enumerations for the slave class of timer instance (not timer device).
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSATimerSlaveClass")]
 pub enum SlaveClass {
+    /// The timer instance is not slave.
     #[doc(alias = "ALSATIMER_SLAVE_CLASS_NONE")]
     None,
+    /// The timer instance is slave to any application.
     #[doc(alias = "ALSATIMER_SLAVE_CLASS_APPLICATION")]
     Application,
+    /// The timer instance is slave to ALSA sequencer.
     #[doc(alias = "ALSATIMER_SLAVE_CLASS_SEQUENCER")]
     Sequencer,
     #[doc(hidden)]
@@ -420,12 +448,15 @@ impl ToValue for SlaveClass {
     }
 }
 
+/// A set of enumerations for the kind of global timer device.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSATimerSpecificGlobalDevice")]
 pub enum SpecificGlobalDevice {
+    /// The timer device is system timer wheel.
     #[doc(alias = "ALSATIMER_SPECIFIC_GLOBAL_DEVICE_SYSTEM")]
     System,
+    /// The timer device is system hrtimer.
     #[doc(alias = "ALSATIMER_SPECIFIC_GLOBAL_DEVICE_HRTIMER")]
     Hrtimer,
     #[doc(hidden)]
@@ -502,16 +533,22 @@ impl ToValue for SpecificGlobalDevice {
     }
 }
 
+/// A set of error code for [`glib::Error`][crate::glib::Error] with
+/// [`UserInstanceError`][crate::UserInstanceError] domain.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSATimerUserInstanceError")]
 pub enum UserInstanceError {
+    /// The system call failed.
     #[doc(alias = "ALSATIMER_USER_INSTANCE_ERROR_FAILED")]
     Failed,
+    /// The timer instance is not found.
     #[doc(alias = "ALSATIMER_USER_INSTANCE_ERROR_TIMER_NOT_FOUND")]
     TimerNotFound,
+    /// The timer instance is not attached to any timer device or the other instance.
     #[doc(alias = "ALSATIMER_USER_INSTANCE_ERROR_NOT_ATTACHED")]
     NotAttached,
+    /// The timer instance is already attached to timer device or the other instance.
     #[doc(alias = "ALSATIMER_USER_INSTANCE_ERROR_ATTACHED")]
     Attached,
     #[doc(hidden)]

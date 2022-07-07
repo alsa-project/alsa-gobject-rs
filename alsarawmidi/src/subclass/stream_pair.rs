@@ -2,6 +2,7 @@
 
 use super::*;
 
+/// Trait which should be implemented by subclass of [`StreamPair`][crate::StreamPair].
 pub trait StreamPairImpl: ObjectImpl + StreamPairImplExt {
     fn handle_messages(&self, stream_pair: &Self::Type) {
         self.parent_handle_messages(stream_pair)
@@ -11,6 +12,8 @@ pub trait StreamPairImpl: ObjectImpl + StreamPairImplExt {
     }
 }
 
+/// Trait which is automatically implemented to implementator of
+/// [`StreamPairImpl`][self::StreamPairImpl].
 pub trait StreamPairImplExt: ObjectSubclass {
     fn parent_handle_messages(&self, stream_pair: &Self::Type);
     fn parent_handle_disconnection(&self, stream_pair: &Self::Type);

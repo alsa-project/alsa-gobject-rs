@@ -16,6 +16,13 @@ use std::mem::transmute;
 use std::ptr;
 
 glib::wrapper! {
+    /// An interface to express common features of ALSA HwDep device.
+    ///
+    /// A [`DeviceCommon`][crate::DeviceCommon] should be implemented by any type of ALSA HwDep device.
+    ///
+    /// # Implements
+    ///
+    /// [`DeviceCommonExt`][trait@crate::prelude::DeviceCommonExt], [`DeviceCommonExtManual`][trait@crate::prelude::DeviceCommonExtManual]
     #[doc(alias = "ALSAHwdepDeviceCommon")]
     pub struct DeviceCommon(Interface<ffi::ALSAHwdepDeviceCommon, ffi::ALSAHwdepDeviceCommonInterface>);
 
@@ -28,17 +35,59 @@ impl DeviceCommon {
     pub const NONE: Option<&'static DeviceCommon> = None;
 }
 
+/// Trait containing the part of [`struct@DeviceCommon`] methods.
+///
+/// # Implementors
+///
+/// [`DeviceCommon`][struct@crate::DeviceCommon]
 pub trait DeviceCommonExt: 'static {
+    /// Allocate [`glib::Source`][crate::glib::Source] structure to handle events from ALSA hwdep character device. In
+    /// each iteration of `GLib::MainContext`, the `read(2)` system call is executed to dispatch
+    /// hwdep event, according to the result of `poll(2)` system call.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
+    ///
+    /// ## `source`
+    /// A [`glib::Source`][crate::glib::Source] to handle events from ALSA hwdep character device.
     #[doc(alias = "alsahwdep_device_common_create_source")]
     fn create_source(&self) -> Result<glib::Source, glib::Error>;
 
+    /// Get the information according to given numeric IDs for card and device. The call of function is
+    /// expected to executes `ioctl(2)` system call with `SNDRV_CTL_IOCTL_HWDEP_INFO` command to the
+    /// character device.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
+    ///
+    /// ## `device_info`
+    /// The information of device.
     #[doc(alias = "alsahwdep_device_common_get_device_info")]
     #[doc(alias = "get_device_info")]
     fn device_info(&self) -> Result<DeviceInfo, glib::Error>;
 
+    /// Open one of ALSA hwdep character devices for the sound card.
+    ///
+    /// The call of function is expected to execute `open(2)` system call for ALSA hwdep character
+    /// device.
+    /// ## `card_id`
+    /// The numeric identifier of sound card.
+    /// ## `device_id`
+    /// The numerid identifier of device.
+    /// ## `open_flag`
+    /// The flag of `open(2)` system call.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsahwdep_device_common_open")]
     fn open(&self, card_id: u32, device_id: u32, open_flag: i32) -> Result<(), glib::Error>;
 
+    /// Emitted when the sound card is not available anymore due to unbinding driver or hot
+    /// unplugging. The owner of the object should prepare to call `GObject::Object::unref()`
+    /// so that ALSA HwDep character device is going to be closed and sound card is released.
     #[doc(alias = "handle-disconnection")]
     fn connect_handle_disconnection<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
@@ -64,6 +113,21 @@ impl<O: IsA<DeviceCommon>> DeviceCommonExt for O {
         }
     }
 
+    /// Get the information according to given numeric IDs for card and device.
+    ///
+    /// The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call
+    /// with `SNDRV_CTL_IOCTL_HWDEP_INFO` command for ALSA control character device.
+    /// ## `card_id`
+    /// The numeric value for sound card to query.
+    /// ## `device_id`
+    /// The numeric value of hwdep device to query.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
+    ///
+    /// ## `device_info`
+    /// The information of the device.
     fn device_info(&self) -> Result<DeviceInfo, glib::Error> {
         unsafe {
             let mut device_info = ptr::null_mut();

@@ -1,10 +1,22 @@
 // SPDX-License-Identifier: MIT
 use super::*;
 
+/// Trait containing the rest of [`struct@QueueTempo`] methods.
 pub trait QueueTempoExtManual {
+    /// Refer to numerator and denominator of fraction for skew.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `skew`
+    /// The array with two elements for numerator and denominator of fraction for skew.
     #[doc(alias = "alsaseq_queue_tempo_get_skew")]
     #[doc(alias = "get_skew")]
     fn skew(&self) -> &[u32; 2];
+
+    /// Copy numerator and denominator of fraction for skew.
+    /// ## `skew`
+    /// The array with two elements for numerator and denominator of fraction for skew.
     #[doc(alias = "alsaseq_queue_tempo_set_skew")]
     fn set_skew(&self, skew: &[u32; 2]);
 }

@@ -13,6 +13,15 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// A GObject-derived object to express tempo of queue.
+    ///
+    /// A [`QueueTempo`][crate::QueueTempo] is a GObject-derived object to express tempo of queue.
+    ///
+    /// The object wraps `struct snd_seq_queue_tempo` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`QueueTempoExt`][trait@crate::prelude::QueueTempoExt], [`QueueTempoExtManual`][trait@crate::prelude::QueueTempoExtManual]
     #[doc(alias = "ALSASeqQueueTempo")]
     pub struct QueueTempo(Object<ffi::ALSASeqQueueTempo, ffi::ALSASeqQueueTempoClass>);
 
@@ -24,6 +33,11 @@ glib::wrapper! {
 impl QueueTempo {
     pub const NONE: Option<&'static QueueTempo> = None;
 
+    /// Allocate and return an instance of [`QueueTempo`][crate::QueueTempo].
+    ///
+    /// # Returns
+    ///
+    /// An instance of [`QueueTempo`][crate::QueueTempo].
     #[doc(alias = "alsaseq_queue_tempo_new")]
     pub fn new() -> QueueTempo {
         unsafe { from_glib_full(ffi::alsaseq_queue_tempo_new()) }
@@ -36,19 +50,30 @@ impl Default for QueueTempo {
     }
 }
 
+/// Trait containing the part of [`struct@QueueTempo`] methods.
+///
+/// # Implementors
+///
+/// [`QueueTempo`][struct@crate::QueueTempo]
 pub trait QueueTempoExt: 'static {
+    /// The numeric ID of queue. An entry of ALSASeqSpecificClientId is available as well,
     #[doc(alias = "queue-id")]
     fn queue_id(&self) -> u8;
 
+    /// The numeric ID of queue. An entry of ALSASeqSpecificClientId is available as well,
     #[doc(alias = "queue-id")]
     fn set_queue_id(&self, queue_id: u8);
 
+    /// The number of pulse per quarter as resolution.
     fn resolution(&self) -> i32;
 
+    /// The number of pulse per quarter as resolution.
     fn set_resolution(&self, resolution: i32);
 
+    /// The number of micro second per tick as tempo.
     fn tempo(&self) -> u32;
 
+    /// The number of micro second per tick as tempo.
     fn set_tempo(&self, tempo: u32);
 
     #[doc(alias = "queue-id")]

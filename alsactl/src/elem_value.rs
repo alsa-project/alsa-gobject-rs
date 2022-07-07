@@ -1,30 +1,84 @@
 // SPDX-License-Identifier: MIT
 use super::*;
 
+/// Trait containing the rest of [`struct@ElemValue`] methods.
 pub trait ElemValueExtManual {
     // NOTE: conversion between gboolean(=i32) and bool(=uchar in most ABIs). Read:
     // https://gitlab.gnome.org/GNOME/gobject-introspection/-/issues/392
+    /// Copy the array into internal data for [`ElemType`][crate::ElemType].BOOLEAN element.
+    /// ## `values`
+    /// The array for boolean values.
     #[doc(alias = "alsactl_elem_value_set_bool")]
     fn set_bool(&self, values: &[bool]);
+
+    /// Refer to the array specific to [`ElemType`][crate::ElemType].BOOLEAN element in internal storage.
+    ///
+    /// # Returns
+    ///
+    /// ## `values`
+    /// The array for boolean values.
     #[doc(alias = "alsactl_elem_value_get_bool")]
     #[doc(alias = "get_bool")]
     fn boolean(&self) -> Vec<bool>;
 
+    /// Refer to the array specific to [`ElemType`][crate::ElemType].BYTES element in internal storage.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `values`
+    /// The array for 8 bit unsigned integer values.
     #[doc(alias = "alsactl_elem_value_get_bytes")]
     fn bytes(&self) -> &[u8];
 
+    /// Refer to the array for [`ElemType`][crate::ElemType].INTEGER element in internal storage.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `values`
+    /// The array for 32 bit signed integer values.
     #[doc(alias = "alsactl_elem_value_get_int")]
     fn int(&self) -> &[i32];
 
+    /// Refer to the array specific to [`ElemType`][crate::ElemType].ENUMERATED element in internal
+    /// storage.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `values`
+    /// The array for enumeration index values.
     #[doc(alias = "alsactl_elem_value_get_enum")]
     #[doc(alias = "get_enum")]
     fn enumerated(&self) -> &[u32];
 
+    /// Refer to the array for [`ElemType`][crate::ElemType].INTEGER64 element in internal storage.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `values`
+    /// The array for 64 bit signed integer values.
     #[doc(alias = "alsactl_elem_value_get_int64")]
     fn int64(&self) -> &[i64];
 
+    /// Refer to the array specific to [`ElemType`][crate::ElemType].IEC60958 element in internal storage.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `status`
+    /// The array of byte data for channel status bits of IEC 60958.
     #[doc(alias = "alsactl_elem_value_get_iec60958_channel_status")]
     fn iec60958_channel_status(&self) -> &[u8];
+    /// Refer to the array specific to [`ElemType`][crate::ElemType].IEC60958 element in internal storage.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `data`
+    /// The array of byte data for user data bits of IEC 60958.
     #[doc(alias = "alsactl_elem_value_get_iec60958_user_data")]
     fn iec60958_user_data(&self) -> &[u8];
 }

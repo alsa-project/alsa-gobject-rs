@@ -19,6 +19,52 @@ use std::mem;
 use std::ptr;
 
 glib::wrapper! {
+    /// A boxed structure for sequencer event.
+    ///
+    /// A [`Event`][crate::Event] expresses any type of event in ALSA Sequencer. The event consists of some
+    /// product-type propertiess and two variant-type properties.
+    ///
+    /// The instance should be released by call of `boxed_free()` since it can point to the
+    /// other allocated object for blob data, therefore it's preferable to use `boxed_copy()`
+    /// to duplicate the instance so that the blob data is going to be duplicated as well.
+    ///
+    /// This is the list of product-type properties:
+    ///
+    /// - the type of event
+    /// - the mode of time stamp
+    /// - the mode of time
+    /// - the mode of length
+    /// - the mode of priority
+    /// - the numeric value of tag associated to the event
+    /// - the numeric identifier of queue to schedule the event
+    /// - destination address
+    /// - source address
+    ///
+    /// One of variant-type property is for time stamp.
+    ///
+    /// - tick count as time stamp of event
+    /// - real time as time stamp of event
+    ///
+    /// Another variant-type property is for data of event.
+    ///
+    /// - note
+    /// - control
+    /// - 12 bytes
+    /// - 3 quadlets
+    /// - blob as variable length of bytes
+    /// - pointer in VMA of user process
+    /// - queue control
+    /// - tick count as arbitrary time stamp
+    /// - real time as arbitrary time stamp
+    /// - arbitrary address
+    /// - connection between source and destination addresses
+    /// - result
+    ///
+    /// The type of time stamp is associated to the mode of time stamp, while the type of data is
+    /// associated to the type of event loosely. Each of the variant type property has single storage
+    /// internally, thus an event can includes the sole variant.
+    ///
+    /// The object wraps `struct snd_seq_event` in UAPI of Linux sound subsystem.
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub struct Event(Boxed<ffi::ALSASeqEvent>);
 
@@ -30,11 +76,26 @@ glib::wrapper! {
 }
 
 impl Event {
+    /// Allocate and return an instance of [`Event`][crate::Event].
+    /// ## `event_type`
+    /// A [`EventType`][crate::EventType].
+    ///
+    /// # Returns
+    ///
+    /// An instance of [`Event`][crate::Event].
     #[doc(alias = "alsaseq_event_new")]
     pub fn new(event_type: EventType) -> Event {
         unsafe { from_glib_full(ffi::alsaseq_event_new(event_type.into_glib())) }
     }
 
+    /// Calculate the number of cells in client pool to be consumed when the event is delivered.
+    /// The comparison to properties of [`ClientPool`][crate::ClientPool] is useful when scheduling the event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `cells`
+    /// The number of consumed cells in client pool.
     #[doc(alias = "alsaseq_event_calculate_pool_consumption")]
     pub fn calculate_pool_consumption(&self) -> u32 {
         unsafe {
@@ -48,6 +109,13 @@ impl Event {
         }
     }
 
+    /// Get the type of event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `event_type`
+    /// A [`EventType`][crate::EventType].
     #[doc(alias = "alsaseq_event_get_event_type")]
     #[doc(alias = "get_event_type")]
     pub fn event_type(&self) -> EventType {
@@ -59,6 +127,13 @@ impl Event {
         }
     }
 
+    /// Get the mode of data length for the event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `length_mode`
+    /// A [`EventLengthMode`][crate::EventLengthMode] for the mode of data length.
     #[doc(alias = "alsaseq_event_get_length_mode")]
     #[doc(alias = "get_length_mode")]
     pub fn length_mode(&self) -> EventLengthMode {
@@ -70,6 +145,13 @@ impl Event {
         }
     }
 
+    /// Get the mode of priority for the event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `priority_mode`
+    /// A [`EventPriorityMode`][crate::EventPriorityMode] The mode of priority.
     #[doc(alias = "alsaseq_event_get_priority_mode")]
     #[doc(alias = "get_priority_mode")]
     pub fn priority_mode(&self) -> EventPriorityMode {
@@ -81,6 +163,13 @@ impl Event {
         }
     }
 
+    /// Get the numeric identifier of queue to schedule the event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `queue_id`
+    /// The numeric identifier of queue.
     #[doc(alias = "alsaseq_event_get_queue_id")]
     #[doc(alias = "get_queue_id")]
     pub fn queue_id(&self) -> u8 {
@@ -92,6 +181,13 @@ impl Event {
         }
     }
 
+    /// Get the numeric value of tag associated to the event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `tag`
+    /// The numeric value of tag.
     #[doc(alias = "alsaseq_event_get_tag")]
     #[doc(alias = "get_tag")]
     pub fn tag(&self) -> i8 {
@@ -103,6 +199,13 @@ impl Event {
         }
     }
 
+    /// Get the mode of time for the event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `time_mode`
+    /// A [`EventTimeMode`][crate::EventTimeMode] for the mode of time.
     #[doc(alias = "alsaseq_event_get_time_mode")]
     #[doc(alias = "get_time_mode")]
     pub fn time_mode(&self) -> EventTimeMode {
@@ -114,6 +217,13 @@ impl Event {
         }
     }
 
+    /// Get the mode of time stamp for the event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `tstamp_mode`
+    /// A [`EventTstampMode`][crate::EventTstampMode] for the mode of time stamp.
     #[doc(alias = "alsaseq_event_get_tstamp_mode")]
     #[doc(alias = "get_tstamp_mode")]
     pub fn tstamp_mode(&self) -> EventTstampMode {
@@ -125,6 +235,30 @@ impl Event {
         }
     }
 
+    /// Get the address data of event, available when [`event_type()`][Self::event_type()] results in one of:
+    ///
+    /// - [`EventType`][crate::EventType].CLIENT_START
+    /// - [`EventType`][crate::EventType].CLIENT_EXIT
+    /// - [`EventType`][crate::EventType].CLIENT_CHANGE
+    /// - [`EventType`][crate::EventType].PORT_START
+    /// - [`EventType`][crate::EventType].PORT_EXIT
+    /// - [`EventType`][crate::EventType].PORT_CHANGE
+    /// - [`EventType`][crate::EventType].USR0
+    /// - [`EventType`][crate::EventType].USR1
+    /// - [`EventType`][crate::EventType].USR2
+    /// - [`EventType`][crate::EventType].USR3
+    /// - [`EventType`][crate::EventType].USR4
+    /// - [`EventType`][crate::EventType].USR5
+    /// - [`EventType`][crate::EventType].USR6
+    /// - [`EventType`][crate::EventType].USR7
+    /// - [`EventType`][crate::EventType].USR8
+    /// - [`EventType`][crate::EventType].USR9
+    /// ## `data`
+    /// The address data of event.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_event_set_addr_data")]
     pub fn set_addr_data(&mut self, data: &Addr) -> Result<(), glib::Error> {
         unsafe {
@@ -143,6 +277,21 @@ impl Event {
         }
     }
 
+    /// Copy the quadlet data to the event, available when [`event_type()`][Self::event_type()] results in one of:
+    ///
+    /// - [`EventType`][crate::EventType].SYSEX
+    /// - [`EventType`][crate::EventType].BOUNCE
+    /// - [`EventType`][crate::EventType].USR_VAR0
+    /// - [`EventType`][crate::EventType].USR_VAR1
+    /// - [`EventType`][crate::EventType].USR_VAR2
+    /// - [`EventType`][crate::EventType].USR_VAR3
+    /// - [`EventType`][crate::EventType].USR_VAR4
+    /// ## `data`
+    /// The pointer to blob data for the event.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_event_set_blob_data")]
     pub fn set_blob_data(&mut self, data: &[u8]) -> Result<(), glib::Error> {
         let length = data.len() as usize;
@@ -163,6 +312,26 @@ impl Event {
         }
     }
 
+    /// Copy the connect data to the event, available when [`event_type()`][Self::event_type()] results in one of:
+    ///
+    /// - [`EventType`][crate::EventType].PORT_SUBSCRIBED
+    /// - [`EventType`][crate::EventType].PORT_UNSUBSCRIBED
+    /// - [`EventType`][crate::EventType].USR0
+    /// - [`EventType`][crate::EventType].USR1
+    /// - [`EventType`][crate::EventType].USR2
+    /// - [`EventType`][crate::EventType].USR3
+    /// - [`EventType`][crate::EventType].USR4
+    /// - [`EventType`][crate::EventType].USR5
+    /// - [`EventType`][crate::EventType].USR6
+    /// - [`EventType`][crate::EventType].USR7
+    /// - [`EventType`][crate::EventType].USR8
+    /// - [`EventType`][crate::EventType].USR9
+    /// ## `data`
+    /// The connect data of event.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_event_set_connect_data")]
     pub fn set_connect_data(&mut self, data: &EventDataConnect) -> Result<(), glib::Error> {
         unsafe {
@@ -181,6 +350,36 @@ impl Event {
         }
     }
 
+    /// Copy the control data, available when [`event_type()`][Self::event_type()] results in one of:
+    ///
+    /// - [`EventType`][crate::EventType].CONTROLLER
+    /// - [`EventType`][crate::EventType].PGMCHANGE
+    /// - [`EventType`][crate::EventType].CHANPRESS
+    /// - [`EventType`][crate::EventType].PITCHBEND
+    /// - [`EventType`][crate::EventType].CONTROL14
+    /// - [`EventType`][crate::EventType].NONREGPARAM
+    /// - [`EventType`][crate::EventType].REGPARAM
+    /// - [`EventType`][crate::EventType].SONGPOS
+    /// - [`EventType`][crate::EventType].SONGSEL
+    /// - [`EventType`][crate::EventType].QFRAME
+    /// - [`EventType`][crate::EventType].TIMESIGN
+    /// - [`EventType`][crate::EventType].KEYSIGN
+    /// - [`EventType`][crate::EventType].USR0
+    /// - [`EventType`][crate::EventType].USR1
+    /// - [`EventType`][crate::EventType].USR2
+    /// - [`EventType`][crate::EventType].USR3
+    /// - [`EventType`][crate::EventType].USR4
+    /// - [`EventType`][crate::EventType].USR5
+    /// - [`EventType`][crate::EventType].USR6
+    /// - [`EventType`][crate::EventType].USR7
+    /// - [`EventType`][crate::EventType].USR8
+    /// - [`EventType`][crate::EventType].USR9
+    /// ## `data`
+    /// The control data of event.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_event_set_ctl_data")]
     pub fn set_ctl_data(&mut self, data: &EventDataCtl) -> Result<(), glib::Error> {
         unsafe {
@@ -199,6 +398,9 @@ impl Event {
         }
     }
 
+    /// Copy the address as destination of event.
+    /// ## `addr`
+    /// A [`Addr`][crate::Addr] for event destination.
     #[doc(alias = "alsaseq_event_set_destination")]
     pub fn set_destination(&mut self, addr: &Addr) {
         unsafe {
@@ -206,6 +408,28 @@ impl Event {
         }
     }
 
+    /// Copy the note data, available when [`event_type()`][Self::event_type()] results in one of:
+    ///
+    /// - [`EventType`][crate::EventType].NOTE
+    /// - [`EventType`][crate::EventType].NOTEON
+    /// - [`EventType`][crate::EventType].NOTEOFF
+    /// - [`EventType`][crate::EventType].KEYPRESS
+    /// - [`EventType`][crate::EventType].USR0
+    /// - [`EventType`][crate::EventType].USR1
+    /// - [`EventType`][crate::EventType].USR2
+    /// - [`EventType`][crate::EventType].USR3
+    /// - [`EventType`][crate::EventType].USR4
+    /// - [`EventType`][crate::EventType].USR5
+    /// - [`EventType`][crate::EventType].USR6
+    /// - [`EventType`][crate::EventType].USR7
+    /// - [`EventType`][crate::EventType].USR8
+    /// - [`EventType`][crate::EventType].USR9
+    /// ## `data`
+    /// The note data of event.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_event_set_note_data")]
     pub fn set_note_data(&mut self, data: &EventDataNote) -> Result<(), glib::Error> {
         unsafe {
@@ -224,6 +448,9 @@ impl Event {
         }
     }
 
+    /// Set the mode of priority for the event.
+    /// ## `priority_mode`
+    /// A [`EventPriorityMode`][crate::EventPriorityMode] for the mode of priority.
     #[doc(alias = "alsaseq_event_set_priority_mode")]
     pub fn set_priority_mode(&mut self, priority_mode: EventPriorityMode) {
         unsafe {
@@ -234,6 +461,33 @@ impl Event {
         }
     }
 
+    /// Copy the queue data to the event, available when [`event_type()`][Self::event_type()] results in one of:
+    ///
+    /// - [`EventType`][crate::EventType].START
+    /// - [`EventType`][crate::EventType].CONTINUE
+    /// - [`EventType`][crate::EventType].STOP
+    /// - [`EventType`][crate::EventType].SETPOS_TICK
+    /// - [`EventType`][crate::EventType].SETPOS_TIME
+    /// - [`EventType`][crate::EventType].TEMPO
+    /// - [`EventType`][crate::EventType].CLOCK
+    /// - [`EventType`][crate::EventType].TICK
+    /// - [`EventType`][crate::EventType].QUEUE_SKEW
+    /// - [`EventType`][crate::EventType].USR0
+    /// - [`EventType`][crate::EventType].USR1
+    /// - [`EventType`][crate::EventType].USR2
+    /// - [`EventType`][crate::EventType].USR3
+    /// - [`EventType`][crate::EventType].USR4
+    /// - [`EventType`][crate::EventType].USR5
+    /// - [`EventType`][crate::EventType].USR6
+    /// - [`EventType`][crate::EventType].USR7
+    /// - [`EventType`][crate::EventType].USR8
+    /// - [`EventType`][crate::EventType].USR9
+    /// ## `data`
+    /// The queue data of event.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_event_set_queue_data")]
     pub fn set_queue_data(&mut self, data: &EventDataQueue) -> Result<(), glib::Error> {
         unsafe {
@@ -252,6 +506,9 @@ impl Event {
         }
     }
 
+    /// Set the numeric identifier of queue to schedule the event.
+    /// ## `queue_id`
+    /// The numeric identifier of queue.
     #[doc(alias = "alsaseq_event_set_queue_id")]
     pub fn set_queue_id(&mut self, queue_id: u8) {
         unsafe {
@@ -259,6 +516,26 @@ impl Event {
         }
     }
 
+    /// Copy the result data to the event, available when [`event_type()`][Self::event_type()] results in one of:
+    ///
+    /// - [`EventType`][crate::EventType].SYSTEM
+    /// - [`EventType`][crate::EventType].RESULT
+    /// - [`EventType`][crate::EventType].USR0
+    /// - [`EventType`][crate::EventType].USR1
+    /// - [`EventType`][crate::EventType].USR2
+    /// - [`EventType`][crate::EventType].USR3
+    /// - [`EventType`][crate::EventType].USR4
+    /// - [`EventType`][crate::EventType].USR5
+    /// - [`EventType`][crate::EventType].USR6
+    /// - [`EventType`][crate::EventType].USR7
+    /// - [`EventType`][crate::EventType].USR8
+    /// - [`EventType`][crate::EventType].USR9
+    /// ## `data`
+    /// The result data of event.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_event_set_result_data")]
     pub fn set_result_data(&mut self, data: &EventDataResult) -> Result<(), glib::Error> {
         unsafe {
@@ -277,6 +554,9 @@ impl Event {
         }
     }
 
+    /// Copy the address as source of event.
+    /// ## `addr`
+    /// A [`Addr`][crate::Addr] for source address.
     #[doc(alias = "alsaseq_event_set_source")]
     pub fn set_source(&mut self, addr: &Addr) {
         unsafe {
@@ -284,6 +564,9 @@ impl Event {
         }
     }
 
+    /// Set the numeric value of tag associated to the event.
+    /// ## `tag`
+    /// The numeric value of tag.
     #[doc(alias = "alsaseq_event_set_tag")]
     pub fn set_tag(&mut self, tag: i8) {
         unsafe {
@@ -291,6 +574,13 @@ impl Event {
         }
     }
 
+    /// Copy the real time to the event and set [`EventTstampMode`][crate::EventTstampMode].TICK.
+    /// ## `tick_time`
+    /// The tick time of event.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_event_set_tick_time")]
     pub fn set_tick_time(&mut self, tick_time: u32) -> Result<(), glib::Error> {
         unsafe {
@@ -306,6 +596,25 @@ impl Event {
         }
     }
 
+    /// Copy the tick time data to the event, available when [`tstamp_mode()`][Self::tstamp_mode()] is
+    /// [`EventTstampMode`][crate::EventTstampMode].TICK and [`event_type()`][Self::event_type()] results in one of:
+    ///
+    /// - [`EventType`][crate::EventType].USR0
+    /// - [`EventType`][crate::EventType].USR1
+    /// - [`EventType`][crate::EventType].USR2
+    /// - [`EventType`][crate::EventType].USR3
+    /// - [`EventType`][crate::EventType].USR4
+    /// - [`EventType`][crate::EventType].USR5
+    /// - [`EventType`][crate::EventType].USR6
+    /// - [`EventType`][crate::EventType].USR7
+    /// - [`EventType`][crate::EventType].USR8
+    /// - [`EventType`][crate::EventType].USR9
+    /// ## `tick_time`
+    /// The tick time data of event.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_event_set_tick_time_data")]
     pub fn set_tick_time_data(&mut self, tick_time: u32) -> Result<(), glib::Error> {
         unsafe {
@@ -324,6 +633,9 @@ impl Event {
         }
     }
 
+    /// Set the mode of time for the event.
+    /// ## `time_mode`
+    /// A [`EventTimeMode`][crate::EventTimeMode] for the mode of time.
     #[doc(alias = "alsaseq_event_set_time_mode")]
     pub fn set_time_mode(&mut self, time_mode: EventTimeMode) {
         unsafe {

@@ -13,6 +13,18 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// A GObject-derived object to express information of queue.
+    ///
+    /// A [`QueueInfo`][crate::QueueInfo] is a GObject-derived object to express information of queue. The call of
+    /// [`queue_info_by_id()`][crate::queue_info_by_id()] and [`queue_info_by_name()`][crate::queue_info_by_name()] returns the instance of object.
+    /// The call of [`UserClientExtManual::create_queue()`][crate::prelude::UserClientExtManual::create_queue()] and [`UserClientExt::update_queue()`][crate::prelude::UserClientExt::update_queue()] requires the
+    /// instance of object.
+    ///
+    /// The object wraps `struct snd_seq_queue_info` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`QueueInfoExt`][trait@crate::prelude::QueueInfoExt]
     #[doc(alias = "ALSASeqQueueInfo")]
     pub struct QueueInfo(Object<ffi::ALSASeqQueueInfo, ffi::ALSASeqQueueInfoClass>);
 
@@ -24,6 +36,11 @@ glib::wrapper! {
 impl QueueInfo {
     pub const NONE: Option<&'static QueueInfo> = None;
 
+    /// Allocate and return an instance of [`QueueInfo`][crate::QueueInfo].
+    ///
+    /// # Returns
+    ///
+    /// An instance of [`QueueInfo`][crate::QueueInfo].
     #[doc(alias = "alsaseq_queue_info_new")]
     pub fn new() -> QueueInfo {
         unsafe { from_glib_full(ffi::alsaseq_queue_info_new()) }
@@ -36,24 +53,37 @@ impl Default for QueueInfo {
     }
 }
 
+/// Trait containing all [`struct@QueueInfo`] methods.
+///
+/// # Implementors
+///
+/// [`QueueInfo`][struct@crate::QueueInfo]
 pub trait QueueInfoExt: 'static {
+    /// The numeric ID of client which owns the queue, including one of ALSASeqSpecificClientId.
     #[doc(alias = "client-id")]
     fn client_id(&self) -> u8;
 
+    /// The numeric ID of client which owns the queue, including one of ALSASeqSpecificClientId.
     #[doc(alias = "client-id")]
     fn set_client_id(&self, client_id: u8);
 
+    /// Whether to be locked by the other queues or not.
     fn is_locked(&self) -> bool;
 
+    /// Whether to be locked by the other queues or not.
     fn set_locked(&self, locked: bool);
 
+    /// The name of queue.
     fn name(&self) -> Option<glib::GString>;
 
+    /// The name of queue.
     fn set_name(&self, name: Option<&str>);
 
+    /// The numeric ID of queue. An entry of ALSASeqSpecificQueueId is available as well.
     #[doc(alias = "queue-id")]
     fn queue_id(&self) -> u8;
 
+    /// The numeric ID of queue. An entry of ALSASeqSpecificQueueId is available as well.
     #[doc(alias = "queue-id")]
     fn set_queue_id(&self, queue_id: u8);
 

@@ -12,20 +12,28 @@ use glib::StaticType;
 use glib::Type;
 use std::fmt;
 
+/// A set of error code for [`glib::Error`][crate::glib::Error] with
+/// [`CardError`][crate::CardError] domain.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSACtlCardError")]
 pub enum CardError {
+    /// The system call failed.
     #[doc(alias = "ALSACTL_CARD_ERROR_FAILED")]
     Failed,
+    /// The card associated to the instance is in disconnect state.
     #[doc(alias = "ALSACTL_CARD_ERROR_DISCONNECTED")]
     Disconnected,
+    /// The control element not found in the card.
     #[doc(alias = "ALSACTL_CARD_ERROR_ELEM_NOT_FOUND")]
     ElemNotFound,
+    /// The operation is not supported by the control element.
     #[doc(alias = "ALSACTL_CARD_ERROR_ELEM_NOT_SUPPORTED")]
     ElemNotSupported,
+    /// The control element is owned by the other process.
     #[doc(alias = "ALSACTL_CARD_ERROR_ELEM_OWNED")]
     ElemOwned,
+    /// The control element already exists.
     #[doc(alias = "ALSACTL_CARD_ERROR_ELEM_EXIST")]
     ElemExist,
     #[doc(hidden)]
@@ -136,22 +144,30 @@ impl ToValue for CardError {
     }
 }
 
+/// A set of enumerations for interface of element.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSACtlElemIfaceType")]
 pub enum ElemIfaceType {
+    /// The element has effects to whole the sound card.
     #[doc(alias = "ALSACTL_ELEM_IFACE_TYPE_CARD")]
     Card,
+    /// The element has effects to hwdep device.
     #[doc(alias = "ALSACTL_ELEM_IFACE_TYPE_HWDEP")]
     Hwdep,
+    /// The element has effects to mixer device.
     #[doc(alias = "ALSACTL_ELEM_IFACE_TYPE_MIXER")]
     Mixer,
+    /// The element has effects to PCM device.
     #[doc(alias = "ALSACTL_ELEM_IFACE_TYPE_PCM")]
     Pcm,
+    /// The element has effects to Rawmidi device.
     #[doc(alias = "ALSACTL_ELEM_IFACE_TYPE_RAWMIDI")]
     Rawmidi,
+    /// The element has effects to Timer device.
     #[doc(alias = "ALSACTL_ELEM_IFACE_TYPE_TIMER")]
     Timer,
+    /// The element has effects to Sequencer device.
     #[doc(alias = "ALSACTL_ELEM_IFACE_TYPE_SEQUENCER")]
     Sequencer,
     #[doc(hidden)]
@@ -243,22 +259,30 @@ impl ToValue for ElemIfaceType {
     }
 }
 
+/// A set of enumerations for type of element.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSACtlElemType")]
 pub enum ElemType {
+    /// Unudentified type.
     #[doc(alias = "ALSACTL_ELEM_TYPE_NONE")]
     None,
+    /// The element has boolean values.
     #[doc(alias = "ALSACTL_ELEM_TYPE_BOOLEAN")]
     Boolean,
+    /// The element has integer values.
     #[doc(alias = "ALSACTL_ELEM_TYPE_INTEGER")]
     Integer,
+    /// The element has values for enumerated labels.
     #[doc(alias = "ALSACTL_ELEM_TYPE_ENUMERATED")]
     Enumerated,
+    /// The element has byte values.
     #[doc(alias = "ALSACTL_ELEM_TYPE_BYTES")]
     Bytes,
+    /// The element has parameters of IEC 60958.
     #[doc(alias = "ALSACTL_ELEM_TYPE_IEC60958")]
     Iec60958,
+    /// The element has 64 bit integer values.
     #[doc(alias = "ALSACTL_ELEM_TYPE_INTEGER64")]
     Integer64,
     #[doc(hidden)]
@@ -350,10 +374,12 @@ impl ToValue for ElemType {
     }
 }
 
+/// A set of enumerations for the type of event.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSACtlEventType")]
 pub enum EventType {
+    /// The event is related to any element.
     #[doc(alias = "ALSACTL_EVENT_TYPE_ELEM")]
     Elem,
     #[doc(hidden)]

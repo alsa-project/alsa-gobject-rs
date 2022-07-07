@@ -12,12 +12,16 @@ use glib::Type;
 use std::fmt;
 
 bitflags! {
+    /// A set of flags for attributes of event filter.
     #[doc(alias = "ALSASeqFilterAttrFlag")]
     pub struct FilterAttrFlag: u32 {
+        /// The client is going to handle broadcast events.
         #[doc(alias = "ALSASEQ_FILTER_ATTR_FLAG_BROADCAST")]
         const BROADCAST = ffi::ALSASEQ_FILTER_ATTR_FLAG_BROADCAST as u32;
+        /// The client is going to handle multicast events.
         #[doc(alias = "ALSASEQ_FILTER_ATTR_FLAG_MULTICAST")]
         const MULTICAST = ffi::ALSASEQ_FILTER_ATTR_FLAG_MULTICAST as u32;
+        /// The client is going to handle bounce events.
         #[doc(alias = "ALSASEQ_FILTER_ATTR_FLAG_BOUNCE")]
         const BOUNCE = ffi::ALSASEQ_FILTER_ATTR_FLAG_BOUNCE as u32;
     }
@@ -78,30 +82,43 @@ impl ToValue for FilterAttrFlag {
 }
 
 bitflags! {
+    /// A set of flags for the attributes of port.
     #[doc(alias = "ALSASeqPortAttrFlag")]
     pub struct PortAttrFlag: u32 {
+        /// For hardware specific messages.
         #[doc(alias = "ALSASEQ_PORT_ATTR_FLAG_SPECIFIC")]
         const SPECIFIC = ffi::ALSASEQ_PORT_ATTR_FLAG_SPECIFIC as u32;
+        /// For generic MIDI messages.
         #[doc(alias = "ALSASEQ_PORT_ATTR_FLAG_MIDI_GENERIC")]
         const MIDI_GENERIC = ffi::ALSASEQ_PORT_ATTR_FLAG_MIDI_GENERIC as u32;
+        /// For General MIDI comatible messages.
         #[doc(alias = "ALSASEQ_PORT_ATTR_FLAG_MIDI_GM")]
         const MIDI_GM = ffi::ALSASEQ_PORT_ATTR_FLAG_MIDI_GM as u32;
+        /// For GS compatible messages.
         #[doc(alias = "ALSASEQ_PORT_ATTR_FLAG_MIDI_GS")]
         const MIDI_GS = ffi::ALSASEQ_PORT_ATTR_FLAG_MIDI_GS as u32;
+        /// For XG compatible messages.
         #[doc(alias = "ALSASEQ_PORT_ATTR_FLAG_MIDI_XG")]
         const MIDI_XG = ffi::ALSASEQ_PORT_ATTR_FLAG_MIDI_XG as u32;
+        /// For MT-32 compatible messages.
         #[doc(alias = "ALSASEQ_PORT_ATTR_FLAG_MIDI_MT32")]
         const MIDI_MT32 = ffi::ALSASEQ_PORT_ATTR_FLAG_MIDI_MT32 as u32;
+        /// For General MIDI 2 compatible messages.
         #[doc(alias = "ALSASEQ_PORT_ATTR_FLAG_MIDI_GM2")]
         const MIDI_GM2 = ffi::ALSASEQ_PORT_ATTR_FLAG_MIDI_GM2 as u32;
+        /// The port on any hardware.
         #[doc(alias = "ALSASEQ_PORT_ATTR_FLAG_HARDWARE")]
         const HARDWARE = ffi::ALSASEQ_PORT_ATTR_FLAG_HARDWARE as u32;
+        /// The port on any software.
         #[doc(alias = "ALSASEQ_PORT_ATTR_FLAG_SOFTWARE")]
         const SOFTWARE = ffi::ALSASEQ_PORT_ATTR_FLAG_SOFTWARE as u32;
+        /// The port to generate sound.
         #[doc(alias = "ALSASEQ_PORT_ATTR_FLAG_SYNTHESIZER")]
         const SYNTHESIZER = ffi::ALSASEQ_PORT_ATTR_FLAG_SYNTHESIZER as u32;
+        /// The port connects to the other devices.
         #[doc(alias = "ALSASEQ_PORT_ATTR_FLAG_PORT")]
         const PORT = ffi::ALSASEQ_PORT_ATTR_FLAG_PORT as u32;
+        /// The port on any application such as sequencer and editor.
         #[doc(alias = "ALSASEQ_PORT_ATTR_FLAG_APPLICATION")]
         const APPLICATION = ffi::ALSASEQ_PORT_ATTR_FLAG_APPLICATION as u32;
     }
@@ -162,18 +179,25 @@ impl ToValue for PortAttrFlag {
 }
 
 bitflags! {
+    /// A set of flags for the capabilities of port.
     #[doc(alias = "ALSASeqPortCapFlag")]
     pub struct PortCapFlag: u32 {
+        /// Any message can be read from the port.
         #[doc(alias = "ALSASEQ_PORT_CAP_FLAG_READ")]
         const READ = ffi::ALSASEQ_PORT_CAP_FLAG_READ as u32;
+        /// Any message can be written to the port.
         #[doc(alias = "ALSASEQ_PORT_CAP_FLAG_WRITE")]
         const WRITE = ffi::ALSASEQ_PORT_CAP_FLAG_WRITE as u32;
+        /// Any messages can be read from/written to the port simultaneously.
         #[doc(alias = "ALSASEQ_PORT_CAP_FLAG_DUPLEX")]
         const DUPLEX = ffi::ALSASEQ_PORT_CAP_FLAG_DUPLEX as u32;
+        /// The data of subscription can be read from the port.
         #[doc(alias = "ALSASEQ_PORT_CAP_FLAG_SUBS_READ")]
         const SUBS_READ = ffi::ALSASEQ_PORT_CAP_FLAG_SUBS_READ as u32;
+        /// The data of subscription can be written to the port.
         #[doc(alias = "ALSASEQ_PORT_CAP_FLAG_SUBS_WRITE")]
         const SUBS_WRITE = ffi::ALSASEQ_PORT_CAP_FLAG_SUBS_WRITE as u32;
+        /// Only owners of the port can maintain subscription.
         #[doc(alias = "ALSASEQ_PORT_CAP_FLAG_NO_EXPORT")]
         const NO_EXPORT = ffi::ALSASEQ_PORT_CAP_FLAG_NO_EXPORT as u32;
     }
@@ -234,26 +258,39 @@ impl ToValue for PortCapFlag {
 }
 
 bitflags! {
+    /// A set of flags of the mode of removal event.
     #[doc(alias = "ALSASeqRemoveFilterFlag")]
     pub struct RemoveFilterFlag: u32 {
+        /// Flush events in input queues.
         #[doc(alias = "ALSASEQ_REMOVE_FILTER_FLAG_INPUT")]
         const INPUT = ffi::ALSASEQ_REMOVE_FILTER_FLAG_INPUT as u32;
+        /// Flush events in output queues.
         #[doc(alias = "ALSASEQ_REMOVE_FILTER_FLAG_OUTPUT")]
         const OUTPUT = ffi::ALSASEQ_REMOVE_FILTER_FLAG_OUTPUT as u32;
+        /// Flush events towards the given destination.
         #[doc(alias = "ALSASEQ_REMOVE_FILTER_FLAG_DEST")]
         const DEST = ffi::ALSASEQ_REMOVE_FILTER_FLAG_DEST as u32;
+        /// Flush events with the given channel, available for
+        ///                                              NOTE, NOTEON, NOTEOFF, KEYPRESS, CONTROLLER, PGMCHANGE, CHANPRESS,
+        ///                                              PITCHBEND, CONTROL14, NONREGPARAM, REGPARAM.
         #[doc(alias = "ALSASEQ_REMOVE_FILTER_FLAG_DEST_CHANNEL")]
         const DEST_CHANNEL = ffi::ALSASEQ_REMOVE_FILTER_FLAG_DEST_CHANNEL as u32;
+        /// Flush events scheduled before the given time.
         #[doc(alias = "ALSASEQ_REMOVE_FILTER_FLAG_TIME_BEFORE")]
         const TIME_BEFORE = ffi::ALSASEQ_REMOVE_FILTER_FLAG_TIME_BEFORE as u32;
+        /// Flush events scheduled after the given time.
         #[doc(alias = "ALSASEQ_REMOVE_FILTER_FLAG_TIME_AFTER")]
         const TIME_AFTER = ffi::ALSASEQ_REMOVE_FILTER_FLAG_TIME_AFTER as u32;
+        /// The given time is for tick time.
         #[doc(alias = "ALSASEQ_REMOVE_FILTER_FLAG_TIME_TICK")]
         const TIME_TICK = ffi::ALSASEQ_REMOVE_FILTER_FLAG_TIME_TICK as u32;
+        /// Flush events with the type.
         #[doc(alias = "ALSASEQ_REMOVE_FILTER_FLAG_EVENT_TYPE")]
         const EVENT_TYPE = ffi::ALSASEQ_REMOVE_FILTER_FLAG_EVENT_TYPE as u32;
+        /// Flush events except for NOTEOFF.
         #[doc(alias = "ALSASEQ_REMOVE_FILTER_FLAG_IGNORE_OFF")]
         const IGNORE_OFF = ffi::ALSASEQ_REMOVE_FILTER_FLAG_IGNORE_OFF as u32;
+        /// Flush events with the given tag.
         #[doc(alias = "ALSASEQ_REMOVE_FILTER_FLAG_TAG_MATCH")]
         const TAG_MATCH = ffi::ALSASEQ_REMOVE_FILTER_FLAG_TAG_MATCH as u32;
     }

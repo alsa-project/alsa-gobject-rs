@@ -49,6 +49,7 @@ mod flags;
 pub use self::flags::ElemAccessFlag;
 pub use self::flags::ElemEventMask;
 
+/// Functions callable without instantiation.
 pub mod functions;
 
 #[doc(hidden)]

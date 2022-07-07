@@ -8,6 +8,11 @@ use glib::translate::*;
 use std::mem;
 
 glib::wrapper! {
+    /// A boxed object to express event of timer with real time.
+    ///
+    /// A [`RealTimeEvent`][crate::RealTimeEvent] includes real time at which the event is queued.
+    ///
+    /// The object wraps `struct snd_timer_tread` in UAPI of Linux sound subsystem.
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
     pub struct RealTimeEvent(Boxed<ffi::ALSATimerRealTimeEvent>);
 
@@ -19,6 +24,13 @@ glib::wrapper! {
 }
 
 impl RealTimeEvent {
+    /// Get the kind of event for the real time event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `event`
+    /// The type of real time event, one of [`RealTimeEventType`][crate::RealTimeEventType].
     #[doc(alias = "alsatimer_real_time_event_get_event")]
     #[doc(alias = "get_event")]
     pub fn event(&self) -> RealTimeEventType {
@@ -30,6 +42,13 @@ impl RealTimeEvent {
         }
     }
 
+    /// Get the value depending on the type of real time event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `val`
+    /// The value depending on the type of timestamp event.
     #[doc(alias = "alsatimer_real_time_event_get_val")]
     #[doc(alias = "get_val")]
     pub fn val(&self) -> u32 {

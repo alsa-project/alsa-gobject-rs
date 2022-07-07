@@ -12,6 +12,7 @@ use glib::StaticType;
 use glib::Type;
 use std::fmt;
 
+/// A set of enumerations for the direction of stream.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSARawmidiStreamDirection")]
@@ -94,6 +95,8 @@ impl ToValue for StreamDirection {
     }
 }
 
+/// A set of error code for [`glib::Error`][crate::glib::Error] with
+/// [`StreamPairError`][crate::StreamPairError] domain.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSARawmidiStreamPairError")]

@@ -1,10 +1,27 @@
 // SPDX-License-Identifier: MIT
 use super::*;
 
+/// Trait containing the rest of [`struct@ClientInfo`] methods.
 pub trait ClientInfoExtManual {
+    /// Get the list of type of events configured to be listen.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
+    ///
+    /// ## `event_types`
+    /// The array with elements for the type of event to listen.
     #[doc(alias = "alsaseq_client_info_get_event_filter")]
     #[doc(alias = "get_event_filter")]
     fn event_filter(&self) -> Result<Vec<EventType>, glib::Error>;
+
+    /// Set the list of type of events configured to be listen.
+    /// ## `event_types`
+    /// The array with elements for the type of event to listen.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_client_info_set_event_filter")]
     fn set_event_filter(&self, entries: &[EventType]) -> Result<(), glib::Error>;
 }

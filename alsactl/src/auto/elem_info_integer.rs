@@ -15,6 +15,15 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// An object to express information for integer type of element.
+    ///
+    /// A `GObject::Object` derived object class for integer type of element.
+    ///
+    /// The object wraps `struct snd_ctl_elem_info` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`ElemInfoIntegerExt`][trait@crate::prelude::ElemInfoIntegerExt], [`ElemInfoCommonExt`][trait@crate::prelude::ElemInfoCommonExt], [`ElemInfoSingleArrayExt`][trait@crate::prelude::ElemInfoSingleArrayExt]
     #[doc(alias = "ALSACtlElemInfoInteger")]
     pub struct ElemInfoInteger(Object<ffi::ALSACtlElemInfoInteger, ffi::ALSACtlElemInfoIntegerClass>) @implements ElemInfoCommon, ElemInfoSingleArray;
 
@@ -26,6 +35,11 @@ glib::wrapper! {
 impl ElemInfoInteger {
     pub const NONE: Option<&'static ElemInfoInteger> = None;
 
+    /// Allocate and return an instance of [`ElemInfoInteger`][crate::ElemInfoInteger].
+    ///
+    /// # Returns
+    ///
+    /// An instance of [`ElemInfoInteger`][crate::ElemInfoInteger].
     #[doc(alias = "alsactl_elem_info_integer_new")]
     pub fn new() -> ElemInfoInteger {
         unsafe { from_glib_full(ffi::alsactl_elem_info_integer_new()) }
@@ -38,22 +52,33 @@ impl Default for ElemInfoInteger {
     }
 }
 
+/// Trait containing all [`struct@ElemInfoInteger`] methods.
+///
+/// # Implementors
+///
+/// [`ElemInfoInteger`][struct@crate::ElemInfoInteger]
 pub trait ElemInfoIntegerExt: 'static {
+    /// The maximum value of element in value array for the element.
     #[doc(alias = "value-max")]
     fn value_max(&self) -> i32;
 
+    /// The maximum value of element in value array for the element.
     #[doc(alias = "value-max")]
     fn set_value_max(&self, value_max: i32);
 
+    /// The minimum value of element in value array for the element.
     #[doc(alias = "value-min")]
     fn value_min(&self) -> i32;
 
+    /// The minimum value of element in value array for the element.
     #[doc(alias = "value-min")]
     fn set_value_min(&self, value_min: i32);
 
+    /// The step value of element in value array for the element.
     #[doc(alias = "value-step")]
     fn value_step(&self) -> i32;
 
+    /// The step value of element in value array for the element.
     #[doc(alias = "value-step")]
     fn set_value_step(&self, value_step: i32);
 

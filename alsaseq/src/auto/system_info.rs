@@ -13,6 +13,16 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// A GObject-derived object to express information of ALSA Sequencer.
+    ///
+    /// A [`SystemInfo`][crate::SystemInfo] is a GObject-derived object to express information of ALSA Sequencer. The
+    /// call of [`system_info()`][crate::system_info()] returns the instance of object.
+    ///
+    /// The object wraps `struct snd_seq_system_info` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`SystemInfoExt`][trait@crate::prelude::SystemInfoExt]
     #[doc(alias = "ALSASeqSystemInfo")]
     pub struct SystemInfo(Object<ffi::ALSASeqSystemInfo, ffi::ALSASeqSystemInfoClass>);
 
@@ -25,22 +35,33 @@ impl SystemInfo {
     pub const NONE: Option<&'static SystemInfo> = None;
 }
 
+/// Trait containing all [`struct@SystemInfo`] methods.
+///
+/// # Implementors
+///
+/// [`SystemInfo`][struct@crate::SystemInfo]
 pub trait SystemInfoExt: 'static {
+    /// The current number of clients.
     #[doc(alias = "current-client-count")]
     fn current_client_count(&self) -> i32;
 
+    /// The current number of queues.
     #[doc(alias = "current-queue-count")]
     fn current_queue_count(&self) -> i32;
 
+    /// The maximum number of channels.
     #[doc(alias = "maximum-channel-count")]
     fn maximum_channel_count(&self) -> i32;
 
+    /// The maximum number of clients.
     #[doc(alias = "maximum-client-count")]
     fn maximum_client_count(&self) -> i32;
 
+    /// The maximum number of ports.
     #[doc(alias = "maximum-port-count")]
     fn maximum_port_count(&self) -> i32;
 
+    /// The maximum number of available queues.
     #[doc(alias = "maximum-queue-count")]
     fn maximum_queue_count(&self) -> i32;
 

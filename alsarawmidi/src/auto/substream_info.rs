@@ -15,6 +15,17 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// A GObject-derived object to express information of substream.
+    ///
+    /// A [`SubstreamInfo`][crate::SubstreamInfo] is a GObject-derived object to express information of substream
+    /// attached to the pair of streams. The call of [`StreamPairExt::substream_info()`][crate::prelude::StreamPairExt::substream_info()] or
+    /// [`StreamPairExt::substream_info()`][crate::prelude::StreamPairExt::substream_info()] return the instance of object.
+    ///
+    /// The object wraps `struct snd_rawmidi_info` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`SubstreamInfoExt`][trait@crate::prelude::SubstreamInfoExt]
     #[doc(alias = "ALSARawmidiSubstreamInfo")]
     pub struct SubstreamInfo(Object<ffi::ALSARawmidiSubstreamInfo, ffi::ALSARawmidiSubstreamInfoClass>);
 
@@ -27,27 +38,41 @@ impl SubstreamInfo {
     pub const NONE: Option<&'static SubstreamInfo> = None;
 }
 
+/// Trait containing all [`struct@SubstreamInfo`] methods.
+///
+/// # Implementors
+///
+/// [`SubstreamInfo`][struct@crate::SubstreamInfo]
 pub trait SubstreamInfoExt: 'static {
+    /// The numeric identifier of sound card.
     #[doc(alias = "card-id")]
     fn card_id(&self) -> i32;
 
+    /// The numeric identifier of rawmidi device.
     #[doc(alias = "device-id")]
     fn device_id(&self) -> u32;
 
+    /// The direction of stream, one of [`StreamDirection`][crate::StreamDirection].
     fn direction(&self) -> StreamDirection;
 
+    /// The information flags of rawmidi device with flags of [`StreamPairInfoFlag`][crate::StreamPairInfoFlag].
     fn flags(&self) -> StreamPairInfoFlag;
 
+    /// The string identifier of rawmidi device.
     fn id(&self) -> Option<glib::GString>;
 
+    /// The name of rawmidi device.
     fn name(&self) -> Option<glib::GString>;
 
+    /// The numeric identifier of subdevice or rawmidi device.
     #[doc(alias = "subdevice-id")]
     fn subdevice_id(&self) -> u32;
 
+    /// The name of subdevice for the direction and the `property::SubstreamInfo::subdevice-id`.
     #[doc(alias = "subdevice-name")]
     fn subdevice_name(&self) -> Option<glib::GString>;
 
+    /// The current number of available subdevices on the rawmidi device for the direction.
     #[doc(alias = "subdevices-avail")]
     fn subdevices_avail(&self) -> u32;
 

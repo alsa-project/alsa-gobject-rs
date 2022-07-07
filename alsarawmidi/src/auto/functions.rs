@@ -9,6 +9,18 @@ use glib::translate::*;
 use std::mem;
 use std::ptr;
 
+/// Get the list of numeric identifier for available rawmidi devices of sound card.
+///
+/// Nodes under sound subsystem in sysfs are used to gather the information.
+/// ## `card_id`
+/// The numeric identifier of sound card.
+///
+/// # Returns
+///
+/// [`true`] when the overall operation finishes successfully, else [`false`].
+///
+/// ## `entries`
+/// The list of numeric identifier for rawmidi device.
 #[doc(alias = "alsarawmidi_get_device_id_list")]
 #[doc(alias = "get_device_id_list")]
 pub fn device_id_list(card_id: u32) -> Result<Vec<u32>, glib::Error> {
@@ -34,6 +46,20 @@ pub fn device_id_list(card_id: u32) -> Result<Vec<u32>, glib::Error> {
     }
 }
 
+/// Allocate devnode string for rawmidi device and return it when exists.
+///
+/// Nodes under sound subsystem in sysfs are used to gather the information.
+/// ## `card_id`
+/// The numeridcal identifier of sound card.
+/// ## `device_id`
+/// The numeric identifier of rawmidi device for the sound card.
+///
+/// # Returns
+///
+/// [`true`] when the overall operation finishes successfully, else [`false`].
+///
+/// ## `devnode`
+/// The string for devnode of rawmidi device.
 #[doc(alias = "alsarawmidi_get_rawmidi_devnode")]
 #[doc(alias = "get_rawmidi_devnode")]
 pub fn rawmidi_devnode(card_id: u32, device_id: u32) -> Result<glib::GString, glib::Error> {
@@ -51,6 +77,20 @@ pub fn rawmidi_devnode(card_id: u32, device_id: u32) -> Result<glib::GString, gl
     }
 }
 
+/// Allocate sysname for rawmidi device and return it when it exists.
+///
+/// Nodes under sound subsystem in sysfs are used to gather the information.
+/// ## `card_id`
+/// The numeridcal identifier of sound card.
+/// ## `device_id`
+/// The numeric identifier of rawmidi device for the sound card.
+///
+/// # Returns
+///
+/// [`true`] when the overall operation finishes successfully, else [`false`].
+///
+/// ## `sysname`
+/// The string for sysname of rawmidi device.
 #[doc(alias = "alsarawmidi_get_rawmidi_sysname")]
 #[doc(alias = "get_rawmidi_sysname")]
 pub fn rawmidi_sysname(card_id: u32, device_id: u32) -> Result<glib::GString, glib::Error> {
@@ -68,6 +108,24 @@ pub fn rawmidi_sysname(card_id: u32, device_id: u32) -> Result<glib::GString, gl
     }
 }
 
+/// Get the list of numeric identifier for subdevices belongs to the numerical identifier of card,
+/// device, and the direction.
+///
+/// The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call with
+/// `SNDRV_CTL_IOCTL_RAWMIDI_INFO` command for ALSA control character device.
+/// ## `card_id`
+/// The numeric value for sound card to query.
+/// ## `device_id`
+/// The numeric value of rawmidi device to query.
+/// ## `direction`
+/// The direction of stream to query, one of [`StreamDirection`][crate::StreamDirection].
+///
+/// # Returns
+///
+/// [`true`] when the overall operation finishes successfully, else [`false`].
+///
+/// ## `entries`
+/// The list of numeric identifier of subdevice.
 #[doc(alias = "alsarawmidi_get_subdevice_id_list")]
 #[doc(alias = "get_subdevice_id_list")]
 pub fn subdevice_id_list(
@@ -99,6 +157,26 @@ pub fn subdevice_id_list(
     }
 }
 
+/// Get the information of substream pointed by the numeric identifier of card, device, subdevice,
+/// and the direction.
+///
+/// The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call with
+/// `SNDRV_CTL_IOCTL_RAWMIDI_INFO` command for ALSA control character device.
+/// ## `card_id`
+/// The numeric value for sound card to query.
+/// ## `device_id`
+/// The numeric value of rawmidi device to query.
+/// ## `direction`
+/// The direction of stream, one of [`StreamDirection`][crate::StreamDirection].
+/// ## `subdevice_id`
+/// The numeric value of subdevice in rawmidi device.
+///
+/// # Returns
+///
+/// [`true`] when the overall operation finishes successfully, else [`false`].
+///
+/// ## `substream_info`
+/// The information of substream for the subdevice.
 #[doc(alias = "alsarawmidi_get_substream_info")]
 #[doc(alias = "get_substream_info")]
 pub fn substream_info(

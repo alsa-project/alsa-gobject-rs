@@ -2,6 +2,13 @@
 use super::*;
 
 impl EventCntr {
+    /// Retrieve `GLib::List` including batch of deserialized [`Event`][crate::Event].
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `events`
+    /// The list of deserialized events.
     #[doc(alias = "alsaseq_event_cntr_deserialize")]
     pub fn deserialize(&self) -> Vec<Event> {
         unsafe {

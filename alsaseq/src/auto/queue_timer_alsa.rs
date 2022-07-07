@@ -14,6 +14,14 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// An object to express queue timer specific to instance in ALSA Timer.
+    ///
+    /// A `GObject::Object` derived object class for queue timer specific to any instance in ALSA
+    /// Timer.
+    ///
+    /// # Implements
+    ///
+    /// [`QueueTimerAlsaExt`][trait@crate::prelude::QueueTimerAlsaExt], [`QueueTimerCommonExt`][trait@crate::prelude::QueueTimerCommonExt]
     #[doc(alias = "ALSASeqQueueTimerAlsa")]
     pub struct QueueTimerAlsa(Object<ffi::ALSASeqQueueTimerAlsa, ffi::ALSASeqQueueTimerAlsaClass>) @implements QueueTimerCommon;
 
@@ -25,6 +33,11 @@ glib::wrapper! {
 impl QueueTimerAlsa {
     pub const NONE: Option<&'static QueueTimerAlsa> = None;
 
+    /// Allocate and return an instance of [`QueueTimerAlsa`][crate::QueueTimerAlsa].
+    ///
+    /// # Returns
+    ///
+    /// An instance of [`QueueTimerAlsa`][crate::QueueTimerAlsa].
     #[doc(alias = "alsaseq_queue_timer_alsa_new")]
     pub fn new() -> QueueTimerAlsa {
         unsafe { from_glib_full(ffi::alsaseq_queue_timer_alsa_new()) }
@@ -37,16 +50,25 @@ impl Default for QueueTimerAlsa {
     }
 }
 
+/// Trait containing all [`struct@QueueTimerAlsa`] methods.
+///
+/// # Implementors
+///
+/// [`QueueTimerAlsa`][struct@crate::QueueTimerAlsa]
 pub trait QueueTimerAlsaExt: 'static {
+    /// The identifier of associated timer instance in ALSA Timer.
     #[doc(alias = "device-id")]
     fn device_id(&self) -> Option<alsatimer::DeviceId>;
 
+    /// The identifier of associated timer instance in ALSA Timer.
     #[doc(alias = "device-id")]
     fn set_device_id(&self, device_id: Option<&alsatimer::DeviceId>);
 
+    /// The number of ticks as resolution of timer.
     #[doc(alias = "resolution-ticks")]
     fn resolution_ticks(&self) -> u32;
 
+    /// The number of ticks as resolution of timer.
     #[doc(alias = "resolution-ticks")]
     fn set_resolution_ticks(&self, resolution_ticks: u32);
 

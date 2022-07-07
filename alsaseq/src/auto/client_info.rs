@@ -15,6 +15,17 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// A GObject-derived object to express information of client.
+    ///
+    /// A [`ClientInfo`][crate::ClientInfo] is a GObject-derived object to express information of client. The call
+    /// of [`client_info()`][crate::client_info()] returns the instance of object.  The call of
+    /// [`UserClientExt::set_info()`][crate::prelude::UserClientExt::set_info()] and [`UserClientExtManual::info()`][crate::prelude::UserClientExtManual::info()] require the instance of object.
+    ///
+    /// The object wraps `struct snd_seq_client_info` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`ClientInfoExt`][trait@crate::prelude::ClientInfoExt], [`ClientInfoExtManual`][trait@crate::prelude::ClientInfoExtManual]
     #[doc(alias = "ALSASeqClientInfo")]
     pub struct ClientInfo(Object<ffi::ALSASeqClientInfo, ffi::ALSASeqClientInfoClass>);
 
@@ -26,6 +37,11 @@ glib::wrapper! {
 impl ClientInfo {
     pub const NONE: Option<&'static ClientInfo> = None;
 
+    /// Allocate and return an instance of [`ClientInfo`][crate::ClientInfo].
+    ///
+    /// # Returns
+    ///
+    /// An instance of [`ClientInfo`][crate::ClientInfo].
     #[doc(alias = "alsaseq_client_info_new")]
     pub fn new() -> ClientInfo {
         unsafe { from_glib_full(ffi::alsaseq_client_info_new()) }
@@ -38,47 +54,69 @@ impl Default for ClientInfo {
     }
 }
 
+/// Trait containing the part of [`struct@ClientInfo`] methods.
+///
+/// # Implementors
+///
+/// [`ClientInfo`][struct@crate::ClientInfo]
 pub trait ClientInfoExt: 'static {
+    /// The numeric ID of sound card. Available in Linux kernel 4.6.0 or later.
     #[doc(alias = "card-id")]
     fn card_id(&self) -> i32;
 
+    /// The numeric ID of sound card. Available in Linux kernel 4.6.0 or later.
     #[doc(alias = "card-id")]
     fn set_card_id(&self, card_id: i32);
 
+    /// The numeric ID of client. One of [`SpecificClientId`][crate::SpecificClientId] is available as well as any
+    /// numeric value.
     #[doc(alias = "client-id")]
     fn client_id(&self) -> u8;
 
+    /// The numeric ID of client. One of [`SpecificClientId`][crate::SpecificClientId] is available as well as any
+    /// numeric value.
     #[doc(alias = "client-id")]
     fn set_client_id(&self, client_id: u8);
 
+    /// The attributes for event filter.
     #[doc(alias = "filter-attributes")]
     fn filter_attributes(&self) -> FilterAttrFlag;
 
+    /// The attributes for event filter.
     #[doc(alias = "filter-attributes")]
     fn set_filter_attributes(&self, filter_attributes: FilterAttrFlag);
 
+    /// The number of lost events.
     #[doc(alias = "lost-count")]
     fn lost_count(&self) -> i32;
 
+    /// The name of client.
     fn name(&self) -> Option<glib::GString>;
 
+    /// The name of client.
     fn set_name(&self, name: Option<&str>);
 
+    /// The number of ports opened by the client.
     #[doc(alias = "port-count")]
     fn port_count(&self) -> i32;
 
+    /// The process ID for user client, otherwise -1. Available in Linux kernel 4.6.0 or later.
     #[doc(alias = "process-id")]
     fn process_id(&self) -> i64;
 
+    /// The type of client, one of [`ClientType`][crate::ClientType].
     #[doc(alias = "type")]
     fn type_(&self) -> ClientType;
 
+    /// The type of client, one of [`ClientType`][crate::ClientType].
     #[doc(alias = "type")]
     fn set_type(&self, type_: ClientType);
 
+    /// Whether using filter to receive event or not.
     #[doc(alias = "use-filter")]
     fn uses_filter(&self) -> bool;
 
+    /// Whether using filter to receive event or not.
     #[doc(alias = "use-filter")]
     fn set_use_filter(&self, use_filter: bool);
 

@@ -8,6 +8,18 @@ use glib::translate::*;
 use std::mem;
 use std::ptr;
 
+/// Get the list of numeric ID for available hwdep devices of sound card.
+///
+/// Nodes under sound subsystem in sysfs are used to gather the information.
+/// ## `card_id`
+/// The numeric ID of sound card.
+///
+/// # Returns
+///
+/// [`true`] when the overall operation finishes successfully, else [`false`].
+///
+/// ## `entries`
+/// The list of numeric ID for hwdep device.
 #[doc(alias = "alsahwdep_get_device_id_list")]
 #[doc(alias = "get_device_id_list")]
 pub fn device_id_list(card_id: u32) -> Result<Vec<u32>, glib::Error> {
@@ -33,6 +45,22 @@ pub fn device_id_list(card_id: u32) -> Result<Vec<u32>, glib::Error> {
     }
 }
 
+/// Get the information according to given numeric IDs for card and device.
+///
+/// The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call
+/// with `SNDRV_CTL_IOCTL_HWDEP_INFO` command for ALSA control character device.</doc>
+///
+/// ## `card_id`
+/// The numeric identifier of sound card.
+///
+/// ## `device_id`
+/// The numeric identifier of hwdep device in the sound card
+///
+/// # Returns
+///
+/// [`true`] when the overall operation finishes successfully, else [`false`].
+/// ## `device_info`
+/// The information of the device.
 #[doc(alias = "alsahwdep_get_device_info")]
 #[doc(alias = "get_device_info")]
 pub fn device_info(card_id: u32, device_id: u32) -> Result<DeviceInfo, glib::Error> {
@@ -50,6 +78,20 @@ pub fn device_info(card_id: u32, device_id: u32) -> Result<DeviceInfo, glib::Err
     }
 }
 
+/// Allocate devnode string for hwdep device and return it when exists.
+///
+/// Nodes under sound subsystem in sysfs are used to gather the information.
+/// ## `card_id`
+/// The numeridcal ID of sound card.
+/// ## `device_id`
+/// The numeric ID of hwdep device for the sound card.
+///
+/// # Returns
+///
+/// [`true`] when the overall operation finishes successfully, else [`false`].
+///
+/// ## `devnode`
+/// The string for devnode of hwdep device.
 #[doc(alias = "alsahwdep_get_hwdep_devnode")]
 #[doc(alias = "get_hwdep_devnode")]
 pub fn hwdep_devnode(card_id: u32, device_id: u32) -> Result<glib::GString, glib::Error> {
@@ -66,6 +108,20 @@ pub fn hwdep_devnode(card_id: u32, device_id: u32) -> Result<glib::GString, glib
     }
 }
 
+/// Allocate sysname for hwdep device and return it when it exists.
+///
+/// Nodes under sound subsystem in sysfs are used to gather the information.
+/// ## `card_id`
+/// The numeridcal ID of sound card.
+/// ## `device_id`
+/// The numeric ID of hwdep device for the sound card.
+///
+/// # Returns
+///
+/// [`true`] when the overall operation finishes successfully, else [`false`].
+///
+/// ## `sysname`
+/// The string for sysname of hwdep device.
 #[doc(alias = "alsahwdep_get_hwdep_sysname")]
 #[doc(alias = "get_hwdep_sysname")]
 pub fn hwdep_sysname(card_id: u32, device_id: u32) -> Result<glib::GString, glib::Error> {

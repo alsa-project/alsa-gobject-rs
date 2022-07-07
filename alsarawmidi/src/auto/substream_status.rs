@@ -13,6 +13,17 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// A GObject-derived object to express status of substream.
+    ///
+    /// A [`SubstreamStatus`][crate::SubstreamStatus] is a GObject-derived object to express status of substream attached
+    /// to the pair of stream. The call of [`StreamPairExtManual::substream_status()`][crate::prelude::StreamPairExtManual::substream_status()] returns the instance
+    /// of object.
+    ///
+    /// The object wraps `struct snd_rawmidi_status` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`SubstreamStatusExt`][trait@crate::prelude::SubstreamStatusExt]
     #[doc(alias = "ALSARawmidiSubstreamStatus")]
     pub struct SubstreamStatus(Object<ffi::ALSARawmidiSubstreamStatus, ffi::ALSARawmidiSubstreamStatusClass>);
 
@@ -24,6 +35,11 @@ glib::wrapper! {
 impl SubstreamStatus {
     pub const NONE: Option<&'static SubstreamStatus> = None;
 
+    /// Allocate and return an instance of [`SubstreamStatus`][crate::SubstreamStatus].
+    ///
+    /// # Returns
+    ///
+    /// An instance of [`SubstreamStatus`][crate::SubstreamStatus].
     #[doc(alias = "alsarawmidi_substream_status_new")]
     pub fn new() -> SubstreamStatus {
         unsafe { from_glib_full(ffi::alsarawmidi_substream_status_new()) }
@@ -36,9 +52,16 @@ impl Default for SubstreamStatus {
     }
 }
 
+/// Trait containing all [`struct@SubstreamStatus`] methods.
+///
+/// # Implementors
+///
+/// [`SubstreamStatus`][struct@crate::SubstreamStatus]
 pub trait SubstreamStatusExt: 'static {
+    /// The size of available space in intermediate buffer.
     fn avail(&self) -> u64;
 
+    /// The count of XRUNs since the last query of status.
     fn xruns(&self) -> u64;
 
     #[doc(alias = "avail")]

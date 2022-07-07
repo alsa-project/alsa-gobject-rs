@@ -18,6 +18,16 @@ use std::mem::transmute;
 use std::ptr;
 
 glib::wrapper! {
+    /// An GObject-derived object to express sound card.
+    ///
+    /// A [`Card`][crate::Card] is a GObject-derived object to express sound card. Applications use the
+    /// instance of object to manipulate functionalities on sound card. After the call of
+    /// [`CardExt::open()`][crate::prelude::CardExt::open()] for the numeric ID of sound card, the object maintains file descriptor till
+    /// object destruction.
+    ///
+    /// # Implements
+    ///
+    /// [`CardExt`][trait@crate::prelude::CardExt], [`CardExtManual`][trait@crate::prelude::CardExtManual]
     #[doc(alias = "ALSACtlCard")]
     pub struct Card(Object<ffi::ALSACtlCard, ffi::ALSACtlCardClass>);
 
@@ -29,6 +39,11 @@ glib::wrapper! {
 impl Card {
     pub const NONE: Option<&'static Card> = None;
 
+    /// Allocate and return an instance of [`Card`][crate::Card].
+    ///
+    /// # Returns
+    ///
+    /// An instance of [`Card`][crate::Card].
     #[doc(alias = "alsactl_card_new")]
     pub fn new() -> Card {
         unsafe { from_glib_full(ffi::alsactl_card_new()) }
@@ -41,26 +56,110 @@ impl Default for Card {
     }
 }
 
+/// Trait containing the part of [`struct@Card`] methods.
+///
+/// # Implementors
+///
+/// [`Card`][struct@crate::Card]
 pub trait CardExt: 'static {
+    /// Allocate [`glib::Source`][crate::glib::Source] structure to handle events from ALSA control character device. In
+    /// each iteration of `GLib::MainContext`, the `read(2)` system call is executed to dispatch
+    /// control event for `signal::Card::handle-elem-event` signal, according to the result of `poll(2)`
+    /// system call.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
+    ///
+    /// ## `gsrc`
+    /// A [`glib::Source`][crate::glib::Source] to handle events from ALSA control character device.
     #[doc(alias = "alsactl_card_create_source")]
     fn create_source(&self) -> Result<glib::Source, glib::Error>;
 
+    /// Get the information of sound card.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_CTL_IOCTL_CARD_INFO` command
+    /// for ALSA control character device.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
+    ///
+    /// ## `card_info`
+    /// A [`Card`][crate::Card]Info for the sound card.
     #[doc(alias = "alsactl_card_get_info")]
     #[doc(alias = "get_info")]
     fn info(&self) -> Result<CardInfo, glib::Error>;
 
+    /// Lock/Unlock indicated element not to be written by the other processes.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_CTL_IOCTL_ELEM_LOCK` and
+    /// `SNDRV_CTL_IOCTL_ELEM_UNLOCK` commands for ALSA control character device.
+    /// ## `elem_id`
+    /// A [`ElemId`][crate::ElemId].
+    /// ## `lock`
+    /// whether to lock or unlock the element.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsactl_card_lock_elem")]
     fn lock_elem(&self, elem_id: &ElemId, lock: bool) -> Result<(), glib::Error>;
 
+    /// Open ALSA control character device for the sound card.
+    ///
+    /// The call of function executes `open(2)` system call for ALSA control character device.
+    /// ## `card_id`
+    /// The numeric ID of sound card.
+    /// ## `open_flag`
+    /// The flag of `open(2)` system call. O_RDONLY is forced to fulfil internally.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsactl_card_open")]
     fn open(&self, card_id: u32, open_flag: i32) -> Result<(), glib::Error>;
 
+    /// Remove user-defined elements pointed by the identifier.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_CTL_IOCTL_ELEM_REMOVE` command
+    /// for ALSA control character device.
+    /// ## `elem_id`
+    /// A [`ElemId`][crate::ElemId].
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsactl_card_remove_elems")]
     fn remove_elems(&self, elem_id: &ElemId) -> Result<(), glib::Error>;
 
+    /// Write the given array of bytes as Type/Length/Value data for element pointed by the identifier.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_CTL_IOCTL_TLV_WRITE` command
+    /// for ALSA control character device.
+    /// ## `elem_id`
+    /// A [`ElemId`][crate::ElemId].
+    /// ## `container`
+    /// The array with qudalets for Type-Length-Value data.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsactl_card_write_elem_tlv")]
     fn write_elem_tlv(&self, elem_id: &ElemId, container: &[u32]) -> Result<(), glib::Error>;
 
+    /// Write given value to element indicated by the given identifier.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_CTL_IOCTL_ELEM_WRITE` command
+    /// for ALSA control character device.
+    /// ## `elem_id`
+    /// A [`ElemId`][crate::ElemId].
+    /// ## `elem_value`
+    /// A derivative of #ALSACtlElemValue.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsactl_card_write_elem_value")]
     fn write_elem_value(
         &self,
@@ -68,13 +167,23 @@ pub trait CardExt: 'static {
         elem_value: &impl IsA<ElemValue>,
     ) -> Result<(), glib::Error>;
 
+    /// The full path to special file of control character device.
     fn devnode(&self) -> Option<glib::GString>;
 
+    /// Whether to be subscribed for event.
     fn is_subscribed(&self) -> bool;
 
+    /// Emitted when the sound card is not available anymore due to unbinding driver or hot
+    /// unplugging. The owner of this object should call `GObject::Object::unref()` as quickly
+    /// as possible to be going to release ALSA control character device.
     #[doc(alias = "handle-disconnection")]
     fn connect_handle_disconnection<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
+    /// Emitted when event occurs for any element.
+    /// ## `elem_id`
+    /// A [`ElemId`][crate::ElemId].
+    /// ## `events`
+    /// A set of [`ElemEventMask`][crate::ElemEventMask].
     #[doc(alias = "handle-elem-event")]
     fn connect_handle_elem_event<F: Fn(&Self, &ElemId, ElemEventMask) + 'static>(
         &self,

@@ -13,6 +13,16 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// A GObject-derived object to express status of timer device.
+    ///
+    /// A [`DeviceStatus`][crate::DeviceStatus] is a GObject-derived object to express status of timer device. The
+    /// call of `get_device_status()` returns the instance of object.
+    ///
+    /// The object wraps 'struct snd_timer_gstatus' in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`DeviceStatusExt`][trait@crate::prelude::DeviceStatusExt]
     #[doc(alias = "ALSATimerDeviceStatus")]
     pub struct DeviceStatus(Object<ffi::ALSATimerDeviceStatus, ffi::ALSATimerDeviceStatusClass>);
 
@@ -24,6 +34,11 @@ glib::wrapper! {
 impl DeviceStatus {
     pub const NONE: Option<&'static DeviceStatus> = None;
 
+    /// Allocate and return an instance of [`DeviceStatus`][crate::DeviceStatus].
+    ///
+    /// # Returns
+    ///
+    /// An instance of [`DeviceStatus`][crate::DeviceStatus].
     #[doc(alias = "alsatimer_device_status_new")]
     pub fn new() -> DeviceStatus {
         unsafe { from_glib_full(ffi::alsatimer_device_status_new()) }
@@ -36,12 +51,20 @@ impl Default for DeviceStatus {
     }
 }
 
+/// Trait containing all [`struct@DeviceStatus`] methods.
+///
+/// # Implementors
+///
+/// [`DeviceStatus`][struct@crate::DeviceStatus]
 pub trait DeviceStatusExt: 'static {
+    /// The current resolution in nano seconds.
     fn resolution(&self) -> u64;
 
+    /// The denominator of current resolution in seconds.
     #[doc(alias = "resolution-denominator")]
     fn resolution_denominator(&self) -> u64;
 
+    /// The numerator of current resolution in seconds.
     #[doc(alias = "resolution-numerator")]
     fn resolution_numerator(&self) -> u64;
 

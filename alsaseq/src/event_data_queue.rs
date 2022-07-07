@@ -2,6 +2,14 @@
 use super::*;
 
 impl EventDataQueue {
+    /// Refer to eight bytes as the parameter of queue event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `bytes`
+    /// The array with eight elements for bytes
+    ///         parameter of the queue event.
     #[doc(alias = "alsaseq_event_data_queue_get_byte_param")]
     #[doc(alias = "get_byte_param")]
     pub fn byte_param(&mut self) -> &[u8; 8] {
@@ -15,6 +23,14 @@ impl EventDataQueue {
         }
     }
 
+    /// Refer to numerator and denominator of fraction for skew as the parameter of queue event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `skew`
+    /// The array with two elements for numerator and
+    ///        denominator of fraction for skew.
     #[doc(alias = "alsaseq_event_data_queue_get_skew_param")]
     #[doc(alias = "get_skew_param")]
     pub fn skew_param(&mut self) -> &[u32; 2] {
@@ -28,6 +44,14 @@ impl EventDataQueue {
         }
     }
 
+    /// Refer to two quadlets as the parameter of queue event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `quadlets`
+    /// The array with two elements for quadlets as
+    ///            the parameter of queue event.
     #[doc(alias = "alsaseq_event_data_queue_get_quadlet_param")]
     #[doc(alias = "get_quadlet_param")]
     pub fn quadlet_param(&mut self) -> &[u32; 2] {
@@ -41,6 +65,10 @@ impl EventDataQueue {
         }
     }
 
+    /// Copy eight bytes from the given buffer as the parameter of queue event.
+    /// ## `bytes`
+    /// The array with eight elements for bytes parameter
+    ///         of the queue event.
     #[doc(alias = "alsaseq_event_data_queue_set_byte_param")]
     pub fn set_byte_param(&mut self, bytes: &[u8; 8]) {
         unsafe {
@@ -48,6 +76,11 @@ impl EventDataQueue {
         }
     }
 
+    /// Copy numerator and denominator of fraction for skew from the given buffer as the parameter of
+    /// queue event.
+    /// ## `skew`
+    /// The array with two elements for numerator and
+    ///        denominator of fraction for skew.
     #[doc(alias = "alsaseq_event_data_queue_set_skew_param")]
     pub fn set_skew_param(&mut self, skew: &[u32; 2]) {
         unsafe {
@@ -55,6 +88,10 @@ impl EventDataQueue {
         }
     }
 
+    /// Set two quadlets from the given buffer as the parameter of queue event.
+    /// ## `quadlets`
+    /// The array with two elements for quadlets as the
+    ///            parameter of queue event.
     #[doc(alias = "alsaseq_event_data_queue_set_quadlet_param")]
     pub fn set_quadlet_param(&mut self, quadlets: &[u32; 2]) {
         unsafe {
@@ -65,6 +102,14 @@ impl EventDataQueue {
         }
     }
 
+    /// Get the real time as parameter of the queue event.
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `real_time`
+    /// The real time as param of the queue
+    ///             event.
     #[doc(alias = "alsaseq_event_data_queue_get_real_time_param")]
     #[doc(alias = "get_real_time_param")]
     pub fn real_time_param(&mut self) -> &[u32; 2] {
@@ -78,6 +123,9 @@ impl EventDataQueue {
         }
     }
 
+    /// Set the real time as parameter of the queue event.
+    /// ## `real_time`
+    /// The real time as param of the queue event.
     #[doc(alias = "alsaseq_event_data_queue_set_real_time_param")]
     pub fn set_real_time_param(&mut self, real_time: &[u32; 2]) {
         unsafe {

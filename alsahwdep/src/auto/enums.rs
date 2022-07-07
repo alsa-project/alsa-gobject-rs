@@ -12,20 +12,27 @@ use glib::StaticType;
 use glib::Type;
 use std::fmt;
 
+/// A set of enumerations for code of [`DeviceCommonError`][crate::DeviceCommonError] domain.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSAHwdepDeviceCommonError")]
 pub enum DeviceCommonError {
+    /// The operation failed due to unspecified reason.
     #[doc(alias = "ALSAHWDEP_DEVICE_COMMON_ERROR_FAILED")]
     Failed,
+    /// The instance is already associated to character device.
     #[doc(alias = "ALSAHWDEP_DEVICE_COMMON_ERROR_IS_OPENED")]
     IsOpened,
+    /// The instance is not associated to character device yet.
     #[doc(alias = "ALSAHWDEP_DEVICE_COMMON_ERROR_IS_NOT_OPENED")]
     IsNotOpened,
+    /// The character device is already used.
     #[doc(alias = "ALSAHWDEP_DEVICE_COMMON_ERROR_IS_USED")]
     IsUsed,
+    /// The HwDep device associated to the character device is not supported.
     #[doc(alias = "ALSAHWDEP_DEVICE_COMMON_ERROR_IS_NOT_SUPPORTED")]
     IsNotSupported,
+    /// The sound card is under disconnected state.
     #[doc(alias = "ALSAHWDEP_DEVICE_COMMON_ERROR_IS_DISCONNECTED")]
     IsDisconnected,
     #[doc(hidden)]
@@ -136,62 +143,90 @@ impl ToValue for DeviceCommonError {
     }
 }
 
+/// A set of enumerations for the interface of hwdep device.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSAHwdepIfaceType")]
 pub enum IfaceType {
+    /// For OPL2 sound chip.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_OPL2")]
     Opl2,
+    /// For OPL3 sound chip.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_OPL3")]
     Opl3,
+    /// For OPL4 sound chip.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_OPL4")]
     Opl4,
+    /// For Creative Signal Processor.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_SB16CSP")]
     Sb16csp,
+    /// For FX8010 processor in EMU10K1 chip.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_EMU10K1")]
     Emu10k1,
+    /// For Yamaha FX processor.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_YSS225")]
     Yss225,
+    /// For Wavetable synth.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_ICS2115")]
     Ics2115,
+    /// For Ensoniq SoundScape ISA card (MC68EC000).
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_SSCAPE")]
     Sscape,
+    /// For Digigram VX cards.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_VX")]
     Vx,
+    /// For Digigram miXart cards.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_MIXART")]
     Mixart,
+    /// For Tascam US122, US224 & US428 usb.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_USX2Y")]
     Usx2y,
+    /// For EmuX wavetable.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_EMUX_WAVETABLE")]
     EmuxWavetable,
+    /// For Bluetooth audio.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_BLUETOOTH")]
     Bluetooth,
+    /// For Tascam US122, US224 & US428 rawusb pcm.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_USX2Y_PCM")]
     Usx2yPcm,
+    /// For Digigram PCXHR.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_PCXHR")]
     Pcxhr,
+    /// For SB Extigy/Audigy2NX remote control.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_SB_RC")]
     SbRc,
+    /// For HD-audio.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_HDA")]
     Hda,
+    /// For direct access to usb stream.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_USB_STREAM")]
     UsbStream,
+    /// For TC DICE FireWire device.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_FW_DICE")]
     FwDice,
+    /// For Echo Audio Fireworks based devices.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_FW_FIREWORKS")]
     FwFireworks,
+    /// For BridgeCo BeBoB based device.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_FW_BEBOB")]
     FwBebob,
+    /// For Oxford OXFW970/971 based devices.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_FW_OXFW")]
     FwOxfw,
+    /// For Digidesign Digi 002/003 family.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_FW_DIGI00X")]
     FwDigi00x,
+    /// For TASCAM FireWire series.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_FW_TASCAM")]
     FwTascam,
+    /// For Line6 USB processors. Available in Linux kernel 4.9.0 or later.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_LINE6")]
     Line6,
+    /// For MOTU FireWire series. Available in Linux kernel 4.12.0 or later.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_FW_MOTU")]
     FwMotu,
+    /// For RME Fireface series. Available in Linux kernel 4.12.0 or later.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_FW_FIREFACE")]
     FwFireface,
     #[doc(hidden)]

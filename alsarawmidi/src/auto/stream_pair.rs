@@ -18,6 +18,25 @@ use std::mem::transmute;
 use std::ptr;
 
 glib::wrapper! {
+    /// GObject-derived object to express a pair of Rawmidi stream.
+    ///
+    /// A [`StreamPair`][crate::StreamPair] is a GObject-derived object to express a pair of Rawmidi stream to which
+    /// substreams are attached. The substream is pointed by the combination of the numeric identifier
+    /// of device, subdevice, and direction. When the call of [`StreamPairExt::open()`][crate::prelude::StreamPairExt::open()] with the
+    /// combination, corresponding substreams are attached to the object. Then the object maintains file
+    /// descriptor till object destruction. The call of [`StreamPairExt::create_source()`][crate::prelude::StreamPairExt::create_source()] returns the
+    /// instance of [`glib::Source`][crate::glib::Source]. Once attached to the [`glib::Source`][crate::glib::Source],
+    /// `GLib::MainContext` / `GLib::MainLoop` is available as event dispatcher. The
+    /// `signal::StreamPair::handle-messages` signal is emitted in the event dispatcher to notify the
+    /// intermediate buffer of capture substream has available messages. The call of
+    /// [`StreamPairExtManual::read_from_substream()`][crate::prelude::StreamPairExtManual::read_from_substream()] fills the given buffer with the available messages. The
+    /// call of [`StreamPairExt::write_to_substream()`][crate::prelude::StreamPairExt::write_to_substream()] write messages in the given buffer into the
+    /// intermediate buffer of playback substream. The call of [`StreamPairExtManual::substream_status()`][crate::prelude::StreamPairExtManual::substream_status()]
+    /// is available to check the space in the intermediate buffer according to direction argument.
+    ///
+    /// # Implements
+    ///
+    /// [`StreamPairExt`][trait@crate::prelude::StreamPairExt], [`StreamPairExtManual`][trait@crate::prelude::StreamPairExtManual]
     #[doc(alias = "ALSARawmidiStreamPair")]
     pub struct StreamPair(Object<ffi::ALSARawmidiStreamPair, ffi::ALSARawmidiStreamPairClass>);
 
@@ -29,6 +48,11 @@ glib::wrapper! {
 impl StreamPair {
     pub const NONE: Option<&'static StreamPair> = None;
 
+    /// Allocate and return an instance of [`StreamPair`][crate::StreamPair].
+    ///
+    /// # Returns
+    ///
+    /// An instance of [`StreamPair`][crate::StreamPair].
     #[doc(alias = "alsarawmidi_stream_pair_new")]
     pub fn new() -> StreamPair {
         unsafe { from_glib_full(ffi::alsarawmidi_stream_pair_new()) }
@@ -41,7 +65,23 @@ impl Default for StreamPair {
     }
 }
 
+/// Trait containing the part of[`struct@StreamPair`] methods.
+///
+/// # Implementors
+///
+/// [`StreamPair`][struct@crate::StreamPair]
 pub trait StreamPairExt: 'static {
+    /// Allocate [`glib::Source`][crate::glib::Source] structure to handle events from ALSA rawmidi character device for
+    /// input substream. In each iteration of `GLib::MainContext`, the `read(2)` system call is
+    /// executed to dispatch control event for `signal::StreamPair::handle-messages` signal, according to
+    /// the result of `poll(2)` system call.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
+    ///
+    /// ## `gsrc`
+    /// A [`glib::Source`][crate::glib::Source] to handle events from ALSA rawmidi character device.
     #[doc(alias = "alsarawmidi_stream_pair_create_source")]
     fn create_source(&self) -> Result<glib::Source, glib::Error>;
 
@@ -51,10 +91,42 @@ pub trait StreamPairExt: 'static {
     #[doc(alias = "alsarawmidi_stream_pair_drop_substream")]
     fn drop_substream(&self, direction: StreamDirection) -> Result<(), glib::Error>;
 
+    /// Get information of substream attached to the stream pair.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_RAWMIDI_IOCTL_INFO` command
+    /// for ALSA rawmidi character device.
+    /// ## `direction`
+    /// The direction of substream attached to the stream pair.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
+    ///
+    /// ## `substream_info`
+    /// The information for requested substream.
     #[doc(alias = "alsarawmidi_stream_pair_get_substream_info")]
     #[doc(alias = "get_substream_info")]
     fn substream_info(&self, direction: StreamDirection) -> Result<SubstreamInfo, glib::Error>;
 
+    /// Open file descriptor for a pair of streams to attach input/output substreams corresponding to
+    /// the given subdevice.
+    ///
+    /// The call of function executes `open(2)` system call for ALSA rawmidi character device.
+    /// ## `card_id`
+    /// The numeric identifier of sound card.
+    /// ## `device_id`
+    /// The numeric identifier of rawmidi device for the sound card.
+    /// ## `subdevice_id`
+    /// The numeric identifier of subdevice for the rawmidi device.
+    /// ## `access_modes`
+    /// Access flags for stream direction.
+    /// ## `open_flag`
+    /// The flag of `open(2)` system call. `O_RDWR`, `O_WRONLY` and `O_RDONLY` are forced
+    ///             to fulfil internally according to the access_modes.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsarawmidi_stream_pair_open")]
     fn open(
         &self,
@@ -65,6 +137,18 @@ pub trait StreamPairExt: 'static {
         open_flag: i32,
     ) -> Result<(), glib::Error>;
 
+    /// Set parameters of substream for given direction, which is attached to the pair of streams.
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_RAWMIDI_IOCTL_PARAMS` command
+    /// for ALSA rawmidi character device.
+    /// ## `direction`
+    /// The direction of substream attached to the stream pair.
+    /// ## `substream_params`
+    /// The parameters of substream.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsarawmidi_stream_pair_set_substream_params")]
     fn set_substream_params(
         &self,
@@ -72,14 +156,30 @@ pub trait StreamPairExt: 'static {
         substream_params: &impl IsA<SubstreamParams>,
     ) -> Result<(), glib::Error>;
 
+    /// Copy data from given buffer to intermediate buffer for substream attached to the pair of
+    /// streams. In a case that the instance is opened without `O_NONBLOCK` flag and the intermediate
+    /// buffer is full, call of the API is blocked till the buffer has space for the data.
+    ///
+    /// The call of function executes `write(2) system for ALSA rawmidi character device.
+    /// ## `buf`
+    /// The buffer to copy data.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsarawmidi_stream_pair_write_to_substream")]
     fn write_to_substream(&self, buf: &[u8]) -> Result<(), glib::Error>;
 
+    /// The full path to special file of rawmidi character device.
     fn devnode(&self) -> Option<glib::GString>;
 
+    /// When the sound card is not available anymore due to unbinding driver or hot unplugging,
+    /// this signal is emit. The owner of this object should call `GObject::Object::unref()` as
+    /// quickly as possible to release ALSA rawmidi character device.
     #[doc(alias = "handle-disconnection")]
     fn connect_handle_disconnection<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
+    /// When any input message is available, this event is emit.
     #[doc(alias = "handle-messages")]
     fn connect_handle_messages<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 

@@ -17,6 +17,16 @@ use std::mem;
 use std::mem::transmute;
 
 glib::wrapper! {
+    /// An object to express filter to remove scheduled event in queue.
+    ///
+    /// A [`RemoveFilter`][crate::RemoveFilter] is a GObject-derived object to express filter to remove scheduled event in
+    /// queue. The call of [`UserClientExt::remove_events()`][crate::prelude::UserClientExt::remove_events()] requires the instance of object.
+    ///
+    /// The object wraps `struct snd_seq_remove_events` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`RemoveFilterExt`][trait@crate::prelude::RemoveFilterExt], [`RemoveFilterExtManual`][trait@crate::prelude::RemoveFilterExtManual]
     #[doc(alias = "ALSASeqRemoveFilter")]
     pub struct RemoveFilter(Object<ffi::ALSASeqRemoveFilter, ffi::ALSASeqRemoveFilterClass>);
 
@@ -28,6 +38,11 @@ glib::wrapper! {
 impl RemoveFilter {
     pub const NONE: Option<&'static RemoveFilter> = None;
 
+    /// Allocate and return an instance of [`RemoveFilter`][crate::RemoveFilter].
+    ///
+    /// # Returns
+    ///
+    /// An instance of [`RemoveFilter`][crate::RemoveFilter].
     #[doc(alias = "alsaseq_remove_filter_new")]
     pub fn new() -> RemoveFilter {
         unsafe { from_glib_full(ffi::alsaseq_remove_filter_new()) }
@@ -42,35 +57,76 @@ impl Default for RemoveFilter {
 
 unsafe impl Send for RemoveFilter {}
 
+/// Trait containing the part of [`struct@RemoveFilter`] methods.
+///
+/// # Implementors
+///
+/// [`RemoveFilter`][struct@crate::RemoveFilter]
 pub trait RemoveFilterExt: 'static {
+    /// Refer to tick count in internal storage. The call works expectedly as long as
+    /// `property::RemoveFilter::flags` contains [`RemoveFilterFlag`][crate::RemoveFilterFlag].TICK. This is evaluated with
+    /// [`RemoveFilterFlag`][crate::RemoveFilterFlag].TIME_BEFORE and [`RemoveFilterFlag`][crate::RemoveFilterFlag].TIME_AFTER at call of
+    /// [`UserClientExt::remove_events()`][crate::prelude::UserClientExt::remove_events()].
+    ///
+    /// # Returns
+    ///
+    ///
+    /// ## `tick_time`
+    /// The count of tick.
     #[doc(alias = "alsaseq_remove_filter_get_tick_time")]
     #[doc(alias = "get_tick_time")]
     fn tick_time(&self) -> u32;
 
+    /// Copy tick count into internal storage. The call works expectedly as long as
+    /// `property::RemoveFilter::flags` contains [`RemoveFilterFlag`][crate::RemoveFilterFlag].TICK. This is evaluated with
+    /// [`RemoveFilterFlag`][crate::RemoveFilterFlag].TIME_BEFORE and [`RemoveFilterFlag`][crate::RemoveFilterFlag].TIME_AFTER at call of
+    /// [`UserClientExt::remove_events()`][crate::prelude::UserClientExt::remove_events()].
+    /// ## `tick_time`
+    /// The count of tick.
     #[doc(alias = "alsaseq_remove_filter_set_tick_time")]
     fn set_tick_time(&self, tick_time: u32);
 
+    /// The channel of event as filter condition. This is evaluated with
+    /// [`RemoveFilterFlag`][crate::RemoveFilterFlag].DEST_CHANNEL at call of [`UserClientExt::remove_events()`][crate::prelude::UserClientExt::remove_events()].
     fn channel(&self) -> u8;
 
+    /// The channel of event as filter condition. This is evaluated with
+    /// [`RemoveFilterFlag`][crate::RemoveFilterFlag].DEST_CHANNEL at call of [`UserClientExt::remove_events()`][crate::prelude::UserClientExt::remove_events()].
     fn set_channel(&self, channel: u8);
 
+    /// The destionation of event as filter condition. This is evaluated with
+    /// [`RemoveFilterFlag`][crate::RemoveFilterFlag].DEST at call of [`UserClientExt::remove_events()`][crate::prelude::UserClientExt::remove_events()].
     fn destination(&self) -> Option<Addr>;
 
+    /// The destionation of event as filter condition. This is evaluated with
+    /// [`RemoveFilterFlag`][crate::RemoveFilterFlag].DEST at call of [`UserClientExt::remove_events()`][crate::prelude::UserClientExt::remove_events()].
     fn set_destination(&self, destination: Option<&Addr>);
 
+    /// The type of event as filter condition. This is evaluated with
+    /// [`RemoveFilterFlag`][crate::RemoveFilterFlag].EVENT_TYPE at call of [`UserClientExt::remove_events()`][crate::prelude::UserClientExt::remove_events()].
     #[doc(alias = "event-type")]
     fn event_type(&self) -> EventType;
 
+    /// The type of event as filter condition. This is evaluated with
+    /// [`RemoveFilterFlag`][crate::RemoveFilterFlag].EVENT_TYPE at call of [`UserClientExt::remove_events()`][crate::prelude::UserClientExt::remove_events()].
     #[doc(alias = "event-type")]
     fn set_event_type(&self, event_type: EventType);
 
+    /// The set of flags to filter events. They decide how to evaluate included data at call of
+    /// [`UserClientExt::remove_events()`][crate::prelude::UserClientExt::remove_events()].
     fn flags(&self) -> RemoveFilterFlag;
 
+    /// The set of flags to filter events. They decide how to evaluate included data at call of
+    /// [`UserClientExt::remove_events()`][crate::prelude::UserClientExt::remove_events()].
     fn set_flags(&self, flags: RemoveFilterFlag);
 
+    /// The numeric identifier of queue as filter condition. This is always evaluated at call of
+    /// [`UserClientExt::remove_events()`][crate::prelude::UserClientExt::remove_events()].
     #[doc(alias = "queue-id")]
     fn queue_id(&self) -> u8;
 
+    /// The numeric identifier of queue as filter condition. This is always evaluated at call of
+    /// [`UserClientExt::remove_events()`][crate::prelude::UserClientExt::remove_events()].
     #[doc(alias = "queue-id")]
     fn set_queue_id(&self, queue_id: u8);
 

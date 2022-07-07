@@ -9,6 +9,15 @@ use glib::translate::*;
 use std::fmt;
 
 glib::wrapper! {
+    /// An object to express information for bytes type of element.
+    ///
+    /// A `GObject::Object` derived object class for bytes type of element.
+    ///
+    /// The object wraps `struct snd_ctl_elem_info` in UAPI of Linux sound subsystem.
+    ///
+    /// # Implements
+    ///
+    /// [`ElemInfoCommonExt`][trait@crate::prelude::ElemInfoCommonExt], [`ElemInfoSingleArrayExt`][trait@crate::prelude::ElemInfoSingleArrayExt]
     #[doc(alias = "ALSACtlElemInfoBytes")]
     pub struct ElemInfoBytes(Object<ffi::ALSACtlElemInfoBytes, ffi::ALSACtlElemInfoBytesClass>) @implements ElemInfoCommon, ElemInfoSingleArray;
 
@@ -20,6 +29,11 @@ glib::wrapper! {
 impl ElemInfoBytes {
     pub const NONE: Option<&'static ElemInfoBytes> = None;
 
+    /// Allocate and return an instance of [`ElemInfoBytes`][crate::ElemInfoBytes].
+    ///
+    /// # Returns
+    ///
+    /// An instance of [`ElemInfoBytes`][crate::ElemInfoBytes].
     #[doc(alias = "alsactl_elem_info_bytes_new")]
     pub fn new() -> ElemInfoBytes {
         unsafe { from_glib_full(ffi::alsactl_elem_info_bytes_new()) }
