@@ -3,7 +3,7 @@
 mod user_client;
 
 pub mod prelude {
-    pub use super::user_client::UserClientImpl;
+    pub use super::user_client::*;
 }
 
 use {
