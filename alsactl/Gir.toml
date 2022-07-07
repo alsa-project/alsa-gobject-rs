@@ -41,28 +41,28 @@ status = "generate"
 manual_traits = ["CardExtManual"]
     [[object.function]]
     name = "get_protocol_version"
-    ignore = true
+    manual = true
     [[object.function]]
     name = "get_elem_info"
-    ignore = true
+    manual = true
     [[object.function]]
     name = "read_elem_value"
-    ignore = true
+    manual = true
     [[object.function]]
     name = "command_elem_tlv"
-    ignore = true
+    manual = true
     [[object.function]]
     name = "read_elem_tlv"
-    ignore = true
+    manual = true
     [[object.function]]
     name = "get_elem_id_list"
-    ignore = true
+    manual = true
     [[object.function]]
     name = "add_elems"
-    ignore = true
+    manual = true
     [[object.function]]
     name = "replace_elems"
-    ignore = true
+    manual = true
 
 [[object]]
 name = "ALSACtl.ElemId"
@@ -75,25 +75,25 @@ status = "generate"
 manual_traits = ["ElemValueExtManual"]
     [[object.function]]
     name = "set_bool"
-    ignore = true
+    manual = true
     [[object.function]]
     name = "get_bool"
-    ignore = true
+    manual = true
     [[object.function]]
     name = "get_bytes"
-    ignore = true
+    manual = true
     [[object.function]]
     name = "get_int"
-    ignore = true
+    manual = true
     [[object.function]]
     name = "get_enum"
-    ignore = true
+    manual = true
     [[object.function]]
     name = "get_int64"
-    ignore = true
+    manual = true
     [[object.function]]
     name = "get_iec60958_channel_status"
-    ignore = true
+    manual = true
     [[object.function]]
     name = "get_iec60958_user_data"
-    ignore = true
+    manual = true
