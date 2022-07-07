@@ -59,7 +59,7 @@ impl<O: IsA<InstanceParams>> InstanceParamsExtManual for O {
 
 #[cfg(test)]
 mod test {
-    use crate::*;
+    use crate::{prelude::*, *};
 
     #[test]
     fn test_manual_bindings() {

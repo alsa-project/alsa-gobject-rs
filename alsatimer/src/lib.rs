@@ -15,10 +15,21 @@ mod query;
 mod real_time_event;
 mod user_instance;
 
-pub mod subclass;
-
+// For convenience to provide structures and functions.
 pub use {
-    auto::*, instance_params::*, instance_status::*, query::*, real_time_event::*, user_instance::*,
+    auto::{functions::*, *},
+    query::*,
 };
+
+/// For convenience to provide auto-generated/manual traits, and their blanket implementations.
+pub mod prelude {
+    pub use crate::{
+        auto::traits::*, instance_params::*, instance_status::*, real_time_event::*,
+        user_instance::*,
+    };
+}
+
+/// For subclass implementations derived from provided class.
+pub mod subclass;
 
 use glib::{object::IsA, translate::*};
