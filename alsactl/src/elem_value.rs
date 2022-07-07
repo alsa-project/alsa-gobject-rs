@@ -4,18 +4,28 @@ use super::*;
 pub trait ElemValueExtManual {
     // NOTE: conversion between gboolean(=i32) and bool(=uchar in most ABIs). Read:
     // https://gitlab.gnome.org/GNOME/gobject-introspection/-/issues/392
+    #[doc(alias = "alsactl_elem_value_set_bool")]
     fn set_bool(&self, values: &[bool]);
+    #[doc(alias = "alsactl_elem_value_get_bool")]
+    #[doc(alias = "get_bool")]
     fn boolean(&self) -> Vec<bool>;
 
+    #[doc(alias = "alsactl_elem_value_get_bytes")]
     fn bytes(&self) -> &[u8];
 
+    #[doc(alias = "alsactl_elem_value_get_int")]
     fn int(&self) -> &[i32];
 
+    #[doc(alias = "alsactl_elem_value_get_enum")]
+    #[doc(alias = "get_enum")]
     fn enumerated(&self) -> &[u32];
 
+    #[doc(alias = "alsactl_elem_value_get_int64")]
     fn int64(&self) -> &[i64];
 
+    #[doc(alias = "alsactl_elem_value_get_iec60958_channel_status")]
     fn iec60958_channel_status(&self) -> &[u8];
+    #[doc(alias = "alsactl_elem_value_get_iec60958_user_data")]
     fn iec60958_user_data(&self) -> &[u8];
 }
 

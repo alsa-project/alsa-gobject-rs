@@ -2,22 +2,29 @@
 use super::*;
 
 pub trait CardExtManual {
+    #[doc(alias = "alsactl_card_get_protocol_version")]
     fn protocol_version(&self) -> Result<&[u16; 3], glib::Error>;
 
+    #[doc(alias = "alsactl_card_get_elem_id_list")]
     fn elem_id_list(&self) -> Result<Vec<ElemId>, glib::Error>;
 
+    #[doc(alias = "alsactl_card_get_elem_info")]
     fn elem_info(&self, elem_id: &ElemId) -> Result<ElemInfo, glib::Error>;
 
+    #[doc(alias = "alsactl_card_command_elem_tlv")]
     fn command_elem_tlv(&self, elem_id: &ElemId, container: &mut [u32]) -> Result<(), glib::Error>;
 
+    #[doc(alias = "alsactl_card_read_elem_tlv")]
     fn read_elem_tlv(&self, elem_id: &ElemId, container: &mut [u32]) -> Result<(), glib::Error>;
 
+    #[doc(alias = "alsactl_card_read_elem_value")]
     fn read_elem_value<P: IsA<ElemValue>>(
         &self,
         elem_id: &ElemId,
         elem_value: &mut P,
     ) -> Result<(), glib::Error>;
 
+    #[doc(alias = "alsactl_card_add_elems")]
     fn add_elems<P: AsRef<ElemInfoCommon>>(
         &self,
         elem_id: &ElemId,
@@ -25,6 +32,7 @@ pub trait CardExtManual {
         elem_info: &P,
     ) -> Result<Vec<ElemId>, glib::Error>;
 
+    #[doc(alias = "alsactl_card_replace_elems")]
     fn replace_elems<P: AsRef<ElemInfoCommon>>(
         &self,
         elem_id: &ElemId,
