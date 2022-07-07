@@ -37,4 +37,4 @@ status = "generate"
 manual_traits = ["DeviceCommonExtManual"]
     [[object.function]]
     pattern = "get_protocol_version"
-    ignore = true
+    manual = true
