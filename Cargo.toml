@@ -23,3 +23,10 @@ default-members = [
 exclude = [
     "gir",
 ]
+
+# For my convenience to generate README.md for each crates by my tool.
+[workspace.metadata.library.alsactl]
+repository = "https://github.com/alsa-project/alsa-gobject"
+purpose = """
+operate ALSA Control character device
+"""
