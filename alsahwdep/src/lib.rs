@@ -1,20 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-//! Rust bindings for alsahwdep library
-//!
-//! Rust bindings and wrappers for alsahwdep library in
-//! [alsa-gobject](https://github.com/alsa-project/alsa-gobject) to operate ALSA HwDep character
-//! device.
-//!
-//! The alsahwdep library in alsa-gobject v0.3.0 is the minimum supported version for underlying
-//! library.
-//!
-//! The crate depends on [glib crate v0.15](https://crates.io/crates/glib) provided by
-//! [gtk-rs project](https://gtk-rs.org/) for type/object system, event loop, and dispacher.
-//!
-//! # License
-//!
-//! Released under MIT license.
+#![doc = include_str!("../README.md")]
 
 mod auto;
 mod device_common;
