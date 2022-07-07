@@ -1,13 +1,14 @@
 [package]
-authors = ["Takashi Sakamoto <o-takashi@sakamocchi.jp>"]
 build = "build.rs"
-description = "FFI binding for libalsactl library"
 edition = "2018"
-license = "MIT"
 links = "alsactl"
 name = "alsactl-sys"
-repository = "https://github.com/alsa-project/alsa-gobject-rs"
 version = "0.3.0"
+# For publishing.
+authors = ["Takashi Sakamoto <o-takashi@sakamocchi.jp>"]
+description = "FFI binding for libalsactl library"
+license = "MIT"
+repository = "https://github.com/alsa-project/alsa-gobject-rs"
 [package.metadata.docs.rs]
 features = ["dox"]
 [package.metadata.system-deps.alsactl]
