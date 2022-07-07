@@ -3,8 +3,13 @@ edition = "2018"
 name = "alsatimer"
 version = "0.3.0"
 # For publishing.
-authors = ["Takashi Sakamoto <o-takashi@sakamocchi.jp>"]
-description = "API binding for libalsatimer library"
+authors = ["Takashi Sakamoto"]
+categories = ["api-bindings", "hardware-support", "os::linux-apis"]
+description = "API binding for alsatimer library"
+documentation = "https://docs.rs/alsatimer/"
+exclude = ["Gir.toml"]
+homepage = "https://alsa-project.github.io/gobject-introspection-docs/"
+keywords = ["music", "alsa", "linux", "glib"]
 license = "MIT"
 repository = "https://github.com/alsa-project/alsa-gobject-rs"
 
