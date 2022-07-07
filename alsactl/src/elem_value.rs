@@ -111,7 +111,7 @@ impl<O: IsA<ElemValue>> ElemValueExtManual for O {
 
 #[cfg(test)]
 mod test {
-    use crate::*;
+    use crate::{prelude::*, *};
 
     #[test]
     fn test_manual_bindings() {

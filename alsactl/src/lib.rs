@@ -12,9 +12,16 @@ mod auto;
 mod card;
 mod elem_value;
 
-pub mod subclass;
+// For convenience to provide structures and functions.
+pub use auto::{functions::*, *};
 
-pub use {auto::*, card::*, elem_value::*};
+/// For convenience to provide auto-generated/manual traits, and their blanket implementations.
+pub mod prelude {
+    pub use crate::{auto::traits::*, card::*, elem_value::*};
+}
+
+/// For subclass implementations derived from provided class.
+pub mod subclass;
 
 use glib::{object::IsA, translate::*, Cast};
 

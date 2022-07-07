@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 extern crate alsactl;
 extern crate glib;
-use alsactl::{traits::*, *};
+use alsactl::{prelude::*, *};
 use glib::Error;
 
 fn dump_elem_data(card: &alsactl::Card, elem_id: &alsactl::ElemId) -> Result<(), Error> {
