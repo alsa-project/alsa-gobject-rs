@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pub mod user_client;
+mod user_client;
 
 pub mod prelude {
     pub use super::user_client::UserClientImpl;
