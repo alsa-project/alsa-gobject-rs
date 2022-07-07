@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pub mod device_common;
+mod device_common;
 
 pub mod prelude {
     pub use super::device_common::DeviceCommonImpl;
