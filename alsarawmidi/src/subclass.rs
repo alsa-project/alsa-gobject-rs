@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pub mod stream_pair;
+mod stream_pair;
 
 pub mod prelude {
     pub use super::stream_pair::StreamPairImpl;
