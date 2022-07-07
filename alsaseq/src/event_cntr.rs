@@ -2,6 +2,7 @@
 use super::*;
 
 impl EventCntr {
+    #[doc(alias = "alsaseq_event_cntr_deserialize")]
     pub fn deserialize(&self) -> Vec<Event> {
         unsafe {
             let mut entries = std::ptr::null_mut();

@@ -2,7 +2,10 @@
 use super::*;
 
 pub trait QueueTempoExtManual {
+    #[doc(alias = "alsaseq_queue_tempo_get_skew")]
+    #[doc(alias = "get_skew")]
     fn skew(&self) -> &[u32; 2];
+    #[doc(alias = "alsaseq_queue_tempo_set_skew")]
     fn set_skew(&self, skew: &[u32; 2]);
 }
 

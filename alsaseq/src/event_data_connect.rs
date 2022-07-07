@@ -2,6 +2,8 @@
 use super::*;
 
 impl EventDataConnect {
+    #[doc(alias = "alsaseq_event_data_connect_get_dst")]
+    #[doc(alias = "get_dst")]
     pub fn dst(&mut self) -> Addr {
         unsafe {
             let mut dst = std::ptr::null_mut() as *const ffi::ALSASeqAddr;
@@ -10,6 +12,8 @@ impl EventDataConnect {
         }
     }
 
+    #[doc(alias = "alsaseq_event_data_connect_get_src")]
+    #[doc(alias = "get_src")]
     pub fn src(&mut self) -> Addr {
         unsafe {
             let mut src = std::ptr::null_mut() as *const ffi::ALSASeqAddr;

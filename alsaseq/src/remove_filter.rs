@@ -5,7 +5,10 @@ pub trait RemoveFilterExtManual: 'static {
     fn tag(&self) -> i8;
     fn set_tag(&self, tag: i8);
 
+    #[doc(alias = "alsaseq_remove_filter_get_real_time")]
+    #[doc(alias = "get_real_time")]
     fn real_time(&self) -> &[u32];
+    #[doc(alias = "alsaseq_remove_filter_set_real_time")]
     fn set_real_time(&self, real_time: &[u32; 2]);
 }
 

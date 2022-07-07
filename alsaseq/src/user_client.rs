@@ -2,23 +2,36 @@
 use super::*;
 
 pub trait UserClientExtManual {
+    #[doc(alias = "alsaseq_user_client_get_protocol_version")]
+    #[doc(alias = "get_protocol_version")]
     fn protocol_version(&self) -> Result<&[u16; 3], Error>;
 
+    #[doc(alias = "alsaseq_user_client_create_port")]
     fn create_port<P: IsA<PortInfo>>(&self, port_info: &mut P) -> Result<(), Error>;
 
+    #[doc(alias = "alsaseq_user_client_create_port_at")]
     fn create_port_at<P: IsA<PortInfo>>(&self, port_info: &mut P, port_id: u8)
         -> Result<(), Error>;
 
+    #[doc(alias = "alsaseq_user_client_create_queue")]
     fn create_queue<P: IsA<QueueInfo>>(&self, queue_info: &mut P) -> Result<(), Error>;
 
+    #[doc(alias = "alsaseq_user_client_get_info")]
+    #[doc(alias = "get_info")]
     fn info<P: IsA<ClientInfo>>(&self, client_info: &mut P) -> Result<(), Error>;
 
+    #[doc(alias = "alsaseq_user_client_get_pool")]
+    #[doc(alias = "get_pool")]
     fn pool<P: IsA<ClientPool>>(&self, client_pool: &mut P) -> Result<(), Error>;
 
+    #[doc(alias = "alsaseq_user_client_get_queue_timer")]
+    #[doc(alias = "get_queue_timer")]
     fn queue_timer(&self, queue_id: u8) -> Result<QueueTimer, Error>;
 
+    #[doc(alias = "alsaseq_user_client_set_queue_timer")]
     fn set_queue_timer(&self, queue_id: u8, queue_timer: &QueueTimer) -> Result<(), Error>;
 
+    #[doc(alias = "alsaseq_user_client_schedule_events")]
     fn schedule_events(&self, events: &[Event]) -> Result<usize, Error>;
 }
 

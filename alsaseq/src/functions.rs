@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 use super::*;
 
+#[doc(alias = "alsaseq_get_subscription_list")]
+#[doc(alias = "get_subscription_list")]
 pub fn subscription_list(
     addr: &Addr,
     query_type: QuerySubscribeType,
@@ -24,6 +26,8 @@ pub fn subscription_list(
     }
 }
 
+#[doc(alias = "alsaseq_get_queue_status")]
+#[doc(alias = "get_queue_status")]
 pub fn queue_status<P: IsA<QueueStatus>>(
     queue_id: u8,
     queue_status: &mut P,

@@ -2,6 +2,8 @@
 use super::*;
 
 impl EventDataQueue {
+    #[doc(alias = "alsaseq_event_data_queue_get_byte_param")]
+    #[doc(alias = "get_byte_param")]
     pub fn byte_param(&mut self) -> &[u8; 8] {
         unsafe {
             let mut ptr = std::ptr::null_mut() as *const [u8; 8];
@@ -13,6 +15,8 @@ impl EventDataQueue {
         }
     }
 
+    #[doc(alias = "alsaseq_event_data_queue_get_skew_param")]
+    #[doc(alias = "get_skew_param")]
     pub fn skew_param(&mut self) -> &[u32; 2] {
         unsafe {
             let mut ptr = std::ptr::null_mut() as *const [u32; 2];
@@ -24,6 +28,8 @@ impl EventDataQueue {
         }
     }
 
+    #[doc(alias = "alsaseq_event_data_queue_get_quadlet_param")]
+    #[doc(alias = "get_quadlet_param")]
     pub fn quadlet_param(&mut self) -> &[u32; 2] {
         unsafe {
             let mut ptr = std::ptr::null_mut() as *const [u32; 2];
@@ -35,18 +41,21 @@ impl EventDataQueue {
         }
     }
 
+    #[doc(alias = "alsaseq_event_data_queue_set_byte_param")]
     pub fn set_byte_param(&mut self, bytes: &[u8; 8]) {
         unsafe {
             ffi::alsaseq_event_data_queue_set_byte_param(self.to_glib_none_mut().0, bytes);
         }
     }
 
+    #[doc(alias = "alsaseq_event_data_queue_set_skew_param")]
     pub fn set_skew_param(&mut self, skew: &[u32; 2]) {
         unsafe {
             ffi::alsaseq_event_data_queue_set_skew_param(self.to_glib_none_mut().0, skew);
         }
     }
 
+    #[doc(alias = "alsaseq_event_data_queue_set_quadlet_param")]
     pub fn set_quadlet_param(&mut self, quadlets: &[u32; 2]) {
         unsafe {
             ffi::alsaseq_event_data_queue_set_quadlet_param(
@@ -56,6 +65,8 @@ impl EventDataQueue {
         }
     }
 
+    #[doc(alias = "alsaseq_event_data_queue_get_real_time_param")]
+    #[doc(alias = "get_real_time_param")]
     pub fn real_time_param(&mut self) -> &[u32; 2] {
         unsafe {
             let mut ptr = std::ptr::null_mut() as *const [u32; 2];
@@ -67,6 +78,7 @@ impl EventDataQueue {
         }
     }
 
+    #[doc(alias = "alsaseq_event_data_queue_set_real_time_param")]
     pub fn set_real_time_param(&mut self, real_time: &[u32; 2]) {
         unsafe {
             ffi::alsaseq_event_data_queue_set_real_time_param(self.to_glib_none_mut().0, real_time);

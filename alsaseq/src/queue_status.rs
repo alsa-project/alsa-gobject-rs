@@ -2,6 +2,8 @@
 use super::*;
 
 pub trait QueueStatusExtManual {
+    #[doc(alias = "alsaseq_queue_status_get_real_time")]
+    #[doc(alias = "get_real_time")]
     fn real_time(&self) -> &[u32; 2];
 }
 

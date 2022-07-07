@@ -2,7 +2,10 @@
 use super::*;
 
 pub trait ClientInfoExtManual {
+    #[doc(alias = "alsaseq_client_info_get_event_filter")]
+    #[doc(alias = "get_event_filter")]
     fn event_filter(&self) -> Result<Vec<EventType>, glib::Error>;
+    #[doc(alias = "alsaseq_client_info_set_event_filter")]
     fn set_event_filter(&self, entries: &[EventType]) -> Result<(), glib::Error>;
 }
 
