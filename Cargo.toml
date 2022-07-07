@@ -30,3 +30,8 @@ repository = "https://github.com/alsa-project/alsa-gobject"
 purpose = """
 operate ALSA Control character device
 """
+[workspace.metadata.library.alsahwdep]
+repository = "https://github.com/alsa-project/alsa-gobject"
+purpose = """
+operate ALSA HwDep character device
+"""
