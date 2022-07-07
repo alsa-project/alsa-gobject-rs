@@ -1,27 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-//! Rust bindings for alsaseq library
-//!
-//! Rust bindings and wrappers for alsaseq library in
-//! [alsa-gobject](https://github.com/alsa-project/alsa-gobject) to operate ALSA Sequencer
-//! character device.
-//!
-//! The alsaseq library in alsa-gobject v0.3.0 is the minimum supported version for underlying
-//! library.
-//!
-//! The crate depends on [glib crate v0.15](https://crates.io/crates/glib) provided by
-//! [gtk-rs project](https://gtk-rs.org/) for type/object system, event loop, and dispacher.
-//!
-//! # License
-//!
-//! Released under MIT license.
-//!
-//! # Sample programs
-//!
-//! Some programs are available under `examples` directory.
-//!
-//! `dump-event-data`
-//! : demonstration to dump events received at port registered in ALSA Sequencer.
+#![doc = include_str!("../README.md")]
 
 mod auto;
 mod client_info;
