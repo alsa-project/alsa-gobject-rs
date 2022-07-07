@@ -116,8 +116,7 @@ unsafe extern "C" fn device_common_handle_disconnection<T: DeviceCommonImpl>(
 
 #[cfg(test)]
 mod test {
-    use crate::subclass::device_common::*;
-    use crate::{DeviceCommon, DeviceCommonError, DeviceCommonExt};
+    use crate::{prelude::*, subclass::prelude::*, *};
     use glib::{
         subclass::{
             object::*,
@@ -126,7 +125,7 @@ mod test {
             InitializingType,
         },
         translate::*,
-        Cast, Object, ObjectExt, ParamFlags, ParamSpec, StaticType, ToValue, Value,
+        Cast, Error, Object, ObjectExt, ParamFlags, ParamSpec, Source, StaticType, ToValue, Value,
     };
 
     mod imp {

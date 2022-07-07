@@ -11,8 +11,18 @@ mod auto;
 mod device_common;
 mod enums;
 
-pub mod subclass;
+// For convenience to provide structures and functions.
+pub use {
+    auto::{functions::*, *},
+    enums::*,
+};
 
-pub use {auto::*, device_common::*, enums::*};
+/// For convenience to provide auto-generated/manual traits, and their blanket implementations.
+pub mod prelude {
+    pub use crate::{auto::traits::*, device_common::*};
+}
+
+/// For subclass implementations derived from provided class.
+pub mod subclass;
 
 use glib::{translate::*, IsA};
