@@ -1,12 +1,4 @@
 // SPDX-License-Identifier: MIT
-#[macro_use]
-extern crate glib;
-#[macro_use]
-extern crate bitflags;
-extern crate alsactl_sys;
-extern crate glib_sys;
-extern crate gobject_sys;
-extern crate libc;
 
 mod auto;
 mod card;
@@ -23,6 +15,10 @@ pub mod prelude {
 /// For subclass implementations derived from provided class.
 pub mod subclass;
 
+// To access to alsactl-sys crate for FFI.
+pub use ffi;
+
+use crate::prelude::*;
 use glib::{object::IsA, translate::*, Cast};
 
 pub enum ElemInfo {
@@ -36,7 +32,7 @@ pub enum ElemInfo {
 
 impl From<ElemInfoCommon> for ElemInfo {
     fn from(obj: ElemInfoCommon) -> Self {
-        match obj.get_property_elem_type() {
+        match obj.elem_type() {
             ElemType::Iec60958 => ElemInfo::Iec60958(obj.downcast().unwrap()),
             ElemType::Boolean => ElemInfo::Boolean(obj.downcast().unwrap()),
             ElemType::Bytes => ElemInfo::Bytes(obj.downcast().unwrap()),

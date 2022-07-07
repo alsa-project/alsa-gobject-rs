@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 use super::*;
 
-pub fn get_device_id_list() -> Result<Vec<DeviceId>, glib::Error> {
+pub fn device_id_list() -> Result<Vec<DeviceId>, glib::Error> {
     unsafe {
         let mut entries = std::ptr::null_mut();
         let mut error = std::ptr::null_mut();
 
-        alsatimer_sys::alsatimer_get_device_id_list(&mut entries, &mut error);
+        ffi::alsatimer_get_device_id_list(&mut entries, &mut error);
 
         if error.is_null() {
             Ok(FromGlibPtrContainer::from_glib_full(entries))
@@ -23,7 +23,7 @@ pub fn set_device_params(
     unsafe {
         let mut error = std::ptr::null_mut();
 
-        alsatimer_sys::alsatimer_set_device_params(
+        ffi::alsatimer_set_device_params(
             device_id.to_glib_none_mut().0,
             device_params.to_glib_none().0,
             &mut error,
@@ -37,14 +37,14 @@ pub fn set_device_params(
     }
 }
 
-pub fn get_device_status<P: IsA<DeviceStatus>>(
+pub fn device_status<P: IsA<DeviceStatus>>(
     device_id: &mut DeviceId,
     status: &mut P,
 ) -> Result<(), glib::Error> {
     unsafe {
         let mut error = std::ptr::null_mut();
 
-        alsatimer_sys::alsatimer_get_device_status(
+        ffi::alsatimer_get_device_status(
             device_id.to_glib_none_mut().0,
             &mut status.as_ref().to_glib_none().0,
             &mut error,

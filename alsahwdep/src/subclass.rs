@@ -8,6 +8,6 @@ pub mod prelude {
 
 use {
     super::*,
-    glib::{subclass::prelude::*, translate::*, Error, Source},
+    glib::{subclass::prelude::*, translate::*, Cast, Error, Interface, Source},
     libc::*,
 };

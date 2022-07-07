@@ -8,5 +8,5 @@ pub mod prelude {
 
 use {
     super::*,
-    glib::{subclass::prelude::*, translate::*, ObjectClass},
+    glib::{subclass::prelude::*, translate::*, Cast, Class},
 };

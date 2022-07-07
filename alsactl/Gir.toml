@@ -2,6 +2,7 @@
 "alsa_ctl" = "alsactl"
 
 [options]
+girs_directories = ["../gir-files", ".."]
 work_mode = "normal"
 library = "ALSACtl"
 version = "0.0"

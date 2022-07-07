@@ -2,6 +2,7 @@
 "alsa_rawmidi" = "alsarawmidi"
 
 [options]
+girs_directories = ["../gir-files", ".."]
 work_mode = "normal"
 library = "ALSARawmidi"
 version = "0.0"

@@ -1,11 +1,4 @@
 // SPDX-License-Identifier: MIT
-#[macro_use]
-extern crate glib;
-extern crate alsahwdep_sys;
-extern crate bitflags;
-extern crate glib_sys;
-extern crate gobject_sys;
-extern crate libc;
 
 mod auto;
 mod device_common;
@@ -24,5 +17,8 @@ pub mod prelude {
 
 /// For subclass implementations derived from provided class.
 pub mod subclass;
+
+// To access to alsahwdep-sys crate for FFI.
+pub use ffi;
 
 use glib::{translate::*, IsA};

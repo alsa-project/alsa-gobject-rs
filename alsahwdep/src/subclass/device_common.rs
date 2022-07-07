@@ -2,23 +2,151 @@
 use super::*;
 
 pub trait DeviceCommonImpl: ObjectImpl + ObjectSubclass {
-    fn open(&self, device: &DeviceCommon, path: &str, open_flag: i32) -> Result<(), Error>;
+    fn open(&self, device: &Self::Type, path: &str, open_flag: i32) -> Result<(), Error>;
     fn get_protocol_version(
         &self,
-        device: &DeviceCommon,
+        device: &Self::Type,
         proto_ver_triplet: &mut [u16; 3],
     ) -> Result<(), Error>;
-    fn get_device_info(&self, device: &DeviceCommon) -> Result<DeviceInfo, Error>;
-    fn create_source(&self, device: &DeviceCommon) -> Result<Source, Error>;
-    fn handle_disconnection(&self, device: &DeviceCommon);
+    fn get_device_info(&self, device: &Self::Type) -> Result<DeviceInfo, Error>;
+    fn create_source(&self, device: &Self::Type) -> Result<Source, Error>;
+    fn handle_disconnection(&self, device: &Self::Type);
+}
+
+pub trait DeviceCommonImplExt: ObjectSubclass {
+    fn parent_open(&self, device: &Self::Type, path: &str, open_flag: i32) -> Result<(), Error>;
+    fn parent_get_protocol_version(
+        &self,
+        device: &Self::Type,
+        proto_ver_triplet: &mut [u16; 3],
+    ) -> Result<(), Error>;
+    fn parent_get_device_info(&self, device: &Self::Type) -> Result<DeviceInfo, Error>;
+    fn parent_create_source(&self, device: &Self::Type) -> Result<Source, Error>;
+    fn parent_handle_disconnection(&self, device: &Self::Type);
+}
+
+impl<T: DeviceCommonImpl> DeviceCommonImplExt for T {
+    fn parent_open(&self, device: &Self::Type, path: &str, open_flag: i32) -> Result<(), Error> {
+        unsafe {
+            let data = T::type_data();
+            let parent_class =
+                data.as_ref().parent_class() as *mut ffi::ALSAHwdepDeviceCommonInterface;
+            let f = (*parent_class)
+                .open
+                .expect("No parent \"open\" implementation");
+
+            let mut error = std::ptr::null_mut();
+            let is_ok = f(
+                device.unsafe_cast_ref::<DeviceCommon>().to_glib_none().0,
+                path.to_glib_none().0,
+                open_flag.into(),
+                &mut error,
+            );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
+
+    fn parent_get_protocol_version(
+        &self,
+        device: &Self::Type,
+        proto_ver_triplet: &mut [u16; 3],
+    ) -> Result<(), Error> {
+        unsafe {
+            let data = T::type_data();
+            let parent_class =
+                data.as_ref().parent_class() as *mut ffi::ALSAHwdepDeviceCommonInterface;
+            let f = (*parent_class)
+                .get_protocol_version
+                .expect("No parent \"get_protocol_version\" implementation");
+
+            let ptr: *mut [u16; 3] = proto_ver_triplet;
+            let mut error = std::ptr::null_mut();
+            let is_ok = f(
+                device.unsafe_cast_ref::<DeviceCommon>().to_glib_none().0,
+                &ptr,
+                &mut error,
+            );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
+
+    fn parent_get_device_info(&self, device: &Self::Type) -> Result<DeviceInfo, Error> {
+        unsafe {
+            let data = T::type_data();
+            let parent_class =
+                data.as_ref().parent_class() as *mut ffi::ALSAHwdepDeviceCommonInterface;
+            let f = (*parent_class)
+                .get_device_info
+                .expect("No parent \"get_device_info\" implementation");
+
+            let mut info = std::ptr::null_mut();
+            let mut error = std::ptr::null_mut();
+            let is_ok = f(
+                device.unsafe_cast_ref::<DeviceCommon>().to_glib_none().0,
+                &mut info,
+                &mut error,
+            );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(from_glib_full(info))
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
+
+    fn parent_create_source(&self, device: &Self::Type) -> Result<Source, Error> {
+        unsafe {
+            let data = T::type_data();
+            let parent_class =
+                data.as_ref().parent_class() as *mut ffi::ALSAHwdepDeviceCommonInterface;
+            let f = (*parent_class)
+                .create_source
+                .expect("No parent \"create_source\" implementation");
+
+            let mut src = std::ptr::null_mut();
+            let mut error = std::ptr::null_mut();
+            let is_ok = f(
+                device.unsafe_cast_ref::<DeviceCommon>().to_glib_none().0,
+                &mut src,
+                &mut error,
+            );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(from_glib_full(src))
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
+
+    fn parent_handle_disconnection(&self, device: &Self::Type) {
+        unsafe {
+            let data = T::type_data();
+            let parent_class =
+                data.as_ref().parent_class() as *mut ffi::ALSAHwdepDeviceCommonInterface;
+            let f = (*parent_class)
+                .handle_disconnection
+                .expect("No parent \"handle_disconnection\" implementation");
+
+            let _ = f(device.unsafe_cast_ref::<DeviceCommon>().to_glib_none().0);
+        }
+    }
 }
 
 unsafe impl<T: DeviceCommonImpl> IsImplementable<T> for DeviceCommon {
-    unsafe extern "C" fn interface_init(
-        iface: glib_sys::gpointer,
-        _iface_data: glib_sys::gpointer,
-    ) {
-        let iface = &mut *(iface as *mut alsahwdep_sys::ALSAHwdepDeviceCommonInterface);
+    fn interface_init(iface: &mut Interface<Self>) {
+        let iface = iface.as_mut();
         iface.open = Some(device_common_open::<T>);
         iface.get_protocol_version = Some(device_common_get_protocol_version::<T>);
         iface.get_device_info = Some(device_common_get_device_info::<T>);
@@ -28,214 +156,193 @@ unsafe impl<T: DeviceCommonImpl> IsImplementable<T> for DeviceCommon {
 }
 
 unsafe extern "C" fn device_common_open<T: DeviceCommonImpl>(
-    device: *mut alsahwdep_sys::ALSAHwdepDeviceCommon,
+    device: *mut ffi::ALSAHwdepDeviceCommon,
     path: *const c_char,
     open_flag: c_int,
-    error: *mut *mut glib_sys::GError,
-) -> glib_sys::gboolean {
+    error: *mut *mut glib::ffi::GError,
+) -> glib::ffi::gboolean {
     let instance = &*(device as *mut T::Instance);
-    let imp = instance.get_impl();
+    let imp = instance.imp();
+    let wrap: Borrowed<DeviceCommon> = from_glib_borrow(device);
     match imp.open(
-        &from_glib_borrow(device),
+        wrap.unsafe_cast_ref(),
         std::ffi::CStr::from_ptr(path).to_str().unwrap(),
         open_flag,
     ) {
-        Ok(()) => glib_sys::GTRUE,
+        Ok(()) => glib::ffi::GTRUE,
         Err(err) => {
-            let mut e = std::mem::ManuallyDrop::new(err);
-            *error = e.to_glib_none_mut().0;
-            glib_sys::GFALSE
+            if !error.is_null() {
+                *error = err.into_raw();
+            }
+            glib::ffi::GFALSE
         }
     }
 }
 
 unsafe extern "C" fn device_common_get_protocol_version<T: DeviceCommonImpl>(
-    device: *mut alsahwdep_sys::ALSAHwdepDeviceCommon,
+    device: *mut ffi::ALSAHwdepDeviceCommon,
     proto_ver_triplet: *const *mut [u16; 3],
-    error: *mut *mut glib_sys::GError,
-) -> glib_sys::gboolean {
+    error: *mut *mut glib::ffi::GError,
+) -> glib::ffi::gboolean {
     let instance = &*(device as *mut T::Instance);
-    let imp = instance.get_impl();
-    match imp.get_protocol_version(&from_glib_borrow(device), &mut (**proto_ver_triplet)) {
-        Ok(()) => glib_sys::GTRUE,
+    let imp = instance.imp();
+    let wrap: Borrowed<DeviceCommon> = from_glib_borrow(device);
+    match imp.get_protocol_version(wrap.unsafe_cast_ref(), &mut (**proto_ver_triplet)) {
+        Ok(()) => glib::ffi::GTRUE,
         Err(err) => {
-            let mut e = std::mem::ManuallyDrop::new(err);
-            *error = e.to_glib_none_mut().0;
-            glib_sys::GFALSE
+            if !error.is_null() {
+                *error = err.into_raw();
+            }
+            glib::ffi::GFALSE
         }
     }
 }
 
 unsafe extern "C" fn device_common_get_device_info<T: DeviceCommonImpl>(
-    device: *mut alsahwdep_sys::ALSAHwdepDeviceCommon,
-    device_info: *mut *mut alsahwdep_sys::ALSAHwdepDeviceInfo,
-    error: *mut *mut glib_sys::GError,
-) -> glib_sys::gboolean {
+    device: *mut ffi::ALSAHwdepDeviceCommon,
+    device_info: *mut *mut ffi::ALSAHwdepDeviceInfo,
+    error: *mut *mut glib::ffi::GError,
+) -> glib::ffi::gboolean {
     let instance = &*(device as *mut T::Instance);
-    let imp = instance.get_impl();
-    match imp.get_device_info(&from_glib_borrow(device)) {
+    let imp = instance.imp();
+    let wrap: Borrowed<DeviceCommon> = from_glib_borrow(device);
+    match imp.get_device_info(wrap.unsafe_cast_ref()) {
         Ok(info) => {
             *device_info = info.to_glib_full();
-            glib_sys::GTRUE
+            glib::ffi::GTRUE
         }
         Err(err) => {
-            let mut e = std::mem::ManuallyDrop::new(err);
-            *error = e.to_glib_none_mut().0;
-            glib_sys::GFALSE
+            if !error.is_null() {
+                *error = err.into_raw();
+            }
+            glib::ffi::GFALSE
         }
     }
 }
 
 unsafe extern "C" fn device_common_create_source<T: DeviceCommonImpl>(
-    device: *mut alsahwdep_sys::ALSAHwdepDeviceCommon,
-    source: *mut *mut glib_sys::GSource,
-    error: *mut *mut glib_sys::GError,
-) -> glib_sys::gboolean {
+    device: *mut ffi::ALSAHwdepDeviceCommon,
+    source: *mut *mut glib::ffi::GSource,
+    error: *mut *mut glib::ffi::GError,
+) -> glib::ffi::gboolean {
     let instance = &*(device as *mut T::Instance);
-    let imp = instance.get_impl();
-    match imp.create_source(&from_glib_borrow(device)) {
+    let imp = instance.imp();
+    let wrap: Borrowed<DeviceCommon> = from_glib_borrow(device);
+    match imp.create_source(wrap.unsafe_cast_ref()) {
         Ok(src) => {
             *source = src.to_glib_none().0;
-            glib_sys::GTRUE
+            glib::ffi::GTRUE
         }
         Err(err) => {
-            let mut e = std::mem::ManuallyDrop::new(err);
-            *error = e.to_glib_none_mut().0;
-            glib_sys::GFALSE
+            if !error.is_null() {
+                *error = err.into_raw();
+            }
+            glib::ffi::GFALSE
         }
     }
 }
 
 unsafe extern "C" fn device_common_handle_disconnection<T: DeviceCommonImpl>(
-    device: *mut alsahwdep_sys::ALSAHwdepDeviceCommon,
+    device: *mut ffi::ALSAHwdepDeviceCommon,
 ) {
     let instance = &*(device as *mut T::Instance);
-    let imp = instance.get_impl();
-    imp.handle_disconnection(&from_glib_borrow(device))
+    let imp = instance.imp();
+    let wrap: Borrowed<DeviceCommon> = from_glib_borrow(device);
+    imp.handle_disconnection(wrap.unsafe_cast_ref())
 }
 
 #[cfg(test)]
 mod test {
     use crate::{prelude::*, subclass::prelude::*, *};
     use glib::{
-        subclass::{
-            object::*,
-            simple::{ClassStruct, InstanceStruct},
-            types::*,
-            InitializingType,
-        },
-        translate::*,
-        Cast, Error, Object, ObjectExt, ParamFlags, ParamSpec, Source, StaticType, ToValue, Value,
+        subclass::prelude::*, Error, Object, ObjectExt, ParamFlags, ParamSpec, ParamSpecBoolean,
+        Source, ToValue, Value,
     };
 
     mod imp {
         use super::*;
+        use once_cell::sync::Lazy;
         use std::cell::RefCell;
 
         #[derive(Default)]
         pub struct DeviceCommonTestPrivate(RefCell<bool>);
 
-        static PROPERTIES: [Property; 1] = [Property("handled", |handled| {
-            ParamSpec::boolean(
-                handled,
-                "handled",
-                "handle event or not",
-                false,
-                ParamFlags::READABLE,
-            )
-        })];
-
+        #[glib::object_subclass]
         impl ObjectSubclass for DeviceCommonTestPrivate {
             const NAME: &'static str = "DeviceCommonTest";
-            type ParentType = Object;
-            type Instance = InstanceStruct<Self>;
-            type Class = ClassStruct<Self>;
-
-            glib_object_subclass!();
+            type Type = super::DeviceCommonTest;
+            type Interfaces = (DeviceCommon,);
 
             fn new() -> Self {
-                Self::default()
-            }
-
-            fn class_init(klass: &mut Self::Class) {
-                klass.install_properties(&PROPERTIES);
-            }
-
-            fn type_init(type_: &mut InitializingType<Self>) {
-                type_.add_interface::<DeviceCommon>();
+                Default::default()
             }
         }
 
         impl ObjectImpl for DeviceCommonTestPrivate {
-            glib_object_impl!();
+            fn properties() -> &'static [ParamSpec] {
+                static PROPERTIES: Lazy<Vec<ParamSpec>> = Lazy::new(|| {
+                    vec![ParamSpecBoolean::new(
+                        "handled",
+                        "handled",
+                        "handle event or not",
+                        false,
+                        ParamFlags::READABLE,
+                    )]
+                });
 
-            fn get_property(&self, _obj: &Object, id: usize) -> Result<Value, ()> {
-                let prop = &PROPERTIES[id];
+                PROPERTIES.as_ref()
+            }
 
-                match *prop {
-                    Property("handled", ..) => Ok(self.0.borrow().to_value()),
+            fn property(&self, _obj: &Self::Type, _id: usize, pspec: &ParamSpec) -> Value {
+                match pspec.name() {
+                    "handled" => self.0.borrow().to_value(),
                     _ => unimplemented!(),
                 }
             }
         }
 
         impl DeviceCommonImpl for DeviceCommonTestPrivate {
-            fn open(&self, _: &DeviceCommon, _: &str, _: i32) -> Result<(), Error> {
+            fn open(&self, _: &Self::Type, _: &str, _: i32) -> Result<(), Error> {
                 unreachable!()
             }
 
             fn get_protocol_version(
                 &self,
-                _: &DeviceCommon,
+                _: &Self::Type,
                 proto_ver_triplet: &mut [u16; 3],
             ) -> Result<(), Error> {
                 proto_ver_triplet.copy_from_slice(&[1, 2, 3]);
                 Ok(())
             }
 
-            fn get_device_info(&self, _: &DeviceCommon) -> Result<DeviceInfo, Error> {
-                let device_info = Object::new(DeviceInfo::static_type(), &[("name", &"MyName")])
-                    .expect("Failed to create DeviceCommon")
-                    .downcast()
-                    .expect("Created row data is of wrong type");
+            fn get_device_info(&self, _: &Self::Type) -> Result<DeviceInfo, Error> {
+                let device_info =
+                    Object::new(&[("name", &"MyName")]).expect("Failed to create DeviceCommon");
                 Ok(device_info)
             }
 
-            fn create_source(&self, _: &DeviceCommon) -> Result<Source, Error> {
+            fn create_source(&self, _: &Self::Type) -> Result<Source, Error> {
                 Err(Error::new(DeviceCommonError::IsOpened, "expected"))
             }
 
-            fn handle_disconnection(&self, _: &DeviceCommon) {
+            fn handle_disconnection(&self, _: &Self::Type) {
                 *self.0.borrow_mut() = true;
             }
         }
     }
 
-    glib_wrapper! {
-        pub struct DeviceCommonTest(
-            Object<InstanceStruct<imp::DeviceCommonTestPrivate>,
-            ClassStruct<imp::DeviceCommonTestPrivate>, DeviceCommonTestClass>
-        ) @implements DeviceCommon;
-
-        match fn {
-            get_type => || imp::DeviceCommonTestPrivate::get_type().to_glib(),
-        }
+    glib::wrapper! {
+        pub struct DeviceCommonTest(ObjectSubclass<imp::DeviceCommonTestPrivate>)
+            @implements DeviceCommon;
     }
 
     impl DeviceCommonTest {
         fn new() -> Self {
-            Object::new(Self::static_type(), &[])
-                .expect("Failed to create DeviceCommon")
-                .downcast()
-                .expect("Created row data is of wrong type")
+            Object::new(&[]).expect("Failed to create DeviceCommon")
         }
 
-        fn get_property_handled(&self) -> bool {
-            self.get_property("handled")
-                .expect("Failed to get 'handled' property")
-                .get::<bool>()
-                .expect("Failed to get boolean from 'handled' property")
-                .unwrap()
+        fn handled(&self) -> bool {
+            self.property::<bool>("handled")
         }
     }
 
@@ -245,13 +352,13 @@ mod test {
 
         // The '/dev/snd/hwC10000D10000' hardly exists in the system.
         assert!(device.open(10000, 10000, 0).is_err());
-        assert_eq!(device.get_protocol_version(), Ok([1, 2, 3]));
-        let device_info = device.get_device_info().unwrap();
-        assert_eq!(device_info.get_property_name().unwrap(), "MyName");
+        assert_eq!(device.protocol_version(), Ok([1, 2, 3]));
+        let device_info = device.device_info().unwrap();
+        assert_eq!(device_info.name().unwrap(), "MyName");
         assert!(device.create_source().is_err());
 
-        assert_eq!(device.get_property_handled(), false);
+        assert_eq!(device.handled(), false);
         device.emit_handle_disconnection();
-        assert_eq!(device.get_property_handled(), true);
+        assert_eq!(device.handled(), true);
     }
 }

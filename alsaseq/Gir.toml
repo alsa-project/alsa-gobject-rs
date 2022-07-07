@@ -3,6 +3,7 @@
 "alsa_timer" = "alsatimer"
 
 [options]
+girs_directories = ["../gir-files", ".."]
 work_mode = "normal"
 library = "ALSASeq"
 version = "0.0"

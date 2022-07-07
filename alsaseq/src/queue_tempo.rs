@@ -2,15 +2,15 @@
 use super::*;
 
 pub trait QueueTempoExtManual {
-    fn get_skew(&self) -> &[u32; 2];
+    fn skew(&self) -> &[u32; 2];
     fn set_skew(&self, skew: &[u32; 2]);
 }
 
 impl<O: IsA<QueueTempo>> QueueTempoExtManual for O {
-    fn get_skew(&self) -> &[u32; 2] {
+    fn skew(&self) -> &[u32; 2] {
         unsafe {
             let mut ptr = std::ptr::null_mut() as *const [u32; 2];
-            alsaseq_sys::alsaseq_queue_tempo_get_skew(
+            ffi::alsaseq_queue_tempo_get_skew(
                 self.as_ref().to_glib_none().0,
                 &mut ptr as *mut *const [u32; 2],
             );
@@ -20,7 +20,7 @@ impl<O: IsA<QueueTempo>> QueueTempoExtManual for O {
 
     fn set_skew(&self, skew: &[u32; 2]) {
         unsafe {
-            alsaseq_sys::alsaseq_queue_tempo_set_skew(self.as_ref().to_glib_none().0, skew);
+            ffi::alsaseq_queue_tempo_set_skew(self.as_ref().to_glib_none().0, skew);
         }
     }
 }
@@ -33,9 +33,9 @@ mod test {
     fn test_manual_bindings() {
         let skew_expected = [123, 456];
         let tempo = QueueTempo::new();
-        let skew_orig = tempo.get_skew().clone();
+        let skew_orig = tempo.skew().clone();
         tempo.set_skew(&skew_expected);
-        let skew_target = tempo.get_skew();
+        let skew_target = tempo.skew();
         assert_ne!(skew_expected, skew_orig);
         assert_eq!(&skew_expected, skew_target);
     }

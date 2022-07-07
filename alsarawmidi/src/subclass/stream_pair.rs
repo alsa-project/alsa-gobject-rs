@@ -3,73 +3,68 @@
 use super::*;
 
 pub trait StreamPairImpl: ObjectImpl + StreamPairImplExt {
-    fn handle_messages(&self, stream_pair: &StreamPair) {
+    fn handle_messages(&self, stream_pair: &Self::Type) {
         self.parent_handle_messages(stream_pair)
     }
-    fn handle_disconnection(&self, stream_pair: &StreamPair) {
+    fn handle_disconnection(&self, stream_pair: &Self::Type) {
         self.parent_handle_disconnection(stream_pair)
     }
 }
 
 pub trait StreamPairImplExt: ObjectSubclass {
-    fn parent_handle_messages(&self, stream_pair: &StreamPair);
-    fn parent_handle_disconnection(&self, stream_pair: &StreamPair);
+    fn parent_handle_messages(&self, stream_pair: &Self::Type);
+    fn parent_handle_disconnection(&self, stream_pair: &Self::Type);
 }
 
 impl<T: StreamPairImpl> StreamPairImplExt for T {
-    fn parent_handle_messages(&self, stream_pair: &StreamPair) {
+    fn parent_handle_messages(&self, stream_pair: &Self::Type) {
         unsafe {
             let data = T::type_data();
-            let parent_class = data.as_ref().get_parent_class()
-                as *mut alsarawmidi_sys::ALSARawmidiStreamPairClass;
+            let parent_class = data.as_ref().parent_class() as *mut ffi::ALSARawmidiStreamPairClass;
             let f = (*parent_class)
                 .handle_messages
                 .expect("No parent class implementation for \"handle_messages\"");
-            f(stream_pair.to_glib_none().0)
+            f(stream_pair.unsafe_cast_ref::<StreamPair>().to_glib_none().0)
         }
     }
 
-    fn parent_handle_disconnection(&self, stream_pair: &StreamPair) {
+    fn parent_handle_disconnection(&self, stream_pair: &Self::Type) {
         unsafe {
             let data = T::type_data();
-            let parent_class = data.as_ref().get_parent_class()
-                as *mut alsarawmidi_sys::ALSARawmidiStreamPairClass;
+            let parent_class = data.as_ref().parent_class() as *mut ffi::ALSARawmidiStreamPairClass;
             let f = (*parent_class)
                 .handle_disconnection
                 .expect("No parent class implementation for \"handle_disconnection\"");
-            f(stream_pair.to_glib_none().0)
+            f(stream_pair.unsafe_cast_ref::<StreamPair>().to_glib_none().0)
         }
     }
 }
 
-unsafe impl<T: StreamPairImpl> IsSubclassable<T> for StreamPairClass {
-    fn override_vfuncs(&mut self) {
-        <ObjectClass as IsSubclassable<T>>::override_vfuncs(self);
-        unsafe {
-            let klass =
-                &mut *(self as *mut Self as *mut alsarawmidi_sys::ALSARawmidiStreamPairClass);
-            klass.handle_messages = Some(stream_pair_handle_messages::<T>);
-            klass.handle_disconnection = Some(stream_pair_handle_disconnection::<T>);
-        }
+unsafe impl<T: StreamPairImpl> IsSubclassable<T> for StreamPair {
+    fn class_init(class: &mut Class<Self>) {
+        Self::parent_class_init::<T>(class);
+        let klass = class.as_mut();
+        klass.handle_messages = Some(stream_pair_handle_messages::<T>);
+        klass.handle_disconnection = Some(stream_pair_handle_disconnection::<T>);
     }
 }
 
 unsafe extern "C" fn stream_pair_handle_messages<T: StreamPairImpl>(
-    ptr: *mut alsarawmidi_sys::ALSARawmidiStreamPair,
+    ptr: *mut ffi::ALSARawmidiStreamPair,
 ) {
     let instance = &*(ptr as *mut T::Instance);
-    let imp = instance.get_impl();
+    let imp = instance.imp();
     let wrap: Borrowed<StreamPair> = from_glib_borrow(ptr);
 
-    imp.handle_messages(&wrap)
+    imp.handle_messages(wrap.unsafe_cast_ref())
 }
 
 unsafe extern "C" fn stream_pair_handle_disconnection<T: StreamPairImpl>(
-    ptr: *mut alsarawmidi_sys::ALSARawmidiStreamPair,
+    ptr: *mut ffi::ALSARawmidiStreamPair,
 ) {
     let instance = &*(ptr as *mut T::Instance);
-    let imp = instance.get_impl();
+    let imp = instance.imp();
     let wrap: Borrowed<StreamPair> = from_glib_borrow(ptr);
 
-    imp.handle_disconnection(&wrap)
+    imp.handle_disconnection(wrap.unsafe_cast_ref())
 }

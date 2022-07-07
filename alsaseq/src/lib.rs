@@ -1,13 +1,4 @@
 // SPDX-License-Identifier: MIT
-#[macro_use]
-extern crate glib;
-#[macro_use]
-extern crate bitflags;
-extern crate alsaseq_sys;
-extern crate alsatimer;
-extern crate glib_sys;
-extern crate gobject_sys;
-extern crate libc;
 
 mod auto;
 mod client_info;
@@ -44,7 +35,12 @@ pub mod prelude {
 /// For subclass implementations derived from provided class.
 pub mod subclass;
 
+// To access to alsaseq-sys crate for FFI.
+pub use ffi;
+
 use glib::{object::IsA, translate::*, Cast, Error, StaticType, Value};
+
+use crate::prelude::*;
 
 pub enum QueueTimer {
     Alsa(QueueTimerAlsa),
@@ -52,7 +48,7 @@ pub enum QueueTimer {
 
 impl From<QueueTimerCommon> for QueueTimer {
     fn from(obj: QueueTimerCommon) -> Self {
-        match obj.get_property_timer_type() {
+        match obj.timer_type() {
             QueueTimerType::Alsa => QueueTimer::Alsa(obj.downcast().unwrap()),
             _ => unreachable!(),
         }
