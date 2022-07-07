@@ -3,6 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+#![doc = include_str!("../README.md")]
 #![allow(non_camel_case_types, non_upper_case_globals, non_snake_case)]
 #![allow(
     clippy::approx_constant,

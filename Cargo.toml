@@ -45,3 +45,8 @@ repository = "https://github.com/alsa-project/alsa-gobject"
 purpose = """
 operate ALSA Timer character device
 """
+[workspace.metadata.library.alsaseq]
+repository = "https://github.com/alsa-project/alsa-gobject"
+purpose = """
+operate ALSA Sequencer character device
+"""
