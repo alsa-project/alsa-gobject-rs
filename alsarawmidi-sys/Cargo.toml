@@ -3,7 +3,7 @@ build = "build.rs"
 edition = "2018"
 links = "alsarawmidi"
 name = "alsarawmidi-sys"
-version = "0.3.0"
+version = "0.0.90"
 # For publishing.
 authors = ["Takashi Sakamoto <o-takashi@sakamocchi.jp>"]
 categories = ["external-ffi-bindings", "hardware-support", "os::linux-apis"]

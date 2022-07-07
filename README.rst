@@ -1,8 +1,8 @@
-==========================
-alsa-gobject Rust bindings
-==========================
+===========================================
+Rust bindings for libraries in alsa-gobject
+===========================================
 
-2022/06/30
+2022/07/07
 Takashi Sakamoto
 
 Introduction
@@ -10,18 +10,19 @@ Introduction
 
 * This repository includes FFI and API bindings for libraries in alsa-gobject project.
 
-  * https://github.com/alsa-project/alsa-gobject/
+  * `<https://github.com/alsa-project/alsa-gobject/>`_
 
-The latest release is `version 0.3.0 <https://github.com/alsa-project/alsa-gobject-rs/releases/tag/v0.3.0>`_
-which supports `alsa-gobject version 0.3.0 <https://github.com/alsa-project/alsa-gobject/releases/tag/v0.3.0>`_.
+* The crates are available in `crates.io <https://crates.io/>`_ as well.
+
+* The latest release is version 0.0.99. This is pre-release to publish crates in crates.io.
 
 License
 =======
 
 MIT License
 
-Sample code
-===========
+Examples
+========
 
 * ``alsactl/examples/dump-elem-data.rs``
 
