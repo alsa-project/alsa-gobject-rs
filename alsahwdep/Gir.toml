@@ -32,6 +32,13 @@ status = "generate"
     name = "get_device_info"
 
 [[object]]
+name = "ALSAHwdep.DeviceCommonError"
+status = "generate"
+    [[object.function]]
+    name = "to_label"
+    manual = true
+
+[[object]]
 name = "ALSAHwdep.DeviceCommon"
 status = "generate"
 manual_traits = ["DeviceCommonExtManual"]
