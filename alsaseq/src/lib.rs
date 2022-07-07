@@ -16,7 +16,7 @@ mod event;
 mod event_cntr;
 mod event_data_connect;
 mod event_data_queue;
-mod query;
+mod functions;
 mod queue_status;
 mod queue_tempo;
 mod remove_filter;
@@ -30,7 +30,7 @@ pub use {
     event_cntr::*,
     event_data_connect::*,
     event_data_queue::*,
-    query::*,
+    functions::*,
 };
 
 /// For convenience to provide auto-generated/manual traits, and their blanket implementations.
