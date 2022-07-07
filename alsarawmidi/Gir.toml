@@ -32,10 +32,10 @@ status = "generate"
 manual_traits = ["StreamPairExtManual"]
     [[object.function]]
     name = "get_protocol_version"
-    ignore = true
+    manual = true
     [[object.function]]
     name = "get_substream_status"
-    ignore = true
+    manual = true
     [[object.function]]
     name = "read_from_substream"
-    ignore = true
+    manual = true
