@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 use super::*;
 
+#[doc(alias = "alsatimer_get_device_id_list")]
 pub fn device_id_list() -> Result<Vec<DeviceId>, glib::Error> {
     unsafe {
         let mut entries = std::ptr::null_mut();
@@ -16,6 +17,7 @@ pub fn device_id_list() -> Result<Vec<DeviceId>, glib::Error> {
     }
 }
 
+#[doc(alias = "alsatimer_set_device_params")]
 pub fn set_device_params(
     device_id: &mut DeviceId,
     device_params: &DeviceParams,
@@ -37,6 +39,7 @@ pub fn set_device_params(
     }
 }
 
+#[doc(alias = "alsatimer_get_device_status")]
 pub fn device_status<P: IsA<DeviceStatus>>(
     device_id: &mut DeviceId,
     status: &mut P,

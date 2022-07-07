@@ -2,6 +2,7 @@
 use super::*;
 
 pub trait InstanceStatusExtManual {
+    #[doc(alias = "alsatimer_instance_status_get_time")]
     fn time(&self) -> &[i64; 2];
 }
 

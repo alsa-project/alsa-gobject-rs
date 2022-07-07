@@ -2,7 +2,10 @@
 use super::*;
 
 pub trait InstanceParamsExtManual {
+    #[doc(alias = "alsatimer_instance_params_set_event_filter")]
     fn set_event_filter(&self, event_filter: &[RealTimeEventType]) -> Result<(), glib::Error>;
+    #[doc(alias = "alsatimer_instance_params_get_event_filter")]
+    #[doc(alias = "get_event_filter")]
     fn event_filter(&self) -> Result<Vec<RealTimeEventType>, glib::Error>;
 }
 

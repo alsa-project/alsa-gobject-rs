@@ -2,6 +2,8 @@
 use super::*;
 
 impl RealTimeEvent {
+    #[doc(alias = "alsatimer_real_time_event_get_time")]
+    #[doc(alias = "get_time")]
     pub fn time(&mut self) -> [i64; 2] {
         unsafe {
             let mut real_time = [0i64; 2];

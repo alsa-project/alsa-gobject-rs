@@ -2,8 +2,13 @@
 use super::*;
 
 pub trait UserInstanceExtManual {
+    #[doc(alias = "alsatimer_user_instance_get_protocol_version")]
+    #[doc(alias = "get_protocol_version")]
     fn protocol_version(&self) -> Result<&[u16; 3], glib::Error>;
+    #[doc(alias = "alsatimer_user_instance_set_params")]
     fn set_params<P: IsA<InstanceParams>>(&self, params: &mut P) -> Result<(), glib::Error>;
+    #[doc(alias = "alsatimer_user_instance_get_status")]
+    #[doc(alias = "get_status")]
     fn status<P: IsA<InstanceStatus>>(&self, status: &mut P) -> Result<(), glib::Error>;
 }
 
