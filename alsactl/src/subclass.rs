@@ -3,7 +3,7 @@
 mod card;
 
 pub mod prelude {
-    pub use super::card::CardImpl;
+    pub use super::card::*;
 }
 
 use {
