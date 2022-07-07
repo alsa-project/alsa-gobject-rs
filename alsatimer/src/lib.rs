@@ -11,14 +11,14 @@ extern crate libc;
 mod auto;
 mod instance_params;
 mod instance_status;
-mod query;
+mod functions;
 mod real_time_event;
 mod user_instance;
 
 // For convenience to provide structures and functions.
 pub use {
     auto::{functions::*, *},
-    query::*,
+    functions::*,
 };
 
 /// For convenience to provide auto-generated/manual traits, and their blanket implementations.
