@@ -3,7 +3,7 @@
 mod stream_pair;
 
 pub mod prelude {
-    pub use super::stream_pair::StreamPairImpl;
+    pub use super::stream_pair::*;
 }
 
 use {
