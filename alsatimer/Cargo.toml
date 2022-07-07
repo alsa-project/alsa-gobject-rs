@@ -1,11 +1,12 @@
 [package]
+edition = "2018"
+name = "alsatimer"
+version = "0.3.0"
+# For publishing.
 authors = ["Takashi Sakamoto <o-takashi@sakamocchi.jp>"]
 description = "API binding for libalsatimer library"
-edition = "2018"
 license = "MIT"
-name = "alsatimer"
 repository = "https://github.com/alsa-project/alsa-gobject-rs"
-version = "0.3.0"
 
 [lib]
 name = "alsatimer"
