@@ -22,13 +22,27 @@ mod queue_tempo;
 mod remove_filter;
 mod user_client;
 
-pub mod subclass;
-
+// For convenience to provide structures and functions.
 pub use {
-    auto::*, client_info::*, enums::*, event::*, event_cntr::*, event_data_connect::*,
-    event_data_queue::*, query::*, queue_status::*, queue_tempo::*, remove_filter::*,
-    user_client::*,
+    auto::{functions::*, *},
+    enums::*,
+    event::*,
+    event_cntr::*,
+    event_data_connect::*,
+    event_data_queue::*,
+    query::*,
 };
+
+/// For convenience to provide auto-generated/manual traits, and their blanket implementations.
+pub mod prelude {
+    pub use crate::{
+        auto::traits::*, client_info::*, queue_status::*, queue_tempo::*, remove_filter::*,
+        user_client::*,
+    };
+}
+
+/// For subclass implementations derived from provided class.
+pub mod subclass;
 
 use glib::{object::IsA, translate::*, Cast, Error, StaticType, Value};
 

@@ -2,7 +2,7 @@
 extern crate alsaseq;
 extern crate glib;
 extern crate nix;
-use alsaseq::{traits::*, *};
+use alsaseq::{prelude::*, *};
 use glib::{source, translate::*, Error, MainLoop};
 use nix::sys::signal;
 use std::sync::Arc;

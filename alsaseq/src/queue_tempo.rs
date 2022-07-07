@@ -27,7 +27,7 @@ impl<O: IsA<QueueTempo>> QueueTempoExtManual for O {
 
 #[cfg(test)]
 mod test {
-    use crate::*;
+    use crate::{prelude::*, *};
 
     #[test]
     fn test_manual_bindings() {
