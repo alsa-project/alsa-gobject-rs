@@ -9,9 +9,9 @@ extern crate gobject_sys;
 extern crate libc;
 
 mod auto;
+mod functions;
 mod instance_params;
 mod instance_status;
-mod functions;
 mod real_time_event;
 mod user_instance;
 

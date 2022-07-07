@@ -35,14 +35,15 @@ status = "generate"
     name = "get_devnode"
     [[object.function]]
     name = "get_device_id_list"
-    ignore = true
+    manual = true
     [[object.function]]
     name = "get_device_info"
     [[object.function]]
     name = "get_device_status"
+    manual = true
     [[object.function]]
     name = "set_device_params"
-    ignore = true
+    manual = true
     [[object.function]]
     name = "get_real_time_clock_id"
 
@@ -52,13 +53,13 @@ status = "generate"
 manual_traits = ["UserInstanceExtManual"]
     [[object.function]]
     name = "get_protocol_version"
-    ignore = true
+    manual = true
     [[object.function]]
     name = "set_params"
-    ignore = true
+    manual = true
     [[object.function]]
     name = "get_status"
-    ignore = true
+    manual = true
 
 [[object]]
 name = "ALSATimer.InstanceParams"
@@ -66,10 +67,10 @@ status = "generate"
 manual_traits = ["InstanceParamsExtManual"]
     [[object.function]]
     name = "set_event_filter"
-    ignore = true
+    manual = true
     [[object.function]]
     name = "get_event_filter"
-    ignore = true
+    manual = true
 
 [[object]]
 name = "ALSATimer.InstanceStatus"
@@ -77,7 +78,7 @@ status = "generate"
 manual_traits = ["InstanceStatusExtManual"]
     [[object.function]]
     name = "get_time"
-    ignore = true
+    manual = true
 
 [[object]]
 name = "ALSATimer.DeviceId"
@@ -95,4 +96,4 @@ status = "generate"
 concurrency = "send"
     [[object.function]]
     name = "get_time"
-    ignore = true
+    manual = true
