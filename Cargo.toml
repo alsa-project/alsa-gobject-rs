@@ -35,3 +35,8 @@ repository = "https://github.com/alsa-project/alsa-gobject"
 purpose = """
 operate ALSA HwDep character device
 """
+[workspace.metadata.library.alsarawmidi]
+repository = "https://github.com/alsa-project/alsa-gobject"
+purpose = """
+operate ALSA Rawmidi character device
+"""
