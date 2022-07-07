@@ -2,14 +2,18 @@
 use super::*;
 
 pub trait StreamPairExtManual {
+    #[doc(alias = "alsarawmidi_stream_pair_get_protocol_version")]
+    #[doc(alias = "get_protocol_version")]
     fn protocol_version(&self) -> Result<&[u16; 3], glib::Error>;
 
+    #[doc(alias = "alsarawmidi_stream_pair_get_substream_status")]
     fn substream_status<P: IsA<SubstreamStatus>>(
         &self,
         direction: StreamDirection,
         substream_status: &mut P,
     ) -> Result<(), glib::Error>;
 
+    #[doc(alias = "alsarawmidi_stream_pair_read_from_substream")]
     fn read_from_substream(&self, buf: &mut [u8]) -> Result<usize, glib::Error>;
 }
 
