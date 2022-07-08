@@ -15,7 +15,7 @@ Add the following line to your Cargo.toml file:
 
 ```toml
 [dependencies]
-alsatimer = "0.0.90"
+alsatimer = "0.0.91"
 ```
 
 The API documentation is available in <https://docs.rs/alsatimer/>.
