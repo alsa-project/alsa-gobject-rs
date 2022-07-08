@@ -18,6 +18,12 @@ The alsatimer-sys crate is released under [MIT license](https://spdx.org/license
 The alsatimer-sys crate depends on FFI crates provided by [gtk-rs project](https://gtk-rs.org/) for
 type/object system, event loop, and dispacher.
 
+## Features for documentation
+
+* dox
+
+   * Suppress linking to alsatimer library when generating documentation.
+
 ## Repository
 
 The alsatimer-sys crate is the part of ALSA project and maintained by
