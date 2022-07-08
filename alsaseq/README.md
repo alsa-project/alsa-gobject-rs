@@ -29,6 +29,12 @@ The alsaseq crate is released under [MIT license](https://spdx.org/licenses/MIT.
 The alsaseq crate depends on API crates provided by [gtk-rs project](https://gtk-rs.org/) for
 type/object system, event loop, and dispacher.
 
+## Features for documentation
+
+* dox
+
+   * Suppress linking to alsaseq library when generating documentation.
+
 ## Repository
 
 The alsaseq crate is the part of ALSA project and maintained by
