@@ -12,6 +12,8 @@ homepage = "https://alsa-project.github.io/gobject-introspection-docs/"
 keywords = ["music", "alsa", "linux", "glib"]
 license = "MIT"
 repository = "https://github.com/alsa-project/alsa-gobject-rs"
+[package.metadata.docs.rs]
+features = ["dox"]
 
 [lib]
 name = "alsahwdep"
@@ -25,3 +27,7 @@ ffi = {package = "alsahwdep-sys", path = "../alsahwdep-sys", version = "0.0.90" 
 [dev-dependencies]
 gir-format-check = "^0.1"
 once_cell = "1.12"
+
+[features]
+# To suppress linking to C library to generate documentation.
+dox = ["ffi/dox", "glib/dox"]
