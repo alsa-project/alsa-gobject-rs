@@ -14,7 +14,7 @@ Introduction
 
 * The crates are available in `crates.io <https://crates.io/>`_ as well.
 
-* The latest release is version 0.0.99. This is pre-release to publish crates in crates.io.
+* The latest release is version 0.0.92. This is pre-release to publish crates in crates.io.
 
 License
 =======
