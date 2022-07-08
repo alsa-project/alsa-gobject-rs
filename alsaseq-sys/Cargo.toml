@@ -48,4 +48,4 @@ tempfile = "3"
 
 [features]
 # To suppress linking to C library to generate documentation.
-dox = []
+dox = ["alsatimer-sys/dox"]
