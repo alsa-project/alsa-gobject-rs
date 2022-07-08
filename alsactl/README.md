@@ -29,6 +29,12 @@ The alsactl crate is released under [MIT license](https://spdx.org/licenses/MIT.
 The alsactl crate depends on API crates provided by [gtk-rs project](https://gtk-rs.org/) for
 type/object system, event loop, and dispacher.
 
+## Features for documentation
+
+* dox
+
+   * Suppress linking to alsactl library when generating documentation.
+
 ## Repository
 
 The alsactl crate is the part of ALSA project and maintained by
