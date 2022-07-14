@@ -20,6 +20,6 @@ pub mod subclass;
 pub use ffi;
 
 // For links in documentation.
-use glib;
+pub(crate) use glib;
 
 use glib::{object::IsA, translate::*};
