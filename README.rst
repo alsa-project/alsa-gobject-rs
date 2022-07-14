@@ -16,6 +16,27 @@ Introduction
 
 * The latest release is version 0.0.92. This is pre-release to publish crates in crates.io.
 
+Crates
+======
+
+API bindings for safe and high-level abstractions
+-------------------------------------------------
+
+* `alsactl crate <alsactl/README.md>`_ for alsactl library
+* `alsahwdep crate <alsahwdep/README.md>`_ for alsahwdep library
+* `alsarawmidi crate <alsarawmidi/README.md>`_ for alsarawmidi library
+* `alsatimer crate <alsatimer/README.md>`_ for alsatimer library
+* `alsaseq crate <alsaseq/README.md>`_ for alsaseq library
+
+`FFI bindings <https://doc.rust-lang.org/cargo/reference/build-scripts.html#-sys-packages>`_
+--------------------------------------------------------------------------------------------
+
+* `alsactl-sys crate <alsactl-sys/README.md>`_ for alsactl library
+* `alsahwdep-sys crate <alsahwdep-sys/README.md>`_ for alsahwdep library
+* `alsarawmidi-sys crate <alsarawmidi-sys/README.md>`_ for alsarawmidi library
+* `alsatimer-sys crate <alsatimer-sys/README.md>`_ for alsatimer library
+* `alsaseq-sys crate <alsaseq-sys/README.md>`_ for alsaseq library
+
 License
 =======
 
