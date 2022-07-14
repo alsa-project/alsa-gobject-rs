@@ -57,11 +57,12 @@ impl<O: IsA<StreamPair>> StreamPairExtManual for O {
             let mut triplet = std::ptr::null_mut() as *const [u16; 3];
             let mut error = std::ptr::null_mut();
 
-            let _ = ffi::alsarawmidi_stream_pair_get_protocol_version(
+            let is_ok = ffi::alsarawmidi_stream_pair_get_protocol_version(
                 self.as_ref().to_glib_none().0,
                 &mut triplet as *mut *const [u16; 3],
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 
             if error.is_null() {
                 Ok(&*triplet)
@@ -79,12 +80,13 @@ impl<O: IsA<StreamPair>> StreamPairExtManual for O {
         unsafe {
             let mut error = std::ptr::null_mut();
 
-            let _ = ffi::alsarawmidi_stream_pair_get_substream_status(
+            let is_ok = ffi::alsarawmidi_stream_pair_get_substream_status(
                 self.as_ref().to_glib_none().0,
                 direction.into_glib(),
                 &mut substream_status.as_ref().to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 
             if error.is_null() {
                 Ok(())
@@ -99,12 +101,13 @@ impl<O: IsA<StreamPair>> StreamPairExtManual for O {
             let mut len = buf.len();
             let mut error = std::ptr::null_mut();
 
-            let _ = ffi::alsarawmidi_stream_pair_read_from_substream(
+            let is_ok = ffi::alsarawmidi_stream_pair_read_from_substream(
                 self.as_ref().to_glib_none().0,
                 &mut buf.as_mut_ptr(),
                 &mut len,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 
             if error.is_null() {
                 Ok(len)
