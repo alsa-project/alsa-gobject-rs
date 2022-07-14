@@ -155,11 +155,12 @@ impl<O: IsA<Card>> CardExtManual for O {
             let mut triplet = std::ptr::null_mut() as *const [u16; 3];
             let mut error = std::ptr::null_mut();
 
-            let _ = ffi::alsactl_card_get_protocol_version(
+            let is_ok = ffi::alsactl_card_get_protocol_version(
                 self.as_ref().to_glib_none().0,
                 &mut triplet as *mut *const [u16; 3],
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 
             if error.is_null() {
                 Ok(&*triplet)
@@ -174,11 +175,12 @@ impl<O: IsA<Card>> CardExtManual for O {
             let mut entries = std::ptr::null_mut();
             let mut error = std::ptr::null_mut();
 
-            let _ = ffi::alsactl_card_get_elem_id_list(
+            let is_ok = ffi::alsactl_card_get_elem_id_list(
                 self.as_ref().to_glib_none().0,
                 &mut entries,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 
             if error.is_null() {
                 Ok(FromGlibPtrContainer::from_glib_full(entries))
@@ -192,12 +194,14 @@ impl<O: IsA<Card>> CardExtManual for O {
         unsafe {
             let mut elem_info = std::ptr::null_mut();
             let mut error = std::ptr::null_mut();
-            let _ = ffi::alsactl_card_get_elem_info(
+            let is_ok = ffi::alsactl_card_get_elem_info(
                 self.as_ref().to_glib_none().0,
                 elem_id.to_glib_none().0,
                 &mut elem_info,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+
             if error.is_null() {
                 let obj = ElemInfoCommon::from_glib_full(elem_info);
                 Ok(ElemInfo::from(obj))
@@ -215,12 +219,13 @@ impl<O: IsA<Card>> CardExtManual for O {
         unsafe {
             let mut error = std::ptr::null_mut();
 
-            let _ = ffi::alsactl_card_read_elem_value(
+            let is_ok = ffi::alsactl_card_read_elem_value(
                 self.as_ref().to_glib_none().0,
                 elem_id.to_glib_none().0,
                 &mut elem_value.as_ref().to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 
             if error.is_null() {
                 Ok(())
@@ -235,13 +240,14 @@ impl<O: IsA<Card>> CardExtManual for O {
             let mut container_size = container.len();
             let mut error = std::ptr::null_mut();
 
-            let _ = ffi::alsactl_card_command_elem_tlv(
+            let is_ok = ffi::alsactl_card_command_elem_tlv(
                 self.as_ref().to_glib_none().0,
                 elem_id.to_glib_none().0,
                 &container.as_mut_ptr(),
                 &mut container_size,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 
             if error.is_null() {
                 Ok(())
@@ -256,13 +262,14 @@ impl<O: IsA<Card>> CardExtManual for O {
             let mut container_size = container.len() as usize;
             let mut error = std::ptr::null_mut();
 
-            let _ = ffi::alsactl_card_read_elem_tlv(
+            let is_ok = ffi::alsactl_card_read_elem_tlv(
                 self.as_ref().to_glib_none().0,
                 elem_id.to_glib_none().0,
                 &container.as_mut_ptr(),
                 &mut container_size,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 
             if error.is_null() {
                 Ok(())
@@ -282,7 +289,7 @@ impl<O: IsA<Card>> CardExtManual for O {
             let mut entries = std::ptr::null_mut();
             let mut error = std::ptr::null_mut();
 
-            let _ = ffi::alsactl_card_add_elems(
+            let is_ok = ffi::alsactl_card_add_elems(
                 self.as_ref().to_glib_none().0,
                 elem_id.to_glib_none().0,
                 elem_count,
@@ -290,6 +297,7 @@ impl<O: IsA<Card>> CardExtManual for O {
                 &mut entries,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 
             if error.is_null() {
                 Ok(FromGlibPtrContainer::from_glib_full(entries))
@@ -309,7 +317,7 @@ impl<O: IsA<Card>> CardExtManual for O {
             let mut entries = std::ptr::null_mut();
             let mut error = std::ptr::null_mut();
 
-            let _ = ffi::alsactl_card_replace_elems(
+            let is_ok = ffi::alsactl_card_replace_elems(
                 self.as_ref().to_glib_none().0,
                 elem_id.to_glib_none().0,
                 elem_count,
@@ -317,6 +325,7 @@ impl<O: IsA<Card>> CardExtManual for O {
                 &mut entries,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 
             if error.is_null() {
                 Ok(FromGlibPtrContainer::from_glib_full(entries))
