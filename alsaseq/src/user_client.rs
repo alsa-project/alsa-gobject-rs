@@ -144,11 +144,12 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
             let mut triplet = std::ptr::null_mut() as *const [u16; 3];
             let mut error = std::ptr::null_mut();
 
-            let _ = ffi::alsaseq_user_client_get_protocol_version(
+            let is_ok = ffi::alsaseq_user_client_get_protocol_version(
                 self.as_ref().to_glib_none().0,
                 &mut triplet as *mut *const [u16; 3],
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 
             if error.is_null() {
                 Ok(&*triplet)
@@ -161,11 +162,13 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
     fn create_port<P: IsA<PortInfo>>(&self, port_info: &mut P) -> Result<(), Error> {
         unsafe {
             let mut error = std::ptr::null_mut();
-            let _ = ffi::alsaseq_user_client_create_port(
+            let is_ok = ffi::alsaseq_user_client_create_port(
                 self.as_ref().to_glib_none().0,
                 &mut port_info.as_ref().to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+
             if error.is_null() {
                 Ok(())
             } else {
@@ -181,12 +184,14 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
     ) -> Result<(), Error> {
         unsafe {
             let mut error = std::ptr::null_mut();
-            let _ = ffi::alsaseq_user_client_create_port_at(
+            let is_ok = ffi::alsaseq_user_client_create_port_at(
                 self.as_ref().to_glib_none().0,
                 &mut port_info.as_ref().to_glib_none().0,
                 port_id,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+
             if error.is_null() {
                 Ok(())
             } else {
@@ -199,11 +204,12 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
         unsafe {
             let mut error = std::ptr::null_mut();
 
-            let _ = ffi::alsaseq_user_client_create_queue(
+            let is_ok = ffi::alsaseq_user_client_create_queue(
                 self.as_ref().to_glib_none().0,
                 &mut queue_info.as_ref().to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 
             if error.is_null() {
                 Ok(())
@@ -217,11 +223,12 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
         unsafe {
             let mut error = std::ptr::null_mut();
 
-            let _ = ffi::alsaseq_user_client_get_info(
+            let is_ok = ffi::alsaseq_user_client_get_info(
                 self.as_ref().to_glib_none().0,
                 &mut client_info.as_ref().to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 
             if error.is_null() {
                 Ok(())
@@ -235,11 +242,12 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
         unsafe {
             let mut error = std::ptr::null_mut();
 
-            let _ = ffi::alsaseq_user_client_get_pool(
+            let is_ok = ffi::alsaseq_user_client_get_pool(
                 self.as_ref().to_glib_none().0,
                 &mut client_pool.as_ref().to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 
             if error.is_null() {
                 Ok(())
@@ -253,12 +261,14 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
         unsafe {
             let mut queue_timer = std::ptr::null_mut();
             let mut error = std::ptr::null_mut();
-            let _ = ffi::alsaseq_user_client_get_queue_timer(
+            let is_ok = ffi::alsaseq_user_client_get_queue_timer(
                 self.as_ref().to_glib_none().0,
                 queue_id,
                 &mut queue_timer,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+
             if error.is_null() {
                 let obj = QueueTimerCommon::from_glib_full(queue_timer);
                 let queue_timer = match obj.timer_type() {
@@ -282,12 +292,14 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
 
         unsafe {
             let mut error = std::ptr::null_mut();
-            let _ = ffi::alsaseq_user_client_set_queue_timer(
+            let is_ok = ffi::alsaseq_user_client_set_queue_timer(
                 self.as_ref().to_glib_none().0,
                 queue_id,
                 inst.to_glib_none().0,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+
             if error.is_null() {
                 Ok(())
             } else {
@@ -321,6 +333,7 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
                 &mut error,
             );
             assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+
             if error.is_null() {
                 Ok(count.assume_init())
             } else {

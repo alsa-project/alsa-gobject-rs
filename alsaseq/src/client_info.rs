@@ -33,12 +33,13 @@ impl<O: IsA<ClientInfo>> ClientInfoExtManual for O {
             let mut len = 0 as usize;
             let mut error = std::ptr::null_mut();
 
-            ffi::alsaseq_client_info_get_event_filter(
+            let is_ok = ffi::alsaseq_client_info_get_event_filter(
                 self.as_ref().to_glib_none().0,
                 &mut ptr,
                 &mut len,
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 
             if error.is_null() {
                 let array = std::slice::from_raw_parts(ptr, len);
@@ -62,12 +63,13 @@ impl<O: IsA<ClientInfo>> ClientInfoExtManual for O {
                 array.push(entry.into_glib());
             }
 
-            ffi::alsaseq_client_info_set_event_filter(
+            let is_ok = ffi::alsaseq_client_info_set_event_filter(
                 self.as_ref().to_glib_none().0,
                 array.as_ptr(),
                 array.len(),
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 
             if error.is_null() {
                 Ok(())
