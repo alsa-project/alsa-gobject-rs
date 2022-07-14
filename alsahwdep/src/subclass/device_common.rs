@@ -142,7 +142,7 @@ impl<T: DeviceCommonImpl> DeviceCommonImplExt for T {
                 .handle_disconnection
                 .expect("No parent \"handle_disconnection\" implementation");
 
-            let _ = f(device.unsafe_cast_ref::<DeviceCommon>().to_glib_none().0);
+            f(device.unsafe_cast_ref::<DeviceCommon>().to_glib_none().0);
         }
     }
 }

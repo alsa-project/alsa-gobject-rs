@@ -25,11 +25,12 @@ impl<O: IsA<DeviceCommon>> DeviceCommonExtManual for O {
             let mut triplet = [0u16; 3];
             let mut error = std::ptr::null_mut();
 
-            let _ = ffi::alsahwdep_device_common_get_protocol_version(
+            let is_ok = ffi::alsahwdep_device_common_get_protocol_version(
                 self.as_ref().to_glib_none().0,
                 &(triplet.as_mut_ptr() as *mut [u16; 3]),
                 &mut error,
             );
+            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 
             if error.is_null() {
                 Ok(triplet)
