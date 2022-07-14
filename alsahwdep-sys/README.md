@@ -18,11 +18,12 @@ The alsahwdep-sys crate is released under [MIT license](https://spdx.org/license
 The alsahwdep-sys crate depends on FFI crates provided by [gtk-rs project](https://gtk-rs.org/) for
 type/object system, event loop, and dispacher.
 
-## Features for documentation
+## Features
 
 * dox
 
-   * Suppress linking to alsahwdep library when generating documentation.
+   * Suppress probing alsahwdep library. It's automatically enabled when generating documentation
+     in docs.rs.
 
 ## Repository
 
