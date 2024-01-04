@@ -18,13 +18,6 @@ The alsaseq-sys crate is released under [MIT license](https://spdx.org/licenses/
 The alsaseq-sys crate depends on FFI crates provided by [gtk-rs project](https://gtk-rs.org/) for
 type/object system, event loop, and dispacher.
 
-## Features
-
-* dox
-
-   * Suppress probing alsaseq and alsatimer libraries. It's automatically enabled when generating
-     documentation in docs.rs.
-
 ## Repository
 
 The alsaseq-sys crate is the part of ALSA project and maintained by

@@ -11,7 +11,7 @@
     clippy::unreadable_literal,
     clippy::upper_case_acronyms
 )]
-#![cfg_attr(feature = "dox", feature(doc_cfg))]
+#![cfg_attr(docsrs, feature(doc_cfg))]
 
 #[allow(unused_imports)]
 use libc::{
@@ -190,8 +190,7 @@ pub struct ALSASeqAddr {
 
 impl ::std::fmt::Debug for ALSASeqAddr {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqAddr @ {:p}", self))
-            .finish()
+        f.debug_struct(&format!("ALSASeqAddr @ {self:p}")).finish()
     }
 }
 
@@ -203,7 +202,7 @@ pub struct ALSASeqClientInfoClass {
 
 impl ::std::fmt::Debug for ALSASeqClientInfoClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqClientInfoClass @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqClientInfoClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -217,7 +216,7 @@ pub struct ALSASeqClientPoolClass {
 
 impl ::std::fmt::Debug for ALSASeqClientPoolClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqClientPoolClass @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqClientPoolClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -231,8 +230,7 @@ pub struct ALSASeqEvent {
 
 impl ::std::fmt::Debug for ALSASeqEvent {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqEvent @ {:p}", self))
-            .finish()
+        f.debug_struct(&format!("ALSASeqEvent @ {self:p}")).finish()
     }
 }
 
@@ -246,7 +244,7 @@ pub struct ALSASeqEventCntr {
 
 impl ::std::fmt::Debug for ALSASeqEventCntr {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqEventCntr @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqEventCntr @ {self:p}"))
             .finish()
     }
 }
@@ -259,7 +257,7 @@ pub struct ALSASeqEventDataConnect {
 
 impl ::std::fmt::Debug for ALSASeqEventDataConnect {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqEventDataConnect @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqEventDataConnect @ {self:p}"))
             .finish()
     }
 }
@@ -272,7 +270,7 @@ pub struct ALSASeqEventDataCtl {
 
 impl ::std::fmt::Debug for ALSASeqEventDataCtl {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqEventDataCtl @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqEventDataCtl @ {self:p}"))
             .finish()
     }
 }
@@ -285,7 +283,7 @@ pub struct ALSASeqEventDataNote {
 
 impl ::std::fmt::Debug for ALSASeqEventDataNote {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqEventDataNote @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqEventDataNote @ {self:p}"))
             .finish()
     }
 }
@@ -298,7 +296,7 @@ pub struct ALSASeqEventDataQueue {
 
 impl ::std::fmt::Debug for ALSASeqEventDataQueue {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqEventDataQueue @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqEventDataQueue @ {self:p}"))
             .finish()
     }
 }
@@ -311,7 +309,7 @@ pub struct ALSASeqEventDataResult {
 
 impl ::std::fmt::Debug for ALSASeqEventDataResult {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqEventDataResult @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqEventDataResult @ {self:p}"))
             .finish()
     }
 }
@@ -324,7 +322,7 @@ pub struct ALSASeqPortInfoClass {
 
 impl ::std::fmt::Debug for ALSASeqPortInfoClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqPortInfoClass @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqPortInfoClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -338,7 +336,7 @@ pub struct ALSASeqQueueInfoClass {
 
 impl ::std::fmt::Debug for ALSASeqQueueInfoClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqQueueInfoClass @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqQueueInfoClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -352,7 +350,7 @@ pub struct ALSASeqQueueStatusClass {
 
 impl ::std::fmt::Debug for ALSASeqQueueStatusClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqQueueStatusClass @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqQueueStatusClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -366,7 +364,7 @@ pub struct ALSASeqQueueTempoClass {
 
 impl ::std::fmt::Debug for ALSASeqQueueTempoClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqQueueTempoClass @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqQueueTempoClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -380,7 +378,7 @@ pub struct ALSASeqQueueTimerAlsaClass {
 
 impl ::std::fmt::Debug for ALSASeqQueueTimerAlsaClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqQueueTimerAlsaClass @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqQueueTimerAlsaClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -394,7 +392,7 @@ pub struct ALSASeqQueueTimerCommonInterface {
 
 impl ::std::fmt::Debug for ALSASeqQueueTimerCommonInterface {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqQueueTimerCommonInterface @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqQueueTimerCommonInterface @ {self:p}"))
             .field("parent_iface", &self.parent_iface)
             .finish()
     }
@@ -408,7 +406,7 @@ pub struct ALSASeqRemoveFilterClass {
 
 impl ::std::fmt::Debug for ALSASeqRemoveFilterClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqRemoveFilterClass @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqRemoveFilterClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -422,7 +420,7 @@ pub struct ALSASeqSubscribeDataClass {
 
 impl ::std::fmt::Debug for ALSASeqSubscribeDataClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqSubscribeDataClass @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqSubscribeDataClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -436,7 +434,7 @@ pub struct ALSASeqSystemInfoClass {
 
 impl ::std::fmt::Debug for ALSASeqSystemInfoClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqSystemInfoClass @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqSystemInfoClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -451,7 +449,7 @@ pub struct ALSASeqUserClientClass {
 
 impl ::std::fmt::Debug for ALSASeqUserClientClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqUserClientClass @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqUserClientClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .field("handle_event", &self.handle_event)
             .finish()
@@ -467,7 +465,7 @@ pub struct ALSASeqClientInfo {
 
 impl ::std::fmt::Debug for ALSASeqClientInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqClientInfo @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqClientInfo @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -481,7 +479,7 @@ pub struct ALSASeqClientPool {
 
 impl ::std::fmt::Debug for ALSASeqClientPool {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqClientPool @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqClientPool @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -495,7 +493,7 @@ pub struct ALSASeqPortInfo {
 
 impl ::std::fmt::Debug for ALSASeqPortInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqPortInfo @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqPortInfo @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -509,7 +507,7 @@ pub struct ALSASeqQueueInfo {
 
 impl ::std::fmt::Debug for ALSASeqQueueInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqQueueInfo @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqQueueInfo @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -523,7 +521,7 @@ pub struct ALSASeqQueueStatus {
 
 impl ::std::fmt::Debug for ALSASeqQueueStatus {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqQueueStatus @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqQueueStatus @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -537,7 +535,7 @@ pub struct ALSASeqQueueTempo {
 
 impl ::std::fmt::Debug for ALSASeqQueueTempo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqQueueTempo @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqQueueTempo @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -551,7 +549,7 @@ pub struct ALSASeqQueueTimerAlsa {
 
 impl ::std::fmt::Debug for ALSASeqQueueTimerAlsa {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqQueueTimerAlsa @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqQueueTimerAlsa @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -565,7 +563,7 @@ pub struct ALSASeqRemoveFilter {
 
 impl ::std::fmt::Debug for ALSASeqRemoveFilter {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqRemoveFilter @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqRemoveFilter @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -579,7 +577,7 @@ pub struct ALSASeqSubscribeData {
 
 impl ::std::fmt::Debug for ALSASeqSubscribeData {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqSubscribeData @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqSubscribeData @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -593,7 +591,7 @@ pub struct ALSASeqSystemInfo {
 
 impl ::std::fmt::Debug for ALSASeqSystemInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqSystemInfo @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqSystemInfo @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -607,7 +605,7 @@ pub struct ALSASeqUserClient {
 
 impl ::std::fmt::Debug for ALSASeqUserClient {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSASeqUserClient @ {:p}", self))
+        f.debug_struct(&format!("ALSASeqUserClient @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -622,7 +620,7 @@ pub struct ALSASeqQueueTimerCommon {
 
 impl ::std::fmt::Debug for ALSASeqQueueTimerCommon {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        write!(f, "ALSASeqQueueTimerCommon @ {:p}", self)
+        write!(f, "ALSASeqQueueTimerCommon @ {self:p}")
     }
 }
 
