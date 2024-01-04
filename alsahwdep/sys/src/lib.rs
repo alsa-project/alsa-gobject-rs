@@ -11,7 +11,7 @@
     clippy::unreadable_literal,
     clippy::upper_case_acronyms
 )]
-#![cfg_attr(feature = "dox", feature(doc_cfg))]
+#![cfg_attr(docsrs, feature(doc_cfg))]
 
 #[allow(unused_imports)]
 use libc::{
@@ -99,7 +99,7 @@ pub struct ALSAHwdepDeviceCommonInterface {
 
 impl ::std::fmt::Debug for ALSAHwdepDeviceCommonInterface {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSAHwdepDeviceCommonInterface @ {:p}", self))
+        f.debug_struct(&format!("ALSAHwdepDeviceCommonInterface @ {self:p}"))
             .field("parent_iface", &self.parent_iface)
             .field("open", &self.open)
             .field("get_protocol_version", &self.get_protocol_version)
@@ -118,7 +118,7 @@ pub struct ALSAHwdepDeviceInfoClass {
 
 impl ::std::fmt::Debug for ALSAHwdepDeviceInfoClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSAHwdepDeviceInfoClass @ {:p}", self))
+        f.debug_struct(&format!("ALSAHwdepDeviceInfoClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -133,7 +133,7 @@ pub struct ALSAHwdepDeviceInfo {
 
 impl ::std::fmt::Debug for ALSAHwdepDeviceInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSAHwdepDeviceInfo @ {:p}", self))
+        f.debug_struct(&format!("ALSAHwdepDeviceInfo @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -148,7 +148,7 @@ pub struct ALSAHwdepDeviceCommon {
 
 impl ::std::fmt::Debug for ALSAHwdepDeviceCommon {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        write!(f, "ALSAHwdepDeviceCommon @ {:p}", self)
+        write!(f, "ALSAHwdepDeviceCommon @ {self:p}")
     }
 }
 
