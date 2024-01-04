@@ -2,19 +2,17 @@
 use super::*;
 
 /// Trait containing the rest of [`struct@RemoveFilter`] methods.
+///
+/// # Implementors
+///
+/// [`RemoveFilter`][struct@crate::RemoveFilter]
 pub trait RemoveFilterExtManual: 'static {
-    /// The tag of event as filter condition. This is evaluated with
-    /// [`RemoveFilterFlag`][crate::RemoveFilterFlag].TAG_MATCH at call of
-    /// [`UserClientExt::remove_events()`][crate::prelude::UserClientExt::remove_events()].
     fn tag(&self) -> i8;
 
-    /// The tag of event as filter condition. This is evaluated with
-    /// [`RemoveFilterFlag`][crate::RemoveFilterFlag].TAG_MATCH at call of
-    /// [`UserClientExt::remove_events()`][crate::prelude::UserClientExt::remove_events()].
     fn set_tag(&self, tag: i8);
 
     /// Refer to doublet of real time in internal storage. The call works expectedly as long as
-    /// `property::RemoveFilter::flags` doesn't contain [`RemoveFilterFlag`][crate::RemoveFilterFlag].TICK. This is evaluated
+    /// [`flags`][struct@crate::RemoveFilter#flags] doesn't contain [`RemoveFilterFlag`][crate::RemoveFilterFlag].TICK. This is evaluated
     /// with [`RemoveFilterFlag`][crate::RemoveFilterFlag].TIME_BEFORE and [`RemoveFilterFlag`][crate::RemoveFilterFlag].TIME_AFTER at call of
     /// [`UserClientExt::remove_events()`][crate::prelude::UserClientExt::remove_events()].
     ///
@@ -28,7 +26,7 @@ pub trait RemoveFilterExtManual: 'static {
     fn real_time(&self) -> &[u32];
 
     /// Copy doublet of real time into internal storage. The call works expectedly as long as
-    /// `property::RemoveFilter::flags` doesn't contain [`RemoveFilterFlag`][crate::RemoveFilterFlag].TICK. This is evaluated
+    /// [`flags`][struct@crate::RemoveFilter#flags] doesn't contain [`RemoveFilterFlag`][crate::RemoveFilterFlag].TICK. This is evaluated
     /// with [`RemoveFilterFlag`][crate::RemoveFilterFlag].TIME_BEFORE and [`RemoveFilterFlag`][crate::RemoveFilterFlag].TIME_AFTER at call of
     /// [`UserClientExt::remove_events()`][crate::prelude::UserClientExt::remove_events()].
     /// ## `real_time`

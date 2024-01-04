@@ -9,7 +9,7 @@ pub trait UserClientImpl: ObjectImpl + UserClientImplExt {
     }
 }
 
-/// Trait which is automatically implemented to implementator of
+/// Trait which is automatically implemented by implementator of
 /// [`UserClientImpl`][self::UserClientImpl].
 pub trait UserClientImplExt: ObjectSubclass {
     fn parent_handle_event(&self, user_client: &Self::Type, event_cntr: &EventCntr);

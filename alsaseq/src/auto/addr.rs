@@ -61,8 +61,7 @@ impl Addr {
         unsafe {
             let mut client_id = mem::MaybeUninit::uninit();
             ffi::alsaseq_addr_get_client_id(self.to_glib_none().0, client_id.as_mut_ptr());
-            let client_id = client_id.assume_init();
-            client_id
+            client_id.assume_init()
         }
     }
 
@@ -79,8 +78,7 @@ impl Addr {
         unsafe {
             let mut port_id = mem::MaybeUninit::uninit();
             ffi::alsaseq_addr_get_port_id(self.to_glib_none().0, port_id.as_mut_ptr());
-            let port_id = port_id.assume_init();
-            port_id
+            port_id.assume_init()
         }
     }
 }

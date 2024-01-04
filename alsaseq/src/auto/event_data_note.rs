@@ -37,8 +37,7 @@ impl EventDataNote {
         unsafe {
             let mut channel = mem::MaybeUninit::uninit();
             ffi::alsaseq_event_data_note_get_channel(self.to_glib_none().0, channel.as_mut_ptr());
-            let channel = channel.assume_init();
-            channel
+            channel.assume_init()
         }
     }
 
@@ -55,8 +54,7 @@ impl EventDataNote {
         unsafe {
             let mut duration = mem::MaybeUninit::uninit();
             ffi::alsaseq_event_data_note_get_duration(self.to_glib_none().0, duration.as_mut_ptr());
-            let duration = duration.assume_init();
-            duration
+            duration.assume_init()
         }
     }
 
@@ -73,8 +71,7 @@ impl EventDataNote {
         unsafe {
             let mut note = mem::MaybeUninit::uninit();
             ffi::alsaseq_event_data_note_get_note(self.to_glib_none().0, note.as_mut_ptr());
-            let note = note.assume_init();
-            note
+            note.assume_init()
         }
     }
 
@@ -94,8 +91,7 @@ impl EventDataNote {
                 self.to_glib_none().0,
                 off_velocity.as_mut_ptr(),
             );
-            let off_velocity = off_velocity.assume_init();
-            off_velocity
+            off_velocity.assume_init()
         }
     }
 
@@ -112,8 +108,7 @@ impl EventDataNote {
         unsafe {
             let mut velocity = mem::MaybeUninit::uninit();
             ffi::alsaseq_event_data_note_get_velocity(self.to_glib_none().0, velocity.as_mut_ptr());
-            let velocity = velocity.assume_init();
-            velocity
+            velocity.assume_init()
         }
     }
 

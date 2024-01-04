@@ -40,8 +40,7 @@ impl EventDataQueue {
                 self.to_glib_none().0,
                 position.as_mut_ptr(),
             );
-            let position = position.assume_init();
-            position
+            position.assume_init()
         }
     }
 
@@ -61,8 +60,7 @@ impl EventDataQueue {
                 self.to_glib_none().0,
                 queue_id.as_mut_ptr(),
             );
-            let queue_id = queue_id.assume_init();
-            queue_id
+            queue_id.assume_init()
         }
     }
 
@@ -82,8 +80,7 @@ impl EventDataQueue {
                 self.to_glib_none().0,
                 tick_time.as_mut_ptr(),
             );
-            let tick_time = tick_time.assume_init();
-            tick_time
+            tick_time.assume_init()
         }
     }
 
@@ -103,8 +100,7 @@ impl EventDataQueue {
                 self.to_glib_none().0,
                 value.as_mut_ptr(),
             );
-            let value = value.assume_init();
-            value
+            value.assume_init()
         }
     }
 

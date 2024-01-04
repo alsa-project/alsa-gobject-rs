@@ -2,6 +2,10 @@
 use super::*;
 
 /// Trait containing the rest of [`struct@UserClient`] methods.
+///
+/// # Implementors
+///
+/// [`UserClient`][struct@crate::UserClient]
 pub trait UserClientExtManual {
     /// Get the version of sequencer protocol currently used. The version is expressed as the array
     /// with three elements; major, minor, and micro version in the order. The length of major version
@@ -12,7 +16,8 @@ pub trait UserClientExtManual {
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     ///
     /// ## `proto_ver_triplet`
-    /// The version of protocol currently used.
+    /// The version of protocol currently
+    ///                     used.
     #[doc(alias = "alsaseq_user_client_get_protocol_version")]
     #[doc(alias = "get_protocol_version")]
     fn protocol_version(&self) -> Result<&[u16; 3], Error>;
@@ -122,7 +127,7 @@ pub trait UserClientExtManual {
     /// Deliver the events immediately, or schedule it into memory pool of the client.
     ///
     /// The call of function executes `write(2)` system call for ALSA sequencer character device. When
-    /// `property::ClientPool::output-free` is less than sum of [`Event::calculate_pool_consumption()`][crate::Event::calculate_pool_consumption()]
+    /// [`output-free`][struct@crate::ClientPool#output-free] is less than sum of [`Event::calculate_pool_consumption()`][crate::Event::calculate_pool_consumption()]
     /// and [`UserClientExt::open()`][crate::prelude::UserClientExt::open()] is called without non-blocking flag, the user process can be
     /// blocked untill enough number of cells becomes available.
     /// ## `events`
@@ -322,7 +327,8 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
                 // immutable in my case... As workaround, annotate the pointer as mutual in safe
                 // scope. I guarantee that alsaseq_user_client_schedule_events() handles element
                 // of list as immutable.
-                let ptr = event.to_glib_none().0 as glib::ffi::gpointer;
+                let ptr = ToGlibPtr::<*mut ffi::ALSASeqEvent>::to_glib_none(event).0
+                    as glib::ffi::gpointer;
                 entries = glib::ffi::g_list_append(entries, ptr);
             });
 

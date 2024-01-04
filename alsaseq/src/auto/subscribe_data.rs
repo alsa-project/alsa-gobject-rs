@@ -3,25 +3,61 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::Addr;
-use crate::EventTstampMode;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use crate::{Addr, EventTstampMode};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
     /// A GObject-derived object to express data for subscription between ports.
     ///
     /// A [`SubscribeData`][crate::SubscribeData] is a GObject-derived object to express data for subscription between
-    /// a pair of ports. The call of `get_subscription_list()` returns the list of data. The call of
+    /// a pair of ports. The call of [`subscription_list()`][crate::subscription_list()] returns the list of data. The call of
     /// [`UserClientExt::operate_subscription()`][crate::prelude::UserClientExt::operate_subscription()] requires the instance of object.
     ///
     /// The object wraps `struct snd_seq_port_subscribe` in UAPI of Linux sound subsystem.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `dest`
+    ///  The address of destination.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `has-tstamp`
+    ///  Any event for the subscription has time stamp,
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `is-exclusive`
+    ///  Whether the subscription can be changed by originator only,
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `queue-id`
+    ///  The numeric ID of queue to deliver. One of ALSASeqSpecificQueueId is available as well as
+    /// any numeric value.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `sender`
+    ///  The address of sender.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `tstamp-mode`
+    ///  The type of time stamp. This is effective when the has-tstamp property enabled.
+    ///
+    /// Readable | Writeable
     ///
     /// # Implements
     ///
@@ -54,126 +90,88 @@ impl Default for SubscribeData {
     }
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::SubscribeData>> Sealed for T {}
+}
+
 /// Trait containing all [`struct@SubscribeData`] methods.
 ///
 /// # Implementors
 ///
 /// [`SubscribeData`][struct@crate::SubscribeData]
-pub trait SubscribeDataExt: 'static {
+pub trait SubscribeDataExt: IsA<SubscribeData> + sealed::Sealed + 'static {
     /// The address of destination.
-    fn dest(&self) -> Option<Addr>;
+    fn dest(&self) -> Option<Addr> {
+        ObjectExt::property(self.as_ref(), "dest")
+    }
 
     /// The address of destination.
-    fn set_dest(&self, dest: Option<&Addr>);
+    fn set_dest(&self, dest: Option<&Addr>) {
+        ObjectExt::set_property(self.as_ref(), "dest", dest)
+    }
 
     /// Any event for the subscription has time stamp,
     #[doc(alias = "has-tstamp")]
-    fn has_tstamp(&self) -> bool;
+    fn has_tstamp(&self) -> bool {
+        ObjectExt::property(self.as_ref(), "has-tstamp")
+    }
 
     /// Any event for the subscription has time stamp,
     #[doc(alias = "has-tstamp")]
-    fn set_has_tstamp(&self, has_tstamp: bool);
+    fn set_has_tstamp(&self, has_tstamp: bool) {
+        ObjectExt::set_property(self.as_ref(), "has-tstamp", has_tstamp)
+    }
 
     /// Whether the subscription can be changed by originator only,
     #[doc(alias = "is-exclusive")]
-    fn is_exclusive(&self) -> bool;
+    fn is_exclusive(&self) -> bool {
+        ObjectExt::property(self.as_ref(), "is-exclusive")
+    }
 
     /// Whether the subscription can be changed by originator only,
     #[doc(alias = "is-exclusive")]
-    fn set_is_exclusive(&self, is_exclusive: bool);
+    fn set_is_exclusive(&self, is_exclusive: bool) {
+        ObjectExt::set_property(self.as_ref(), "is-exclusive", is_exclusive)
+    }
 
     /// The numeric ID of queue to deliver. One of ALSASeqSpecificQueueId is available as well as
     /// any numeric value.
     #[doc(alias = "queue-id")]
-    fn queue_id(&self) -> u8;
+    fn queue_id(&self) -> u8 {
+        ObjectExt::property(self.as_ref(), "queue-id")
+    }
 
     /// The numeric ID of queue to deliver. One of ALSASeqSpecificQueueId is available as well as
     /// any numeric value.
     #[doc(alias = "queue-id")]
-    fn set_queue_id(&self, queue_id: u8);
+    fn set_queue_id(&self, queue_id: u8) {
+        ObjectExt::set_property(self.as_ref(), "queue-id", queue_id)
+    }
 
     /// The address of sender.
-    fn sender(&self) -> Option<Addr>;
+    fn sender(&self) -> Option<Addr> {
+        ObjectExt::property(self.as_ref(), "sender")
+    }
 
     /// The address of sender.
-    fn set_sender(&self, sender: Option<&Addr>);
+    fn set_sender(&self, sender: Option<&Addr>) {
+        ObjectExt::set_property(self.as_ref(), "sender", sender)
+    }
 
     /// The type of time stamp. This is effective when the has-tstamp property enabled.
     #[doc(alias = "tstamp-mode")]
-    fn tstamp_mode(&self) -> EventTstampMode;
+    fn tstamp_mode(&self) -> EventTstampMode {
+        ObjectExt::property(self.as_ref(), "tstamp-mode")
+    }
 
     /// The type of time stamp. This is effective when the has-tstamp property enabled.
     #[doc(alias = "tstamp-mode")]
-    fn set_tstamp_mode(&self, tstamp_mode: EventTstampMode);
+    fn set_tstamp_mode(&self, tstamp_mode: EventTstampMode) {
+        ObjectExt::set_property(self.as_ref(), "tstamp-mode", tstamp_mode)
+    }
 
     #[doc(alias = "dest")]
-    fn connect_dest_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "has-tstamp")]
-    fn connect_has_tstamp_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "is-exclusive")]
-    fn connect_is_exclusive_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "queue-id")]
-    fn connect_queue_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "sender")]
-    fn connect_sender_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "tstamp-mode")]
-    fn connect_tstamp_mode_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<SubscribeData>> SubscribeDataExt for O {
-    fn dest(&self) -> Option<Addr> {
-        glib::ObjectExt::property(self.as_ref(), "dest")
-    }
-
-    fn set_dest(&self, dest: Option<&Addr>) {
-        glib::ObjectExt::set_property(self.as_ref(), "dest", &dest)
-    }
-
-    fn has_tstamp(&self) -> bool {
-        glib::ObjectExt::property(self.as_ref(), "has-tstamp")
-    }
-
-    fn set_has_tstamp(&self, has_tstamp: bool) {
-        glib::ObjectExt::set_property(self.as_ref(), "has-tstamp", &has_tstamp)
-    }
-
-    fn is_exclusive(&self) -> bool {
-        glib::ObjectExt::property(self.as_ref(), "is-exclusive")
-    }
-
-    fn set_is_exclusive(&self, is_exclusive: bool) {
-        glib::ObjectExt::set_property(self.as_ref(), "is-exclusive", &is_exclusive)
-    }
-
-    fn queue_id(&self) -> u8 {
-        glib::ObjectExt::property(self.as_ref(), "queue-id")
-    }
-
-    fn set_queue_id(&self, queue_id: u8) {
-        glib::ObjectExt::set_property(self.as_ref(), "queue-id", &queue_id)
-    }
-
-    fn sender(&self) -> Option<Addr> {
-        glib::ObjectExt::property(self.as_ref(), "sender")
-    }
-
-    fn set_sender(&self, sender: Option<&Addr>) {
-        glib::ObjectExt::set_property(self.as_ref(), "sender", &sender)
-    }
-
-    fn tstamp_mode(&self) -> EventTstampMode {
-        glib::ObjectExt::property(self.as_ref(), "tstamp-mode")
-    }
-
-    fn set_tstamp_mode(&self, tstamp_mode: EventTstampMode) {
-        glib::ObjectExt::set_property(self.as_ref(), "tstamp-mode", &tstamp_mode)
-    }
-
     fn connect_dest_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_dest_trampoline<P: IsA<SubscribeData>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSASeqSubscribeData,
@@ -196,6 +194,7 @@ impl<O: IsA<SubscribeData>> SubscribeDataExt for O {
         }
     }
 
+    #[doc(alias = "has-tstamp")]
     fn connect_has_tstamp_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_has_tstamp_trampoline<
             P: IsA<SubscribeData>,
@@ -221,6 +220,7 @@ impl<O: IsA<SubscribeData>> SubscribeDataExt for O {
         }
     }
 
+    #[doc(alias = "is-exclusive")]
     fn connect_is_exclusive_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_is_exclusive_trampoline<
             P: IsA<SubscribeData>,
@@ -246,6 +246,7 @@ impl<O: IsA<SubscribeData>> SubscribeDataExt for O {
         }
     }
 
+    #[doc(alias = "queue-id")]
     fn connect_queue_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_queue_id_trampoline<
             P: IsA<SubscribeData>,
@@ -271,6 +272,7 @@ impl<O: IsA<SubscribeData>> SubscribeDataExt for O {
         }
     }
 
+    #[doc(alias = "sender")]
     fn connect_sender_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_sender_trampoline<
             P: IsA<SubscribeData>,
@@ -296,6 +298,7 @@ impl<O: IsA<SubscribeData>> SubscribeDataExt for O {
         }
     }
 
+    #[doc(alias = "tstamp-mode")]
     fn connect_tstamp_mode_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_tstamp_mode_trampoline<
             P: IsA<SubscribeData>,
@@ -321,6 +324,8 @@ impl<O: IsA<SubscribeData>> SubscribeDataExt for O {
         }
     }
 }
+
+impl<O: IsA<SubscribeData>> SubscribeDataExt for O {}
 
 impl fmt::Display for SubscribeData {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

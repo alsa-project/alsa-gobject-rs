@@ -3,20 +3,12 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::Addr;
-use crate::EventDataConnect;
-use crate::EventDataCtl;
-use crate::EventDataNote;
-use crate::EventDataQueue;
-use crate::EventDataResult;
-use crate::EventLengthMode;
-use crate::EventPriorityMode;
-use crate::EventTimeMode;
-use crate::EventTstampMode;
-use crate::EventType;
+use crate::{
+    Addr, EventDataConnect, EventDataCtl, EventDataNote, EventDataQueue, EventDataResult,
+    EventLengthMode, EventPriorityMode, EventTimeMode, EventTstampMode, EventType,
+};
 use glib::translate::*;
-use std::mem;
-use std::ptr;
+use std::{mem, ptr};
 
 glib::wrapper! {
     /// A boxed structure for sequencer event.
@@ -104,8 +96,7 @@ impl Event {
                 self.to_glib_none().0,
                 cells.as_mut_ptr(),
             );
-            let cells = cells.assume_init();
-            cells
+            cells.assume_init()
         }
     }
 
@@ -122,8 +113,7 @@ impl Event {
         unsafe {
             let mut event_type = mem::MaybeUninit::uninit();
             ffi::alsaseq_event_get_event_type(self.to_glib_none().0, event_type.as_mut_ptr());
-            let event_type = event_type.assume_init();
-            from_glib(event_type)
+            from_glib(event_type.assume_init())
         }
     }
 
@@ -140,8 +130,7 @@ impl Event {
         unsafe {
             let mut length_mode = mem::MaybeUninit::uninit();
             ffi::alsaseq_event_get_length_mode(self.to_glib_none().0, length_mode.as_mut_ptr());
-            let length_mode = length_mode.assume_init();
-            from_glib(length_mode)
+            from_glib(length_mode.assume_init())
         }
     }
 
@@ -158,8 +147,7 @@ impl Event {
         unsafe {
             let mut priority_mode = mem::MaybeUninit::uninit();
             ffi::alsaseq_event_get_priority_mode(self.to_glib_none().0, priority_mode.as_mut_ptr());
-            let priority_mode = priority_mode.assume_init();
-            from_glib(priority_mode)
+            from_glib(priority_mode.assume_init())
         }
     }
 
@@ -176,8 +164,7 @@ impl Event {
         unsafe {
             let mut queue_id = mem::MaybeUninit::uninit();
             ffi::alsaseq_event_get_queue_id(self.to_glib_none().0, queue_id.as_mut_ptr());
-            let queue_id = queue_id.assume_init();
-            queue_id
+            queue_id.assume_init()
         }
     }
 
@@ -194,8 +181,7 @@ impl Event {
         unsafe {
             let mut tag = mem::MaybeUninit::uninit();
             ffi::alsaseq_event_get_tag(self.to_glib_none().0, tag.as_mut_ptr());
-            let tag = tag.assume_init();
-            tag
+            tag.assume_init()
         }
     }
 
@@ -212,8 +198,7 @@ impl Event {
         unsafe {
             let mut time_mode = mem::MaybeUninit::uninit();
             ffi::alsaseq_event_get_time_mode(self.to_glib_none().0, time_mode.as_mut_ptr());
-            let time_mode = time_mode.assume_init();
-            from_glib(time_mode)
+            from_glib(time_mode.assume_init())
         }
     }
 
@@ -230,8 +215,7 @@ impl Event {
         unsafe {
             let mut tstamp_mode = mem::MaybeUninit::uninit();
             ffi::alsaseq_event_get_tstamp_mode(self.to_glib_none().0, tstamp_mode.as_mut_ptr());
-            let tstamp_mode = tstamp_mode.assume_init();
-            from_glib(tstamp_mode)
+            from_glib(tstamp_mode.assume_init())
         }
     }
 
@@ -268,7 +252,7 @@ impl Event {
                 data.to_glib_none().0,
                 &mut error,
             );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -294,7 +278,7 @@ impl Event {
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_event_set_blob_data")]
     pub fn set_blob_data(&mut self, data: &[u8]) -> Result<(), glib::Error> {
-        let length = data.len() as usize;
+        let length = data.len() as _;
         unsafe {
             let mut error = ptr::null_mut();
             let is_ok = ffi::alsaseq_event_set_blob_data(
@@ -303,7 +287,7 @@ impl Event {
                 length,
                 &mut error,
             );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -341,7 +325,7 @@ impl Event {
                 data.to_glib_none().0,
                 &mut error,
             );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -389,7 +373,7 @@ impl Event {
                 data.to_glib_none().0,
                 &mut error,
             );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -439,7 +423,7 @@ impl Event {
                 data.to_glib_none().0,
                 &mut error,
             );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -497,7 +481,7 @@ impl Event {
                 data.to_glib_none().0,
                 &mut error,
             );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -545,7 +529,7 @@ impl Event {
                 data.to_glib_none().0,
                 &mut error,
             );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -587,7 +571,7 @@ impl Event {
             let mut error = ptr::null_mut();
             let is_ok =
                 ffi::alsaseq_event_set_tick_time(self.to_glib_none_mut().0, tick_time, &mut error);
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -624,7 +608,7 @@ impl Event {
                 tick_time,
                 &mut error,
             );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {

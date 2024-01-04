@@ -3,25 +3,16 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::ClientInfo;
-use crate::ClientPool;
-use crate::Event;
-use crate::EventCntr;
-use crate::PortInfo;
-use crate::QueueInfo;
-use crate::QueueTempo;
-use crate::RemoveFilter;
-use crate::SubscribeData;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem;
-use std::mem::transmute;
-use std::ptr;
+use crate::{
+    ClientInfo, ClientPool, Event, EventCntr, PortInfo, QueueInfo, QueueTempo, RemoveFilter,
+    SubscribeData,
+};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem, mem::transmute, ptr};
 
 glib::wrapper! {
     /// A GObject-derived object to express user client.
@@ -33,8 +24,25 @@ glib::wrapper! {
     /// destruction. The call of [`UserClientExt::create_source()`][crate::prelude::UserClientExt::create_source()] returns the instance of
     /// [`glib::Source`][crate::glib::Source]. Once attached to the [`glib::Source`][crate::glib::Source],
     /// `GLib::MainContext` / `GLib::MainLoop` is available as event dispatcher. The
-    /// `signal::UserClient::handle-event` signal is emitted in the event dispatcher to notify the
+    /// [`handle-event`][struct@crate::UserClient#handle-event] signal is emitted in the event dispatcher to notify the
     /// event. The call of [`UserClientExt::schedule_event()`][crate::prelude::UserClientExt::schedule_event()] schedules event with given parameters.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `client-id`
+    ///  The numeric ID of the client.
+    ///
+    /// Readable
+    ///
+    /// ## Signals
+    ///
+    ///
+    /// #### `handle-event`
+    ///  When event occurs, this signal is emit with the instance of object which includes batch of
+    /// of events.
+    ///
+    ///
     ///
     /// # Implements
     ///
@@ -67,15 +75,20 @@ impl Default for UserClient {
     }
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::UserClient>> Sealed for T {}
+}
+
 /// Trait containing the part of [`struct@UserClient`] methods.
 ///
 /// # Implementors
 ///
 /// [`UserClient`][struct@crate::UserClient]
-pub trait UserClientExt: 'static {
+pub trait UserClientExt: IsA<UserClient> + sealed::Sealed + 'static {
     /// Allocate [`glib::Source`][crate::glib::Source] structure to handle events from ALSA seq character device. In each
     /// iteration of `GLib::MainContext`, the `read(2)` system call is exected to dispatch
-    /// sequencer event for `signal::UserClient::handle-event` signal, according to the result of
+    /// sequencer event for [`handle-event`][struct@crate::UserClient#handle-event] signal, according to the result of
     /// `poll(2)` system call.
     ///
     /// # Returns
@@ -85,7 +98,23 @@ pub trait UserClientExt: 'static {
     /// ## `gsrc`
     /// A #GSource to handle events from ALSA seq character device.
     #[doc(alias = "alsaseq_user_client_create_source")]
-    fn create_source(&self) -> Result<glib::Source, glib::Error>;
+    fn create_source(&self) -> Result<glib::Source, glib::Error> {
+        unsafe {
+            let mut gsrc = ptr::null_mut();
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsaseq_user_client_create_source(
+                self.as_ref().to_glib_none().0,
+                &mut gsrc,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(from_glib_full(gsrc))
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Delete a port from the client.
     ///
@@ -98,7 +127,22 @@ pub trait UserClientExt: 'static {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_delete_port")]
-    fn delete_port(&self, port_id: u8) -> Result<(), glib::Error>;
+    fn delete_port(&self, port_id: u8) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsaseq_user_client_delete_port(
+                self.as_ref().to_glib_none().0,
+                port_id,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Delete the queue owned by the client.
     ///
@@ -111,7 +155,22 @@ pub trait UserClientExt: 'static {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_delete_queue")]
-    fn delete_queue(&self, queue_id: u8) -> Result<(), glib::Error>;
+    fn delete_queue(&self, queue_id: u8) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsaseq_user_client_delete_queue(
+                self.as_ref().to_glib_none().0,
+                queue_id,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Get the data of tempo for the queue.
     ///
@@ -128,7 +187,24 @@ pub trait UserClientExt: 'static {
     /// The data of tempo for queue.
     #[doc(alias = "alsaseq_user_client_get_queue_tempo")]
     #[doc(alias = "get_queue_tempo")]
-    fn queue_tempo(&self, queue_id: u8) -> Result<QueueTempo, glib::Error>;
+    fn queue_tempo(&self, queue_id: u8) -> Result<QueueTempo, glib::Error> {
+        unsafe {
+            let mut queue_tempo = ptr::null_mut();
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsaseq_user_client_get_queue_tempo(
+                self.as_ref().to_glib_none().0,
+                queue_id,
+                &mut queue_tempo,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(from_glib_full(queue_tempo))
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Get usage of the queue by the client.
     ///
@@ -145,7 +221,24 @@ pub trait UserClientExt: 'static {
     /// Whether the client uses the queue or not.
     #[doc(alias = "alsaseq_user_client_get_queue_usage")]
     #[doc(alias = "get_queue_usage")]
-    fn queue_usage(&self, queue_id: u8) -> Result<bool, glib::Error>;
+    fn queue_usage(&self, queue_id: u8) -> Result<bool, glib::Error> {
+        unsafe {
+            let mut use_ = mem::MaybeUninit::uninit();
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsaseq_user_client_get_queue_usage(
+                self.as_ref().to_glib_none().0,
+                queue_id,
+                use_.as_mut_ptr(),
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(from_glib(use_.assume_init()))
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Open ALSA sequencer character device.
     ///
@@ -158,7 +251,22 @@ pub trait UserClientExt: 'static {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_open")]
-    fn open(&self, open_flag: i32) -> Result<(), glib::Error>;
+    fn open(&self, open_flag: i32) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsaseq_user_client_open(
+                self.as_ref().to_glib_none().0,
+                open_flag,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Operate subscription between two ports pointed by the data.
     ///
@@ -177,7 +285,23 @@ pub trait UserClientExt: 'static {
         &self,
         subs_data: &impl IsA<SubscribeData>,
         establish: bool,
-    ) -> Result<(), glib::Error>;
+    ) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsaseq_user_client_operate_subscription(
+                self.as_ref().to_glib_none().0,
+                subs_data.as_ref().to_glib_none().0,
+                establish.into_glib(),
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Remove queued events according to the filter.
     ///
@@ -190,12 +314,27 @@ pub trait UserClientExt: 'static {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_remove_events")]
-    fn remove_events(&self, filter: &impl IsA<RemoveFilter>) -> Result<(), glib::Error>;
+    fn remove_events(&self, filter: &impl IsA<RemoveFilter>) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsaseq_user_client_remove_events(
+                self.as_ref().to_glib_none().0,
+                filter.as_ref().to_glib_none().0,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Deliver the event immediately, or schedule it into memory pool of the client.
     ///
     /// The call of function executes `write(2)` system call for ALSA sequencer character device. When
-    /// `property::ClientPool::output-free` is less than [`Event::calculate_pool_consumption()`][crate::Event::calculate_pool_consumption()] and
+    /// [`output-free`][struct@crate::ClientPool#output-free] is less than [`Event::calculate_pool_consumption()`][crate::Event::calculate_pool_consumption()] and
     /// [`open()`][Self::open()] is called without non-blocking flag, the user process can be blocked
     /// untill enough number of cells becomes available.
     /// ## `event`
@@ -205,7 +344,22 @@ pub trait UserClientExt: 'static {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_schedule_event")]
-    fn schedule_event(&self, event: &Event) -> Result<(), glib::Error>;
+    fn schedule_event(&self, event: &Event) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsaseq_user_client_schedule_event(
+                self.as_ref().to_glib_none().0,
+                event.to_glib_none().0,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Get client information.
     ///
@@ -218,7 +372,22 @@ pub trait UserClientExt: 'static {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_set_info")]
-    fn set_info(&self, client_info: &impl IsA<ClientInfo>) -> Result<(), glib::Error>;
+    fn set_info(&self, client_info: &impl IsA<ClientInfo>) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsaseq_user_client_set_info(
+                self.as_ref().to_glib_none().0,
+                client_info.as_ref().to_glib_none().0,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Configure memory pool in the client.
     ///
@@ -231,7 +400,22 @@ pub trait UserClientExt: 'static {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_set_pool")]
-    fn set_pool(&self, client_pool: &impl IsA<ClientPool>) -> Result<(), glib::Error>;
+    fn set_pool(&self, client_pool: &impl IsA<ClientPool>) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsaseq_user_client_set_pool(
+                self.as_ref().to_glib_none().0,
+                client_pool.as_ref().to_glib_none().0,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Set the data of tempo to the queue.
     ///
@@ -250,7 +434,23 @@ pub trait UserClientExt: 'static {
         &self,
         queue_id: u8,
         queue_tempo: &impl IsA<QueueTempo>,
-    ) -> Result<(), glib::Error>;
+    ) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsaseq_user_client_set_queue_tempo(
+                self.as_ref().to_glib_none().0,
+                queue_id,
+                queue_tempo.as_ref().to_glib_none().0,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Start the queue to use or not.
     ///
@@ -265,7 +465,23 @@ pub trait UserClientExt: 'static {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_set_queue_usage")]
-    fn set_queue_usage(&self, queue_id: u8, use_: bool) -> Result<(), glib::Error>;
+    fn set_queue_usage(&self, queue_id: u8, use_: bool) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsaseq_user_client_set_queue_usage(
+                self.as_ref().to_glib_none().0,
+                queue_id,
+                use_.into_glib(),
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Update port information.
     ///
@@ -280,7 +496,23 @@ pub trait UserClientExt: 'static {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_update_port")]
-    fn update_port(&self, port_info: &impl IsA<PortInfo>, port_id: u8) -> Result<(), glib::Error>;
+    fn update_port(&self, port_info: &impl IsA<PortInfo>, port_id: u8) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsaseq_user_client_update_port(
+                self.as_ref().to_glib_none().0,
+                port_info.as_ref().to_glib_none().0,
+                port_id,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Update owned queue according to the information.
     ///
@@ -293,280 +525,6 @@ pub trait UserClientExt: 'static {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_update_queue")]
-    fn update_queue(&self, queue_info: &impl IsA<QueueInfo>) -> Result<(), glib::Error>;
-
-    /// The numeric ID of the client.
-    #[doc(alias = "client-id")]
-    fn client_id(&self) -> u8;
-
-    /// When event occurs, this signal is emit with the instance of object which includes batch of
-    /// of events.
-    /// ## `ev_cntr`
-    /// The instance of [`EventCntr`][crate::EventCntr] which includes batch of events.
-    #[doc(alias = "handle-event")]
-    fn connect_handle_event<F: Fn(&Self, &EventCntr) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "client-id")]
-    fn connect_client_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<UserClient>> UserClientExt for O {
-    fn create_source(&self) -> Result<glib::Source, glib::Error> {
-        unsafe {
-            let mut gsrc = ptr::null_mut();
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsaseq_user_client_create_source(
-                self.as_ref().to_glib_none().0,
-                &mut gsrc,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(from_glib_full(gsrc))
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn delete_port(&self, port_id: u8) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsaseq_user_client_delete_port(
-                self.as_ref().to_glib_none().0,
-                port_id,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn delete_queue(&self, queue_id: u8) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsaseq_user_client_delete_queue(
-                self.as_ref().to_glib_none().0,
-                queue_id,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn queue_tempo(&self, queue_id: u8) -> Result<QueueTempo, glib::Error> {
-        unsafe {
-            let mut queue_tempo = ptr::null_mut();
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsaseq_user_client_get_queue_tempo(
-                self.as_ref().to_glib_none().0,
-                queue_id,
-                &mut queue_tempo,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(from_glib_full(queue_tempo))
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn queue_usage(&self, queue_id: u8) -> Result<bool, glib::Error> {
-        unsafe {
-            let mut use_ = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsaseq_user_client_get_queue_usage(
-                self.as_ref().to_glib_none().0,
-                queue_id,
-                use_.as_mut_ptr(),
-                &mut error,
-            );
-            let use_ = use_.assume_init();
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(from_glib(use_))
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn open(&self, open_flag: i32) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsaseq_user_client_open(
-                self.as_ref().to_glib_none().0,
-                open_flag,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn operate_subscription(
-        &self,
-        subs_data: &impl IsA<SubscribeData>,
-        establish: bool,
-    ) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsaseq_user_client_operate_subscription(
-                self.as_ref().to_glib_none().0,
-                subs_data.as_ref().to_glib_none().0,
-                establish.into_glib(),
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn remove_events(&self, filter: &impl IsA<RemoveFilter>) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsaseq_user_client_remove_events(
-                self.as_ref().to_glib_none().0,
-                filter.as_ref().to_glib_none().0,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn schedule_event(&self, event: &Event) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsaseq_user_client_schedule_event(
-                self.as_ref().to_glib_none().0,
-                event.to_glib_none().0,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn set_info(&self, client_info: &impl IsA<ClientInfo>) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsaseq_user_client_set_info(
-                self.as_ref().to_glib_none().0,
-                client_info.as_ref().to_glib_none().0,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn set_pool(&self, client_pool: &impl IsA<ClientPool>) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsaseq_user_client_set_pool(
-                self.as_ref().to_glib_none().0,
-                client_pool.as_ref().to_glib_none().0,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn set_queue_tempo(
-        &self,
-        queue_id: u8,
-        queue_tempo: &impl IsA<QueueTempo>,
-    ) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsaseq_user_client_set_queue_tempo(
-                self.as_ref().to_glib_none().0,
-                queue_id,
-                queue_tempo.as_ref().to_glib_none().0,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn set_queue_usage(&self, queue_id: u8, use_: bool) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsaseq_user_client_set_queue_usage(
-                self.as_ref().to_glib_none().0,
-                queue_id,
-                use_.into_glib(),
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn update_port(&self, port_info: &impl IsA<PortInfo>, port_id: u8) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsaseq_user_client_update_port(
-                self.as_ref().to_glib_none().0,
-                port_info.as_ref().to_glib_none().0,
-                port_id,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
     fn update_queue(&self, queue_info: &impl IsA<QueueInfo>) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
@@ -575,7 +533,7 @@ impl<O: IsA<UserClient>> UserClientExt for O {
                 queue_info.as_ref().to_glib_none().0,
                 &mut error,
             );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -584,10 +542,17 @@ impl<O: IsA<UserClient>> UserClientExt for O {
         }
     }
 
+    /// The numeric ID of the client.
+    #[doc(alias = "client-id")]
     fn client_id(&self) -> u8 {
-        glib::ObjectExt::property(self.as_ref(), "client-id")
+        ObjectExt::property(self.as_ref(), "client-id")
     }
 
+    /// When event occurs, this signal is emit with the instance of object which includes batch of
+    /// of events.
+    /// ## `ev_cntr`
+    /// The instance of [`EventCntr`][crate::EventCntr] which includes batch of events.
+    #[doc(alias = "handle-event")]
     fn connect_handle_event<F: Fn(&Self, &EventCntr) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn handle_event_trampoline<
             P: IsA<UserClient>,
@@ -616,6 +581,7 @@ impl<O: IsA<UserClient>> UserClientExt for O {
         }
     }
 
+    #[doc(alias = "client-id")]
     fn connect_client_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_client_id_trampoline<
             P: IsA<UserClient>,
@@ -641,6 +607,8 @@ impl<O: IsA<UserClient>> UserClientExt for O {
         }
     }
 }
+
+impl<O: IsA<UserClient>> UserClientExt for O {}
 
 impl fmt::Display for UserClient {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

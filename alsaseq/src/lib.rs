@@ -47,9 +47,8 @@ use glib::{object::IsA, translate::*, Cast, Error, StaticType, Value};
 
 use crate::prelude::*;
 
-/// A set of enumerations for timer backend of queue.
+/// A set of timer which drives queue.
 pub enum QueueTimer {
-    /// Timer backend is an instance of ALSA Timer.
     Alsa(QueueTimerAlsa),
 }
 

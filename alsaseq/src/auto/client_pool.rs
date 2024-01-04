@@ -3,14 +3,12 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
     /// A GObject-derived object to express information of pool owned by client.
@@ -21,6 +19,50 @@ glib::wrapper! {
     /// [`UserClientExt::set_pool()`][crate::prelude::UserClientExt::set_pool()]) and [`UserClientExtManual::pool()`][crate::prelude::UserClientExtManual::pool()] require the instance of object.
     ///
     /// The object wraps `struct snd_seq_client_pool` in UAPI of Linux sound subsystem.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `client-id`
+    ///  The numeric ID of client. One of [`SpecificClientId`][crate::SpecificClientId] is available as well as any
+    /// numeric value.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `input-free`
+    ///  The current number of free cells in memory pool for input direction.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `input-pool`
+    ///  The total number of cells in memory pool for input direction. The client dequeue any event
+    /// from the pool when the event is copied from the output memory pool of source client.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `output-free`
+    ///  The current number of free cells in memory pool for output direction.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `output-pool`
+    ///  The total number of cells in memory pool for output direction. The client enqueue any event
+    /// into the pool at scheduling, then the event is copied to input memory pool of destination
+    /// client.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `output-room`
+    ///  The number of cells in memory pool for output direction as threshold for writable condition
+    /// at the result of poll(2). The property is useless for [`UserClient`][crate::UserClient] since it doesn't
+    /// perform poll(2) to check writable or not.
+    ///
+    /// Readable | Writeable
     ///
     /// # Implements
     ///
@@ -48,131 +90,95 @@ impl Default for ClientPool {
     }
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::ClientPool>> Sealed for T {}
+}
+
 /// Trait containing all [`struct@ClientPool`] methods.
 ///
 /// # Implementors
 ///
 /// [`ClientPool`][struct@crate::ClientPool]
-pub trait ClientPoolExt: 'static {
+pub trait ClientPoolExt: IsA<ClientPool> + sealed::Sealed + 'static {
     /// The numeric ID of client. One of [`SpecificClientId`][crate::SpecificClientId] is available as well as any
     /// numeric value.
     #[doc(alias = "client-id")]
-    fn client_id(&self) -> u8;
+    fn client_id(&self) -> u8 {
+        ObjectExt::property(self.as_ref(), "client-id")
+    }
 
     /// The current number of free cells in memory pool for input direction.
     #[doc(alias = "input-free")]
-    fn input_free(&self) -> u32;
+    fn input_free(&self) -> u32 {
+        ObjectExt::property(self.as_ref(), "input-free")
+    }
 
     /// The current number of free cells in memory pool for input direction.
     #[doc(alias = "input-free")]
-    fn set_input_free(&self, input_free: u32);
+    fn set_input_free(&self, input_free: u32) {
+        ObjectExt::set_property(self.as_ref(), "input-free", input_free)
+    }
 
     /// The total number of cells in memory pool for input direction. The client dequeue any event
     /// from the pool when the event is copied from the output memory pool of source client.
     #[doc(alias = "input-pool")]
-    fn input_pool(&self) -> u32;
+    fn input_pool(&self) -> u32 {
+        ObjectExt::property(self.as_ref(), "input-pool")
+    }
 
     /// The total number of cells in memory pool for input direction. The client dequeue any event
     /// from the pool when the event is copied from the output memory pool of source client.
     #[doc(alias = "input-pool")]
-    fn set_input_pool(&self, input_pool: u32);
+    fn set_input_pool(&self, input_pool: u32) {
+        ObjectExt::set_property(self.as_ref(), "input-pool", input_pool)
+    }
 
     /// The current number of free cells in memory pool for output direction.
     #[doc(alias = "output-free")]
-    fn output_free(&self) -> u32;
+    fn output_free(&self) -> u32 {
+        ObjectExt::property(self.as_ref(), "output-free")
+    }
 
     /// The current number of free cells in memory pool for output direction.
     #[doc(alias = "output-free")]
-    fn set_output_free(&self, output_free: u32);
+    fn set_output_free(&self, output_free: u32) {
+        ObjectExt::set_property(self.as_ref(), "output-free", output_free)
+    }
 
     /// The total number of cells in memory pool for output direction. The client enqueue any event
     /// into the pool at scheduling, then the event is copied to input memory pool of destination
     /// client.
     #[doc(alias = "output-pool")]
-    fn output_pool(&self) -> u32;
+    fn output_pool(&self) -> u32 {
+        ObjectExt::property(self.as_ref(), "output-pool")
+    }
 
     /// The total number of cells in memory pool for output direction. The client enqueue any event
     /// into the pool at scheduling, then the event is copied to input memory pool of destination
     /// client.
     #[doc(alias = "output-pool")]
-    fn set_output_pool(&self, output_pool: u32);
+    fn set_output_pool(&self, output_pool: u32) {
+        ObjectExt::set_property(self.as_ref(), "output-pool", output_pool)
+    }
 
     /// The number of cells in memory pool for output direction as threshold for writable condition
     /// at the result of poll(2). The property is useless for [`UserClient`][crate::UserClient] since it doesn't
     /// perform poll(2) to check writable or not.
     #[doc(alias = "output-room")]
-    fn output_room(&self) -> u32;
+    fn output_room(&self) -> u32 {
+        ObjectExt::property(self.as_ref(), "output-room")
+    }
 
     /// The number of cells in memory pool for output direction as threshold for writable condition
     /// at the result of poll(2). The property is useless for [`UserClient`][crate::UserClient] since it doesn't
     /// perform poll(2) to check writable or not.
     #[doc(alias = "output-room")]
-    fn set_output_room(&self, output_room: u32);
+    fn set_output_room(&self, output_room: u32) {
+        ObjectExt::set_property(self.as_ref(), "output-room", output_room)
+    }
 
     #[doc(alias = "client-id")]
-    fn connect_client_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "input-free")]
-    fn connect_input_free_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "input-pool")]
-    fn connect_input_pool_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "output-free")]
-    fn connect_output_free_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "output-pool")]
-    fn connect_output_pool_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "output-room")]
-    fn connect_output_room_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<ClientPool>> ClientPoolExt for O {
-    fn client_id(&self) -> u8 {
-        glib::ObjectExt::property(self.as_ref(), "client-id")
-    }
-
-    fn input_free(&self) -> u32 {
-        glib::ObjectExt::property(self.as_ref(), "input-free")
-    }
-
-    fn set_input_free(&self, input_free: u32) {
-        glib::ObjectExt::set_property(self.as_ref(), "input-free", &input_free)
-    }
-
-    fn input_pool(&self) -> u32 {
-        glib::ObjectExt::property(self.as_ref(), "input-pool")
-    }
-
-    fn set_input_pool(&self, input_pool: u32) {
-        glib::ObjectExt::set_property(self.as_ref(), "input-pool", &input_pool)
-    }
-
-    fn output_free(&self) -> u32 {
-        glib::ObjectExt::property(self.as_ref(), "output-free")
-    }
-
-    fn set_output_free(&self, output_free: u32) {
-        glib::ObjectExt::set_property(self.as_ref(), "output-free", &output_free)
-    }
-
-    fn output_pool(&self) -> u32 {
-        glib::ObjectExt::property(self.as_ref(), "output-pool")
-    }
-
-    fn set_output_pool(&self, output_pool: u32) {
-        glib::ObjectExt::set_property(self.as_ref(), "output-pool", &output_pool)
-    }
-
-    fn output_room(&self) -> u32 {
-        glib::ObjectExt::property(self.as_ref(), "output-room")
-    }
-
-    fn set_output_room(&self, output_room: u32) {
-        glib::ObjectExt::set_property(self.as_ref(), "output-room", &output_room)
-    }
-
     fn connect_client_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_client_id_trampoline<
             P: IsA<ClientPool>,
@@ -198,6 +204,7 @@ impl<O: IsA<ClientPool>> ClientPoolExt for O {
         }
     }
 
+    #[doc(alias = "input-free")]
     fn connect_input_free_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_input_free_trampoline<
             P: IsA<ClientPool>,
@@ -223,6 +230,7 @@ impl<O: IsA<ClientPool>> ClientPoolExt for O {
         }
     }
 
+    #[doc(alias = "input-pool")]
     fn connect_input_pool_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_input_pool_trampoline<
             P: IsA<ClientPool>,
@@ -248,6 +256,7 @@ impl<O: IsA<ClientPool>> ClientPoolExt for O {
         }
     }
 
+    #[doc(alias = "output-free")]
     fn connect_output_free_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_output_free_trampoline<
             P: IsA<ClientPool>,
@@ -273,6 +282,7 @@ impl<O: IsA<ClientPool>> ClientPoolExt for O {
         }
     }
 
+    #[doc(alias = "output-pool")]
     fn connect_output_pool_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_output_pool_trampoline<
             P: IsA<ClientPool>,
@@ -298,6 +308,7 @@ impl<O: IsA<ClientPool>> ClientPoolExt for O {
         }
     }
 
+    #[doc(alias = "output-room")]
     fn connect_output_room_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_output_room_trampoline<
             P: IsA<ClientPool>,
@@ -323,6 +334,8 @@ impl<O: IsA<ClientPool>> ClientPoolExt for O {
         }
     }
 }
+
+impl<O: IsA<ClientPool>> ClientPoolExt for O {}
 
 impl fmt::Display for ClientPool {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

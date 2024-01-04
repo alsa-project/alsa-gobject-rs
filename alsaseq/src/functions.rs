@@ -15,7 +15,8 @@ use super::*;
 /// [`true`] when the overall operation finishes successfully, else [`false`].
 ///
 /// ## `entries`
-/// The array with element for subscription data.
+/// The array with element for subscription
+///           data.
 #[doc(alias = "alsaseq_get_subscription_list")]
 #[doc(alias = "get_subscription_list")]
 pub fn subscription_list(
@@ -46,8 +47,7 @@ pub fn subscription_list(
 /// The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system calls with
 /// `SNDRV_SEQ_IOCTL_GET_QUEUE_STATUS` command for ALSA sequencer character device.
 /// ## `queue_id`
-/// The numeric ID of queue. One of [`SpecificQueueId`][crate::SpecificQueueId] is available as
-/// well.
+/// The numeric ID of queue. One of [`SpecificQueueId`][crate::SpecificQueueId] is available as well.
 /// ## `queue_status`
 /// The current status of queue.
 ///

@@ -3,16 +3,13 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::ClientType;
-use crate::FilterAttrFlag;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use crate::{ClientType, FilterAttrFlag};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
     /// A GObject-derived object to express information of client.
@@ -22,6 +19,63 @@ glib::wrapper! {
     /// [`UserClientExt::set_info()`][crate::prelude::UserClientExt::set_info()] and [`UserClientExtManual::info()`][crate::prelude::UserClientExtManual::info()] require the instance of object.
     ///
     /// The object wraps `struct snd_seq_client_info` in UAPI of Linux sound subsystem.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `card-id`
+    ///  The numeric ID of sound card. Available in Linux kernel 4.6.0 or later.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `client-id`
+    ///  The numeric ID of client. One of [`SpecificClientId`][crate::SpecificClientId] is available as well as any
+    /// numeric value.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `filter-attributes`
+    ///  The attributes for event filter.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `lost-count`
+    ///  The number of lost events.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `name`
+    ///  The name of client.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `port-count`
+    ///  The number of ports opened by the client.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `process-id`
+    ///  The process ID for user client, otherwise -1. Available in Linux kernel 4.6.0 or later.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `type`
+    ///  The type of client, one of [`ClientType`][crate::ClientType].
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `use-filter`
+    ///  Whether using filter to receive event or not.
+    ///
+    /// Readable | Writeable
     ///
     /// # Implements
     ///
@@ -54,161 +108,108 @@ impl Default for ClientInfo {
     }
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::ClientInfo>> Sealed for T {}
+}
+
 /// Trait containing the part of [`struct@ClientInfo`] methods.
 ///
 /// # Implementors
 ///
 /// [`ClientInfo`][struct@crate::ClientInfo]
-pub trait ClientInfoExt: 'static {
+pub trait ClientInfoExt: IsA<ClientInfo> + sealed::Sealed + 'static {
     /// The numeric ID of sound card. Available in Linux kernel 4.6.0 or later.
     #[doc(alias = "card-id")]
-    fn card_id(&self) -> i32;
+    fn card_id(&self) -> i32 {
+        ObjectExt::property(self.as_ref(), "card-id")
+    }
 
     /// The numeric ID of sound card. Available in Linux kernel 4.6.0 or later.
     #[doc(alias = "card-id")]
-    fn set_card_id(&self, card_id: i32);
+    fn set_card_id(&self, card_id: i32) {
+        ObjectExt::set_property(self.as_ref(), "card-id", card_id)
+    }
 
     /// The numeric ID of client. One of [`SpecificClientId`][crate::SpecificClientId] is available as well as any
     /// numeric value.
     #[doc(alias = "client-id")]
-    fn client_id(&self) -> u8;
+    fn client_id(&self) -> u8 {
+        ObjectExt::property(self.as_ref(), "client-id")
+    }
 
     /// The numeric ID of client. One of [`SpecificClientId`][crate::SpecificClientId] is available as well as any
     /// numeric value.
     #[doc(alias = "client-id")]
-    fn set_client_id(&self, client_id: u8);
+    fn set_client_id(&self, client_id: u8) {
+        ObjectExt::set_property(self.as_ref(), "client-id", client_id)
+    }
 
     /// The attributes for event filter.
     #[doc(alias = "filter-attributes")]
-    fn filter_attributes(&self) -> FilterAttrFlag;
+    fn filter_attributes(&self) -> FilterAttrFlag {
+        ObjectExt::property(self.as_ref(), "filter-attributes")
+    }
 
     /// The attributes for event filter.
     #[doc(alias = "filter-attributes")]
-    fn set_filter_attributes(&self, filter_attributes: FilterAttrFlag);
+    fn set_filter_attributes(&self, filter_attributes: FilterAttrFlag) {
+        ObjectExt::set_property(self.as_ref(), "filter-attributes", filter_attributes)
+    }
 
     /// The number of lost events.
     #[doc(alias = "lost-count")]
-    fn lost_count(&self) -> i32;
+    fn lost_count(&self) -> i32 {
+        ObjectExt::property(self.as_ref(), "lost-count")
+    }
 
     /// The name of client.
-    fn name(&self) -> Option<glib::GString>;
+    fn name(&self) -> Option<glib::GString> {
+        ObjectExt::property(self.as_ref(), "name")
+    }
 
     /// The name of client.
-    fn set_name(&self, name: Option<&str>);
+    fn set_name(&self, name: Option<&str>) {
+        ObjectExt::set_property(self.as_ref(), "name", name)
+    }
 
     /// The number of ports opened by the client.
     #[doc(alias = "port-count")]
-    fn port_count(&self) -> i32;
+    fn port_count(&self) -> i32 {
+        ObjectExt::property(self.as_ref(), "port-count")
+    }
 
     /// The process ID for user client, otherwise -1. Available in Linux kernel 4.6.0 or later.
     #[doc(alias = "process-id")]
-    fn process_id(&self) -> i64;
+    fn process_id(&self) -> i64 {
+        ObjectExt::property(self.as_ref(), "process-id")
+    }
 
     /// The type of client, one of [`ClientType`][crate::ClientType].
     #[doc(alias = "type")]
-    fn type_(&self) -> ClientType;
+    fn type_(&self) -> ClientType {
+        ObjectExt::property(self.as_ref(), "type")
+    }
 
     /// The type of client, one of [`ClientType`][crate::ClientType].
     #[doc(alias = "type")]
-    fn set_type(&self, type_: ClientType);
+    fn set_type(&self, type_: ClientType) {
+        ObjectExt::set_property(self.as_ref(), "type", type_)
+    }
 
     /// Whether using filter to receive event or not.
     #[doc(alias = "use-filter")]
-    fn uses_filter(&self) -> bool;
+    fn uses_filter(&self) -> bool {
+        ObjectExt::property(self.as_ref(), "use-filter")
+    }
 
     /// Whether using filter to receive event or not.
     #[doc(alias = "use-filter")]
-    fn set_use_filter(&self, use_filter: bool);
+    fn set_use_filter(&self, use_filter: bool) {
+        ObjectExt::set_property(self.as_ref(), "use-filter", use_filter)
+    }
 
     #[doc(alias = "card-id")]
-    fn connect_card_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "client-id")]
-    fn connect_client_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "filter-attributes")]
-    fn connect_filter_attributes_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "lost-count")]
-    fn connect_lost_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "name")]
-    fn connect_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "port-count")]
-    fn connect_port_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "process-id")]
-    fn connect_process_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "type")]
-    fn connect_type_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "use-filter")]
-    fn connect_use_filter_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<ClientInfo>> ClientInfoExt for O {
-    fn card_id(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "card-id")
-    }
-
-    fn set_card_id(&self, card_id: i32) {
-        glib::ObjectExt::set_property(self.as_ref(), "card-id", &card_id)
-    }
-
-    fn client_id(&self) -> u8 {
-        glib::ObjectExt::property(self.as_ref(), "client-id")
-    }
-
-    fn set_client_id(&self, client_id: u8) {
-        glib::ObjectExt::set_property(self.as_ref(), "client-id", &client_id)
-    }
-
-    fn filter_attributes(&self) -> FilterAttrFlag {
-        glib::ObjectExt::property(self.as_ref(), "filter-attributes")
-    }
-
-    fn set_filter_attributes(&self, filter_attributes: FilterAttrFlag) {
-        glib::ObjectExt::set_property(self.as_ref(), "filter-attributes", &filter_attributes)
-    }
-
-    fn lost_count(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "lost-count")
-    }
-
-    fn name(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self.as_ref(), "name")
-    }
-
-    fn set_name(&self, name: Option<&str>) {
-        glib::ObjectExt::set_property(self.as_ref(), "name", &name)
-    }
-
-    fn port_count(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "port-count")
-    }
-
-    fn process_id(&self) -> i64 {
-        glib::ObjectExt::property(self.as_ref(), "process-id")
-    }
-
-    fn type_(&self) -> ClientType {
-        glib::ObjectExt::property(self.as_ref(), "type")
-    }
-
-    fn set_type(&self, type_: ClientType) {
-        glib::ObjectExt::set_property(self.as_ref(), "type", &type_)
-    }
-
-    fn uses_filter(&self) -> bool {
-        glib::ObjectExt::property(self.as_ref(), "use-filter")
-    }
-
-    fn set_use_filter(&self, use_filter: bool) {
-        glib::ObjectExt::set_property(self.as_ref(), "use-filter", &use_filter)
-    }
-
     fn connect_card_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_card_id_trampoline<P: IsA<ClientInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSASeqClientInfo,
@@ -231,6 +232,7 @@ impl<O: IsA<ClientInfo>> ClientInfoExt for O {
         }
     }
 
+    #[doc(alias = "client-id")]
     fn connect_client_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_client_id_trampoline<
             P: IsA<ClientInfo>,
@@ -256,6 +258,7 @@ impl<O: IsA<ClientInfo>> ClientInfoExt for O {
         }
     }
 
+    #[doc(alias = "filter-attributes")]
     fn connect_filter_attributes_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_filter_attributes_trampoline<
             P: IsA<ClientInfo>,
@@ -281,6 +284,7 @@ impl<O: IsA<ClientInfo>> ClientInfoExt for O {
         }
     }
 
+    #[doc(alias = "lost-count")]
     fn connect_lost_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_lost_count_trampoline<
             P: IsA<ClientInfo>,
@@ -306,6 +310,7 @@ impl<O: IsA<ClientInfo>> ClientInfoExt for O {
         }
     }
 
+    #[doc(alias = "name")]
     fn connect_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_name_trampoline<P: IsA<ClientInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSASeqClientInfo,
@@ -328,6 +333,7 @@ impl<O: IsA<ClientInfo>> ClientInfoExt for O {
         }
     }
 
+    #[doc(alias = "port-count")]
     fn connect_port_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_port_count_trampoline<
             P: IsA<ClientInfo>,
@@ -353,6 +359,7 @@ impl<O: IsA<ClientInfo>> ClientInfoExt for O {
         }
     }
 
+    #[doc(alias = "process-id")]
     fn connect_process_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_process_id_trampoline<
             P: IsA<ClientInfo>,
@@ -378,6 +385,7 @@ impl<O: IsA<ClientInfo>> ClientInfoExt for O {
         }
     }
 
+    #[doc(alias = "type")]
     fn connect_type_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_type_trampoline<P: IsA<ClientInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSASeqClientInfo,
@@ -400,6 +408,7 @@ impl<O: IsA<ClientInfo>> ClientInfoExt for O {
         }
     }
 
+    #[doc(alias = "use-filter")]
     fn connect_use_filter_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_use_filter_trampoline<
             P: IsA<ClientInfo>,
@@ -425,6 +434,8 @@ impl<O: IsA<ClientInfo>> ClientInfoExt for O {
         }
     }
 }
+
+impl<O: IsA<ClientInfo>> ClientInfoExt for O {}
 
 impl fmt::Display for ClientInfo {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

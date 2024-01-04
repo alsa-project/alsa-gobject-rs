@@ -4,14 +4,12 @@
 // DO NOT EDIT
 
 use crate::QueueTimerType;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
     /// An interface to express common features of queue timer.
@@ -19,6 +17,20 @@ glib::wrapper! {
     /// A [`QueueTimerCommon`][crate::QueueTimerCommon] should be implemented by any type of queue timer.
     ///
     /// The object wraps `struct snd_seq_queue_timer` in UAPI of Linux sound subsystem.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `queue-id`
+    ///  The numeric identifier of queue. An entry of [`SpecificClientId`][crate::SpecificClientId] is available as well.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `timer-type`
+    ///  The type of timer for the queue, one of [`QueueTimerType`][crate::QueueTimerType].
+    ///
+    /// Readable
     ///
     /// # Implements
     ///
@@ -35,36 +47,30 @@ impl QueueTimerCommon {
     pub const NONE: Option<&'static QueueTimerCommon> = None;
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::QueueTimerCommon>> Sealed for T {}
+}
+
 /// Trait containing all [`struct@QueueTimerCommon`] methods.
 ///
 /// # Implementors
 ///
 /// [`QueueTimerAlsa`][struct@crate::QueueTimerAlsa], [`QueueTimerCommon`][struct@crate::QueueTimerCommon]
-pub trait QueueTimerCommonExt: 'static {
+pub trait QueueTimerCommonExt: IsA<QueueTimerCommon> + sealed::Sealed + 'static {
     /// The numeric identifier of queue. An entry of [`SpecificClientId`][crate::SpecificClientId] is available as well.
     #[doc(alias = "queue-id")]
-    fn queue_id(&self) -> u8;
+    fn queue_id(&self) -> u8 {
+        ObjectExt::property(self.as_ref(), "queue-id")
+    }
 
     /// The type of timer for the queue, one of [`QueueTimerType`][crate::QueueTimerType].
     #[doc(alias = "timer-type")]
-    fn timer_type(&self) -> QueueTimerType;
+    fn timer_type(&self) -> QueueTimerType {
+        ObjectExt::property(self.as_ref(), "timer-type")
+    }
 
     #[doc(alias = "queue-id")]
-    fn connect_queue_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "timer-type")]
-    fn connect_timer_type_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<QueueTimerCommon>> QueueTimerCommonExt for O {
-    fn queue_id(&self) -> u8 {
-        glib::ObjectExt::property(self.as_ref(), "queue-id")
-    }
-
-    fn timer_type(&self) -> QueueTimerType {
-        glib::ObjectExt::property(self.as_ref(), "timer-type")
-    }
-
     fn connect_queue_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_queue_id_trampoline<
             P: IsA<QueueTimerCommon>,
@@ -90,6 +96,7 @@ impl<O: IsA<QueueTimerCommon>> QueueTimerCommonExt for O {
         }
     }
 
+    #[doc(alias = "timer-type")]
     fn connect_timer_type_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_timer_type_trampoline<
             P: IsA<QueueTimerCommon>,
@@ -115,6 +122,8 @@ impl<O: IsA<QueueTimerCommon>> QueueTimerCommonExt for O {
         }
     }
 }
+
+impl<O: IsA<QueueTimerCommon>> QueueTimerCommonExt for O {}
 
 impl fmt::Display for QueueTimerCommon {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

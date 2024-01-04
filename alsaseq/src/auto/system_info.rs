@@ -3,14 +3,12 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
     /// A GObject-derived object to express information of ALSA Sequencer.
@@ -19,6 +17,44 @@ glib::wrapper! {
     /// call of [`system_info()`][crate::system_info()] returns the instance of object.
     ///
     /// The object wraps `struct snd_seq_system_info` in UAPI of Linux sound subsystem.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `current-client-count`
+    ///  The current number of clients.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `current-queue-count`
+    ///  The current number of queues.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `maximum-channel-count`
+    ///  The maximum number of channels.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `maximum-client-count`
+    ///  The maximum number of clients.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `maximum-port-count`
+    ///  The maximum number of ports.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `maximum-queue-count`
+    ///  The maximum number of available queues.
+    ///
+    /// Readable
     ///
     /// # Implements
     ///
@@ -35,81 +71,54 @@ impl SystemInfo {
     pub const NONE: Option<&'static SystemInfo> = None;
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::SystemInfo>> Sealed for T {}
+}
+
 /// Trait containing all [`struct@SystemInfo`] methods.
 ///
 /// # Implementors
 ///
 /// [`SystemInfo`][struct@crate::SystemInfo]
-pub trait SystemInfoExt: 'static {
+pub trait SystemInfoExt: IsA<SystemInfo> + sealed::Sealed + 'static {
     /// The current number of clients.
     #[doc(alias = "current-client-count")]
-    fn current_client_count(&self) -> i32;
+    fn current_client_count(&self) -> i32 {
+        ObjectExt::property(self.as_ref(), "current-client-count")
+    }
 
     /// The current number of queues.
     #[doc(alias = "current-queue-count")]
-    fn current_queue_count(&self) -> i32;
+    fn current_queue_count(&self) -> i32 {
+        ObjectExt::property(self.as_ref(), "current-queue-count")
+    }
 
     /// The maximum number of channels.
     #[doc(alias = "maximum-channel-count")]
-    fn maximum_channel_count(&self) -> i32;
+    fn maximum_channel_count(&self) -> i32 {
+        ObjectExt::property(self.as_ref(), "maximum-channel-count")
+    }
 
     /// The maximum number of clients.
     #[doc(alias = "maximum-client-count")]
-    fn maximum_client_count(&self) -> i32;
+    fn maximum_client_count(&self) -> i32 {
+        ObjectExt::property(self.as_ref(), "maximum-client-count")
+    }
 
     /// The maximum number of ports.
     #[doc(alias = "maximum-port-count")]
-    fn maximum_port_count(&self) -> i32;
+    fn maximum_port_count(&self) -> i32 {
+        ObjectExt::property(self.as_ref(), "maximum-port-count")
+    }
 
     /// The maximum number of available queues.
     #[doc(alias = "maximum-queue-count")]
-    fn maximum_queue_count(&self) -> i32;
+    fn maximum_queue_count(&self) -> i32 {
+        ObjectExt::property(self.as_ref(), "maximum-queue-count")
+    }
 
     #[doc(alias = "current-client-count")]
-    fn connect_current_client_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "current-queue-count")]
-    fn connect_current_queue_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "maximum-channel-count")]
-    fn connect_maximum_channel_count_notify<F: Fn(&Self) + 'static>(&self, f: F)
-        -> SignalHandlerId;
-
-    #[doc(alias = "maximum-client-count")]
-    fn connect_maximum_client_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "maximum-port-count")]
-    fn connect_maximum_port_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "maximum-queue-count")]
-    fn connect_maximum_queue_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<SystemInfo>> SystemInfoExt for O {
-    fn current_client_count(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "current-client-count")
-    }
-
-    fn current_queue_count(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "current-queue-count")
-    }
-
-    fn maximum_channel_count(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "maximum-channel-count")
-    }
-
-    fn maximum_client_count(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "maximum-client-count")
-    }
-
-    fn maximum_port_count(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "maximum-port-count")
-    }
-
-    fn maximum_queue_count(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "maximum-queue-count")
-    }
-
     fn connect_current_client_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_current_client_count_trampoline<
             P: IsA<SystemInfo>,
@@ -135,6 +144,7 @@ impl<O: IsA<SystemInfo>> SystemInfoExt for O {
         }
     }
 
+    #[doc(alias = "current-queue-count")]
     fn connect_current_queue_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_current_queue_count_trampoline<
             P: IsA<SystemInfo>,
@@ -160,6 +170,7 @@ impl<O: IsA<SystemInfo>> SystemInfoExt for O {
         }
     }
 
+    #[doc(alias = "maximum-channel-count")]
     fn connect_maximum_channel_count_notify<F: Fn(&Self) + 'static>(
         &self,
         f: F,
@@ -188,6 +199,7 @@ impl<O: IsA<SystemInfo>> SystemInfoExt for O {
         }
     }
 
+    #[doc(alias = "maximum-client-count")]
     fn connect_maximum_client_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_maximum_client_count_trampoline<
             P: IsA<SystemInfo>,
@@ -213,6 +225,7 @@ impl<O: IsA<SystemInfo>> SystemInfoExt for O {
         }
     }
 
+    #[doc(alias = "maximum-port-count")]
     fn connect_maximum_port_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_maximum_port_count_trampoline<
             P: IsA<SystemInfo>,
@@ -238,6 +251,7 @@ impl<O: IsA<SystemInfo>> SystemInfoExt for O {
         }
     }
 
+    #[doc(alias = "maximum-queue-count")]
     fn connect_maximum_queue_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_maximum_queue_count_trampoline<
             P: IsA<SystemInfo>,
@@ -263,6 +277,8 @@ impl<O: IsA<SystemInfo>> SystemInfoExt for O {
         }
     }
 }
+
+impl<O: IsA<SystemInfo>> SystemInfoExt for O {}
 
 impl fmt::Display for SystemInfo {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

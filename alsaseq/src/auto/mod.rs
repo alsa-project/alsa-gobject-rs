@@ -85,7 +85,6 @@ pub use self::flags::PortAttrFlag;
 pub use self::flags::PortCapFlag;
 pub use self::flags::RemoveFilterFlag;
 
-/// Functions callable without instantiation.
 pub mod functions;
 
 #[doc(hidden)]

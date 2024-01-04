@@ -3,27 +3,23 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use bitflags::bitflags;
-use glib::translate::*;
-use glib::value::FromValue;
-use glib::value::ToValue;
-use glib::StaticType;
-use glib::Type;
+use glib::{bitflags::bitflags, prelude::*, translate::*};
 use std::fmt;
 
 bitflags! {
     /// A set of flags for attributes of event filter.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
     #[doc(alias = "ALSASeqFilterAttrFlag")]
     pub struct FilterAttrFlag: u32 {
         /// The client is going to handle broadcast events.
         #[doc(alias = "ALSASEQ_FILTER_ATTR_FLAG_BROADCAST")]
-        const BROADCAST = ffi::ALSASEQ_FILTER_ATTR_FLAG_BROADCAST as u32;
+        const BROADCAST = ffi::ALSASEQ_FILTER_ATTR_FLAG_BROADCAST as _;
         /// The client is going to handle multicast events.
         #[doc(alias = "ALSASEQ_FILTER_ATTR_FLAG_MULTICAST")]
-        const MULTICAST = ffi::ALSASEQ_FILTER_ATTR_FLAG_MULTICAST as u32;
+        const MULTICAST = ffi::ALSASEQ_FILTER_ATTR_FLAG_MULTICAST as _;
         /// The client is going to handle bounce events.
         #[doc(alias = "ALSASEQ_FILTER_ATTR_FLAG_BOUNCE")]
-        const BOUNCE = ffi::ALSASEQ_FILTER_ATTR_FLAG_BOUNCE as u32;
+        const BOUNCE = ffi::ALSASEQ_FILTER_ATTR_FLAG_BOUNCE as _;
     }
 }
 
@@ -37,6 +33,7 @@ impl fmt::Display for FilterAttrFlag {
 impl IntoGlib for FilterAttrFlag {
     type GlibType = ffi::ALSASeqFilterAttrFlag;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSASeqFilterAttrFlag {
         self.bits()
     }
@@ -44,14 +41,27 @@ impl IntoGlib for FilterAttrFlag {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSASeqFilterAttrFlag> for FilterAttrFlag {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSASeqFilterAttrFlag) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
 impl StaticType for FilterAttrFlag {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsaseq_filter_attr_flag_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsaseq_filter_attr_flag_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for FilterAttrFlag {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder
     }
 }
 
@@ -59,15 +69,17 @@ impl glib::value::ValueType for FilterAttrFlag {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for FilterAttrFlag {
+unsafe impl<'a> glib::value::FromValue<'a> for FilterAttrFlag {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
 impl ToValue for FilterAttrFlag {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -76,51 +88,60 @@ impl ToValue for FilterAttrFlag {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+impl From<FilterAttrFlag> for glib::Value {
+    #[inline]
+    fn from(v: FilterAttrFlag) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 bitflags! {
     /// A set of flags for the attributes of port.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
     #[doc(alias = "ALSASeqPortAttrFlag")]
     pub struct PortAttrFlag: u32 {
         /// For hardware specific messages.
         #[doc(alias = "ALSASEQ_PORT_ATTR_FLAG_SPECIFIC")]
-        const SPECIFIC = ffi::ALSASEQ_PORT_ATTR_FLAG_SPECIFIC as u32;
+        const SPECIFIC = ffi::ALSASEQ_PORT_ATTR_FLAG_SPECIFIC as _;
         /// For generic MIDI messages.
         #[doc(alias = "ALSASEQ_PORT_ATTR_FLAG_MIDI_GENERIC")]
-        const MIDI_GENERIC = ffi::ALSASEQ_PORT_ATTR_FLAG_MIDI_GENERIC as u32;
+        const MIDI_GENERIC = ffi::ALSASEQ_PORT_ATTR_FLAG_MIDI_GENERIC as _;
         /// For General MIDI comatible messages.
         #[doc(alias = "ALSASEQ_PORT_ATTR_FLAG_MIDI_GM")]
-        const MIDI_GM = ffi::ALSASEQ_PORT_ATTR_FLAG_MIDI_GM as u32;
+        const MIDI_GM = ffi::ALSASEQ_PORT_ATTR_FLAG_MIDI_GM as _;
         /// For GS compatible messages.
         #[doc(alias = "ALSASEQ_PORT_ATTR_FLAG_MIDI_GS")]
-        const MIDI_GS = ffi::ALSASEQ_PORT_ATTR_FLAG_MIDI_GS as u32;
+        const MIDI_GS = ffi::ALSASEQ_PORT_ATTR_FLAG_MIDI_GS as _;
         /// For XG compatible messages.
         #[doc(alias = "ALSASEQ_PORT_ATTR_FLAG_MIDI_XG")]
-        const MIDI_XG = ffi::ALSASEQ_PORT_ATTR_FLAG_MIDI_XG as u32;
+        const MIDI_XG = ffi::ALSASEQ_PORT_ATTR_FLAG_MIDI_XG as _;
         /// For MT-32 compatible messages.
         #[doc(alias = "ALSASEQ_PORT_ATTR_FLAG_MIDI_MT32")]
-        const MIDI_MT32 = ffi::ALSASEQ_PORT_ATTR_FLAG_MIDI_MT32 as u32;
+        const MIDI_MT32 = ffi::ALSASEQ_PORT_ATTR_FLAG_MIDI_MT32 as _;
         /// For General MIDI 2 compatible messages.
         #[doc(alias = "ALSASEQ_PORT_ATTR_FLAG_MIDI_GM2")]
-        const MIDI_GM2 = ffi::ALSASEQ_PORT_ATTR_FLAG_MIDI_GM2 as u32;
+        const MIDI_GM2 = ffi::ALSASEQ_PORT_ATTR_FLAG_MIDI_GM2 as _;
         /// The port on any hardware.
         #[doc(alias = "ALSASEQ_PORT_ATTR_FLAG_HARDWARE")]
-        const HARDWARE = ffi::ALSASEQ_PORT_ATTR_FLAG_HARDWARE as u32;
+        const HARDWARE = ffi::ALSASEQ_PORT_ATTR_FLAG_HARDWARE as _;
         /// The port on any software.
         #[doc(alias = "ALSASEQ_PORT_ATTR_FLAG_SOFTWARE")]
-        const SOFTWARE = ffi::ALSASEQ_PORT_ATTR_FLAG_SOFTWARE as u32;
+        const SOFTWARE = ffi::ALSASEQ_PORT_ATTR_FLAG_SOFTWARE as _;
         /// The port to generate sound.
         #[doc(alias = "ALSASEQ_PORT_ATTR_FLAG_SYNTHESIZER")]
-        const SYNTHESIZER = ffi::ALSASEQ_PORT_ATTR_FLAG_SYNTHESIZER as u32;
+        const SYNTHESIZER = ffi::ALSASEQ_PORT_ATTR_FLAG_SYNTHESIZER as _;
         /// The port connects to the other devices.
         #[doc(alias = "ALSASEQ_PORT_ATTR_FLAG_PORT")]
-        const PORT = ffi::ALSASEQ_PORT_ATTR_FLAG_PORT as u32;
+        const PORT = ffi::ALSASEQ_PORT_ATTR_FLAG_PORT as _;
         /// The port on any application such as sequencer and editor.
         #[doc(alias = "ALSASEQ_PORT_ATTR_FLAG_APPLICATION")]
-        const APPLICATION = ffi::ALSASEQ_PORT_ATTR_FLAG_APPLICATION as u32;
+        const APPLICATION = ffi::ALSASEQ_PORT_ATTR_FLAG_APPLICATION as _;
     }
 }
 
@@ -134,6 +155,7 @@ impl fmt::Display for PortAttrFlag {
 impl IntoGlib for PortAttrFlag {
     type GlibType = ffi::ALSASeqPortAttrFlag;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSASeqPortAttrFlag {
         self.bits()
     }
@@ -141,14 +163,27 @@ impl IntoGlib for PortAttrFlag {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSASeqPortAttrFlag> for PortAttrFlag {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSASeqPortAttrFlag) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
 impl StaticType for PortAttrFlag {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsaseq_port_attr_flag_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsaseq_port_attr_flag_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for PortAttrFlag {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder
     }
 }
 
@@ -156,15 +191,17 @@ impl glib::value::ValueType for PortAttrFlag {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for PortAttrFlag {
+unsafe impl<'a> glib::value::FromValue<'a> for PortAttrFlag {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
 impl ToValue for PortAttrFlag {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -173,33 +210,42 @@ impl ToValue for PortAttrFlag {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+impl From<PortAttrFlag> for glib::Value {
+    #[inline]
+    fn from(v: PortAttrFlag) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 bitflags! {
     /// A set of flags for the capabilities of port.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
     #[doc(alias = "ALSASeqPortCapFlag")]
     pub struct PortCapFlag: u32 {
         /// Any message can be read from the port.
         #[doc(alias = "ALSASEQ_PORT_CAP_FLAG_READ")]
-        const READ = ffi::ALSASEQ_PORT_CAP_FLAG_READ as u32;
+        const READ = ffi::ALSASEQ_PORT_CAP_FLAG_READ as _;
         /// Any message can be written to the port.
         #[doc(alias = "ALSASEQ_PORT_CAP_FLAG_WRITE")]
-        const WRITE = ffi::ALSASEQ_PORT_CAP_FLAG_WRITE as u32;
+        const WRITE = ffi::ALSASEQ_PORT_CAP_FLAG_WRITE as _;
         /// Any messages can be read from/written to the port simultaneously.
         #[doc(alias = "ALSASEQ_PORT_CAP_FLAG_DUPLEX")]
-        const DUPLEX = ffi::ALSASEQ_PORT_CAP_FLAG_DUPLEX as u32;
+        const DUPLEX = ffi::ALSASEQ_PORT_CAP_FLAG_DUPLEX as _;
         /// The data of subscription can be read from the port.
         #[doc(alias = "ALSASEQ_PORT_CAP_FLAG_SUBS_READ")]
-        const SUBS_READ = ffi::ALSASEQ_PORT_CAP_FLAG_SUBS_READ as u32;
+        const SUBS_READ = ffi::ALSASEQ_PORT_CAP_FLAG_SUBS_READ as _;
         /// The data of subscription can be written to the port.
         #[doc(alias = "ALSASEQ_PORT_CAP_FLAG_SUBS_WRITE")]
-        const SUBS_WRITE = ffi::ALSASEQ_PORT_CAP_FLAG_SUBS_WRITE as u32;
+        const SUBS_WRITE = ffi::ALSASEQ_PORT_CAP_FLAG_SUBS_WRITE as _;
         /// Only owners of the port can maintain subscription.
         #[doc(alias = "ALSASEQ_PORT_CAP_FLAG_NO_EXPORT")]
-        const NO_EXPORT = ffi::ALSASEQ_PORT_CAP_FLAG_NO_EXPORT as u32;
+        const NO_EXPORT = ffi::ALSASEQ_PORT_CAP_FLAG_NO_EXPORT as _;
     }
 }
 
@@ -213,6 +259,7 @@ impl fmt::Display for PortCapFlag {
 impl IntoGlib for PortCapFlag {
     type GlibType = ffi::ALSASeqPortCapFlag;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSASeqPortCapFlag {
         self.bits()
     }
@@ -220,14 +267,27 @@ impl IntoGlib for PortCapFlag {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSASeqPortCapFlag> for PortCapFlag {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSASeqPortCapFlag) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
 impl StaticType for PortCapFlag {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsaseq_port_cap_flag_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsaseq_port_cap_flag_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for PortCapFlag {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder
     }
 }
 
@@ -235,15 +295,17 @@ impl glib::value::ValueType for PortCapFlag {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for PortCapFlag {
+unsafe impl<'a> glib::value::FromValue<'a> for PortCapFlag {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
 impl ToValue for PortCapFlag {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -252,47 +314,56 @@ impl ToValue for PortCapFlag {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+impl From<PortCapFlag> for glib::Value {
+    #[inline]
+    fn from(v: PortCapFlag) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 bitflags! {
     /// A set of flags of the mode of removal event.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
     #[doc(alias = "ALSASeqRemoveFilterFlag")]
     pub struct RemoveFilterFlag: u32 {
         /// Flush events in input queues.
         #[doc(alias = "ALSASEQ_REMOVE_FILTER_FLAG_INPUT")]
-        const INPUT = ffi::ALSASEQ_REMOVE_FILTER_FLAG_INPUT as u32;
+        const INPUT = ffi::ALSASEQ_REMOVE_FILTER_FLAG_INPUT as _;
         /// Flush events in output queues.
         #[doc(alias = "ALSASEQ_REMOVE_FILTER_FLAG_OUTPUT")]
-        const OUTPUT = ffi::ALSASEQ_REMOVE_FILTER_FLAG_OUTPUT as u32;
+        const OUTPUT = ffi::ALSASEQ_REMOVE_FILTER_FLAG_OUTPUT as _;
         /// Flush events towards the given destination.
         #[doc(alias = "ALSASEQ_REMOVE_FILTER_FLAG_DEST")]
-        const DEST = ffi::ALSASEQ_REMOVE_FILTER_FLAG_DEST as u32;
+        const DEST = ffi::ALSASEQ_REMOVE_FILTER_FLAG_DEST as _;
         /// Flush events with the given channel, available for
         ///                                              NOTE, NOTEON, NOTEOFF, KEYPRESS, CONTROLLER, PGMCHANGE, CHANPRESS,
         ///                                              PITCHBEND, CONTROL14, NONREGPARAM, REGPARAM.
         #[doc(alias = "ALSASEQ_REMOVE_FILTER_FLAG_DEST_CHANNEL")]
-        const DEST_CHANNEL = ffi::ALSASEQ_REMOVE_FILTER_FLAG_DEST_CHANNEL as u32;
+        const DEST_CHANNEL = ffi::ALSASEQ_REMOVE_FILTER_FLAG_DEST_CHANNEL as _;
         /// Flush events scheduled before the given time.
         #[doc(alias = "ALSASEQ_REMOVE_FILTER_FLAG_TIME_BEFORE")]
-        const TIME_BEFORE = ffi::ALSASEQ_REMOVE_FILTER_FLAG_TIME_BEFORE as u32;
+        const TIME_BEFORE = ffi::ALSASEQ_REMOVE_FILTER_FLAG_TIME_BEFORE as _;
         /// Flush events scheduled after the given time.
         #[doc(alias = "ALSASEQ_REMOVE_FILTER_FLAG_TIME_AFTER")]
-        const TIME_AFTER = ffi::ALSASEQ_REMOVE_FILTER_FLAG_TIME_AFTER as u32;
+        const TIME_AFTER = ffi::ALSASEQ_REMOVE_FILTER_FLAG_TIME_AFTER as _;
         /// The given time is for tick time.
         #[doc(alias = "ALSASEQ_REMOVE_FILTER_FLAG_TIME_TICK")]
-        const TIME_TICK = ffi::ALSASEQ_REMOVE_FILTER_FLAG_TIME_TICK as u32;
+        const TIME_TICK = ffi::ALSASEQ_REMOVE_FILTER_FLAG_TIME_TICK as _;
         /// Flush events with the type.
         #[doc(alias = "ALSASEQ_REMOVE_FILTER_FLAG_EVENT_TYPE")]
-        const EVENT_TYPE = ffi::ALSASEQ_REMOVE_FILTER_FLAG_EVENT_TYPE as u32;
+        const EVENT_TYPE = ffi::ALSASEQ_REMOVE_FILTER_FLAG_EVENT_TYPE as _;
         /// Flush events except for NOTEOFF.
         #[doc(alias = "ALSASEQ_REMOVE_FILTER_FLAG_IGNORE_OFF")]
-        const IGNORE_OFF = ffi::ALSASEQ_REMOVE_FILTER_FLAG_IGNORE_OFF as u32;
+        const IGNORE_OFF = ffi::ALSASEQ_REMOVE_FILTER_FLAG_IGNORE_OFF as _;
         /// Flush events with the given tag.
         #[doc(alias = "ALSASEQ_REMOVE_FILTER_FLAG_TAG_MATCH")]
-        const TAG_MATCH = ffi::ALSASEQ_REMOVE_FILTER_FLAG_TAG_MATCH as u32;
+        const TAG_MATCH = ffi::ALSASEQ_REMOVE_FILTER_FLAG_TAG_MATCH as _;
     }
 }
 
@@ -306,6 +377,7 @@ impl fmt::Display for RemoveFilterFlag {
 impl IntoGlib for RemoveFilterFlag {
     type GlibType = ffi::ALSASeqRemoveFilterFlag;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSASeqRemoveFilterFlag {
         self.bits()
     }
@@ -313,14 +385,27 @@ impl IntoGlib for RemoveFilterFlag {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSASeqRemoveFilterFlag> for RemoveFilterFlag {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSASeqRemoveFilterFlag) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
 impl StaticType for RemoveFilterFlag {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsaseq_remove_filter_flag_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsaseq_remove_filter_flag_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for RemoveFilterFlag {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder
     }
 }
 
@@ -328,15 +413,17 @@ impl glib::value::ValueType for RemoveFilterFlag {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for RemoveFilterFlag {
+unsafe impl<'a> glib::value::FromValue<'a> for RemoveFilterFlag {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
 impl ToValue for RemoveFilterFlag {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -345,7 +432,15 @@ impl ToValue for RemoveFilterFlag {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<RemoveFilterFlag> for glib::Value {
+    #[inline]
+    fn from(v: RemoveFilterFlag) -> Self {
+        ToValue::to_value(&v)
     }
 }

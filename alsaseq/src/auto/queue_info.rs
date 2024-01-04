@@ -3,14 +3,12 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
     /// A GObject-derived object to express information of queue.
@@ -21,6 +19,32 @@ glib::wrapper! {
     /// instance of object.
     ///
     /// The object wraps `struct snd_seq_queue_info` in UAPI of Linux sound subsystem.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `client-id`
+    ///  The numeric ID of client which owns the queue, including one of ALSASeqSpecificClientId.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `locked`
+    ///  Whether to be locked by the other queues or not.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `name`
+    ///  The name of queue.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `queue-id`
+    ///  The numeric ID of queue. An entry of ALSASeqSpecificQueueId is available as well.
+    ///
+    /// Readable | Writeable
     ///
     /// # Implements
     ///
@@ -53,86 +77,62 @@ impl Default for QueueInfo {
     }
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::QueueInfo>> Sealed for T {}
+}
+
 /// Trait containing all [`struct@QueueInfo`] methods.
 ///
 /// # Implementors
 ///
 /// [`QueueInfo`][struct@crate::QueueInfo]
-pub trait QueueInfoExt: 'static {
+pub trait QueueInfoExt: IsA<QueueInfo> + sealed::Sealed + 'static {
     /// The numeric ID of client which owns the queue, including one of ALSASeqSpecificClientId.
     #[doc(alias = "client-id")]
-    fn client_id(&self) -> u8;
-
-    /// The numeric ID of client which owns the queue, including one of ALSASeqSpecificClientId.
-    #[doc(alias = "client-id")]
-    fn set_client_id(&self, client_id: u8);
-
-    /// Whether to be locked by the other queues or not.
-    fn is_locked(&self) -> bool;
-
-    /// Whether to be locked by the other queues or not.
-    fn set_locked(&self, locked: bool);
-
-    /// The name of queue.
-    fn name(&self) -> Option<glib::GString>;
-
-    /// The name of queue.
-    fn set_name(&self, name: Option<&str>);
-
-    /// The numeric ID of queue. An entry of ALSASeqSpecificQueueId is available as well.
-    #[doc(alias = "queue-id")]
-    fn queue_id(&self) -> u8;
-
-    /// The numeric ID of queue. An entry of ALSASeqSpecificQueueId is available as well.
-    #[doc(alias = "queue-id")]
-    fn set_queue_id(&self, queue_id: u8);
-
-    #[doc(alias = "client-id")]
-    fn connect_client_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "locked")]
-    fn connect_locked_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "name")]
-    fn connect_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "queue-id")]
-    fn connect_queue_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<QueueInfo>> QueueInfoExt for O {
     fn client_id(&self) -> u8 {
-        glib::ObjectExt::property(self.as_ref(), "client-id")
+        ObjectExt::property(self.as_ref(), "client-id")
     }
 
+    /// The numeric ID of client which owns the queue, including one of ALSASeqSpecificClientId.
+    #[doc(alias = "client-id")]
     fn set_client_id(&self, client_id: u8) {
-        glib::ObjectExt::set_property(self.as_ref(), "client-id", &client_id)
+        ObjectExt::set_property(self.as_ref(), "client-id", client_id)
     }
 
+    /// Whether to be locked by the other queues or not.
     fn is_locked(&self) -> bool {
-        glib::ObjectExt::property(self.as_ref(), "locked")
+        ObjectExt::property(self.as_ref(), "locked")
     }
 
+    /// Whether to be locked by the other queues or not.
     fn set_locked(&self, locked: bool) {
-        glib::ObjectExt::set_property(self.as_ref(), "locked", &locked)
+        ObjectExt::set_property(self.as_ref(), "locked", locked)
     }
 
+    /// The name of queue.
     fn name(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self.as_ref(), "name")
+        ObjectExt::property(self.as_ref(), "name")
     }
 
+    /// The name of queue.
     fn set_name(&self, name: Option<&str>) {
-        glib::ObjectExt::set_property(self.as_ref(), "name", &name)
+        ObjectExt::set_property(self.as_ref(), "name", name)
     }
 
+    /// The numeric ID of queue. An entry of ALSASeqSpecificQueueId is available as well.
+    #[doc(alias = "queue-id")]
     fn queue_id(&self) -> u8 {
-        glib::ObjectExt::property(self.as_ref(), "queue-id")
+        ObjectExt::property(self.as_ref(), "queue-id")
     }
 
+    /// The numeric ID of queue. An entry of ALSASeqSpecificQueueId is available as well.
+    #[doc(alias = "queue-id")]
     fn set_queue_id(&self, queue_id: u8) {
-        glib::ObjectExt::set_property(self.as_ref(), "queue-id", &queue_id)
+        ObjectExt::set_property(self.as_ref(), "queue-id", queue_id)
     }
 
+    #[doc(alias = "client-id")]
     fn connect_client_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_client_id_trampoline<P: IsA<QueueInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSASeqQueueInfo,
@@ -155,6 +155,7 @@ impl<O: IsA<QueueInfo>> QueueInfoExt for O {
         }
     }
 
+    #[doc(alias = "locked")]
     fn connect_locked_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_locked_trampoline<P: IsA<QueueInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSASeqQueueInfo,
@@ -177,6 +178,7 @@ impl<O: IsA<QueueInfo>> QueueInfoExt for O {
         }
     }
 
+    #[doc(alias = "name")]
     fn connect_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_name_trampoline<P: IsA<QueueInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSASeqQueueInfo,
@@ -199,6 +201,7 @@ impl<O: IsA<QueueInfo>> QueueInfoExt for O {
         }
     }
 
+    #[doc(alias = "queue-id")]
     fn connect_queue_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_queue_id_trampoline<P: IsA<QueueInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSASeqQueueInfo,
@@ -221,6 +224,8 @@ impl<O: IsA<QueueInfo>> QueueInfoExt for O {
         }
     }
 }
+
+impl<O: IsA<QueueInfo>> QueueInfoExt for O {}
 
 impl fmt::Display for QueueInfo {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

@@ -41,8 +41,7 @@ impl EventDataResult {
                 self.to_glib_none().0,
                 event_type.as_mut_ptr(),
             );
-            let event_type = event_type.assume_init();
-            from_glib(event_type)
+            from_glib(event_type.assume_init())
         }
     }
 
@@ -59,8 +58,7 @@ impl EventDataResult {
         unsafe {
             let mut result = mem::MaybeUninit::uninit();
             ffi::alsaseq_event_data_result_get_result(self.to_glib_none().0, result.as_mut_ptr());
-            let result = result.assume_init();
-            result
+            result.assume_init()
         }
     }
 

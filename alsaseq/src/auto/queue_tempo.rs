@@ -3,14 +3,12 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
     /// A GObject-derived object to express tempo of queue.
@@ -18,6 +16,26 @@ glib::wrapper! {
     /// A [`QueueTempo`][crate::QueueTempo] is a GObject-derived object to express tempo of queue.
     ///
     /// The object wraps `struct snd_seq_queue_tempo` in UAPI of Linux sound subsystem.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `queue-id`
+    ///  The numeric ID of queue. An entry of ALSASeqSpecificClientId is available as well,
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `resolution`
+    ///  The number of pulse per quarter as resolution.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `tempo`
+    ///  The number of micro second per tick as tempo.
+    ///
+    /// Readable | Writeable
     ///
     /// # Implements
     ///
@@ -50,67 +68,50 @@ impl Default for QueueTempo {
     }
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::QueueTempo>> Sealed for T {}
+}
+
 /// Trait containing the part of [`struct@QueueTempo`] methods.
 ///
 /// # Implementors
 ///
 /// [`QueueTempo`][struct@crate::QueueTempo]
-pub trait QueueTempoExt: 'static {
+pub trait QueueTempoExt: IsA<QueueTempo> + sealed::Sealed + 'static {
     /// The numeric ID of queue. An entry of ALSASeqSpecificClientId is available as well,
     #[doc(alias = "queue-id")]
-    fn queue_id(&self) -> u8;
-
-    /// The numeric ID of queue. An entry of ALSASeqSpecificClientId is available as well,
-    #[doc(alias = "queue-id")]
-    fn set_queue_id(&self, queue_id: u8);
-
-    /// The number of pulse per quarter as resolution.
-    fn resolution(&self) -> i32;
-
-    /// The number of pulse per quarter as resolution.
-    fn set_resolution(&self, resolution: i32);
-
-    /// The number of micro second per tick as tempo.
-    fn tempo(&self) -> u32;
-
-    /// The number of micro second per tick as tempo.
-    fn set_tempo(&self, tempo: u32);
-
-    #[doc(alias = "queue-id")]
-    fn connect_queue_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "resolution")]
-    fn connect_resolution_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "tempo")]
-    fn connect_tempo_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<QueueTempo>> QueueTempoExt for O {
     fn queue_id(&self) -> u8 {
-        glib::ObjectExt::property(self.as_ref(), "queue-id")
+        ObjectExt::property(self.as_ref(), "queue-id")
     }
 
+    /// The numeric ID of queue. An entry of ALSASeqSpecificClientId is available as well,
+    #[doc(alias = "queue-id")]
     fn set_queue_id(&self, queue_id: u8) {
-        glib::ObjectExt::set_property(self.as_ref(), "queue-id", &queue_id)
+        ObjectExt::set_property(self.as_ref(), "queue-id", queue_id)
     }
 
+    /// The number of pulse per quarter as resolution.
     fn resolution(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "resolution")
+        ObjectExt::property(self.as_ref(), "resolution")
     }
 
+    /// The number of pulse per quarter as resolution.
     fn set_resolution(&self, resolution: i32) {
-        glib::ObjectExt::set_property(self.as_ref(), "resolution", &resolution)
+        ObjectExt::set_property(self.as_ref(), "resolution", resolution)
     }
 
+    /// The number of micro second per tick as tempo.
     fn tempo(&self) -> u32 {
-        glib::ObjectExt::property(self.as_ref(), "tempo")
+        ObjectExt::property(self.as_ref(), "tempo")
     }
 
+    /// The number of micro second per tick as tempo.
     fn set_tempo(&self, tempo: u32) {
-        glib::ObjectExt::set_property(self.as_ref(), "tempo", &tempo)
+        ObjectExt::set_property(self.as_ref(), "tempo", tempo)
     }
 
+    #[doc(alias = "queue-id")]
     fn connect_queue_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_queue_id_trampoline<P: IsA<QueueTempo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSASeqQueueTempo,
@@ -133,6 +134,7 @@ impl<O: IsA<QueueTempo>> QueueTempoExt for O {
         }
     }
 
+    #[doc(alias = "resolution")]
     fn connect_resolution_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_resolution_trampoline<
             P: IsA<QueueTempo>,
@@ -158,6 +160,7 @@ impl<O: IsA<QueueTempo>> QueueTempoExt for O {
         }
     }
 
+    #[doc(alias = "tempo")]
     fn connect_tempo_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_tempo_trampoline<P: IsA<QueueTempo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSASeqQueueTempo,
@@ -180,6 +183,8 @@ impl<O: IsA<QueueTempo>> QueueTempoExt for O {
         }
     }
 }
+
+impl<O: IsA<QueueTempo>> QueueTempoExt for O {}
 
 impl fmt::Display for QueueTempo {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

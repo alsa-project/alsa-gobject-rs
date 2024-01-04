@@ -37,8 +37,7 @@ impl EventDataCtl {
         unsafe {
             let mut channel = mem::MaybeUninit::uninit();
             ffi::alsaseq_event_data_ctl_get_channel(self.to_glib_none().0, channel.as_mut_ptr());
-            let channel = channel.assume_init();
-            channel
+            channel.assume_init()
         }
     }
 
@@ -55,8 +54,7 @@ impl EventDataCtl {
         unsafe {
             let mut param = mem::MaybeUninit::uninit();
             ffi::alsaseq_event_data_ctl_get_param(self.to_glib_none().0, param.as_mut_ptr());
-            let param = param.assume_init();
-            param
+            param.assume_init()
         }
     }
 
@@ -73,8 +71,7 @@ impl EventDataCtl {
         unsafe {
             let mut value = mem::MaybeUninit::uninit();
             ffi::alsaseq_event_data_ctl_get_value(self.to_glib_none().0, value.as_mut_ptr());
-            let value = value.assume_init();
-            value
+            value.assume_init()
         }
     }
 

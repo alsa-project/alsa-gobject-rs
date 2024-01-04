@@ -3,14 +3,9 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::ClientInfo;
-use crate::ClientPool;
-use crate::PortInfo;
-use crate::QueueInfo;
-use crate::SystemInfo;
+use crate::{ClientInfo, ClientPool, PortInfo, QueueInfo, SystemInfo};
 use glib::translate::*;
-use std::mem;
-use std::ptr;
+use std::{mem, ptr};
 
 /// Get the list of clients as the numeric identifier.
 ///
@@ -35,11 +30,11 @@ pub fn client_id_list() -> Result<Vec<u8>, glib::Error> {
         let mut error = ptr::null_mut();
         let is_ok =
             ffi::alsaseq_get_client_id_list(&mut entries, entry_count.as_mut_ptr(), &mut error);
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(FromGlibContainer::from_glib_full_num(
                 entries,
-                entry_count.assume_init() as usize,
+                entry_count.assume_init() as _,
             ))
         } else {
             Err(from_glib_full(error))
@@ -68,7 +63,7 @@ pub fn client_info(client_id: u8) -> Result<ClientInfo, glib::Error> {
         let mut client_info = ptr::null_mut();
         let mut error = ptr::null_mut();
         let is_ok = ffi::alsaseq_get_client_info(client_id, &mut client_info, &mut error);
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(from_glib_full(client_info))
         } else {
@@ -98,7 +93,7 @@ pub fn client_pool(client_id: u8) -> Result<ClientPool, glib::Error> {
         let mut client_pool = ptr::null_mut();
         let mut error = ptr::null_mut();
         let is_ok = ffi::alsaseq_get_client_pool(client_id, &mut client_pool, &mut error);
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(from_glib_full(client_pool))
         } else {
@@ -135,11 +130,11 @@ pub fn port_id_list(client_id: u8) -> Result<Vec<u8>, glib::Error> {
             entry_count.as_mut_ptr(),
             &mut error,
         );
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(FromGlibContainer::from_glib_full_num(
                 entries,
-                entry_count.assume_init() as usize,
+                entry_count.assume_init() as _,
             ))
         } else {
             Err(from_glib_full(error))
@@ -171,7 +166,7 @@ pub fn port_info(client_id: u8, port_id: u8) -> Result<PortInfo, glib::Error> {
         let mut port_info = ptr::null_mut();
         let mut error = ptr::null_mut();
         let is_ok = ffi::alsaseq_get_port_info(client_id, port_id, &mut port_info, &mut error);
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(from_glib_full(port_info))
         } else {
@@ -201,11 +196,11 @@ pub fn queue_id_list() -> Result<Vec<u8>, glib::Error> {
         let mut error = ptr::null_mut();
         let is_ok =
             ffi::alsaseq_get_queue_id_list(&mut entries, entry_count.as_mut_ptr(), &mut error);
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(FromGlibContainer::from_glib_full_num(
                 entries,
-                entry_count.assume_init() as usize,
+                entry_count.assume_init() as _,
             ))
         } else {
             Err(from_glib_full(error))
@@ -233,7 +228,7 @@ pub fn queue_info_by_id(queue_id: u8) -> Result<QueueInfo, glib::Error> {
         let mut queue_info = ptr::null_mut();
         let mut error = ptr::null_mut();
         let is_ok = ffi::alsaseq_get_queue_info_by_id(queue_id, &mut queue_info, &mut error);
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(from_glib_full(queue_info))
         } else {
@@ -263,7 +258,7 @@ pub fn queue_info_by_name(name: &str) -> Result<QueueInfo, glib::Error> {
         let mut error = ptr::null_mut();
         let is_ok =
             ffi::alsaseq_get_queue_info_by_name(name.to_glib_none().0, &mut queue_info, &mut error);
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(from_glib_full(queue_info))
         } else {
@@ -289,7 +284,7 @@ pub fn seq_devnode() -> Result<glib::GString, glib::Error> {
         let mut devnode = ptr::null_mut();
         let mut error = ptr::null_mut();
         let is_ok = ffi::alsaseq_get_seq_devnode(&mut devnode, &mut error);
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(from_glib_full(devnode))
         } else {
@@ -315,7 +310,7 @@ pub fn seq_sysname() -> Result<glib::GString, glib::Error> {
         let mut sysname = ptr::null_mut();
         let mut error = ptr::null_mut();
         let is_ok = ffi::alsaseq_get_seq_sysname(&mut sysname, &mut error);
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(from_glib_full(sysname))
         } else {
@@ -342,7 +337,7 @@ pub fn system_info() -> Result<SystemInfo, glib::Error> {
         let mut system_info = ptr::null_mut();
         let mut error = ptr::null_mut();
         let is_ok = ffi::alsaseq_get_system_info(&mut system_info, &mut error);
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(from_glib_full(system_info))
         } else {

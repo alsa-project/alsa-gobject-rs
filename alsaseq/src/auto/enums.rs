@@ -3,28 +3,18 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use glib::error::ErrorDomain;
-use glib::translate::*;
-use glib::value::FromValue;
-use glib::value::ToValue;
-use glib::Quark;
-use glib::StaticType;
-use glib::Type;
+use glib::{prelude::*, translate::*};
 use std::fmt;
 
-/// A set of error code for [`glib::Error`][crate::glib::Error] with
-/// [`EventError`][crate::EventError] domain.
+/// A set of enumerations for the type of client.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSASeqClientType")]
 pub enum ClientType {
-    /// The client is invalid.
     #[doc(alias = "ALSASEQ_CLIENT_TYPE_NONE")]
     None,
-    /// The client is userspace application.
     #[doc(alias = "ALSASEQ_CLIENT_TYPE_USER")]
     User,
-    /// The client is kernel driver.
     #[doc(alias = "ALSASEQ_CLIENT_TYPE_KERNEL")]
     Kernel,
     #[doc(hidden)]
@@ -50,6 +40,7 @@ impl fmt::Display for ClientType {
 impl IntoGlib for ClientType {
     type GlibType = ffi::ALSASeqClientType;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSASeqClientType {
         match self {
             Self::None => ffi::ALSASEQ_CLIENT_TYPE_NONE,
@@ -62,6 +53,7 @@ impl IntoGlib for ClientType {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSASeqClientType> for ClientType {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSASeqClientType) -> Self {
         match value {
             ffi::ALSASEQ_CLIENT_TYPE_NONE => Self::None,
@@ -73,8 +65,20 @@ impl FromGlib<ffi::ALSASeqClientType> for ClientType {
 }
 
 impl StaticType for ClientType {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsaseq_client_type_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsaseq_client_type_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for ClientType {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -82,15 +86,17 @@ impl glib::value::ValueType for ClientType {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for ClientType {
+unsafe impl<'a> glib::value::FromValue<'a> for ClientType {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for ClientType {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -99,27 +105,30 @@ impl ToValue for ClientType {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
-/// A set of error code for [`glib::Error`][crate::glib::Error] with
-/// [`EventError`][crate::EventError] domain.
+impl From<ClientType> for glib::Value {
+    #[inline]
+    fn from(v: ClientType) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
+/// A set of error code for [`glib::Error`][crate::glib::Error] with `struct@EventError` domain.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSASeqEventError")]
 pub enum EventError {
-    /// General error due to unspecified reason.
     #[doc(alias = "ALSASEQ_EVENT_ERROR_FAILED")]
     Failed,
-    /// The type of requested data is invalid in the event.
     #[doc(alias = "ALSASEQ_EVENT_ERROR_INVALID_DATA_TYPE")]
     InvalidDataType,
-    /// The mode of length for requested data is invalid in the event.
     #[doc(alias = "ALSASEQ_EVENT_ERROR_INVALID_LENGTH_MODE")]
     InvalidLengthMode,
-    /// The type of time stamp for requested data is is invalid in the event.
     #[doc(alias = "ALSASEQ_EVENT_ERROR_INVALID_TSTAMP_MODE")]
     InvalidTstampMode,
     #[doc(hidden)]
@@ -146,6 +155,7 @@ impl fmt::Display for EventError {
 impl IntoGlib for EventError {
     type GlibType = ffi::ALSASeqEventError;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSASeqEventError {
         match self {
             Self::Failed => ffi::ALSASEQ_EVENT_ERROR_FAILED,
@@ -159,6 +169,7 @@ impl IntoGlib for EventError {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSASeqEventError> for EventError {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSASeqEventError) -> Self {
         match value {
             ffi::ALSASEQ_EVENT_ERROR_FAILED => Self::Failed,
@@ -170,29 +181,42 @@ impl FromGlib<ffi::ALSASeqEventError> for EventError {
     }
 }
 
-impl ErrorDomain for EventError {
-    fn domain() -> Quark {
+impl glib::error::ErrorDomain for EventError {
+    #[inline]
+    fn domain() -> glib::Quark {
         unsafe { from_glib(ffi::alsaseq_event_error_quark()) }
     }
 
+    #[inline]
     fn code(self) -> i32 {
         self.into_glib()
     }
 
+    #[inline]
+    #[allow(clippy::match_single_binding)]
     fn from(code: i32) -> Option<Self> {
-        match code {
-            ffi::ALSASEQ_EVENT_ERROR_FAILED => Some(Self::Failed),
-            ffi::ALSASEQ_EVENT_ERROR_INVALID_DATA_TYPE => Some(Self::InvalidDataType),
-            ffi::ALSASEQ_EVENT_ERROR_INVALID_LENGTH_MODE => Some(Self::InvalidLengthMode),
-            ffi::ALSASEQ_EVENT_ERROR_INVALID_TSTAMP_MODE => Some(Self::InvalidTstampMode),
-            _ => Some(Self::Failed),
+        match unsafe { from_glib(code) } {
+            Self::__Unknown(_) => Some(Self::Failed),
+            value => Some(value),
         }
     }
 }
 
 impl StaticType for EventError {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsaseq_event_error_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsaseq_event_error_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for EventError {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -200,15 +224,17 @@ impl glib::value::ValueType for EventError {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for EventError {
+unsafe impl<'a> glib::value::FromValue<'a> for EventError {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for EventError {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -217,8 +243,16 @@ impl ToValue for EventError {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<EventError> for glib::Value {
+    #[inline]
+    fn from(v: EventError) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
@@ -227,13 +261,10 @@ impl ToValue for EventError {
 #[non_exhaustive]
 #[doc(alias = "ALSASeqEventLengthMode")]
 pub enum EventLengthMode {
-    /// The data is fixed length.
     #[doc(alias = "ALSASEQ_EVENT_LENGTH_MODE_FIXED")]
     Fixed,
-    /// The data is variable length.
     #[doc(alias = "ALSASEQ_EVENT_LENGTH_MODE_VARIABLE")]
     Variable,
-    /// The data is a pointer and its length in userspace.
     #[doc(alias = "ALSASEQ_EVENT_LENGTH_MODE_POINTER")]
     Pointer,
     #[doc(hidden)]
@@ -259,6 +290,7 @@ impl fmt::Display for EventLengthMode {
 impl IntoGlib for EventLengthMode {
     type GlibType = ffi::ALSASeqEventLengthMode;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSASeqEventLengthMode {
         match self {
             Self::Fixed => ffi::ALSASEQ_EVENT_LENGTH_MODE_FIXED,
@@ -271,6 +303,7 @@ impl IntoGlib for EventLengthMode {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSASeqEventLengthMode> for EventLengthMode {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSASeqEventLengthMode) -> Self {
         match value {
             ffi::ALSASEQ_EVENT_LENGTH_MODE_FIXED => Self::Fixed,
@@ -282,8 +315,20 @@ impl FromGlib<ffi::ALSASeqEventLengthMode> for EventLengthMode {
 }
 
 impl StaticType for EventLengthMode {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsaseq_event_length_mode_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsaseq_event_length_mode_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for EventLengthMode {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -291,15 +336,17 @@ impl glib::value::ValueType for EventLengthMode {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for EventLengthMode {
+unsafe impl<'a> glib::value::FromValue<'a> for EventLengthMode {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for EventLengthMode {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -308,8 +355,16 @@ impl ToValue for EventLengthMode {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<EventLengthMode> for glib::Value {
+    #[inline]
+    fn from(v: EventLengthMode) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
@@ -318,10 +373,8 @@ impl ToValue for EventLengthMode {
 #[non_exhaustive]
 #[doc(alias = "ALSASeqEventPriorityMode")]
 pub enum EventPriorityMode {
-    /// For normal priority.
     #[doc(alias = "ALSASEQ_EVENT_PRIORITY_MODE_NORMAL")]
     Normal,
-    /// For high priority.
     #[doc(alias = "ALSASEQ_EVENT_PRIORITY_MODE_HIGH")]
     High,
     #[doc(hidden)]
@@ -346,6 +399,7 @@ impl fmt::Display for EventPriorityMode {
 impl IntoGlib for EventPriorityMode {
     type GlibType = ffi::ALSASeqEventPriorityMode;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSASeqEventPriorityMode {
         match self {
             Self::Normal => ffi::ALSASEQ_EVENT_PRIORITY_MODE_NORMAL,
@@ -357,6 +411,7 @@ impl IntoGlib for EventPriorityMode {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSASeqEventPriorityMode> for EventPriorityMode {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSASeqEventPriorityMode) -> Self {
         match value {
             ffi::ALSASEQ_EVENT_PRIORITY_MODE_NORMAL => Self::Normal,
@@ -367,8 +422,20 @@ impl FromGlib<ffi::ALSASeqEventPriorityMode> for EventPriorityMode {
 }
 
 impl StaticType for EventPriorityMode {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsaseq_event_priority_mode_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsaseq_event_priority_mode_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for EventPriorityMode {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -376,15 +443,17 @@ impl glib::value::ValueType for EventPriorityMode {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for EventPriorityMode {
+unsafe impl<'a> glib::value::FromValue<'a> for EventPriorityMode {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for EventPriorityMode {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -393,8 +462,16 @@ impl ToValue for EventPriorityMode {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<EventPriorityMode> for glib::Value {
+    #[inline]
+    fn from(v: EventPriorityMode) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
@@ -403,10 +480,8 @@ impl ToValue for EventPriorityMode {
 #[non_exhaustive]
 #[doc(alias = "ALSASeqEventTimeMode")]
 pub enum EventTimeMode {
-    /// The time is absolute.
     #[doc(alias = "ALSASEQ_EVENT_TIME_MODE_ABS")]
     Abs,
-    /// The time is relative.
     #[doc(alias = "ALSASEQ_EVENT_TIME_MODE_REL")]
     Rel,
     #[doc(hidden)]
@@ -431,6 +506,7 @@ impl fmt::Display for EventTimeMode {
 impl IntoGlib for EventTimeMode {
     type GlibType = ffi::ALSASeqEventTimeMode;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSASeqEventTimeMode {
         match self {
             Self::Abs => ffi::ALSASEQ_EVENT_TIME_MODE_ABS,
@@ -442,6 +518,7 @@ impl IntoGlib for EventTimeMode {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSASeqEventTimeMode> for EventTimeMode {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSASeqEventTimeMode) -> Self {
         match value {
             ffi::ALSASEQ_EVENT_TIME_MODE_ABS => Self::Abs,
@@ -452,8 +529,20 @@ impl FromGlib<ffi::ALSASeqEventTimeMode> for EventTimeMode {
 }
 
 impl StaticType for EventTimeMode {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsaseq_event_time_mode_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsaseq_event_time_mode_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for EventTimeMode {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -461,15 +550,17 @@ impl glib::value::ValueType for EventTimeMode {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for EventTimeMode {
+unsafe impl<'a> glib::value::FromValue<'a> for EventTimeMode {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for EventTimeMode {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -478,8 +569,16 @@ impl ToValue for EventTimeMode {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<EventTimeMode> for glib::Value {
+    #[inline]
+    fn from(v: EventTimeMode) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
@@ -488,10 +587,8 @@ impl ToValue for EventTimeMode {
 #[non_exhaustive]
 #[doc(alias = "ALSASeqEventTstampMode")]
 pub enum EventTstampMode {
-    /// The time stamp includes tick count.
     #[doc(alias = "ALSASEQ_EVENT_TSTAMP_MODE_TICK")]
     Tick,
-    /// The time stamp includes real time.
     #[doc(alias = "ALSASEQ_EVENT_TSTAMP_MODE_REAL")]
     Real,
     #[doc(hidden)]
@@ -516,6 +613,7 @@ impl fmt::Display for EventTstampMode {
 impl IntoGlib for EventTstampMode {
     type GlibType = ffi::ALSASeqEventTstampMode;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSASeqEventTstampMode {
         match self {
             Self::Tick => ffi::ALSASEQ_EVENT_TSTAMP_MODE_TICK,
@@ -527,6 +625,7 @@ impl IntoGlib for EventTstampMode {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSASeqEventTstampMode> for EventTstampMode {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSASeqEventTstampMode) -> Self {
         match value {
             ffi::ALSASEQ_EVENT_TSTAMP_MODE_TICK => Self::Tick,
@@ -537,8 +636,20 @@ impl FromGlib<ffi::ALSASeqEventTstampMode> for EventTstampMode {
 }
 
 impl StaticType for EventTstampMode {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsaseq_event_tstamp_mode_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsaseq_event_tstamp_mode_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for EventTstampMode {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -546,15 +657,17 @@ impl glib::value::ValueType for EventTstampMode {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for EventTstampMode {
+unsafe impl<'a> glib::value::FromValue<'a> for EventTstampMode {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for EventTstampMode {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -563,8 +676,16 @@ impl ToValue for EventTstampMode {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<EventTstampMode> for glib::Value {
+    #[inline]
+    fn from(v: EventTstampMode) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
@@ -573,178 +694,120 @@ impl ToValue for EventTstampMode {
 #[non_exhaustive]
 #[doc(alias = "ALSASeqEventType")]
 pub enum EventType {
-    /// For system status.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_SYSTEM")]
     System,
-    /// For result status.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_RESULT")]
     Result,
-    /// For note message with duration.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_NOTE")]
     Note,
-    /// For note on message.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_NOTEON")]
     Noteon,
-    /// For note off message.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_NOTEOFF")]
     Noteoff,
-    /// For keypress message.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_KEYPRESS")]
     Keypress,
-    /// For control change message.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_CONTROLLER")]
     Controller,
-    /// For program change message.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_PGMCHANGE")]
     Pgmchange,
-    /// For channel pressure message.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_CHANPRESS")]
     Chanpress,
-    /// For pitchbend message.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_PITCHBEND")]
     Pitchbend,
-    /// For control message with 14 bit value.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_CONTROL14")]
     Control14,
-    /// For 14 bit NRPN address and 14 bit unsigned value.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_NONREGPARAM")]
     Nonregparam,
-    /// For 14 bit RPN address and 14 bit unsigned value.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_REGPARAM")]
     Regparam,
-    /// For song position message with LSB and MSB values.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_SONGPOS")]
     Songpos,
-    /// For song select message with numerical ID of song.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_SONGSEL")]
     Songsel,
-    /// For time code quarter frame message of MIDI.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_QFRAME")]
     Qframe,
-    /// For time signature message of Standard MIDi File.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_TIMESIGN")]
     Timesign,
-    /// For key signature message of Standard MIDI File.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_KEYSIGN")]
     Keysign,
-    /// For Real Time Start message of MIDI.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_START")]
     Start,
-    /// For Real Time Continue message of MIDI.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_CONTINUE")]
     Continue,
-    /// For Real Time Stop message of MIDI.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_STOP")]
     Stop,
-    /// For position setting of tick queue.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_SETPOS_TICK")]
     SetposTick,
-    /// For position setting of realtime queue.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_SETPOS_TIME")]
     SetposTime,
-    /// For tempo message of Standard MIDI File.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_TEMPO")]
     Tempo,
-    /// For Real Time Clock message of MIDI.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_CLOCK")]
     Clock,
-    /// For Real Time Tick message of MIDI.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_TICK")]
     Tick,
-    /// For skew of tempo for queue.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_QUEUE_SKEW")]
     QueueSkew,
-    /// For requests to tune.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_TUNE_REQUEST")]
     TuneRequest,
-    /// For reset to power-on state.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_RESET")]
     Reset,
-    /// For active sensing message.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_SENSING")]
     Sensing,
-    /// For echo message.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_ECHO")]
     Echo,
-    /// For raw message from Open Sound System.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_OSS")]
     Oss,
-    /// For appear of the port.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_CLIENT_START")]
     ClientStart,
-    /// For disappear of the client.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_CLIENT_EXIT")]
     ClientExit,
-    /// For change of information or status of the client.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_CLIENT_CHANGE")]
     ClientChange,
-    /// For addition of the port.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_PORT_START")]
     PortStart,
-    /// For removal of the port.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_PORT_EXIT")]
     PortExit,
-    /// For change of information or status of the port.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_PORT_CHANGE")]
     PortChange,
-    /// For establishment of subscription about the port.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_PORT_SUBSCRIBED")]
     PortSubscribed,
-    /// For break of subscription about the port.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_PORT_UNSUBSCRIBED")]
     PortUnsubscribed,
-    /// For user-defined message 0.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR0")]
     Usr0,
-    /// For user-defined message 1.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR1")]
     Usr1,
-    /// For user-defined message 2.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR2")]
     Usr2,
-    /// For user-defined message 3.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR3")]
     Usr3,
-    /// For user-defined message 4.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR4")]
     Usr4,
-    /// For user-defined message 5.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR5")]
     Usr5,
-    /// For user-defined message 6.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR6")]
     Usr6,
-    /// For user-defined message 7.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR7")]
     Usr7,
-    /// For user-defined message 8.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR8")]
     Usr8,
-    /// For user-defined message 9.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR9")]
     Usr9,
-    /// For system exclisive message with variable length data.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_SYSEX")]
     Sysex,
-    /// For error message.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_BOUNCE")]
     Bounce,
-    /// For user-defined message 0 with variable length data.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR_VAR0")]
     UsrVar0,
-    /// For user-defined message 1 with variable length data.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR_VAR1")]
     UsrVar1,
-    /// For user-defined message 2 with variable length data.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR_VAR2")]
     UsrVar2,
-    /// For user-defined message 3 with variable length data.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR_VAR3")]
     UsrVar3,
-    /// For user-defined message 4 with variable length data.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_USR_VAR4")]
     UsrVar4,
-    /// For invalid or unknown message.
     #[doc(alias = "ALSASEQ_EVENT_TYPE_NONE")]
     None,
     #[doc(hidden)]
@@ -958,8 +1021,20 @@ impl FromGlib<ffi::ALSASeqEventType> for EventType {
 }
 
 impl StaticType for EventType {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsaseq_event_type_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsaseq_event_type_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for EventType {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -967,15 +1042,17 @@ impl glib::value::ValueType for EventType {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for EventType {
+unsafe impl<'a> glib::value::FromValue<'a> for EventType {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for EventType {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -984,8 +1061,16 @@ impl ToValue for EventType {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<EventType> for glib::Value {
+    #[inline]
+    fn from(v: EventType) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
@@ -994,10 +1079,8 @@ impl ToValue for EventType {
 #[non_exhaustive]
 #[doc(alias = "ALSASeqQuerySubscribeType")]
 pub enum QuerySubscribeType {
-    /// To query subscribers to read from the port.
     #[doc(alias = "ALSASEQ_QUERY_SUBSCRIBE_TYPE_READ")]
     Read,
-    /// To query subscribers to write to the port.
     #[doc(alias = "ALSASEQ_QUERY_SUBSCRIBE_TYPE_WRITE")]
     Write,
     #[doc(hidden)]
@@ -1022,6 +1105,7 @@ impl fmt::Display for QuerySubscribeType {
 impl IntoGlib for QuerySubscribeType {
     type GlibType = ffi::ALSASeqQuerySubscribeType;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSASeqQuerySubscribeType {
         match self {
             Self::Read => ffi::ALSASEQ_QUERY_SUBSCRIBE_TYPE_READ,
@@ -1033,6 +1117,7 @@ impl IntoGlib for QuerySubscribeType {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSASeqQuerySubscribeType> for QuerySubscribeType {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSASeqQuerySubscribeType) -> Self {
         match value {
             ffi::ALSASEQ_QUERY_SUBSCRIBE_TYPE_READ => Self::Read,
@@ -1043,8 +1128,20 @@ impl FromGlib<ffi::ALSASeqQuerySubscribeType> for QuerySubscribeType {
 }
 
 impl StaticType for QuerySubscribeType {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsaseq_query_subscribe_type_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsaseq_query_subscribe_type_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for QuerySubscribeType {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -1052,15 +1149,17 @@ impl glib::value::ValueType for QuerySubscribeType {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for QuerySubscribeType {
+unsafe impl<'a> glib::value::FromValue<'a> for QuerySubscribeType {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for QuerySubscribeType {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -1069,8 +1168,16 @@ impl ToValue for QuerySubscribeType {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<QuerySubscribeType> for glib::Value {
+    #[inline]
+    fn from(v: QuerySubscribeType) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
@@ -1079,7 +1186,6 @@ impl ToValue for QuerySubscribeType {
 #[non_exhaustive]
 #[doc(alias = "ALSASeqQueueTimerType")]
 pub enum QueueTimerType {
-    /// Any ALSA timer device.
     #[doc(alias = "ALSASEQ_QUEUE_TIMER_TYPE_ALSA")]
     Alsa,
     #[doc(hidden)]
@@ -1103,6 +1209,7 @@ impl fmt::Display for QueueTimerType {
 impl IntoGlib for QueueTimerType {
     type GlibType = ffi::ALSASeqQueueTimerType;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSASeqQueueTimerType {
         match self {
             Self::Alsa => ffi::ALSASEQ_QUEUE_TIMER_TYPE_ALSA,
@@ -1113,6 +1220,7 @@ impl IntoGlib for QueueTimerType {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSASeqQueueTimerType> for QueueTimerType {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSASeqQueueTimerType) -> Self {
         match value {
             ffi::ALSASEQ_QUEUE_TIMER_TYPE_ALSA => Self::Alsa,
@@ -1122,8 +1230,20 @@ impl FromGlib<ffi::ALSASeqQueueTimerType> for QueueTimerType {
 }
 
 impl StaticType for QueueTimerType {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsaseq_queue_timer_type_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsaseq_queue_timer_type_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for QueueTimerType {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -1131,15 +1251,17 @@ impl glib::value::ValueType for QueueTimerType {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for QueueTimerType {
+unsafe impl<'a> glib::value::FromValue<'a> for QueueTimerType {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for QueueTimerType {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -1148,8 +1270,16 @@ impl ToValue for QueueTimerType {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<QueueTimerType> for glib::Value {
+    #[inline]
+    fn from(v: QueueTimerType) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
@@ -1158,13 +1288,10 @@ impl ToValue for QueueTimerType {
 #[non_exhaustive]
 #[doc(alias = "ALSASeqSpecificAddress")]
 pub enum SpecificAddress {
-    /// The address for unknown client/port/queue.
     #[doc(alias = "ALSASEQ_SPECIFIC_ADDRESS_UNKNOWN")]
     Unknown,
-    /// The client/port/queue address towards subscribers.
     #[doc(alias = "ALSASEQ_SPECIFIC_ADDRESS_SUBSCRIBERS")]
     Subscribers,
-    /// The client/port/queue address to broadcast.
     #[doc(alias = "ALSASEQ_SPECIFIC_ADDRESS_BROADCAST")]
     Broadcast,
     #[doc(hidden)]
@@ -1190,6 +1317,7 @@ impl fmt::Display for SpecificAddress {
 impl IntoGlib for SpecificAddress {
     type GlibType = ffi::ALSASeqSpecificAddress;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSASeqSpecificAddress {
         match self {
             Self::Unknown => ffi::ALSASEQ_SPECIFIC_ADDRESS_UNKNOWN,
@@ -1202,6 +1330,7 @@ impl IntoGlib for SpecificAddress {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSASeqSpecificAddress> for SpecificAddress {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSASeqSpecificAddress) -> Self {
         match value {
             ffi::ALSASEQ_SPECIFIC_ADDRESS_UNKNOWN => Self::Unknown,
@@ -1213,8 +1342,20 @@ impl FromGlib<ffi::ALSASeqSpecificAddress> for SpecificAddress {
 }
 
 impl StaticType for SpecificAddress {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsaseq_specific_address_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsaseq_specific_address_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for SpecificAddress {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -1222,15 +1363,17 @@ impl glib::value::ValueType for SpecificAddress {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for SpecificAddress {
+unsafe impl<'a> glib::value::FromValue<'a> for SpecificAddress {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for SpecificAddress {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -1239,8 +1382,16 @@ impl ToValue for SpecificAddress {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<SpecificAddress> for glib::Value {
+    #[inline]
+    fn from(v: SpecificAddress) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
@@ -1249,13 +1400,10 @@ impl ToValue for SpecificAddress {
 #[non_exhaustive]
 #[doc(alias = "ALSASeqSpecificClientId")]
 pub enum SpecificClientId {
-    /// The numerical ID to system client.
     #[doc(alias = "ALSASEQ_SPECIFIC_CLIENT_ID_SYSTEM")]
     System,
-    /// The numerical ID to dummy client.
     #[doc(alias = "ALSASEQ_SPECIFIC_CLIENT_ID_DUMMY")]
     Dummy,
-    /// The numerical ID to OSS client.
     #[doc(alias = "ALSASEQ_SPECIFIC_CLIENT_ID_OSS")]
     Oss,
     #[doc(hidden)]
@@ -1281,6 +1429,7 @@ impl fmt::Display for SpecificClientId {
 impl IntoGlib for SpecificClientId {
     type GlibType = ffi::ALSASeqSpecificClientId;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSASeqSpecificClientId {
         match self {
             Self::System => ffi::ALSASEQ_SPECIFIC_CLIENT_ID_SYSTEM,
@@ -1293,6 +1442,7 @@ impl IntoGlib for SpecificClientId {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSASeqSpecificClientId> for SpecificClientId {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSASeqSpecificClientId) -> Self {
         match value {
             ffi::ALSASEQ_SPECIFIC_CLIENT_ID_SYSTEM => Self::System,
@@ -1304,8 +1454,20 @@ impl FromGlib<ffi::ALSASeqSpecificClientId> for SpecificClientId {
 }
 
 impl StaticType for SpecificClientId {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsaseq_specific_client_id_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsaseq_specific_client_id_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for SpecificClientId {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -1313,15 +1475,17 @@ impl glib::value::ValueType for SpecificClientId {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for SpecificClientId {
+unsafe impl<'a> glib::value::FromValue<'a> for SpecificClientId {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for SpecificClientId {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -1330,8 +1494,16 @@ impl ToValue for SpecificClientId {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<SpecificClientId> for glib::Value {
+    #[inline]
+    fn from(v: SpecificClientId) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
@@ -1340,10 +1512,8 @@ impl ToValue for SpecificClientId {
 #[non_exhaustive]
 #[doc(alias = "ALSASeqSpecificPortId")]
 pub enum SpecificPortId {
-    /// The numerical ID of port for system timer.
     #[doc(alias = "ALSASEQ_SPECIFIC_PORT_ID_SYSTEM_TIMER")]
     Timer,
-    /// The numerical ID of port for system announce.
     #[doc(alias = "ALSASEQ_SPECIFIC_PORT_ID_SYSTEM_ANNOUNCE")]
     Announce,
     #[doc(hidden)]
@@ -1368,6 +1538,7 @@ impl fmt::Display for SpecificPortId {
 impl IntoGlib for SpecificPortId {
     type GlibType = ffi::ALSASeqSpecificPortId;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSASeqSpecificPortId {
         match self {
             Self::Timer => ffi::ALSASEQ_SPECIFIC_PORT_ID_SYSTEM_TIMER,
@@ -1379,6 +1550,7 @@ impl IntoGlib for SpecificPortId {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSASeqSpecificPortId> for SpecificPortId {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSASeqSpecificPortId) -> Self {
         match value {
             ffi::ALSASEQ_SPECIFIC_PORT_ID_SYSTEM_TIMER => Self::Timer,
@@ -1389,8 +1561,20 @@ impl FromGlib<ffi::ALSASeqSpecificPortId> for SpecificPortId {
 }
 
 impl StaticType for SpecificPortId {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsaseq_specific_port_id_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsaseq_specific_port_id_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for SpecificPortId {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -1398,15 +1582,17 @@ impl glib::value::ValueType for SpecificPortId {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for SpecificPortId {
+unsafe impl<'a> glib::value::FromValue<'a> for SpecificPortId {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for SpecificPortId {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -1415,8 +1601,16 @@ impl ToValue for SpecificPortId {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<SpecificPortId> for glib::Value {
+    #[inline]
+    fn from(v: SpecificPortId) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
@@ -1425,7 +1619,6 @@ impl ToValue for SpecificPortId {
 #[non_exhaustive]
 #[doc(alias = "ALSASeqSpecificQueueId")]
 pub enum SpecificQueueId {
-    /// The message is delivered immediately, instead of being queued.
     #[doc(alias = "ALSASEQ_SPECIFIC_QUEUE_ID_DIRECT")]
     Direct,
     #[doc(hidden)]
@@ -1449,6 +1642,7 @@ impl fmt::Display for SpecificQueueId {
 impl IntoGlib for SpecificQueueId {
     type GlibType = ffi::ALSASeqSpecificQueueId;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSASeqSpecificQueueId {
         match self {
             Self::Direct => ffi::ALSASEQ_SPECIFIC_QUEUE_ID_DIRECT,
@@ -1459,6 +1653,7 @@ impl IntoGlib for SpecificQueueId {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSASeqSpecificQueueId> for SpecificQueueId {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSASeqSpecificQueueId) -> Self {
         match value {
             ffi::ALSASEQ_SPECIFIC_QUEUE_ID_DIRECT => Self::Direct,
@@ -1468,8 +1663,20 @@ impl FromGlib<ffi::ALSASeqSpecificQueueId> for SpecificQueueId {
 }
 
 impl StaticType for SpecificQueueId {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsaseq_specific_queue_id_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsaseq_specific_queue_id_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for SpecificQueueId {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -1477,15 +1684,17 @@ impl glib::value::ValueType for SpecificQueueId {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for SpecificQueueId {
+unsafe impl<'a> glib::value::FromValue<'a> for SpecificQueueId {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for SpecificQueueId {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -1494,8 +1703,16 @@ impl ToValue for SpecificQueueId {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<SpecificQueueId> for glib::Value {
+    #[inline]
+    fn from(v: SpecificQueueId) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
@@ -1504,16 +1721,12 @@ impl ToValue for SpecificQueueId {
 #[non_exhaustive]
 #[doc(alias = "ALSASeqUserClientError")]
 pub enum UserClientError {
-    /// The system call failed.
     #[doc(alias = "ALSASEQ_USER_CLIENT_ERROR_FAILED")]
     Failed,
-    /// The operation fails due to access permission of port.
     #[doc(alias = "ALSASEQ_USER_CLIENT_ERROR_PORT_PERMISSION")]
     PortPermission,
-    /// The operation fails due to access permission of queue.
     #[doc(alias = "ALSASEQ_USER_CLIENT_ERROR_QUEUE_PERMISSION")]
     QueuePermission,
-    /// The operation failes due to undeliverable event.
     #[doc(alias = "ALSASEQ_USER_CLIENT_ERROR_EVENT_UNDELIVERABLE")]
     EventUndeliverable,
     #[doc(hidden)]
@@ -1540,6 +1753,7 @@ impl fmt::Display for UserClientError {
 impl IntoGlib for UserClientError {
     type GlibType = ffi::ALSASeqUserClientError;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSASeqUserClientError {
         match self {
             Self::Failed => ffi::ALSASEQ_USER_CLIENT_ERROR_FAILED,
@@ -1553,6 +1767,7 @@ impl IntoGlib for UserClientError {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSASeqUserClientError> for UserClientError {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSASeqUserClientError) -> Self {
         match value {
             ffi::ALSASEQ_USER_CLIENT_ERROR_FAILED => Self::Failed,
@@ -1564,29 +1779,42 @@ impl FromGlib<ffi::ALSASeqUserClientError> for UserClientError {
     }
 }
 
-impl ErrorDomain for UserClientError {
-    fn domain() -> Quark {
+impl glib::error::ErrorDomain for UserClientError {
+    #[inline]
+    fn domain() -> glib::Quark {
         unsafe { from_glib(ffi::alsaseq_user_client_error_quark()) }
     }
 
+    #[inline]
     fn code(self) -> i32 {
         self.into_glib()
     }
 
+    #[inline]
+    #[allow(clippy::match_single_binding)]
     fn from(code: i32) -> Option<Self> {
-        match code {
-            ffi::ALSASEQ_USER_CLIENT_ERROR_FAILED => Some(Self::Failed),
-            ffi::ALSASEQ_USER_CLIENT_ERROR_PORT_PERMISSION => Some(Self::PortPermission),
-            ffi::ALSASEQ_USER_CLIENT_ERROR_QUEUE_PERMISSION => Some(Self::QueuePermission),
-            ffi::ALSASEQ_USER_CLIENT_ERROR_EVENT_UNDELIVERABLE => Some(Self::EventUndeliverable),
-            _ => Some(Self::Failed),
+        match unsafe { from_glib(code) } {
+            Self::__Unknown(_) => Some(Self::Failed),
+            value => Some(value),
         }
     }
 }
 
 impl StaticType for UserClientError {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsaseq_user_client_error_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsaseq_user_client_error_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for UserClientError {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -1594,15 +1822,17 @@ impl glib::value::ValueType for UserClientError {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for UserClientError {
+unsafe impl<'a> glib::value::FromValue<'a> for UserClientError {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for UserClientError {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -1611,7 +1841,15 @@ impl ToValue for UserClientError {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<UserClientError> for glib::Value {
+    #[inline]
+    fn from(v: UserClientError) -> Self {
+        ToValue::to_value(&v)
     }
 }

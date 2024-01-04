@@ -3,23 +3,40 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem, mem::transmute};
 
 glib::wrapper! {
     /// A GObject-derived object to express status of queue.
     ///
     /// A [`QueueStatus`][crate::QueueStatus] is a GObject-derived object to express status of queue. The call of
-    /// `get_queue_status()` returns the instance of object.
+    /// [`queue_status()`][crate::queue_status()] returns the instance of object.
     ///
     /// The object wraps `struct snd_seq_queue_status` in UAPI of Linux sound subsystem.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `event-count`
+    ///  The number of available events in the queue.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `queue-id`
+    ///  The numeric ID of queue. An entry of ALSASeqSpecificQueueId is available as well.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `running`
+    ///  Whether the queue is running or not.
+    ///
+    /// Readable
     ///
     /// # Implements
     ///
@@ -52,12 +69,17 @@ impl Default for QueueStatus {
     }
 }
 
-/// Trait containing the part of[`struct@QueueStatus`] methods.
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::QueueStatus>> Sealed for T {}
+}
+
+/// Trait containing the part of [`struct@QueueStatus`] methods.
 ///
 /// # Implementors
 ///
 /// [`QueueStatus`][struct@crate::QueueStatus]
-pub trait QueueStatusExt: 'static {
+pub trait QueueStatusExt: IsA<QueueStatus> + sealed::Sealed + 'static {
     /// Get time as MIDI ticks.
     ///
     /// # Returns
@@ -67,30 +89,6 @@ pub trait QueueStatusExt: 'static {
     /// The value of MIDI ticks.
     #[doc(alias = "alsaseq_queue_status_get_tick_time")]
     #[doc(alias = "get_tick_time")]
-    fn tick_time(&self) -> u32;
-
-    /// The number of available events in the queue.
-    #[doc(alias = "event-count")]
-    fn event_count(&self) -> i32;
-
-    /// The numeric ID of queue. An entry of ALSASeqSpecificQueueId is available as well.
-    #[doc(alias = "queue-id")]
-    fn queue_id(&self) -> u8;
-
-    /// Whether the queue is running or not.
-    fn is_running(&self) -> bool;
-
-    #[doc(alias = "event-count")]
-    fn connect_event_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "queue-id")]
-    fn connect_queue_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "running")]
-    fn connect_running_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<QueueStatus>> QueueStatusExt for O {
     fn tick_time(&self) -> u32 {
         unsafe {
             let mut tick_time = mem::MaybeUninit::uninit();
@@ -98,23 +96,28 @@ impl<O: IsA<QueueStatus>> QueueStatusExt for O {
                 self.as_ref().to_glib_none().0,
                 tick_time.as_mut_ptr(),
             );
-            let tick_time = tick_time.assume_init();
-            tick_time
+            tick_time.assume_init()
         }
     }
 
+    /// The number of available events in the queue.
+    #[doc(alias = "event-count")]
     fn event_count(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "event-count")
+        ObjectExt::property(self.as_ref(), "event-count")
     }
 
+    /// The numeric ID of queue. An entry of ALSASeqSpecificQueueId is available as well.
+    #[doc(alias = "queue-id")]
     fn queue_id(&self) -> u8 {
-        glib::ObjectExt::property(self.as_ref(), "queue-id")
+        ObjectExt::property(self.as_ref(), "queue-id")
     }
 
+    /// Whether the queue is running or not.
     fn is_running(&self) -> bool {
-        glib::ObjectExt::property(self.as_ref(), "running")
+        ObjectExt::property(self.as_ref(), "running")
     }
 
+    #[doc(alias = "event-count")]
     fn connect_event_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_event_count_trampoline<
             P: IsA<QueueStatus>,
@@ -140,6 +143,7 @@ impl<O: IsA<QueueStatus>> QueueStatusExt for O {
         }
     }
 
+    #[doc(alias = "queue-id")]
     fn connect_queue_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_queue_id_trampoline<
             P: IsA<QueueStatus>,
@@ -165,6 +169,7 @@ impl<O: IsA<QueueStatus>> QueueStatusExt for O {
         }
     }
 
+    #[doc(alias = "running")]
     fn connect_running_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_running_trampoline<P: IsA<QueueStatus>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSASeqQueueStatus,
@@ -187,6 +192,8 @@ impl<O: IsA<QueueStatus>> QueueStatusExt for O {
         }
     }
 }
+
+impl<O: IsA<QueueStatus>> QueueStatusExt for O {}
 
 impl fmt::Display for QueueStatus {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

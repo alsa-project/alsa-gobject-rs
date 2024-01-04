@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 use alsaseq::{prelude::*, *};
-use glib::{source, translate::*, Error, MainLoop};
+use glib::{source, translate::*, ControlFlow, Error, MainLoop};
 use nix::sys::signal;
 use std::sync::Arc;
 
@@ -119,10 +119,10 @@ fn run_dispatcher(client: &UserClient) -> Result<(), Error> {
     let src = source::unix_signal_source_new(
         signal::Signal::SIGINT as i32,
         None,
-        source::PRIORITY_DEFAULT_IDLE,
+        source::Priority::DEFAULT_IDLE,
         move || {
             d.quit();
-            source::Continue(true)
+            ControlFlow::Continue
         },
     );
     src.attach(Some(&ctx));

@@ -4,20 +4,46 @@
 // DO NOT EDIT
 
 use crate::QueueTimerCommon;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
     /// An object to express queue timer specific to instance in ALSA Timer.
     ///
     /// A `GObject::Object` derived object class for queue timer specific to any instance in ALSA
     /// Timer.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `device-id`
+    ///  The identifier of associated timer instance in ALSA Timer.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `resolution-ticks`
+    ///  The number of ticks as resolution of timer.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>QueueTimerCommon</h4></summary>
+    ///
+    ///
+    /// #### `queue-id`
+    ///  The numeric identifier of queue. An entry of [`SpecificClientId`][crate::SpecificClientId] is available as well.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `timer-type`
+    ///  The type of timer for the queue, one of [`QueueTimerType`][crate::QueueTimerType].
+    ///
+    /// Readable
+    /// </details>
     ///
     /// # Implements
     ///
@@ -50,52 +76,42 @@ impl Default for QueueTimerAlsa {
     }
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::QueueTimerAlsa>> Sealed for T {}
+}
+
 /// Trait containing all [`struct@QueueTimerAlsa`] methods.
 ///
 /// # Implementors
 ///
 /// [`QueueTimerAlsa`][struct@crate::QueueTimerAlsa]
-pub trait QueueTimerAlsaExt: 'static {
+pub trait QueueTimerAlsaExt: IsA<QueueTimerAlsa> + sealed::Sealed + 'static {
     /// The identifier of associated timer instance in ALSA Timer.
     #[doc(alias = "device-id")]
-    fn device_id(&self) -> Option<alsatimer::DeviceId>;
-
-    /// The identifier of associated timer instance in ALSA Timer.
-    #[doc(alias = "device-id")]
-    fn set_device_id(&self, device_id: Option<&alsatimer::DeviceId>);
-
-    /// The number of ticks as resolution of timer.
-    #[doc(alias = "resolution-ticks")]
-    fn resolution_ticks(&self) -> u32;
-
-    /// The number of ticks as resolution of timer.
-    #[doc(alias = "resolution-ticks")]
-    fn set_resolution_ticks(&self, resolution_ticks: u32);
-
-    #[doc(alias = "device-id")]
-    fn connect_device_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "resolution-ticks")]
-    fn connect_resolution_ticks_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<QueueTimerAlsa>> QueueTimerAlsaExt for O {
     fn device_id(&self) -> Option<alsatimer::DeviceId> {
-        glib::ObjectExt::property(self.as_ref(), "device-id")
+        ObjectExt::property(self.as_ref(), "device-id")
     }
 
+    /// The identifier of associated timer instance in ALSA Timer.
+    #[doc(alias = "device-id")]
     fn set_device_id(&self, device_id: Option<&alsatimer::DeviceId>) {
-        glib::ObjectExt::set_property(self.as_ref(), "device-id", &device_id)
+        ObjectExt::set_property(self.as_ref(), "device-id", device_id)
     }
 
+    /// The number of ticks as resolution of timer.
+    #[doc(alias = "resolution-ticks")]
     fn resolution_ticks(&self) -> u32 {
-        glib::ObjectExt::property(self.as_ref(), "resolution-ticks")
+        ObjectExt::property(self.as_ref(), "resolution-ticks")
     }
 
+    /// The number of ticks as resolution of timer.
+    #[doc(alias = "resolution-ticks")]
     fn set_resolution_ticks(&self, resolution_ticks: u32) {
-        glib::ObjectExt::set_property(self.as_ref(), "resolution-ticks", &resolution_ticks)
+        ObjectExt::set_property(self.as_ref(), "resolution-ticks", resolution_ticks)
     }
 
+    #[doc(alias = "device-id")]
     fn connect_device_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_device_id_trampoline<
             P: IsA<QueueTimerAlsa>,
@@ -121,6 +137,7 @@ impl<O: IsA<QueueTimerAlsa>> QueueTimerAlsaExt for O {
         }
     }
 
+    #[doc(alias = "resolution-ticks")]
     fn connect_resolution_ticks_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_resolution_ticks_trampoline<
             P: IsA<QueueTimerAlsa>,
@@ -146,6 +163,8 @@ impl<O: IsA<QueueTimerAlsa>> QueueTimerAlsaExt for O {
         }
     }
 }
+
+impl<O: IsA<QueueTimerAlsa>> QueueTimerAlsaExt for O {}
 
 impl fmt::Display for QueueTimerAlsa {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

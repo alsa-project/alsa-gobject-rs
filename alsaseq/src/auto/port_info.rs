@@ -3,18 +3,13 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::Addr;
-use crate::EventTstampMode;
-use crate::PortAttrFlag;
-use crate::PortCapFlag;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use crate::{Addr, EventTstampMode, PortAttrFlag, PortCapFlag};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
     /// A GObject-derived object to express information of port.
@@ -24,6 +19,82 @@ glib::wrapper! {
     /// and [`UserClientExt::update_port()`][crate::prelude::UserClientExt::update_port()] requires the instance of object.
     ///
     /// The object wraps `struct snd_port_info` in UAPI of Linux sound subsystem.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `addr`
+    ///  The address of port.
+    ///
+    /// Readable | Writeable | Construct Only
+    ///
+    ///
+    /// #### `attrs`
+    ///  The attributes of port, a set of [`PortAttrFlag`][crate::PortAttrFlag].
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `caps`
+    ///  The capabilities of port, a set of [`PortCapFlag`][crate::PortCapFlag].
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `midi-channels`
+    ///  The number of channels per MIDI port.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `midi-voices`
+    ///  The number of voices per MIDI port.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `name`
+    ///  The name of port.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `queue-id`
+    ///  The numeric ID of queue to update time stamp when [`tstamp-overwrite`][struct@crate::PortInfo#tstamp-overwrite] is
+    /// set to True. One of [`SpecificQueueId`][crate::SpecificQueueId] is available as well.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `read-users`
+    ///  The current number of subscribers to read.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `synth-voices`
+    ///  The number of voices per synth port.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `tstamp-mode`
+    ///  The mode of time stamp. This is effective when the [`tstamp-overwrite`][struct@crate::PortInfo#tstamp-overwrite] is
+    /// enabled.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `tstamp-overwrite`
+    ///  The mode whether to overwrite time stamp for event when the event is delivered from the port.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `write-users`
+    ///  The current number of subscribers to write.
+    ///
+    /// Readable
     ///
     /// # Implements
     ///
@@ -56,212 +127,141 @@ impl Default for PortInfo {
     }
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::PortInfo>> Sealed for T {}
+}
+
 /// Trait containing all [`struct@PortInfo`] methods.
 ///
 /// # Implementors
 ///
 /// [`PortInfo`][struct@crate::PortInfo]
-pub trait PortInfoExt: 'static {
+pub trait PortInfoExt: IsA<PortInfo> + sealed::Sealed + 'static {
     /// The address of port.
-    fn addr(&self) -> Option<Addr>;
+    fn addr(&self) -> Option<Addr> {
+        ObjectExt::property(self.as_ref(), "addr")
+    }
 
     /// The attributes of port, a set of [`PortAttrFlag`][crate::PortAttrFlag].
-    fn attrs(&self) -> PortAttrFlag;
+    fn attrs(&self) -> PortAttrFlag {
+        ObjectExt::property(self.as_ref(), "attrs")
+    }
 
     /// The attributes of port, a set of [`PortAttrFlag`][crate::PortAttrFlag].
-    fn set_attrs(&self, attrs: PortAttrFlag);
+    fn set_attrs(&self, attrs: PortAttrFlag) {
+        ObjectExt::set_property(self.as_ref(), "attrs", attrs)
+    }
 
     /// The capabilities of port, a set of [`PortCapFlag`][crate::PortCapFlag].
-    fn caps(&self) -> PortCapFlag;
+    fn caps(&self) -> PortCapFlag {
+        ObjectExt::property(self.as_ref(), "caps")
+    }
 
     /// The capabilities of port, a set of [`PortCapFlag`][crate::PortCapFlag].
-    fn set_caps(&self, caps: PortCapFlag);
+    fn set_caps(&self, caps: PortCapFlag) {
+        ObjectExt::set_property(self.as_ref(), "caps", caps)
+    }
 
     /// The number of channels per MIDI port.
     #[doc(alias = "midi-channels")]
-    fn midi_channels(&self) -> i32;
+    fn midi_channels(&self) -> i32 {
+        ObjectExt::property(self.as_ref(), "midi-channels")
+    }
 
     /// The number of channels per MIDI port.
     #[doc(alias = "midi-channels")]
-    fn set_midi_channels(&self, midi_channels: i32);
+    fn set_midi_channels(&self, midi_channels: i32) {
+        ObjectExt::set_property(self.as_ref(), "midi-channels", midi_channels)
+    }
 
     /// The number of voices per MIDI port.
     #[doc(alias = "midi-voices")]
-    fn midi_voices(&self) -> i32;
+    fn midi_voices(&self) -> i32 {
+        ObjectExt::property(self.as_ref(), "midi-voices")
+    }
 
     /// The number of voices per MIDI port.
     #[doc(alias = "midi-voices")]
-    fn set_midi_voices(&self, midi_voices: i32);
+    fn set_midi_voices(&self, midi_voices: i32) {
+        ObjectExt::set_property(self.as_ref(), "midi-voices", midi_voices)
+    }
 
     /// The name of port.
-    fn name(&self) -> Option<glib::GString>;
+    fn name(&self) -> Option<glib::GString> {
+        ObjectExt::property(self.as_ref(), "name")
+    }
 
     /// The name of port.
-    fn set_name(&self, name: Option<&str>);
+    fn set_name(&self, name: Option<&str>) {
+        ObjectExt::set_property(self.as_ref(), "name", name)
+    }
 
-    /// The numeric ID of queue to update time stamp when `property::PortInfo::tstamp-overwrite` is
+    /// The numeric ID of queue to update time stamp when [`tstamp-overwrite`][struct@crate::PortInfo#tstamp-overwrite] is
     /// set to True. One of [`SpecificQueueId`][crate::SpecificQueueId] is available as well.
     #[doc(alias = "queue-id")]
-    fn queue_id(&self) -> u8;
+    fn queue_id(&self) -> u8 {
+        ObjectExt::property(self.as_ref(), "queue-id")
+    }
 
-    /// The numeric ID of queue to update time stamp when `property::PortInfo::tstamp-overwrite` is
+    /// The numeric ID of queue to update time stamp when [`tstamp-overwrite`][struct@crate::PortInfo#tstamp-overwrite] is
     /// set to True. One of [`SpecificQueueId`][crate::SpecificQueueId] is available as well.
     #[doc(alias = "queue-id")]
-    fn set_queue_id(&self, queue_id: u8);
+    fn set_queue_id(&self, queue_id: u8) {
+        ObjectExt::set_property(self.as_ref(), "queue-id", queue_id)
+    }
 
     /// The current number of subscribers to read.
     #[doc(alias = "read-users")]
-    fn read_users(&self) -> i32;
+    fn read_users(&self) -> i32 {
+        ObjectExt::property(self.as_ref(), "read-users")
+    }
 
     /// The number of voices per synth port.
     #[doc(alias = "synth-voices")]
-    fn synth_voices(&self) -> i32;
+    fn synth_voices(&self) -> i32 {
+        ObjectExt::property(self.as_ref(), "synth-voices")
+    }
 
     /// The number of voices per synth port.
     #[doc(alias = "synth-voices")]
-    fn set_synth_voices(&self, synth_voices: i32);
+    fn set_synth_voices(&self, synth_voices: i32) {
+        ObjectExt::set_property(self.as_ref(), "synth-voices", synth_voices)
+    }
 
-    /// The mode of time stamp. This is effective when the `property::PortInfo::tstamp-overwrite` is
+    /// The mode of time stamp. This is effective when the [`tstamp-overwrite`][struct@crate::PortInfo#tstamp-overwrite] is
     /// enabled.
     #[doc(alias = "tstamp-mode")]
-    fn tstamp_mode(&self) -> EventTstampMode;
+    fn tstamp_mode(&self) -> EventTstampMode {
+        ObjectExt::property(self.as_ref(), "tstamp-mode")
+    }
 
-    /// The mode of time stamp. This is effective when the `property::PortInfo::tstamp-overwrite` is
+    /// The mode of time stamp. This is effective when the [`tstamp-overwrite`][struct@crate::PortInfo#tstamp-overwrite] is
     /// enabled.
     #[doc(alias = "tstamp-mode")]
-    fn set_tstamp_mode(&self, tstamp_mode: EventTstampMode);
+    fn set_tstamp_mode(&self, tstamp_mode: EventTstampMode) {
+        ObjectExt::set_property(self.as_ref(), "tstamp-mode", tstamp_mode)
+    }
 
     /// The mode whether to overwrite time stamp for event when the event is delivered from the port.
     #[doc(alias = "tstamp-overwrite")]
-    fn is_tstamp_overwrite(&self) -> bool;
+    fn is_tstamp_overwrite(&self) -> bool {
+        ObjectExt::property(self.as_ref(), "tstamp-overwrite")
+    }
 
     /// The mode whether to overwrite time stamp for event when the event is delivered from the port.
     #[doc(alias = "tstamp-overwrite")]
-    fn set_tstamp_overwrite(&self, tstamp_overwrite: bool);
+    fn set_tstamp_overwrite(&self, tstamp_overwrite: bool) {
+        ObjectExt::set_property(self.as_ref(), "tstamp-overwrite", tstamp_overwrite)
+    }
 
     /// The current number of subscribers to write.
     #[doc(alias = "write-users")]
-    fn write_users(&self) -> i32;
+    fn write_users(&self) -> i32 {
+        ObjectExt::property(self.as_ref(), "write-users")
+    }
 
     #[doc(alias = "attrs")]
-    fn connect_attrs_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "caps")]
-    fn connect_caps_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "midi-channels")]
-    fn connect_midi_channels_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "midi-voices")]
-    fn connect_midi_voices_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "name")]
-    fn connect_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "queue-id")]
-    fn connect_queue_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "read-users")]
-    fn connect_read_users_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "synth-voices")]
-    fn connect_synth_voices_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "tstamp-mode")]
-    fn connect_tstamp_mode_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "tstamp-overwrite")]
-    fn connect_tstamp_overwrite_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "write-users")]
-    fn connect_write_users_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<PortInfo>> PortInfoExt for O {
-    fn addr(&self) -> Option<Addr> {
-        glib::ObjectExt::property(self.as_ref(), "addr")
-    }
-
-    fn attrs(&self) -> PortAttrFlag {
-        glib::ObjectExt::property(self.as_ref(), "attrs")
-    }
-
-    fn set_attrs(&self, attrs: PortAttrFlag) {
-        glib::ObjectExt::set_property(self.as_ref(), "attrs", &attrs)
-    }
-
-    fn caps(&self) -> PortCapFlag {
-        glib::ObjectExt::property(self.as_ref(), "caps")
-    }
-
-    fn set_caps(&self, caps: PortCapFlag) {
-        glib::ObjectExt::set_property(self.as_ref(), "caps", &caps)
-    }
-
-    fn midi_channels(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "midi-channels")
-    }
-
-    fn set_midi_channels(&self, midi_channels: i32) {
-        glib::ObjectExt::set_property(self.as_ref(), "midi-channels", &midi_channels)
-    }
-
-    fn midi_voices(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "midi-voices")
-    }
-
-    fn set_midi_voices(&self, midi_voices: i32) {
-        glib::ObjectExt::set_property(self.as_ref(), "midi-voices", &midi_voices)
-    }
-
-    fn name(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self.as_ref(), "name")
-    }
-
-    fn set_name(&self, name: Option<&str>) {
-        glib::ObjectExt::set_property(self.as_ref(), "name", &name)
-    }
-
-    fn queue_id(&self) -> u8 {
-        glib::ObjectExt::property(self.as_ref(), "queue-id")
-    }
-
-    fn set_queue_id(&self, queue_id: u8) {
-        glib::ObjectExt::set_property(self.as_ref(), "queue-id", &queue_id)
-    }
-
-    fn read_users(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "read-users")
-    }
-
-    fn synth_voices(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "synth-voices")
-    }
-
-    fn set_synth_voices(&self, synth_voices: i32) {
-        glib::ObjectExt::set_property(self.as_ref(), "synth-voices", &synth_voices)
-    }
-
-    fn tstamp_mode(&self) -> EventTstampMode {
-        glib::ObjectExt::property(self.as_ref(), "tstamp-mode")
-    }
-
-    fn set_tstamp_mode(&self, tstamp_mode: EventTstampMode) {
-        glib::ObjectExt::set_property(self.as_ref(), "tstamp-mode", &tstamp_mode)
-    }
-
-    fn is_tstamp_overwrite(&self) -> bool {
-        glib::ObjectExt::property(self.as_ref(), "tstamp-overwrite")
-    }
-
-    fn set_tstamp_overwrite(&self, tstamp_overwrite: bool) {
-        glib::ObjectExt::set_property(self.as_ref(), "tstamp-overwrite", &tstamp_overwrite)
-    }
-
-    fn write_users(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "write-users")
-    }
-
     fn connect_attrs_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_attrs_trampoline<P: IsA<PortInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSASeqPortInfo,
@@ -284,6 +284,7 @@ impl<O: IsA<PortInfo>> PortInfoExt for O {
         }
     }
 
+    #[doc(alias = "caps")]
     fn connect_caps_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_caps_trampoline<P: IsA<PortInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSASeqPortInfo,
@@ -306,6 +307,7 @@ impl<O: IsA<PortInfo>> PortInfoExt for O {
         }
     }
 
+    #[doc(alias = "midi-channels")]
     fn connect_midi_channels_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_midi_channels_trampoline<
             P: IsA<PortInfo>,
@@ -331,6 +333,7 @@ impl<O: IsA<PortInfo>> PortInfoExt for O {
         }
     }
 
+    #[doc(alias = "midi-voices")]
     fn connect_midi_voices_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_midi_voices_trampoline<
             P: IsA<PortInfo>,
@@ -356,6 +359,7 @@ impl<O: IsA<PortInfo>> PortInfoExt for O {
         }
     }
 
+    #[doc(alias = "name")]
     fn connect_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_name_trampoline<P: IsA<PortInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSASeqPortInfo,
@@ -378,6 +382,7 @@ impl<O: IsA<PortInfo>> PortInfoExt for O {
         }
     }
 
+    #[doc(alias = "queue-id")]
     fn connect_queue_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_queue_id_trampoline<P: IsA<PortInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSASeqPortInfo,
@@ -400,6 +405,7 @@ impl<O: IsA<PortInfo>> PortInfoExt for O {
         }
     }
 
+    #[doc(alias = "read-users")]
     fn connect_read_users_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_read_users_trampoline<P: IsA<PortInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSASeqPortInfo,
@@ -422,6 +428,7 @@ impl<O: IsA<PortInfo>> PortInfoExt for O {
         }
     }
 
+    #[doc(alias = "synth-voices")]
     fn connect_synth_voices_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_synth_voices_trampoline<
             P: IsA<PortInfo>,
@@ -447,6 +454,7 @@ impl<O: IsA<PortInfo>> PortInfoExt for O {
         }
     }
 
+    #[doc(alias = "tstamp-mode")]
     fn connect_tstamp_mode_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_tstamp_mode_trampoline<
             P: IsA<PortInfo>,
@@ -472,6 +480,7 @@ impl<O: IsA<PortInfo>> PortInfoExt for O {
         }
     }
 
+    #[doc(alias = "tstamp-overwrite")]
     fn connect_tstamp_overwrite_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_tstamp_overwrite_trampoline<
             P: IsA<PortInfo>,
@@ -497,6 +506,7 @@ impl<O: IsA<PortInfo>> PortInfoExt for O {
         }
     }
 
+    #[doc(alias = "write-users")]
     fn connect_write_users_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_write_users_trampoline<
             P: IsA<PortInfo>,
@@ -522,6 +532,8 @@ impl<O: IsA<PortInfo>> PortInfoExt for O {
         }
     }
 }
+
+impl<O: IsA<PortInfo>> PortInfoExt for O {}
 
 impl fmt::Display for PortInfo {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
