@@ -22,7 +22,7 @@ name = "alsaseq"
 libc = "0.2"
 bitflags = "1.0"
 glib = "0.15"
-alsatimer = { path = "../alsatimer", version = "0.4.0" }
+alsatimer = "0.4.0"
 ffi = {package = "alsaseq-sys", version = "0.4.0" }
 
 [dev-dependencies]

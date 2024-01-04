@@ -1,7 +1,7 @@
 [options]
-girs_directories = ["../gir-files", ".."]
+girs_directories = ["../../gir-files", "../.."]
 work_mode = "sys"
-library = "ALSARawmidi"
+library = "ALSATimer"
 version = "0.0"
 min_cfg_version = "0.3"
 single_version_file = "."
@@ -11,4 +11,4 @@ external_libraries = [
 ]
 
 [crate_name_overrides]
-"alsa_rawmidi" = "alsarawmidi"
+"alsa_timer" = "alsatimer"

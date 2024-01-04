@@ -1,14 +1,14 @@
 [workspace]
 members = [
-    "alsactl-sys",
+    "alsactl/sys",
     "alsactl",
-    "alsahwdep-sys",
+    "alsahwdep/sys",
     "alsahwdep",
-    "alsatimer-sys",
+    "alsatimer/sys",
     "alsatimer",
-    "alsaseq-sys",
+    "alsaseq/sys",
     "alsaseq",
-    "alsarawmidi-sys",
+    "alsarawmidi/sys",
     "alsarawmidi",
 ]
 
@@ -26,12 +26,12 @@ exclude = [
 
 # For development purpose.
 [patch.crates-io]
-alsactl-sys = { path = "alsactl-sys" }
-alsahwdep-sys = { path = "alsahwdep-sys" }
-alsatimer-sys = { path = "alsatimer-sys" }
+alsactl-sys = { path = "alsactl/sys" }
+alsahwdep-sys = { path = "alsahwdep/sys" }
+alsatimer-sys = { path = "alsatimer/sys" }
 alsatimer = { path = "alsatimer" }
-alsaseq-sys = { path = "alsaseq-sys" }
-alsarawmidi-sys = { path = "alsarawmidi-sys" }
+alsaseq-sys = { path = "alsaseq/sys" }
+alsarawmidi-sys = { path = "alsarawmidi/sys" }
 
 # For my convenience to generate README.md for each crates by my tool.
 [workspace.metadata.library.alsactl]
