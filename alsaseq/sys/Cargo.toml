@@ -3,7 +3,7 @@ build = "build.rs"
 edition = "2021"
 links = "alsaseq"
 name = "alsaseq-sys"
-version = "0.4.0"
+version = "0.5.0"
 # For publishing.
 authors = ["Takashi Sakamoto"]
 categories = ["external-ffi-bindings", "hardware-support", "os::linux-apis"]
@@ -32,7 +32,7 @@ system-deps = "6"
 
 [dependencies]
 libc = "0.2"
-alsatimer-sys = "0.4.0"
+alsatimer-sys = "0.5.0"
 
 [dependencies.glib]
 package = "glib-sys"

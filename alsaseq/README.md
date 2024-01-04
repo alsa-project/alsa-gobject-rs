@@ -15,7 +15,7 @@ Add the following line to your Cargo.toml file:
 
 ```toml
 [dependencies]
-alsaseq = "0.4.0"
+alsaseq = "0.5"
 ```
 
 The API documentation is available in <https://docs.rs/alsaseq/>.

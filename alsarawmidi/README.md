@@ -15,7 +15,7 @@ Add the following line to your Cargo.toml file:
 
 ```toml
 [dependencies]
-alsarawmidi = "0.4.0"
+alsarawmidi = "0.5"
 ```
 
 The API documentation is available in <https://docs.rs/alsarawmidi/>.
