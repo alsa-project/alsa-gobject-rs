@@ -24,6 +24,15 @@ exclude = [
     "gir",
 ]
 
+# For development purpose.
+[patch.crates-io]
+alsactl-sys = { path = "alsactl-sys" }
+alsahwdep-sys = { path = "alsahwdep-sys" }
+alsatimer-sys = { path = "alsatimer-sys" }
+alsatimer = { path = "alsatimer" }
+alsaseq-sys = { path = "alsaseq-sys" }
+alsarawmidi-sys = { path = "alsarawmidi-sys" }
+
 # For my convenience to generate README.md for each crates by my tool.
 [workspace.metadata.library.alsactl]
 repository = "https://github.com/alsa-project/alsa-gobject"

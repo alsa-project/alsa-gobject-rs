@@ -23,7 +23,7 @@ libc = "0.2"
 bitflags = "1.0"
 glib = "0.15"
 alsatimer = { path = "../alsatimer", version = "0.4.0" }
-ffi = {package = "alsaseq-sys", path = "../alsaseq-sys", version = "0.4.0" }
+ffi = {package = "alsaseq-sys", version = "0.4.0" }
 
 [dev-dependencies]
 gir-format-check = "^0.1"
