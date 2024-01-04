@@ -22,7 +22,7 @@ pub use self::enums::StreamPairError;
 mod flags;
 pub use self::flags::StreamPairInfoFlag;
 
-/// Functions callable without instantiation.
+/// For functions available globally.
 pub mod functions;
 
 #[doc(hidden)]

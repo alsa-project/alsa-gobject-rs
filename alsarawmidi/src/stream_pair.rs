@@ -1,7 +1,11 @@
 // SPDX-License-Identifier: MIT
 use super::*;
 
-/// Trait containing the rest of[`struct@StreamPair`] methods.
+/// Trait containing the rest of [`struct@StreamPair`] methods.
+///
+/// # Implementors
+///
+/// [`StreamPair`][struct@crate::StreamPair]
 pub trait StreamPairExtManual {
     /// Get the version of rawmidi protocol currently used. The version is expressed as the array with
     /// three elements; major, minor, and micro version in the order. The length of major version is
@@ -12,7 +16,8 @@ pub trait StreamPairExtManual {
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     ///
     /// ## `proto_ver_triplet`
-    /// The version of protocol currently used.
+    /// The version of protocol currently
+    ///                     used.
     #[doc(alias = "alsarawmidi_stream_pair_get_protocol_version")]
     #[doc(alias = "get_protocol_version")]
     fn protocol_version(&self) -> Result<&[u16; 3], glib::Error>;

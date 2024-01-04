@@ -3,13 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use glib::error::ErrorDomain;
-use glib::translate::*;
-use glib::value::FromValue;
-use glib::value::ToValue;
-use glib::Quark;
-use glib::StaticType;
-use glib::Type;
+use glib::{prelude::*, translate::*};
 use std::fmt;
 
 /// A set of enumerations for the direction of stream.
@@ -43,6 +37,7 @@ impl fmt::Display for StreamDirection {
 impl IntoGlib for StreamDirection {
     type GlibType = ffi::ALSARawmidiStreamDirection;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSARawmidiStreamDirection {
         match self {
             Self::Output => ffi::ALSARAWMIDI_STREAM_DIRECTION_OUTPUT,
@@ -54,6 +49,7 @@ impl IntoGlib for StreamDirection {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSARawmidiStreamDirection> for StreamDirection {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSARawmidiStreamDirection) -> Self {
         match value {
             ffi::ALSARAWMIDI_STREAM_DIRECTION_OUTPUT => Self::Output,
@@ -64,8 +60,20 @@ impl FromGlib<ffi::ALSARawmidiStreamDirection> for StreamDirection {
 }
 
 impl StaticType for StreamDirection {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsarawmidi_stream_direction_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsarawmidi_stream_direction_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for StreamDirection {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -73,15 +81,17 @@ impl glib::value::ValueType for StreamDirection {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for StreamDirection {
+unsafe impl<'a> glib::value::FromValue<'a> for StreamDirection {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for StreamDirection {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -90,13 +100,20 @@ impl ToValue for StreamDirection {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
-/// A set of error code for [`glib::Error`][crate::glib::Error] with
-/// [`StreamPairError`][crate::StreamPairError] domain.
+impl From<StreamDirection> for glib::Value {
+    #[inline]
+    fn from(v: StreamDirection) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
+/// A set of error code for [`glib::Error`][crate::glib::Error] with `ALSARawmidi.StreamPairError` domain.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSARawmidiStreamPairError")]
@@ -130,6 +147,7 @@ impl fmt::Display for StreamPairError {
 impl IntoGlib for StreamPairError {
     type GlibType = ffi::ALSARawmidiStreamPairError;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSARawmidiStreamPairError {
         match self {
             Self::Failed => ffi::ALSARAWMIDI_STREAM_PAIR_ERROR_FAILED,
@@ -142,6 +160,7 @@ impl IntoGlib for StreamPairError {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSARawmidiStreamPairError> for StreamPairError {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSARawmidiStreamPairError) -> Self {
         match value {
             ffi::ALSARAWMIDI_STREAM_PAIR_ERROR_FAILED => Self::Failed,
@@ -152,28 +171,42 @@ impl FromGlib<ffi::ALSARawmidiStreamPairError> for StreamPairError {
     }
 }
 
-impl ErrorDomain for StreamPairError {
-    fn domain() -> Quark {
+impl glib::error::ErrorDomain for StreamPairError {
+    #[inline]
+    fn domain() -> glib::Quark {
         unsafe { from_glib(ffi::alsarawmidi_stream_pair_error_quark()) }
     }
 
+    #[inline]
     fn code(self) -> i32 {
         self.into_glib()
     }
 
+    #[inline]
+    #[allow(clippy::match_single_binding)]
     fn from(code: i32) -> Option<Self> {
-        match code {
-            ffi::ALSARAWMIDI_STREAM_PAIR_ERROR_FAILED => Some(Self::Failed),
-            ffi::ALSARAWMIDI_STREAM_PAIR_ERROR_DISCONNECTED => Some(Self::Disconnected),
-            ffi::ALSARAWMIDI_STREAM_PAIR_ERROR_UNREADABLE => Some(Self::Unreadable),
-            _ => Some(Self::Failed),
+        match unsafe { from_glib(code) } {
+            Self::__Unknown(_) => Some(Self::Failed),
+            value => Some(value),
         }
     }
 }
 
 impl StaticType for StreamPairError {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsarawmidi_stream_pair_error_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsarawmidi_stream_pair_error_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for StreamPairError {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -181,15 +214,17 @@ impl glib::value::ValueType for StreamPairError {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for StreamPairError {
+unsafe impl<'a> glib::value::FromValue<'a> for StreamPairError {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for StreamPairError {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -198,7 +233,15 @@ impl ToValue for StreamPairError {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<StreamPairError> for glib::Value {
+    #[inline]
+    fn from(v: StreamPairError) -> Self {
+        ToValue::to_value(&v)
     }
 }

@@ -3,14 +3,12 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
     /// A GObject-derived object to express status of substream.
@@ -20,6 +18,20 @@ glib::wrapper! {
     /// of object.
     ///
     /// The object wraps `struct snd_rawmidi_status` in UAPI of Linux sound subsystem.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `avail`
+    ///  The size of available space in intermediate buffer.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `xruns`
+    ///  The count of XRUNs since the last query of status.
+    ///
+    /// Readable
     ///
     /// # Implements
     ///
@@ -52,34 +64,28 @@ impl Default for SubstreamStatus {
     }
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::SubstreamStatus>> Sealed for T {}
+}
+
 /// Trait containing all [`struct@SubstreamStatus`] methods.
 ///
 /// # Implementors
 ///
 /// [`SubstreamStatus`][struct@crate::SubstreamStatus]
-pub trait SubstreamStatusExt: 'static {
+pub trait SubstreamStatusExt: IsA<SubstreamStatus> + sealed::Sealed + 'static {
     /// The size of available space in intermediate buffer.
-    fn avail(&self) -> u64;
+    fn avail(&self) -> u64 {
+        ObjectExt::property(self.as_ref(), "avail")
+    }
 
     /// The count of XRUNs since the last query of status.
-    fn xruns(&self) -> u64;
+    fn xruns(&self) -> u64 {
+        ObjectExt::property(self.as_ref(), "xruns")
+    }
 
     #[doc(alias = "avail")]
-    fn connect_avail_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "xruns")]
-    fn connect_xruns_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<SubstreamStatus>> SubstreamStatusExt for O {
-    fn avail(&self) -> u64 {
-        glib::ObjectExt::property(self.as_ref(), "avail")
-    }
-
-    fn xruns(&self) -> u64 {
-        glib::ObjectExt::property(self.as_ref(), "xruns")
-    }
-
     fn connect_avail_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_avail_trampoline<
             P: IsA<SubstreamStatus>,
@@ -105,6 +111,7 @@ impl<O: IsA<SubstreamStatus>> SubstreamStatusExt for O {
         }
     }
 
+    #[doc(alias = "xruns")]
     fn connect_xruns_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_xruns_trampoline<
             P: IsA<SubstreamStatus>,
@@ -130,6 +137,8 @@ impl<O: IsA<SubstreamStatus>> SubstreamStatusExt for O {
         }
     }
 }
+
+impl<O: IsA<SubstreamStatus>> SubstreamStatusExt for O {}
 
 impl fmt::Display for SubstreamStatus {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

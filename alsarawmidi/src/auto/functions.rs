@@ -3,11 +3,9 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::StreamDirection;
-use crate::SubstreamInfo;
+use crate::{StreamDirection, SubstreamInfo};
 use glib::translate::*;
-use std::mem;
-use std::ptr;
+use std::{mem, ptr};
 
 /// Get the list of numeric identifier for available rawmidi devices of sound card.
 ///
@@ -34,11 +32,11 @@ pub fn device_id_list(card_id: u32) -> Result<Vec<u32>, glib::Error> {
             entry_count.as_mut_ptr(),
             &mut error,
         );
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(FromGlibContainer::from_glib_full_num(
                 entries,
-                entry_count.assume_init() as usize,
+                entry_count.assume_init() as _,
             ))
         } else {
             Err(from_glib_full(error))
@@ -68,7 +66,7 @@ pub fn rawmidi_devnode(card_id: u32, device_id: u32) -> Result<glib::GString, gl
         let mut error = ptr::null_mut();
         let is_ok =
             ffi::alsarawmidi_get_rawmidi_devnode(card_id, device_id, &mut devnode, &mut error);
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(from_glib_full(devnode))
         } else {
@@ -99,7 +97,7 @@ pub fn rawmidi_sysname(card_id: u32, device_id: u32) -> Result<glib::GString, gl
         let mut error = ptr::null_mut();
         let is_ok =
             ffi::alsarawmidi_get_rawmidi_sysname(card_id, device_id, &mut sysname, &mut error);
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(from_glib_full(sysname))
         } else {
@@ -145,11 +143,11 @@ pub fn subdevice_id_list(
             entry_count.as_mut_ptr(),
             &mut error,
         );
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(FromGlibContainer::from_glib_full_num(
                 entries,
-                entry_count.assume_init() as usize,
+                entry_count.assume_init() as _,
             ))
         } else {
             Err(from_glib_full(error))
@@ -196,7 +194,7 @@ pub fn substream_info(
             &mut substream_info,
             &mut error,
         );
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(from_glib_full(substream_info))
         } else {

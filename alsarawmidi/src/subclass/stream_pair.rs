@@ -4,9 +4,11 @@ use super::*;
 
 /// Trait which should be implemented by subclass of [`StreamPair`][crate::StreamPair].
 pub trait StreamPairImpl: ObjectImpl + StreamPairImplExt {
+    /// Class closure for the [`handle-messages`][struct@crate::StreamPair#handle-messages] singal.
     fn handle_messages(&self, stream_pair: &Self::Type) {
         self.parent_handle_messages(stream_pair)
     }
+    /// Class closure for the [`handle-disconnection`][struct@crate::StreamPair#handle-disconnection] signal.
     fn handle_disconnection(&self, stream_pair: &Self::Type) {
         self.parent_handle_disconnection(stream_pair)
     }

@@ -3,19 +3,13 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::StreamDirection;
-use crate::StreamPairInfoFlag;
-use crate::SubstreamInfo;
-use crate::SubstreamParams;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
-use std::ptr;
+use crate::{StreamDirection, StreamPairInfoFlag, SubstreamInfo, SubstreamParams};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute, ptr};
 
 glib::wrapper! {
     /// GObject-derived object to express a pair of Rawmidi stream.
@@ -27,12 +21,36 @@ glib::wrapper! {
     /// descriptor till object destruction. The call of [`StreamPairExt::create_source()`][crate::prelude::StreamPairExt::create_source()] returns the
     /// instance of [`glib::Source`][crate::glib::Source]. Once attached to the [`glib::Source`][crate::glib::Source],
     /// `GLib::MainContext` / `GLib::MainLoop` is available as event dispatcher. The
-    /// `signal::StreamPair::handle-messages` signal is emitted in the event dispatcher to notify the
+    /// [`handle-messages`][struct@crate::StreamPair#handle-messages] signal is emitted in the event dispatcher to notify the
     /// intermediate buffer of capture substream has available messages. The call of
     /// [`StreamPairExtManual::read_from_substream()`][crate::prelude::StreamPairExtManual::read_from_substream()] fills the given buffer with the available messages. The
     /// call of [`StreamPairExt::write_to_substream()`][crate::prelude::StreamPairExt::write_to_substream()] write messages in the given buffer into the
     /// intermediate buffer of playback substream. The call of [`StreamPairExtManual::substream_status()`][crate::prelude::StreamPairExtManual::substream_status()]
     /// is available to check the space in the intermediate buffer according to direction argument.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `devnode`
+    ///  The full path to special file of rawmidi character device.
+    ///
+    /// Readable
+    ///
+    /// ## Signals
+    ///
+    ///
+    /// #### `handle-disconnection`
+    ///  When the sound card is not available anymore due to unbinding driver or hot unplugging,
+    /// this signal is emit. The owner of this object should call `GObject::Object::unref()` as
+    /// quickly as possible to release ALSA rawmidi character device.
+    ///
+    ///
+    ///
+    ///
+    /// #### `handle-messages`
+    ///  When any input message is available, this event is emit.
+    ///
+    ///
     ///
     /// # Implements
     ///
@@ -65,15 +83,20 @@ impl Default for StreamPair {
     }
 }
 
-/// Trait containing the part of[`struct@StreamPair`] methods.
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::StreamPair>> Sealed for T {}
+}
+
+/// Trait containing the part of [`struct@StreamPair`] methods.
 ///
 /// # Implementors
 ///
 /// [`StreamPair`][struct@crate::StreamPair]
-pub trait StreamPairExt: 'static {
+pub trait StreamPairExt: IsA<StreamPair> + sealed::Sealed + 'static {
     /// Allocate [`glib::Source`][crate::glib::Source] structure to handle events from ALSA rawmidi character device for
     /// input substream. In each iteration of `GLib::MainContext`, the `read(2)` system call is
-    /// executed to dispatch control event for `signal::StreamPair::handle-messages` signal, according to
+    /// executed to dispatch control event for [`handle-messages`][struct@crate::StreamPair#handle-messages] signal, according to
     /// the result of `poll(2)` system call.
     ///
     /// # Returns
@@ -83,13 +106,59 @@ pub trait StreamPairExt: 'static {
     /// ## `gsrc`
     /// A [`glib::Source`][crate::glib::Source] to handle events from ALSA rawmidi character device.
     #[doc(alias = "alsarawmidi_stream_pair_create_source")]
-    fn create_source(&self) -> Result<glib::Source, glib::Error>;
+    fn create_source(&self) -> Result<glib::Source, glib::Error> {
+        unsafe {
+            let mut gsrc = ptr::null_mut();
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsarawmidi_stream_pair_create_source(
+                self.as_ref().to_glib_none().0,
+                &mut gsrc,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(from_glib_full(gsrc))
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     #[doc(alias = "alsarawmidi_stream_pair_drain_substream")]
-    fn drain_substream(&self, direction: StreamDirection) -> Result<(), glib::Error>;
+    fn drain_substream(&self, direction: StreamDirection) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsarawmidi_stream_pair_drain_substream(
+                self.as_ref().to_glib_none().0,
+                direction.into_glib(),
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     #[doc(alias = "alsarawmidi_stream_pair_drop_substream")]
-    fn drop_substream(&self, direction: StreamDirection) -> Result<(), glib::Error>;
+    fn drop_substream(&self, direction: StreamDirection) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsarawmidi_stream_pair_drop_substream(
+                self.as_ref().to_glib_none().0,
+                direction.into_glib(),
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Get information of substream attached to the stream pair.
     ///
@@ -106,7 +175,24 @@ pub trait StreamPairExt: 'static {
     /// The information for requested substream.
     #[doc(alias = "alsarawmidi_stream_pair_get_substream_info")]
     #[doc(alias = "get_substream_info")]
-    fn substream_info(&self, direction: StreamDirection) -> Result<SubstreamInfo, glib::Error>;
+    fn substream_info(&self, direction: StreamDirection) -> Result<SubstreamInfo, glib::Error> {
+        unsafe {
+            let mut substream_info = ptr::null_mut();
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsarawmidi_stream_pair_get_substream_info(
+                self.as_ref().to_glib_none().0,
+                direction.into_glib(),
+                &mut substream_info,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(from_glib_full(substream_info))
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Open file descriptor for a pair of streams to attach input/output substreams corresponding to
     /// the given subdevice.
@@ -135,7 +221,26 @@ pub trait StreamPairExt: 'static {
         subdevice_id: u32,
         access_modes: StreamPairInfoFlag,
         open_flag: i32,
-    ) -> Result<(), glib::Error>;
+    ) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsarawmidi_stream_pair_open(
+                self.as_ref().to_glib_none().0,
+                card_id,
+                device_id,
+                subdevice_id,
+                access_modes.into_glib(),
+                open_flag,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Set parameters of substream for given direction, which is attached to the pair of streams.
     ///
@@ -154,7 +259,23 @@ pub trait StreamPairExt: 'static {
         &self,
         direction: StreamDirection,
         substream_params: &impl IsA<SubstreamParams>,
-    ) -> Result<(), glib::Error>;
+    ) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsarawmidi_stream_pair_set_substream_params(
+                self.as_ref().to_glib_none().0,
+                direction.into_glib(),
+                substream_params.as_ref().to_glib_none().0,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Copy data from given buffer to intermediate buffer for substream attached to the pair of
     /// streams. In a case that the instance is opened without `O_NONBLOCK` flag and the intermediate
@@ -168,149 +289,8 @@ pub trait StreamPairExt: 'static {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsarawmidi_stream_pair_write_to_substream")]
-    fn write_to_substream(&self, buf: &[u8]) -> Result<(), glib::Error>;
-
-    /// The full path to special file of rawmidi character device.
-    fn devnode(&self) -> Option<glib::GString>;
-
-    /// When the sound card is not available anymore due to unbinding driver or hot unplugging,
-    /// this signal is emit. The owner of this object should call `GObject::Object::unref()` as
-    /// quickly as possible to release ALSA rawmidi character device.
-    #[doc(alias = "handle-disconnection")]
-    fn connect_handle_disconnection<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    /// When any input message is available, this event is emit.
-    #[doc(alias = "handle-messages")]
-    fn connect_handle_messages<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "devnode")]
-    fn connect_devnode_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<StreamPair>> StreamPairExt for O {
-    fn create_source(&self) -> Result<glib::Source, glib::Error> {
-        unsafe {
-            let mut gsrc = ptr::null_mut();
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsarawmidi_stream_pair_create_source(
-                self.as_ref().to_glib_none().0,
-                &mut gsrc,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(from_glib_full(gsrc))
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn drain_substream(&self, direction: StreamDirection) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsarawmidi_stream_pair_drain_substream(
-                self.as_ref().to_glib_none().0,
-                direction.into_glib(),
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn drop_substream(&self, direction: StreamDirection) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsarawmidi_stream_pair_drop_substream(
-                self.as_ref().to_glib_none().0,
-                direction.into_glib(),
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn substream_info(&self, direction: StreamDirection) -> Result<SubstreamInfo, glib::Error> {
-        unsafe {
-            let mut substream_info = ptr::null_mut();
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsarawmidi_stream_pair_get_substream_info(
-                self.as_ref().to_glib_none().0,
-                direction.into_glib(),
-                &mut substream_info,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(from_glib_full(substream_info))
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn open(
-        &self,
-        card_id: u32,
-        device_id: u32,
-        subdevice_id: u32,
-        access_modes: StreamPairInfoFlag,
-        open_flag: i32,
-    ) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsarawmidi_stream_pair_open(
-                self.as_ref().to_glib_none().0,
-                card_id,
-                device_id,
-                subdevice_id,
-                access_modes.into_glib(),
-                open_flag,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn set_substream_params(
-        &self,
-        direction: StreamDirection,
-        substream_params: &impl IsA<SubstreamParams>,
-    ) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsarawmidi_stream_pair_set_substream_params(
-                self.as_ref().to_glib_none().0,
-                direction.into_glib(),
-                substream_params.as_ref().to_glib_none().0,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
     fn write_to_substream(&self, buf: &[u8]) -> Result<(), glib::Error> {
-        let buf_size = buf.len() as usize;
+        let buf_size = buf.len() as _;
         unsafe {
             let mut error = ptr::null_mut();
             let is_ok = ffi::alsarawmidi_stream_pair_write_to_substream(
@@ -319,7 +299,7 @@ impl<O: IsA<StreamPair>> StreamPairExt for O {
                 buf_size,
                 &mut error,
             );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -328,10 +308,15 @@ impl<O: IsA<StreamPair>> StreamPairExt for O {
         }
     }
 
+    /// The full path to special file of rawmidi character device.
     fn devnode(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self.as_ref(), "devnode")
+        ObjectExt::property(self.as_ref(), "devnode")
     }
 
+    /// When the sound card is not available anymore due to unbinding driver or hot unplugging,
+    /// this signal is emit. The owner of this object should call `GObject::Object::unref()` as
+    /// quickly as possible to release ALSA rawmidi character device.
+    #[doc(alias = "handle-disconnection")]
     fn connect_handle_disconnection<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn handle_disconnection_trampoline<
             P: IsA<StreamPair>,
@@ -356,6 +341,8 @@ impl<O: IsA<StreamPair>> StreamPairExt for O {
         }
     }
 
+    /// When any input message is available, this event is emit.
+    #[doc(alias = "handle-messages")]
     fn connect_handle_messages<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn handle_messages_trampoline<P: IsA<StreamPair>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSARawmidiStreamPair,
@@ -377,6 +364,7 @@ impl<O: IsA<StreamPair>> StreamPairExt for O {
         }
     }
 
+    #[doc(alias = "devnode")]
     fn connect_devnode_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_devnode_trampoline<P: IsA<StreamPair>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSARawmidiStreamPair,
@@ -399,6 +387,8 @@ impl<O: IsA<StreamPair>> StreamPairExt for O {
         }
     }
 }
+
+impl<O: IsA<StreamPair>> StreamPairExt for O {}
 
 impl fmt::Display for StreamPair {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

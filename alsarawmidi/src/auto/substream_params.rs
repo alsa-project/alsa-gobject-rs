@@ -3,14 +3,12 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
     /// A GObject-derived object to express parameters of substream.
@@ -20,6 +18,26 @@ glib::wrapper! {
     /// the instance of object.
     ///
     /// The object wraps `struct snd_rawmidi_params` in UAPI of Linux sound subsystem.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `active-sensing`
+    ///  Whether to emit 0xfe one time when closing substream.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `avail-min`
+    ///  The threshold to wake up from any blocking operation such as poll(2), read(2) and write(2).
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `buffer-size`
+    ///  The size of intermediate buffer for substream.
+    ///
+    /// Readable | Writeable
     ///
     /// # Implements
     ///
@@ -52,71 +70,54 @@ impl Default for SubstreamParams {
     }
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::SubstreamParams>> Sealed for T {}
+}
+
 /// Trait containing all [`struct@SubstreamParams`] methods.
 ///
 /// # Implementors
 ///
 /// [`SubstreamParams`][struct@crate::SubstreamParams]
-pub trait SubstreamParamsExt: 'static {
+pub trait SubstreamParamsExt: IsA<SubstreamParams> + sealed::Sealed + 'static {
     /// Whether to emit 0xfe one time when closing substream.
     #[doc(alias = "active-sensing")]
-    fn is_active_sensing(&self) -> bool;
-
-    /// Whether to emit 0xfe one time when closing substream.
-    #[doc(alias = "active-sensing")]
-    fn set_active_sensing(&self, active_sensing: bool);
-
-    /// The threshold to wake up from any blocking operation such as poll(2), read(2) and write(2).
-    #[doc(alias = "avail-min")]
-    fn avail_min(&self) -> u32;
-
-    /// The threshold to wake up from any blocking operation such as poll(2), read(2) and write(2).
-    #[doc(alias = "avail-min")]
-    fn set_avail_min(&self, avail_min: u32);
-
-    /// The size of intermediate buffer for substream.
-    #[doc(alias = "buffer-size")]
-    fn buffer_size(&self) -> u32;
-
-    /// The size of intermediate buffer for substream.
-    #[doc(alias = "buffer-size")]
-    fn set_buffer_size(&self, buffer_size: u32);
-
-    #[doc(alias = "active-sensing")]
-    fn connect_active_sensing_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "avail-min")]
-    fn connect_avail_min_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "buffer-size")]
-    fn connect_buffer_size_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<SubstreamParams>> SubstreamParamsExt for O {
     fn is_active_sensing(&self) -> bool {
-        glib::ObjectExt::property(self.as_ref(), "active-sensing")
+        ObjectExt::property(self.as_ref(), "active-sensing")
     }
 
+    /// Whether to emit 0xfe one time when closing substream.
+    #[doc(alias = "active-sensing")]
     fn set_active_sensing(&self, active_sensing: bool) {
-        glib::ObjectExt::set_property(self.as_ref(), "active-sensing", &active_sensing)
+        ObjectExt::set_property(self.as_ref(), "active-sensing", active_sensing)
     }
 
+    /// The threshold to wake up from any blocking operation such as poll(2), read(2) and write(2).
+    #[doc(alias = "avail-min")]
     fn avail_min(&self) -> u32 {
-        glib::ObjectExt::property(self.as_ref(), "avail-min")
+        ObjectExt::property(self.as_ref(), "avail-min")
     }
 
+    /// The threshold to wake up from any blocking operation such as poll(2), read(2) and write(2).
+    #[doc(alias = "avail-min")]
     fn set_avail_min(&self, avail_min: u32) {
-        glib::ObjectExt::set_property(self.as_ref(), "avail-min", &avail_min)
+        ObjectExt::set_property(self.as_ref(), "avail-min", avail_min)
     }
 
+    /// The size of intermediate buffer for substream.
+    #[doc(alias = "buffer-size")]
     fn buffer_size(&self) -> u32 {
-        glib::ObjectExt::property(self.as_ref(), "buffer-size")
+        ObjectExt::property(self.as_ref(), "buffer-size")
     }
 
+    /// The size of intermediate buffer for substream.
+    #[doc(alias = "buffer-size")]
     fn set_buffer_size(&self, buffer_size: u32) {
-        glib::ObjectExt::set_property(self.as_ref(), "buffer-size", &buffer_size)
+        ObjectExt::set_property(self.as_ref(), "buffer-size", buffer_size)
     }
 
+    #[doc(alias = "active-sensing")]
     fn connect_active_sensing_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_active_sensing_trampoline<
             P: IsA<SubstreamParams>,
@@ -142,6 +143,7 @@ impl<O: IsA<SubstreamParams>> SubstreamParamsExt for O {
         }
     }
 
+    #[doc(alias = "avail-min")]
     fn connect_avail_min_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_avail_min_trampoline<
             P: IsA<SubstreamParams>,
@@ -167,6 +169,7 @@ impl<O: IsA<SubstreamParams>> SubstreamParamsExt for O {
         }
     }
 
+    #[doc(alias = "buffer-size")]
     fn connect_buffer_size_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_buffer_size_trampoline<
             P: IsA<SubstreamParams>,
@@ -192,6 +195,8 @@ impl<O: IsA<SubstreamParams>> SubstreamParamsExt for O {
         }
     }
 }
+
+impl<O: IsA<SubstreamParams>> SubstreamParamsExt for O {}
 
 impl fmt::Display for SubstreamParams {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

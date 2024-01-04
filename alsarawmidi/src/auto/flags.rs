@@ -3,27 +3,23 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use bitflags::bitflags;
-use glib::translate::*;
-use glib::value::FromValue;
-use glib::value::ToValue;
-use glib::StaticType;
-use glib::Type;
+use glib::{bitflags::bitflags, prelude::*, translate::*};
 use std::fmt;
 
 bitflags! {
     /// A set of flags for information of the pair of streams.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
     #[doc(alias = "ALSARawmidiStreamPairInfoFlag")]
     pub struct StreamPairInfoFlag: u32 {
         /// The pair of stream supports output substream.
         #[doc(alias = "ALSARAWMIDI_STREAM_PAIR_INFO_FLAG_OUTPUT")]
-        const OUTPUT = ffi::ALSARAWMIDI_STREAM_PAIR_INFO_FLAG_OUTPUT as u32;
+        const OUTPUT = ffi::ALSARAWMIDI_STREAM_PAIR_INFO_FLAG_OUTPUT as _;
         /// The pair of stream supports input substream.
         #[doc(alias = "ALSARAWMIDI_STREAM_PAIR_INFO_FLAG_INPUT")]
-        const INPUT = ffi::ALSARAWMIDI_STREAM_PAIR_INFO_FLAG_INPUT as u32;
+        const INPUT = ffi::ALSARAWMIDI_STREAM_PAIR_INFO_FLAG_INPUT as _;
         /// Both directions of stream are available at the same time.
         #[doc(alias = "ALSARAWMIDI_STREAM_PAIR_INFO_FLAG_DUPLEX")]
-        const DUPLEX = ffi::ALSARAWMIDI_STREAM_PAIR_INFO_FLAG_DUPLEX as u32;
+        const DUPLEX = ffi::ALSARAWMIDI_STREAM_PAIR_INFO_FLAG_DUPLEX as _;
     }
 }
 
@@ -37,6 +33,7 @@ impl fmt::Display for StreamPairInfoFlag {
 impl IntoGlib for StreamPairInfoFlag {
     type GlibType = ffi::ALSARawmidiStreamPairInfoFlag;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSARawmidiStreamPairInfoFlag {
         self.bits()
     }
@@ -44,14 +41,27 @@ impl IntoGlib for StreamPairInfoFlag {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSARawmidiStreamPairInfoFlag> for StreamPairInfoFlag {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSARawmidiStreamPairInfoFlag) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
 impl StaticType for StreamPairInfoFlag {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsarawmidi_stream_pair_info_flag_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsarawmidi_stream_pair_info_flag_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for StreamPairInfoFlag {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder
     }
 }
 
@@ -59,15 +69,17 @@ impl glib::value::ValueType for StreamPairInfoFlag {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for StreamPairInfoFlag {
+unsafe impl<'a> glib::value::FromValue<'a> for StreamPairInfoFlag {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
 impl ToValue for StreamPairInfoFlag {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -76,7 +88,15 @@ impl ToValue for StreamPairInfoFlag {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<StreamPairInfoFlag> for glib::Value {
+    #[inline]
+    fn from(v: StreamPairInfoFlag) -> Self {
+        ToValue::to_value(&v)
     }
 }
