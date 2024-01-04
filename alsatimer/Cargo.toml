@@ -29,4 +29,4 @@ gir-format-check = "^0.1"
 
 [features]
 # To suppress linking to C library to generate documentation.
-dox = ["ffi/dox", "glib/dox"]
+dox = ["glib/dox"]

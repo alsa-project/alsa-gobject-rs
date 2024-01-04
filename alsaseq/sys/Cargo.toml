@@ -42,7 +42,3 @@ version = "0.15"
 [dev-dependencies]
 shell-words = "1.0.0"
 tempfile = "3"
-
-[features]
-# To suppress linking to C library to generate documentation.
-dox = ["alsatimer-sys/dox"]

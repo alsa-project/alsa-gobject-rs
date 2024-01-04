@@ -11,7 +11,7 @@
     clippy::unreadable_literal,
     clippy::upper_case_acronyms
 )]
-#![cfg_attr(feature = "dox", feature(doc_cfg))]
+#![cfg_attr(docsrs, feature(doc_cfg))]
 
 #[allow(unused_imports)]
 use libc::{
@@ -83,7 +83,7 @@ pub struct ALSATimerDeviceId {
 
 impl ::std::fmt::Debug for ALSATimerDeviceId {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerDeviceId @ {:p}", self))
+        f.debug_struct(&format!("ALSATimerDeviceId @ {self:p}"))
             .finish()
     }
 }
@@ -96,7 +96,7 @@ pub struct ALSATimerDeviceInfoClass {
 
 impl ::std::fmt::Debug for ALSATimerDeviceInfoClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerDeviceInfoClass @ {:p}", self))
+        f.debug_struct(&format!("ALSATimerDeviceInfoClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -110,7 +110,7 @@ pub struct ALSATimerDeviceParamsClass {
 
 impl ::std::fmt::Debug for ALSATimerDeviceParamsClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerDeviceParamsClass @ {:p}", self))
+        f.debug_struct(&format!("ALSATimerDeviceParamsClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -124,7 +124,7 @@ pub struct ALSATimerDeviceStatusClass {
 
 impl ::std::fmt::Debug for ALSATimerDeviceStatusClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerDeviceStatusClass @ {:p}", self))
+        f.debug_struct(&format!("ALSATimerDeviceStatusClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -138,7 +138,7 @@ pub struct ALSATimerInstanceInfoClass {
 
 impl ::std::fmt::Debug for ALSATimerInstanceInfoClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerInstanceInfoClass @ {:p}", self))
+        f.debug_struct(&format!("ALSATimerInstanceInfoClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -152,7 +152,7 @@ pub struct ALSATimerInstanceParamsClass {
 
 impl ::std::fmt::Debug for ALSATimerInstanceParamsClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerInstanceParamsClass @ {:p}", self))
+        f.debug_struct(&format!("ALSATimerInstanceParamsClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -166,7 +166,7 @@ pub struct ALSATimerInstanceStatusClass {
 
 impl ::std::fmt::Debug for ALSATimerInstanceStatusClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerInstanceStatusClass @ {:p}", self))
+        f.debug_struct(&format!("ALSATimerInstanceStatusClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -180,7 +180,7 @@ pub struct ALSATimerRealTimeEvent {
 
 impl ::std::fmt::Debug for ALSATimerRealTimeEvent {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerRealTimeEvent @ {:p}", self))
+        f.debug_struct(&format!("ALSATimerRealTimeEvent @ {self:p}"))
             .finish()
     }
 }
@@ -193,7 +193,7 @@ pub struct ALSATimerTickTimeEvent {
 
 impl ::std::fmt::Debug for ALSATimerTickTimeEvent {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerTickTimeEvent @ {:p}", self))
+        f.debug_struct(&format!("ALSATimerTickTimeEvent @ {self:p}"))
             .finish()
     }
 }
@@ -211,7 +211,7 @@ pub struct ALSATimerUserInstanceClass {
 
 impl ::std::fmt::Debug for ALSATimerUserInstanceClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerUserInstanceClass @ {:p}", self))
+        f.debug_struct(&format!("ALSATimerUserInstanceClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .field("handle_tick_time_event", &self.handle_tick_time_event)
             .field("handle_real_time_event", &self.handle_real_time_event)
@@ -229,7 +229,7 @@ pub struct ALSATimerDeviceInfo {
 
 impl ::std::fmt::Debug for ALSATimerDeviceInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerDeviceInfo @ {:p}", self))
+        f.debug_struct(&format!("ALSATimerDeviceInfo @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -243,7 +243,7 @@ pub struct ALSATimerDeviceParams {
 
 impl ::std::fmt::Debug for ALSATimerDeviceParams {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerDeviceParams @ {:p}", self))
+        f.debug_struct(&format!("ALSATimerDeviceParams @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -257,7 +257,7 @@ pub struct ALSATimerDeviceStatus {
 
 impl ::std::fmt::Debug for ALSATimerDeviceStatus {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerDeviceStatus @ {:p}", self))
+        f.debug_struct(&format!("ALSATimerDeviceStatus @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -271,7 +271,7 @@ pub struct ALSATimerInstanceInfo {
 
 impl ::std::fmt::Debug for ALSATimerInstanceInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerInstanceInfo @ {:p}", self))
+        f.debug_struct(&format!("ALSATimerInstanceInfo @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -285,7 +285,7 @@ pub struct ALSATimerInstanceParams {
 
 impl ::std::fmt::Debug for ALSATimerInstanceParams {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerInstanceParams @ {:p}", self))
+        f.debug_struct(&format!("ALSATimerInstanceParams @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -299,7 +299,7 @@ pub struct ALSATimerInstanceStatus {
 
 impl ::std::fmt::Debug for ALSATimerInstanceStatus {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerInstanceStatus @ {:p}", self))
+        f.debug_struct(&format!("ALSATimerInstanceStatus @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -313,7 +313,7 @@ pub struct ALSATimerUserInstance {
 
 impl ::std::fmt::Debug for ALSATimerUserInstance {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSATimerUserInstance @ {:p}", self))
+        f.debug_struct(&format!("ALSATimerUserInstance @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
