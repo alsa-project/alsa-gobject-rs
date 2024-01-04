@@ -4,7 +4,7 @@
 // DO NOT EDIT
 
 use crate::IfaceType;
-use glib::object::IsA;
+use glib::prelude::*;
 use std::fmt;
 
 glib::wrapper! {
@@ -14,6 +14,38 @@ glib::wrapper! {
     /// The call of [`DeviceCommonExt::device_info()`][crate::prelude::DeviceCommonExt::device_info()] returns an instance of the object.
     ///
     /// The object wraps `struct snd_hwdep_info` in UAPI of Linux sound subsystem.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `card-id`
+    ///  The numeric ID of sound card.
+    ///
+    /// Readable | Writeable | Construct Only
+    ///
+    ///
+    /// #### `device-id`
+    ///  The numeric ID of device.
+    ///
+    /// Readable | Writeable | Construct Only
+    ///
+    ///
+    /// #### `id`
+    ///  The string ID of the hwdep device.
+    ///
+    /// Readable | Writeable | Construct Only
+    ///
+    ///
+    /// #### `iface`
+    ///  The type of interface for the hwdep device, one of ALSAHwdepIfaceType.
+    ///
+    /// Readable | Writeable | Construct Only
+    ///
+    ///
+    /// #### `name`
+    ///  The name of the hwdep device.
+    ///
+    /// Readable | Writeable | Construct Only
     ///
     /// # Implements
     ///
@@ -30,51 +62,46 @@ impl DeviceInfo {
     pub const NONE: Option<&'static DeviceInfo> = None;
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::DeviceInfo>> Sealed for T {}
+}
+
 /// Trait containing all [`struct@DeviceInfo`] methods.
 ///
 /// # Implementors
 ///
 /// [`DeviceInfo`][struct@crate::DeviceInfo]
-pub trait DeviceInfoExt: 'static {
+pub trait DeviceInfoExt: IsA<DeviceInfo> + sealed::Sealed + 'static {
     /// The numeric ID of sound card.
     #[doc(alias = "card-id")]
-    fn card_id(&self) -> i32;
+    fn card_id(&self) -> i32 {
+        ObjectExt::property(self.as_ref(), "card-id")
+    }
 
     /// The numeric ID of device.
     #[doc(alias = "device-id")]
-    fn device_id(&self) -> u32;
+    fn device_id(&self) -> u32 {
+        ObjectExt::property(self.as_ref(), "device-id")
+    }
 
     /// The string ID of the hwdep device.
-    fn id(&self) -> Option<glib::GString>;
+    fn id(&self) -> Option<glib::GString> {
+        ObjectExt::property(self.as_ref(), "id")
+    }
 
     /// The type of interface for the hwdep device, one of ALSAHwdepIfaceType.
-    fn iface(&self) -> IfaceType;
+    fn iface(&self) -> IfaceType {
+        ObjectExt::property(self.as_ref(), "iface")
+    }
 
     /// The name of the hwdep device.
-    fn name(&self) -> Option<glib::GString>;
-}
-
-impl<O: IsA<DeviceInfo>> DeviceInfoExt for O {
-    fn card_id(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "card-id")
-    }
-
-    fn device_id(&self) -> u32 {
-        glib::ObjectExt::property(self.as_ref(), "device-id")
-    }
-
-    fn id(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self.as_ref(), "id")
-    }
-
-    fn iface(&self) -> IfaceType {
-        glib::ObjectExt::property(self.as_ref(), "iface")
-    }
-
     fn name(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self.as_ref(), "name")
+        ObjectExt::property(self.as_ref(), "name")
     }
 }
+
+impl<O: IsA<DeviceInfo>> DeviceInfoExt for O {}
 
 impl fmt::Display for DeviceInfo {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

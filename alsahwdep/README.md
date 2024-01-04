@@ -29,13 +29,6 @@ The alsahwdep crate is released under [MIT license](https://spdx.org/licenses/MI
 The alsahwdep crate depends on API crates provided by [gtk-rs project](https://gtk-rs.org/) for
 type/object system, event loop, and dispacher.
 
-## Features
-
-* dox
-
-   * Suppress probing alsahwdep library. It's automatically enabled when generating documentation
-     in docs.rs.
-
 ## Repository
 
 The alsahwdep crate is the part of ALSA project and maintained by

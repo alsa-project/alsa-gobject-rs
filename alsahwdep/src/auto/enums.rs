@@ -3,36 +3,24 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use glib::error::ErrorDomain;
-use glib::translate::*;
-use glib::value::FromValue;
-use glib::value::ToValue;
-use glib::Quark;
-use glib::StaticType;
-use glib::Type;
+use glib::{prelude::*, translate::*};
 use std::fmt;
 
-/// A set of enumerations for code of [`DeviceCommonError`][crate::DeviceCommonError] domain.
+/// A set of enumerations for code of ALSAHwDep.DeviceCommonError error domain.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSAHwdepDeviceCommonError")]
 pub enum DeviceCommonError {
-    /// The operation failed due to unspecified reason.
     #[doc(alias = "ALSAHWDEP_DEVICE_COMMON_ERROR_FAILED")]
     Failed,
-    /// The instance is already associated to character device.
     #[doc(alias = "ALSAHWDEP_DEVICE_COMMON_ERROR_IS_OPENED")]
     IsOpened,
-    /// The instance is not associated to character device yet.
     #[doc(alias = "ALSAHWDEP_DEVICE_COMMON_ERROR_IS_NOT_OPENED")]
     IsNotOpened,
-    /// The character device is already used.
     #[doc(alias = "ALSAHWDEP_DEVICE_COMMON_ERROR_IS_USED")]
     IsUsed,
-    /// The HwDep device associated to the character device is not supported.
     #[doc(alias = "ALSAHWDEP_DEVICE_COMMON_ERROR_IS_NOT_SUPPORTED")]
     IsNotSupported,
-    /// The sound card is under disconnected state.
     #[doc(alias = "ALSAHWDEP_DEVICE_COMMON_ERROR_IS_DISCONNECTED")]
     IsDisconnected,
     #[doc(hidden)]
@@ -61,6 +49,7 @@ impl fmt::Display for DeviceCommonError {
 impl IntoGlib for DeviceCommonError {
     type GlibType = ffi::ALSAHwdepDeviceCommonError;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSAHwdepDeviceCommonError {
         match self {
             Self::Failed => ffi::ALSAHWDEP_DEVICE_COMMON_ERROR_FAILED,
@@ -76,6 +65,7 @@ impl IntoGlib for DeviceCommonError {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSAHwdepDeviceCommonError> for DeviceCommonError {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSAHwdepDeviceCommonError) -> Self {
         match value {
             ffi::ALSAHWDEP_DEVICE_COMMON_ERROR_FAILED => Self::Failed,
@@ -89,31 +79,42 @@ impl FromGlib<ffi::ALSAHwdepDeviceCommonError> for DeviceCommonError {
     }
 }
 
-impl ErrorDomain for DeviceCommonError {
-    fn domain() -> Quark {
+impl glib::error::ErrorDomain for DeviceCommonError {
+    #[inline]
+    fn domain() -> glib::Quark {
         unsafe { from_glib(ffi::alsahwdep_device_common_error_quark()) }
     }
 
+    #[inline]
     fn code(self) -> i32 {
         self.into_glib()
     }
 
+    #[inline]
+    #[allow(clippy::match_single_binding)]
     fn from(code: i32) -> Option<Self> {
-        match code {
-            ffi::ALSAHWDEP_DEVICE_COMMON_ERROR_FAILED => Some(Self::Failed),
-            ffi::ALSAHWDEP_DEVICE_COMMON_ERROR_IS_OPENED => Some(Self::IsOpened),
-            ffi::ALSAHWDEP_DEVICE_COMMON_ERROR_IS_NOT_OPENED => Some(Self::IsNotOpened),
-            ffi::ALSAHWDEP_DEVICE_COMMON_ERROR_IS_USED => Some(Self::IsUsed),
-            ffi::ALSAHWDEP_DEVICE_COMMON_ERROR_IS_NOT_SUPPORTED => Some(Self::IsNotSupported),
-            ffi::ALSAHWDEP_DEVICE_COMMON_ERROR_IS_DISCONNECTED => Some(Self::IsDisconnected),
-            _ => Some(Self::Failed),
+        match unsafe { from_glib(code) } {
+            Self::__Unknown(_) => Some(Self::Failed),
+            value => Some(value),
         }
     }
 }
 
 impl StaticType for DeviceCommonError {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsahwdep_device_common_error_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsahwdep_device_common_error_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for DeviceCommonError {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -121,15 +122,17 @@ impl glib::value::ValueType for DeviceCommonError {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for DeviceCommonError {
+unsafe impl<'a> glib::value::FromValue<'a> for DeviceCommonError {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for DeviceCommonError {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -138,8 +141,16 @@ impl ToValue for DeviceCommonError {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<DeviceCommonError> for glib::Value {
+    #[inline]
+    fn from(v: DeviceCommonError) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
@@ -148,85 +159,58 @@ impl ToValue for DeviceCommonError {
 #[non_exhaustive]
 #[doc(alias = "ALSAHwdepIfaceType")]
 pub enum IfaceType {
-    /// For OPL2 sound chip.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_OPL2")]
     Opl2,
-    /// For OPL3 sound chip.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_OPL3")]
     Opl3,
-    /// For OPL4 sound chip.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_OPL4")]
     Opl4,
-    /// For Creative Signal Processor.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_SB16CSP")]
     Sb16csp,
-    /// For FX8010 processor in EMU10K1 chip.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_EMU10K1")]
     Emu10k1,
-    /// For Yamaha FX processor.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_YSS225")]
     Yss225,
-    /// For Wavetable synth.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_ICS2115")]
     Ics2115,
-    /// For Ensoniq SoundScape ISA card (MC68EC000).
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_SSCAPE")]
     Sscape,
-    /// For Digigram VX cards.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_VX")]
     Vx,
-    /// For Digigram miXart cards.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_MIXART")]
     Mixart,
-    /// For Tascam US122, US224 & US428 usb.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_USX2Y")]
     Usx2y,
-    /// For EmuX wavetable.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_EMUX_WAVETABLE")]
     EmuxWavetable,
-    /// For Bluetooth audio.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_BLUETOOTH")]
     Bluetooth,
-    /// For Tascam US122, US224 & US428 rawusb pcm.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_USX2Y_PCM")]
     Usx2yPcm,
-    /// For Digigram PCXHR.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_PCXHR")]
     Pcxhr,
-    /// For SB Extigy/Audigy2NX remote control.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_SB_RC")]
     SbRc,
-    /// For HD-audio.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_HDA")]
     Hda,
-    /// For direct access to usb stream.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_USB_STREAM")]
     UsbStream,
-    /// For TC DICE FireWire device.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_FW_DICE")]
     FwDice,
-    /// For Echo Audio Fireworks based devices.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_FW_FIREWORKS")]
     FwFireworks,
-    /// For BridgeCo BeBoB based device.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_FW_BEBOB")]
     FwBebob,
-    /// For Oxford OXFW970/971 based devices.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_FW_OXFW")]
     FwOxfw,
-    /// For Digidesign Digi 002/003 family.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_FW_DIGI00X")]
     FwDigi00x,
-    /// For TASCAM FireWire series.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_FW_TASCAM")]
     FwTascam,
-    /// For Line6 USB processors. Available in Linux kernel 4.9.0 or later.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_LINE6")]
     Line6,
-    /// For MOTU FireWire series. Available in Linux kernel 4.12.0 or later.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_FW_MOTU")]
     FwMotu,
-    /// For RME Fireface series. Available in Linux kernel 4.12.0 or later.
     #[doc(alias = "ALSAHWDEP_IFACE_TYPE_FW_FIREFACE")]
     FwFireface,
     #[doc(hidden)]
@@ -347,8 +331,20 @@ impl FromGlib<ffi::ALSAHwdepIfaceType> for IfaceType {
 }
 
 impl StaticType for IfaceType {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsahwdep_iface_type_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsahwdep_iface_type_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for IfaceType {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -356,15 +352,17 @@ impl glib::value::ValueType for IfaceType {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for IfaceType {
+unsafe impl<'a> glib::value::FromValue<'a> for IfaceType {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for IfaceType {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -373,7 +371,15 @@ impl ToValue for IfaceType {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<IfaceType> for glib::Value {
+    #[inline]
+    fn from(v: IfaceType) -> Self {
+        ToValue::to_value(&v)
     }
 }

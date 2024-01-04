@@ -13,7 +13,6 @@ mod enums;
 pub use self::enums::DeviceCommonError;
 pub use self::enums::IfaceType;
 
-/// Functions callable without instantiation.
 pub mod functions;
 
 #[doc(hidden)]

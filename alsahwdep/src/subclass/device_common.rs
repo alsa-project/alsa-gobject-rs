@@ -175,7 +175,7 @@ unsafe extern "C" fn device_common_open<T: DeviceCommonImpl>(
         Ok(()) => glib::ffi::GTRUE,
         Err(err) => {
             if !error.is_null() {
-                *error = err.into_raw();
+                *error = err.into_glib_ptr();
             }
             glib::ffi::GFALSE
         }
@@ -194,7 +194,7 @@ unsafe extern "C" fn device_common_get_protocol_version<T: DeviceCommonImpl>(
         Ok(()) => glib::ffi::GTRUE,
         Err(err) => {
             if !error.is_null() {
-                *error = err.into_raw();
+                *error = err.into_glib_ptr();
             }
             glib::ffi::GFALSE
         }
@@ -216,7 +216,7 @@ unsafe extern "C" fn device_common_get_device_info<T: DeviceCommonImpl>(
         }
         Err(err) => {
             if !error.is_null() {
-                *error = err.into_raw();
+                *error = err.into_glib_ptr();
             }
             glib::ffi::GFALSE
         }
@@ -238,7 +238,7 @@ unsafe extern "C" fn device_common_create_source<T: DeviceCommonImpl>(
         }
         Err(err) => {
             if !error.is_null() {
-                *error = err.into_raw();
+                *error = err.into_glib_ptr();
             }
             glib::ffi::GFALSE
         }
@@ -257,18 +257,22 @@ unsafe extern "C" fn device_common_handle_disconnection<T: DeviceCommonImpl>(
 #[cfg(test)]
 mod test {
     use crate::{prelude::*, subclass::prelude::*, *};
-    use glib::{
-        subclass::prelude::*, Error, Object, ObjectExt, ParamFlags, ParamSpec, ParamSpecBoolean,
-        Source, ToValue, Value,
-    };
+    use glib::{subclass::prelude::*, Error, Object, ObjectExt, Properties, Source};
+
+    const NAME: &str = "MyName";
 
     mod imp {
         use super::*;
-        use once_cell::sync::Lazy;
         use std::cell::RefCell;
 
-        #[derive(Default)]
-        pub struct DeviceCommonTestPrivate(RefCell<bool>);
+        #[derive(Properties)]
+        #[properties(wrapper_type = super::DeviceCommonTest)]
+        pub struct DeviceCommonTestPrivate {
+            #[property(get, set)]
+            name: RefCell<String>,
+            #[property(get)]
+            handled: RefCell<bool>,
+        }
 
         #[glib::object_subclass]
         impl ObjectSubclass for DeviceCommonTestPrivate {
@@ -277,36 +281,19 @@ mod test {
             type Interfaces = (DeviceCommon,);
 
             fn new() -> Self {
-                Default::default()
-            }
-        }
-
-        impl ObjectImpl for DeviceCommonTestPrivate {
-            fn properties() -> &'static [ParamSpec] {
-                static PROPERTIES: Lazy<Vec<ParamSpec>> = Lazy::new(|| {
-                    vec![ParamSpecBoolean::new(
-                        "handled",
-                        "handled",
-                        "handle event or not",
-                        false,
-                        ParamFlags::READABLE,
-                    )]
-                });
-
-                PROPERTIES.as_ref()
-            }
-
-            fn property(&self, _obj: &Self::Type, _id: usize, pspec: &ParamSpec) -> Value {
-                match pspec.name() {
-                    "handled" => self.0.borrow().to_value(),
-                    _ => unimplemented!(),
+                Self {
+                    name: Default::default(),
+                    handled: Default::default(),
                 }
             }
         }
 
+        #[glib::derived_properties]
+        impl ObjectImpl for DeviceCommonTestPrivate {}
+
         impl DeviceCommonImpl for DeviceCommonTestPrivate {
             fn open(&self, _: &Self::Type, _: &str, _: i32) -> Result<(), Error> {
-                unreachable!()
+                Ok(())
             }
 
             fn get_protocol_version(
@@ -319,8 +306,9 @@ mod test {
             }
 
             fn get_device_info(&self, _: &Self::Type) -> Result<DeviceInfo, Error> {
-                let device_info =
-                    Object::new(&[("name", &"MyName")]).expect("Failed to create DeviceCommon");
+                let device_info = Object::builder::<DeviceInfo>()
+                    .property("name", NAME)
+                    .build();
                 Ok(device_info)
             }
 
@@ -329,7 +317,7 @@ mod test {
             }
 
             fn handle_disconnection(&self, _: &Self::Type) {
-                *self.0.borrow_mut() = true;
+                *self.handled.borrow_mut() = true;
             }
         }
     }
@@ -339,25 +327,15 @@ mod test {
             @implements DeviceCommon;
     }
 
-    impl DeviceCommonTest {
-        fn new() -> Self {
-            Object::new(&[]).expect("Failed to create DeviceCommon")
-        }
-
-        fn handled(&self) -> bool {
-            self.property::<bool>("handled")
-        }
-    }
-
     #[test]
     fn device_common_iface() {
-        let device = DeviceCommonTest::new();
+        let device = Object::builder::<DeviceCommonTest>().build();
 
         // The '/dev/snd/hwC10000D10000' hardly exists in the system.
         assert!(device.open(10000, 10000, 0).is_err());
         assert_eq!(device.protocol_version(), Ok([1, 2, 3]));
         let device_info = device.device_info().unwrap();
-        assert_eq!(device_info.name().unwrap(), "MyName");
+        assert_eq!(device_info.name().unwrap(), NAME);
         assert!(device.create_source().is_err());
 
         assert_eq!(device.handled(), false);

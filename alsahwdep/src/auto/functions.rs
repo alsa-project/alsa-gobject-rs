@@ -3,10 +3,11 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+//! For functions available globally.
+
 use crate::DeviceInfo;
 use glib::translate::*;
-use std::mem;
-use std::ptr;
+use std::{mem, ptr};
 
 /// Get the list of numeric ID for available hwdep devices of sound card.
 ///
@@ -33,11 +34,11 @@ pub fn device_id_list(card_id: u32) -> Result<Vec<u32>, glib::Error> {
             entry_count.as_mut_ptr(),
             &mut error,
         );
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(FromGlibContainer::from_glib_full_num(
                 entries,
-                entry_count.assume_init() as usize,
+                entry_count.assume_init() as _,
             ))
         } else {
             Err(from_glib_full(error))
@@ -48,17 +49,16 @@ pub fn device_id_list(card_id: u32) -> Result<Vec<u32>, glib::Error> {
 /// Get the information according to given numeric IDs for card and device.
 ///
 /// The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call
-/// with `SNDRV_CTL_IOCTL_HWDEP_INFO` command for ALSA control character device.</doc>
-///
+/// with `SNDRV_CTL_IOCTL_HWDEP_INFO` command for ALSA control character device.
 /// ## `card_id`
-/// The numeric identifier of sound card.
-///
+/// The numeric value for sound card to query.
 /// ## `device_id`
-/// The numeric identifier of hwdep device in the sound card
+/// The numeric value of hwdep device to query.
 ///
 /// # Returns
 ///
 /// [`true`] when the overall operation finishes successfully, else [`false`].
+///
 /// ## `device_info`
 /// The information of the device.
 #[doc(alias = "alsahwdep_get_device_info")]
@@ -69,7 +69,7 @@ pub fn device_info(card_id: u32, device_id: u32) -> Result<DeviceInfo, glib::Err
         let mut error = ptr::null_mut();
         let is_ok =
             ffi::alsahwdep_get_device_info(card_id, device_id, &mut device_info, &mut error);
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(from_glib_full(device_info))
         } else {
@@ -99,7 +99,7 @@ pub fn hwdep_devnode(card_id: u32, device_id: u32) -> Result<glib::GString, glib
         let mut devnode = ptr::null_mut();
         let mut error = ptr::null_mut();
         let is_ok = ffi::alsahwdep_get_hwdep_devnode(card_id, device_id, &mut devnode, &mut error);
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(from_glib_full(devnode))
         } else {
@@ -129,7 +129,7 @@ pub fn hwdep_sysname(card_id: u32, device_id: u32) -> Result<glib::GString, glib
         let mut sysname = ptr::null_mut();
         let mut error = ptr::null_mut();
         let is_ok = ffi::alsahwdep_get_hwdep_sysname(card_id, device_id, &mut sysname, &mut error);
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(from_glib_full(sysname))
         } else {
