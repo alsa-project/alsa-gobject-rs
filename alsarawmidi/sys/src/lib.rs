@@ -11,7 +11,7 @@
     clippy::unreadable_literal,
     clippy::upper_case_acronyms
 )]
-#![cfg_attr(feature = "dox", feature(doc_cfg))]
+#![cfg_attr(docsrs, feature(doc_cfg))]
 
 #[allow(unused_imports)]
 use libc::{
@@ -49,7 +49,7 @@ pub struct ALSARawmidiStreamPairClass {
 
 impl ::std::fmt::Debug for ALSARawmidiStreamPairClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSARawmidiStreamPairClass @ {:p}", self))
+        f.debug_struct(&format!("ALSARawmidiStreamPairClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .field("handle_messages", &self.handle_messages)
             .field("handle_disconnection", &self.handle_disconnection)
@@ -65,7 +65,7 @@ pub struct ALSARawmidiSubstreamInfoClass {
 
 impl ::std::fmt::Debug for ALSARawmidiSubstreamInfoClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSARawmidiSubstreamInfoClass @ {:p}", self))
+        f.debug_struct(&format!("ALSARawmidiSubstreamInfoClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -79,7 +79,7 @@ pub struct ALSARawmidiSubstreamParamsClass {
 
 impl ::std::fmt::Debug for ALSARawmidiSubstreamParamsClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSARawmidiSubstreamParamsClass @ {:p}", self))
+        f.debug_struct(&format!("ALSARawmidiSubstreamParamsClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -93,7 +93,7 @@ pub struct ALSARawmidiSubstreamStatusClass {
 
 impl ::std::fmt::Debug for ALSARawmidiSubstreamStatusClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSARawmidiSubstreamStatusClass @ {:p}", self))
+        f.debug_struct(&format!("ALSARawmidiSubstreamStatusClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -108,7 +108,7 @@ pub struct ALSARawmidiStreamPair {
 
 impl ::std::fmt::Debug for ALSARawmidiStreamPair {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSARawmidiStreamPair @ {:p}", self))
+        f.debug_struct(&format!("ALSARawmidiStreamPair @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -122,7 +122,7 @@ pub struct ALSARawmidiSubstreamInfo {
 
 impl ::std::fmt::Debug for ALSARawmidiSubstreamInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSARawmidiSubstreamInfo @ {:p}", self))
+        f.debug_struct(&format!("ALSARawmidiSubstreamInfo @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -136,7 +136,7 @@ pub struct ALSARawmidiSubstreamParams {
 
 impl ::std::fmt::Debug for ALSARawmidiSubstreamParams {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSARawmidiSubstreamParams @ {:p}", self))
+        f.debug_struct(&format!("ALSARawmidiSubstreamParams @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -150,7 +150,7 @@ pub struct ALSARawmidiSubstreamStatus {
 
 impl ::std::fmt::Debug for ALSARawmidiSubstreamStatus {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSARawmidiSubstreamStatus @ {:p}", self))
+        f.debug_struct(&format!("ALSARawmidiSubstreamStatus @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
