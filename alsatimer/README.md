@@ -29,13 +29,6 @@ The alsatimer crate is released under [MIT license](https://spdx.org/licenses/MI
 The alsatimer crate depends on API crates provided by [gtk-rs project](https://gtk-rs.org/) for
 type/object system, event loop, and dispacher.
 
-## Features
-
-* dox
-
-   * Suppress probing alsatimer library. It's automatically enabled when generating documentation
-     in docs.rs.
-
 ## Repository
 
 The alsatimer crate is the part of ALSA project and maintained by

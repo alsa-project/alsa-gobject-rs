@@ -4,14 +4,12 @@
 // DO NOT EDIT
 
 use crate::DeviceInfoFlag;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
     /// A GObject-derived object to express information of user instance.
@@ -21,6 +19,38 @@ glib::wrapper! {
     /// [`UserInstanceExt::info()`][crate::prelude::UserInstanceExt::info()] returns the instance of object.
     ///
     /// The object wraps `struct snd_timer_info` in UAPI of Linux sound subsystem.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `card-id`
+    ///  The numeric ID of sound card for attached timer.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `flags`
+    ///  The flags for attached timer.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `id`
+    ///  The string ID of attached timer.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `name`
+    ///  The name of attached timer.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `resolution`
+    ///  The resolution of attached timer in nano seconds.
+    ///
+    /// Readable
     ///
     /// # Implements
     ///
@@ -37,65 +67,44 @@ impl InstanceInfo {
     pub const NONE: Option<&'static InstanceInfo> = None;
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::InstanceInfo>> Sealed for T {}
+}
+
 /// Trait containing all [`struct@InstanceInfo`] methods.
 ///
 /// # Implementors
 ///
 /// [`InstanceInfo`][struct@crate::InstanceInfo]
-pub trait InstanceInfoExt: 'static {
+pub trait InstanceInfoExt: IsA<InstanceInfo> + sealed::Sealed + 'static {
     /// The numeric ID of sound card for attached timer.
     #[doc(alias = "card-id")]
-    fn card_id(&self) -> i32;
+    fn card_id(&self) -> i32 {
+        ObjectExt::property(self.as_ref(), "card-id")
+    }
 
     /// The flags for attached timer.
-    fn flags(&self) -> DeviceInfoFlag;
+    fn flags(&self) -> DeviceInfoFlag {
+        ObjectExt::property(self.as_ref(), "flags")
+    }
 
     /// The string ID of attached timer.
-    fn id(&self) -> Option<glib::GString>;
+    fn id(&self) -> Option<glib::GString> {
+        ObjectExt::property(self.as_ref(), "id")
+    }
 
     /// The name of attached timer.
-    fn name(&self) -> Option<glib::GString>;
+    fn name(&self) -> Option<glib::GString> {
+        ObjectExt::property(self.as_ref(), "name")
+    }
 
     /// The resolution of attached timer in nano seconds.
-    fn resolution(&self) -> u64;
+    fn resolution(&self) -> u64 {
+        ObjectExt::property(self.as_ref(), "resolution")
+    }
 
     #[doc(alias = "card-id")]
-    fn connect_card_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "flags")]
-    fn connect_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "id")]
-    fn connect_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "name")]
-    fn connect_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "resolution")]
-    fn connect_resolution_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<InstanceInfo>> InstanceInfoExt for O {
-    fn card_id(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "card-id")
-    }
-
-    fn flags(&self) -> DeviceInfoFlag {
-        glib::ObjectExt::property(self.as_ref(), "flags")
-    }
-
-    fn id(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self.as_ref(), "id")
-    }
-
-    fn name(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self.as_ref(), "name")
-    }
-
-    fn resolution(&self) -> u64 {
-        glib::ObjectExt::property(self.as_ref(), "resolution")
-    }
-
     fn connect_card_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_card_id_trampoline<
             P: IsA<InstanceInfo>,
@@ -121,6 +130,7 @@ impl<O: IsA<InstanceInfo>> InstanceInfoExt for O {
         }
     }
 
+    #[doc(alias = "flags")]
     fn connect_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_flags_trampoline<P: IsA<InstanceInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSATimerInstanceInfo,
@@ -143,6 +153,7 @@ impl<O: IsA<InstanceInfo>> InstanceInfoExt for O {
         }
     }
 
+    #[doc(alias = "id")]
     fn connect_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_id_trampoline<P: IsA<InstanceInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSATimerInstanceInfo,
@@ -165,6 +176,7 @@ impl<O: IsA<InstanceInfo>> InstanceInfoExt for O {
         }
     }
 
+    #[doc(alias = "name")]
     fn connect_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_name_trampoline<P: IsA<InstanceInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSATimerInstanceInfo,
@@ -187,6 +199,7 @@ impl<O: IsA<InstanceInfo>> InstanceInfoExt for O {
         }
     }
 
+    #[doc(alias = "resolution")]
     fn connect_resolution_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_resolution_trampoline<
             P: IsA<InstanceInfo>,
@@ -212,6 +225,8 @@ impl<O: IsA<InstanceInfo>> InstanceInfoExt for O {
         }
     }
 }
+
+impl<O: IsA<InstanceInfo>> InstanceInfoExt for O {}
 
 impl fmt::Display for InstanceInfo {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

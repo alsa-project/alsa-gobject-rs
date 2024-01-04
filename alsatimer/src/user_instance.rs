@@ -2,6 +2,10 @@
 use super::*;
 
 /// Trait containing the rest of [`struct@UserInstance`] methods.
+///
+/// # Implementors
+///
+/// [`UserInstance`][struct@crate::UserInstance]
 pub trait UserInstanceExtManual {
     /// Get the version of timer protocol currently used. The version is expressed as the array with
     /// three elements; major, minor, and micro version in the order. The length of major version is
@@ -12,7 +16,8 @@ pub trait UserInstanceExtManual {
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     ///
     /// ## `proto_ver_triplet`
-    /// The version of protocol currently used.
+    /// The version of protocol currently
+    ///                     used.
     #[doc(alias = "alsatimer_user_instance_get_protocol_version")]
     #[doc(alias = "get_protocol_version")]
     fn protocol_version(&self) -> Result<&[u16; 3], glib::Error>;

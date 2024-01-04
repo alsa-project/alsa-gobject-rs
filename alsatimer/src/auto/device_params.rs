@@ -3,14 +3,12 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
     /// A GObject-derived object to express parameter of timer device.
@@ -19,6 +17,20 @@ glib::wrapper! {
     /// call of alsatimer_set_device_params() requires the instance of object.
     ///
     /// The object wraps `struct snd_timer_gparams` in UAPI of Linux sound subsystem.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `period-denominator`
+    ///  The denominator of period for timer.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `period-numerator`
+    ///  The numerator of period for timer.
+    ///
+    /// Readable | Writeable
     ///
     /// # Implements
     ///
@@ -51,52 +63,42 @@ impl Default for DeviceParams {
     }
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::DeviceParams>> Sealed for T {}
+}
+
 /// Trait containing all [`struct@DeviceParams`] methods.
 ///
 /// # Implementors
 ///
 /// [`DeviceParams`][struct@crate::DeviceParams]
-pub trait DeviceParamsExt: 'static {
+pub trait DeviceParamsExt: IsA<DeviceParams> + sealed::Sealed + 'static {
     /// The denominator of period for timer.
     #[doc(alias = "period-denominator")]
-    fn period_denominator(&self) -> u64;
-
-    /// The denominator of period for timer.
-    #[doc(alias = "period-denominator")]
-    fn set_period_denominator(&self, period_denominator: u64);
-
-    /// The numerator of period for timer.
-    #[doc(alias = "period-numerator")]
-    fn period_numerator(&self) -> u64;
-
-    /// The numerator of period for timer.
-    #[doc(alias = "period-numerator")]
-    fn set_period_numerator(&self, period_numerator: u64);
-
-    #[doc(alias = "period-denominator")]
-    fn connect_period_denominator_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "period-numerator")]
-    fn connect_period_numerator_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<DeviceParams>> DeviceParamsExt for O {
     fn period_denominator(&self) -> u64 {
-        glib::ObjectExt::property(self.as_ref(), "period-denominator")
+        ObjectExt::property(self.as_ref(), "period-denominator")
     }
 
+    /// The denominator of period for timer.
+    #[doc(alias = "period-denominator")]
     fn set_period_denominator(&self, period_denominator: u64) {
-        glib::ObjectExt::set_property(self.as_ref(), "period-denominator", &period_denominator)
+        ObjectExt::set_property(self.as_ref(), "period-denominator", period_denominator)
     }
 
+    /// The numerator of period for timer.
+    #[doc(alias = "period-numerator")]
     fn period_numerator(&self) -> u64 {
-        glib::ObjectExt::property(self.as_ref(), "period-numerator")
+        ObjectExt::property(self.as_ref(), "period-numerator")
     }
 
+    /// The numerator of period for timer.
+    #[doc(alias = "period-numerator")]
     fn set_period_numerator(&self, period_numerator: u64) {
-        glib::ObjectExt::set_property(self.as_ref(), "period-numerator", &period_numerator)
+        ObjectExt::set_property(self.as_ref(), "period-numerator", period_numerator)
     }
 
+    #[doc(alias = "period-denominator")]
     fn connect_period_denominator_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_period_denominator_trampoline<
             P: IsA<DeviceParams>,
@@ -122,6 +124,7 @@ impl<O: IsA<DeviceParams>> DeviceParamsExt for O {
         }
     }
 
+    #[doc(alias = "period-numerator")]
     fn connect_period_numerator_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_period_numerator_trampoline<
             P: IsA<DeviceParams>,
@@ -147,6 +150,8 @@ impl<O: IsA<DeviceParams>> DeviceParamsExt for O {
         }
     }
 }
+
+impl<O: IsA<DeviceParams>> DeviceParamsExt for O {}
 
 impl fmt::Display for DeviceParams {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

@@ -3,14 +3,12 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
     /// A GObject-derived object to express status of user instance.
@@ -20,6 +18,32 @@ glib::wrapper! {
     /// returns the instance of object.
     ///
     /// The object wraps `struct snd_timer_status` in UAPI of Linux sound subsystem.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `interval`
+    ///  The current interval in nano second.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `lost`
+    ///  The count of losts master ticks.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `overrun`
+    ///  The count of overrun in read queue.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `queue-size`
+    ///  The current size of queue.
+    ///
+    /// Readable
     ///
     /// # Implements
     ///
@@ -52,55 +76,39 @@ impl Default for InstanceStatus {
     }
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::InstanceStatus>> Sealed for T {}
+}
+
 /// Trait containing the part of [`struct@InstanceStatus`] methods.
 ///
 /// # Implementors
 ///
 /// [`InstanceStatus`][struct@crate::InstanceStatus]
-pub trait InstanceStatusExt: 'static {
+pub trait InstanceStatusExt: IsA<InstanceStatus> + sealed::Sealed + 'static {
     /// The current interval in nano second.
-    fn interval(&self) -> u32;
+    fn interval(&self) -> u32 {
+        ObjectExt::property(self.as_ref(), "interval")
+    }
 
     /// The count of losts master ticks.
-    fn lost(&self) -> u32;
+    fn lost(&self) -> u32 {
+        ObjectExt::property(self.as_ref(), "lost")
+    }
 
     /// The count of overrun in read queue.
-    fn overrun(&self) -> u32;
+    fn overrun(&self) -> u32 {
+        ObjectExt::property(self.as_ref(), "overrun")
+    }
 
     /// The current size of queue.
     #[doc(alias = "queue-size")]
-    fn queue_size(&self) -> u32;
+    fn queue_size(&self) -> u32 {
+        ObjectExt::property(self.as_ref(), "queue-size")
+    }
 
     #[doc(alias = "interval")]
-    fn connect_interval_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "lost")]
-    fn connect_lost_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "overrun")]
-    fn connect_overrun_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "queue-size")]
-    fn connect_queue_size_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<InstanceStatus>> InstanceStatusExt for O {
-    fn interval(&self) -> u32 {
-        glib::ObjectExt::property(self.as_ref(), "interval")
-    }
-
-    fn lost(&self) -> u32 {
-        glib::ObjectExt::property(self.as_ref(), "lost")
-    }
-
-    fn overrun(&self) -> u32 {
-        glib::ObjectExt::property(self.as_ref(), "overrun")
-    }
-
-    fn queue_size(&self) -> u32 {
-        glib::ObjectExt::property(self.as_ref(), "queue-size")
-    }
-
     fn connect_interval_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_interval_trampoline<
             P: IsA<InstanceStatus>,
@@ -126,6 +134,7 @@ impl<O: IsA<InstanceStatus>> InstanceStatusExt for O {
         }
     }
 
+    #[doc(alias = "lost")]
     fn connect_lost_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_lost_trampoline<P: IsA<InstanceStatus>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSATimerInstanceStatus,
@@ -148,6 +157,7 @@ impl<O: IsA<InstanceStatus>> InstanceStatusExt for O {
         }
     }
 
+    #[doc(alias = "overrun")]
     fn connect_overrun_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_overrun_trampoline<
             P: IsA<InstanceStatus>,
@@ -173,6 +183,7 @@ impl<O: IsA<InstanceStatus>> InstanceStatusExt for O {
         }
     }
 
+    #[doc(alias = "queue-size")]
     fn connect_queue_size_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_queue_size_trampoline<
             P: IsA<InstanceStatus>,
@@ -198,6 +209,8 @@ impl<O: IsA<InstanceStatus>> InstanceStatusExt for O {
         }
     }
 }
+
+impl<O: IsA<InstanceStatus>> InstanceStatusExt for O {}
 
 impl fmt::Display for InstanceStatus {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

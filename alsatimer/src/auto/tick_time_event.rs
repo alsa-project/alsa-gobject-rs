@@ -36,8 +36,7 @@ impl TickTimeEvent {
         unsafe {
             let mut count = mem::MaybeUninit::uninit();
             ffi::alsatimer_tick_time_event_get_count(self.to_glib_none().0, count.as_mut_ptr());
-            let count = count.assume_init();
-            count
+            count.assume_init()
         }
     }
 
@@ -57,8 +56,7 @@ impl TickTimeEvent {
                 self.to_glib_none().0,
                 resolution.as_mut_ptr(),
             );
-            let resolution = resolution.assume_init();
-            resolution
+            resolution.assume_init()
         }
     }
 }

@@ -4,7 +4,7 @@ use super::*;
 /// Get the list of existent timer device.
 ///
 /// The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call with
-/// `SNDRV_TIMER_IOCTL_NEXT_DEVICE` command for ALSA timer character device.</doc>
+/// `SNDRV_TIMER_IOCTL_NEXT_DEVICE` command for ALSA timer character device.
 ///
 /// # Returns
 ///
@@ -31,13 +31,11 @@ pub fn device_id_list() -> Result<Vec<DeviceId>, glib::Error> {
 /// Set the given parameters to the timer indicated by the identifier.
 ///
 /// The call of function executes `open(2)`, `close(2)`, and `ioctl(2)` system call with
-/// `SNDRV_TIMER_IOCTL_GPARAMS` command for ALSA timer character device.</doc>
-///
+/// `SNDRV_TIMER_IOCTL_GPARAMS` command for ALSA timer character device.
 /// ## `device_id`
 /// A [`DeviceId`][crate::DeviceId] to identify the timer device.
-///
 /// ## `device_params`
-/// The parameter of timer device.
+/// The parameters of timer device.
 ///
 /// # Returns
 ///

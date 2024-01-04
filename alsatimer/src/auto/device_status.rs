@@ -3,22 +3,40 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
     /// A GObject-derived object to express status of timer device.
     ///
     /// A [`DeviceStatus`][crate::DeviceStatus] is a GObject-derived object to express status of timer device. The
-    /// call of `get_device_status()` returns the instance of object.
+    /// call of [`device_status()`][crate::device_status()] returns the instance of object.
     ///
     /// The object wraps 'struct snd_timer_gstatus' in UAPI of Linux sound subsystem.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `resolution`
+    ///  The current resolution in nano seconds.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `resolution-denominator`
+    ///  The denominator of current resolution in seconds.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `resolution-numerator`
+    ///  The numerator of current resolution in seconds.
+    ///
+    /// Readable
     ///
     /// # Implements
     ///
@@ -51,49 +69,35 @@ impl Default for DeviceStatus {
     }
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::DeviceStatus>> Sealed for T {}
+}
+
 /// Trait containing all [`struct@DeviceStatus`] methods.
 ///
 /// # Implementors
 ///
 /// [`DeviceStatus`][struct@crate::DeviceStatus]
-pub trait DeviceStatusExt: 'static {
+pub trait DeviceStatusExt: IsA<DeviceStatus> + sealed::Sealed + 'static {
     /// The current resolution in nano seconds.
-    fn resolution(&self) -> u64;
+    fn resolution(&self) -> u64 {
+        ObjectExt::property(self.as_ref(), "resolution")
+    }
 
     /// The denominator of current resolution in seconds.
     #[doc(alias = "resolution-denominator")]
-    fn resolution_denominator(&self) -> u64;
+    fn resolution_denominator(&self) -> u64 {
+        ObjectExt::property(self.as_ref(), "resolution-denominator")
+    }
 
     /// The numerator of current resolution in seconds.
     #[doc(alias = "resolution-numerator")]
-    fn resolution_numerator(&self) -> u64;
+    fn resolution_numerator(&self) -> u64 {
+        ObjectExt::property(self.as_ref(), "resolution-numerator")
+    }
 
     #[doc(alias = "resolution")]
-    fn connect_resolution_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "resolution-denominator")]
-    fn connect_resolution_denominator_notify<F: Fn(&Self) + 'static>(
-        &self,
-        f: F,
-    ) -> SignalHandlerId;
-
-    #[doc(alias = "resolution-numerator")]
-    fn connect_resolution_numerator_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<DeviceStatus>> DeviceStatusExt for O {
-    fn resolution(&self) -> u64 {
-        glib::ObjectExt::property(self.as_ref(), "resolution")
-    }
-
-    fn resolution_denominator(&self) -> u64 {
-        glib::ObjectExt::property(self.as_ref(), "resolution-denominator")
-    }
-
-    fn resolution_numerator(&self) -> u64 {
-        glib::ObjectExt::property(self.as_ref(), "resolution-numerator")
-    }
-
     fn connect_resolution_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_resolution_trampoline<
             P: IsA<DeviceStatus>,
@@ -119,6 +123,7 @@ impl<O: IsA<DeviceStatus>> DeviceStatusExt for O {
         }
     }
 
+    #[doc(alias = "resolution-denominator")]
     fn connect_resolution_denominator_notify<F: Fn(&Self) + 'static>(
         &self,
         f: F,
@@ -147,6 +152,7 @@ impl<O: IsA<DeviceStatus>> DeviceStatusExt for O {
         }
     }
 
+    #[doc(alias = "resolution-numerator")]
     fn connect_resolution_numerator_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_resolution_numerator_trampoline<
             P: IsA<DeviceStatus>,
@@ -172,6 +178,8 @@ impl<O: IsA<DeviceStatus>> DeviceStatusExt for O {
         }
     }
 }
+
+impl<O: IsA<DeviceStatus>> DeviceStatusExt for O {}
 
 impl fmt::Display for DeviceStatus {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

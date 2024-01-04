@@ -64,8 +64,7 @@ impl DeviceId {
         unsafe {
             let mut card_id = mem::MaybeUninit::uninit();
             ffi::alsatimer_device_id_get_card_id(self.to_glib_none().0, card_id.as_mut_ptr());
-            let card_id = card_id.assume_init();
-            card_id
+            card_id.assume_init()
         }
     }
 
@@ -82,8 +81,7 @@ impl DeviceId {
         unsafe {
             let mut class = mem::MaybeUninit::uninit();
             ffi::alsatimer_device_id_get_class(self.to_glib_none().0, class.as_mut_ptr());
-            let class = class.assume_init();
-            from_glib(class)
+            from_glib(class.assume_init())
         }
     }
 
@@ -100,8 +98,7 @@ impl DeviceId {
         unsafe {
             let mut device_id = mem::MaybeUninit::uninit();
             ffi::alsatimer_device_id_get_device_id(self.to_glib_none().0, device_id.as_mut_ptr());
-            let device_id = device_id.assume_init();
-            device_id
+            device_id.assume_init()
         }
     }
 
@@ -121,8 +118,7 @@ impl DeviceId {
                 self.to_glib_none().0,
                 subdevice_id.as_mut_ptr(),
             );
-            let subdevice_id = subdevice_id.assume_init();
-            subdevice_id
+            subdevice_id.assume_init()
         }
     }
 }

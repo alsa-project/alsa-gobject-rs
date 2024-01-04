@@ -3,13 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use glib::error::ErrorDomain;
-use glib::translate::*;
-use glib::value::FromValue;
-use glib::value::ToValue;
-use glib::Quark;
-use glib::StaticType;
-use glib::Type;
+use glib::{prelude::*, translate::*};
 use std::fmt;
 
 /// A set of enumerations for the class of timer device.
@@ -17,16 +11,12 @@ use std::fmt;
 #[non_exhaustive]
 #[doc(alias = "ALSATimerClass")]
 pub enum Class {
-    /// Invalid.
     #[doc(alias = "ALSATIMER_CLASS_NONE")]
     None,
-    /// The timer device is relevant to system.
     #[doc(alias = "ALSATIMER_CLASS_GLOBAL")]
     Global,
-    /// The timer device is relevant to sound card.
     #[doc(alias = "ALSATIMER_CLASS_CARD")]
     Card,
-    /// The timer device is relevant to PCM device.
     #[doc(alias = "ALSATIMER_CLASS_PCM")]
     Pcm,
     #[doc(hidden)]
@@ -53,6 +43,7 @@ impl fmt::Display for Class {
 impl IntoGlib for Class {
     type GlibType = ffi::ALSATimerClass;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSATimerClass {
         match self {
             Self::None => ffi::ALSATIMER_CLASS_NONE,
@@ -66,6 +57,7 @@ impl IntoGlib for Class {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSATimerClass> for Class {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSATimerClass) -> Self {
         match value {
             ffi::ALSATIMER_CLASS_NONE => Self::None,
@@ -78,8 +70,20 @@ impl FromGlib<ffi::ALSATimerClass> for Class {
 }
 
 impl StaticType for Class {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsatimer_class_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsatimer_class_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for Class {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -87,15 +91,17 @@ impl glib::value::ValueType for Class {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for Class {
+unsafe impl<'a> glib::value::FromValue<'a> for Class {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for Class {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -104,8 +110,16 @@ impl ToValue for Class {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<Class> for glib::Value {
+    #[inline]
+    fn from(v: Class) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
@@ -114,10 +128,8 @@ impl ToValue for Class {
 #[non_exhaustive]
 #[doc(alias = "ALSATimerEventType")]
 pub enum EventType {
-    /// Event for tick time.
     #[doc(alias = "ALSATIMER_EVENT_TYPE_TICK_TIME")]
     TickTime,
-    /// Event for real time.
     #[doc(alias = "ALSATIMER_EVENT_TYPE_REAL_TIME")]
     RealTime,
     #[doc(hidden)]
@@ -142,6 +154,7 @@ impl fmt::Display for EventType {
 impl IntoGlib for EventType {
     type GlibType = ffi::ALSATimerEventType;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSATimerEventType {
         match self {
             Self::TickTime => ffi::ALSATIMER_EVENT_TYPE_TICK_TIME,
@@ -153,6 +166,7 @@ impl IntoGlib for EventType {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSATimerEventType> for EventType {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSATimerEventType) -> Self {
         match value {
             ffi::ALSATIMER_EVENT_TYPE_TICK_TIME => Self::TickTime,
@@ -163,8 +177,20 @@ impl FromGlib<ffi::ALSATimerEventType> for EventType {
 }
 
 impl StaticType for EventType {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsatimer_event_type_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsatimer_event_type_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for EventType {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -172,15 +198,17 @@ impl glib::value::ValueType for EventType {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for EventType {
+unsafe impl<'a> glib::value::FromValue<'a> for EventType {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for EventType {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -189,8 +217,16 @@ impl ToValue for EventType {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<EventType> for glib::Value {
+    #[inline]
+    fn from(v: EventType) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
@@ -199,49 +235,34 @@ impl ToValue for EventType {
 #[non_exhaustive]
 #[doc(alias = "ALSATimerRealTimeEventType")]
 pub enum RealTimeEventType {
-    /// The event for timer resolution.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_RESOLUTION")]
     Resolution,
-    /// The event for timer tick.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_TICK")]
     Tick,
-    /// The event for timer start.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_START")]
     Start,
-    /// The event for timer stop.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_STOP")]
     Stop,
-    /// The event for timer continue.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_CONTINUE")]
     Continue,
-    /// The event for timer pause.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_PAUSE")]
     Pause,
-    /// The event before timer start.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_EARLY")]
     Early,
-    /// The event for timer suspend.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_SUSPEND")]
     Suspend,
-    /// The event for timer resume.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_RESUME")]
     Resume,
-    /// The event for master timer start.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_MSTART")]
     Mstart,
-    /// The event for master timer stop.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_MSTOP")]
     Mstop,
-    /// The event for master timer continue.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_MCONTINUE")]
     Mcontinue,
-    /// The event for master timer pause.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_MPAUSE")]
     Mpause,
-    /// The event for master timer suspend.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_MSUSPEND")]
     Msuspend,
-    /// The event for master timer resume.
     #[doc(alias = "ALSATIMER_REAL_TIME_EVENT_TYPE_MRESUME")]
     Mresume,
     #[doc(hidden)]
@@ -326,8 +347,20 @@ impl FromGlib<ffi::ALSATimerRealTimeEventType> for RealTimeEventType {
 }
 
 impl StaticType for RealTimeEventType {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsatimer_real_time_event_type_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsatimer_real_time_event_type_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for RealTimeEventType {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -335,15 +368,17 @@ impl glib::value::ValueType for RealTimeEventType {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for RealTimeEventType {
+unsafe impl<'a> glib::value::FromValue<'a> for RealTimeEventType {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for RealTimeEventType {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -352,8 +387,16 @@ impl ToValue for RealTimeEventType {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<RealTimeEventType> for glib::Value {
+    #[inline]
+    fn from(v: RealTimeEventType) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
@@ -362,13 +405,10 @@ impl ToValue for RealTimeEventType {
 #[non_exhaustive]
 #[doc(alias = "ALSATimerSlaveClass")]
 pub enum SlaveClass {
-    /// The timer instance is not slave.
     #[doc(alias = "ALSATIMER_SLAVE_CLASS_NONE")]
     None,
-    /// The timer instance is slave to any application.
     #[doc(alias = "ALSATIMER_SLAVE_CLASS_APPLICATION")]
     Application,
-    /// The timer instance is slave to ALSA sequencer.
     #[doc(alias = "ALSATIMER_SLAVE_CLASS_SEQUENCER")]
     Sequencer,
     #[doc(hidden)]
@@ -394,6 +434,7 @@ impl fmt::Display for SlaveClass {
 impl IntoGlib for SlaveClass {
     type GlibType = ffi::ALSATimerSlaveClass;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSATimerSlaveClass {
         match self {
             Self::None => ffi::ALSATIMER_SLAVE_CLASS_NONE,
@@ -406,6 +447,7 @@ impl IntoGlib for SlaveClass {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSATimerSlaveClass> for SlaveClass {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSATimerSlaveClass) -> Self {
         match value {
             ffi::ALSATIMER_SLAVE_CLASS_NONE => Self::None,
@@ -417,8 +459,20 @@ impl FromGlib<ffi::ALSATimerSlaveClass> for SlaveClass {
 }
 
 impl StaticType for SlaveClass {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsatimer_slave_class_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsatimer_slave_class_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for SlaveClass {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -426,15 +480,17 @@ impl glib::value::ValueType for SlaveClass {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for SlaveClass {
+unsafe impl<'a> glib::value::FromValue<'a> for SlaveClass {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for SlaveClass {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -443,8 +499,16 @@ impl ToValue for SlaveClass {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<SlaveClass> for glib::Value {
+    #[inline]
+    fn from(v: SlaveClass) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
@@ -453,10 +517,8 @@ impl ToValue for SlaveClass {
 #[non_exhaustive]
 #[doc(alias = "ALSATimerSpecificGlobalDevice")]
 pub enum SpecificGlobalDevice {
-    /// The timer device is system timer wheel.
     #[doc(alias = "ALSATIMER_SPECIFIC_GLOBAL_DEVICE_SYSTEM")]
     System,
-    /// The timer device is system hrtimer.
     #[doc(alias = "ALSATIMER_SPECIFIC_GLOBAL_DEVICE_HRTIMER")]
     Hrtimer,
     #[doc(hidden)]
@@ -481,6 +543,7 @@ impl fmt::Display for SpecificGlobalDevice {
 impl IntoGlib for SpecificGlobalDevice {
     type GlibType = ffi::ALSATimerSpecificGlobalDevice;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSATimerSpecificGlobalDevice {
         match self {
             Self::System => ffi::ALSATIMER_SPECIFIC_GLOBAL_DEVICE_SYSTEM,
@@ -492,6 +555,7 @@ impl IntoGlib for SpecificGlobalDevice {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSATimerSpecificGlobalDevice> for SpecificGlobalDevice {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSATimerSpecificGlobalDevice) -> Self {
         match value {
             ffi::ALSATIMER_SPECIFIC_GLOBAL_DEVICE_SYSTEM => Self::System,
@@ -502,8 +566,20 @@ impl FromGlib<ffi::ALSATimerSpecificGlobalDevice> for SpecificGlobalDevice {
 }
 
 impl StaticType for SpecificGlobalDevice {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsatimer_specific_global_device_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsatimer_specific_global_device_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for SpecificGlobalDevice {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -511,15 +587,17 @@ impl glib::value::ValueType for SpecificGlobalDevice {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for SpecificGlobalDevice {
+unsafe impl<'a> glib::value::FromValue<'a> for SpecificGlobalDevice {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for SpecificGlobalDevice {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -528,27 +606,30 @@ impl ToValue for SpecificGlobalDevice {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
-/// A set of error code for [`glib::Error`][crate::glib::Error] with
-/// [`UserInstanceError`][crate::UserInstanceError] domain.
+impl From<SpecificGlobalDevice> for glib::Value {
+    #[inline]
+    fn from(v: SpecificGlobalDevice) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
+/// A set of error code for [`glib::Error`][crate::glib::Error] with `ALSATimer.UserInstanceError` domain.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSATimerUserInstanceError")]
 pub enum UserInstanceError {
-    /// The system call failed.
     #[doc(alias = "ALSATIMER_USER_INSTANCE_ERROR_FAILED")]
     Failed,
-    /// The timer instance is not found.
     #[doc(alias = "ALSATIMER_USER_INSTANCE_ERROR_TIMER_NOT_FOUND")]
     TimerNotFound,
-    /// The timer instance is not attached to any timer device or the other instance.
     #[doc(alias = "ALSATIMER_USER_INSTANCE_ERROR_NOT_ATTACHED")]
     NotAttached,
-    /// The timer instance is already attached to timer device or the other instance.
     #[doc(alias = "ALSATIMER_USER_INSTANCE_ERROR_ATTACHED")]
     Attached,
     #[doc(hidden)]
@@ -575,6 +656,7 @@ impl fmt::Display for UserInstanceError {
 impl IntoGlib for UserInstanceError {
     type GlibType = ffi::ALSATimerUserInstanceError;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSATimerUserInstanceError {
         match self {
             Self::Failed => ffi::ALSATIMER_USER_INSTANCE_ERROR_FAILED,
@@ -588,6 +670,7 @@ impl IntoGlib for UserInstanceError {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSATimerUserInstanceError> for UserInstanceError {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSATimerUserInstanceError) -> Self {
         match value {
             ffi::ALSATIMER_USER_INSTANCE_ERROR_FAILED => Self::Failed,
@@ -599,29 +682,42 @@ impl FromGlib<ffi::ALSATimerUserInstanceError> for UserInstanceError {
     }
 }
 
-impl ErrorDomain for UserInstanceError {
-    fn domain() -> Quark {
+impl glib::error::ErrorDomain for UserInstanceError {
+    #[inline]
+    fn domain() -> glib::Quark {
         unsafe { from_glib(ffi::alsatimer_user_instance_error_quark()) }
     }
 
+    #[inline]
     fn code(self) -> i32 {
         self.into_glib()
     }
 
+    #[inline]
+    #[allow(clippy::match_single_binding)]
     fn from(code: i32) -> Option<Self> {
-        match code {
-            ffi::ALSATIMER_USER_INSTANCE_ERROR_FAILED => Some(Self::Failed),
-            ffi::ALSATIMER_USER_INSTANCE_ERROR_TIMER_NOT_FOUND => Some(Self::TimerNotFound),
-            ffi::ALSATIMER_USER_INSTANCE_ERROR_NOT_ATTACHED => Some(Self::NotAttached),
-            ffi::ALSATIMER_USER_INSTANCE_ERROR_ATTACHED => Some(Self::Attached),
-            _ => Some(Self::Failed),
+        match unsafe { from_glib(code) } {
+            Self::__Unknown(_) => Some(Self::Failed),
+            value => Some(value),
         }
     }
 }
 
 impl StaticType for UserInstanceError {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsatimer_user_instance_error_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsatimer_user_instance_error_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for UserInstanceError {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -629,15 +725,17 @@ impl glib::value::ValueType for UserInstanceError {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for UserInstanceError {
+unsafe impl<'a> glib::value::FromValue<'a> for UserInstanceError {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for UserInstanceError {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -646,7 +744,15 @@ impl ToValue for UserInstanceError {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<UserInstanceError> for glib::Value {
+    #[inline]
+    fn from(v: UserInstanceError) -> Self {
+        ToValue::to_value(&v)
     }
 }

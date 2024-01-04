@@ -4,14 +4,21 @@ use super::*;
 
 /// Trait which should be implemented by subclass of [`UserInstance`][crate::UserInstance].
 pub trait UserInstanceImpl: ObjectImpl + UserInstanceImplExt {
+    /// Class closure for the [`handle-tick-time-event`][struct@crate::UserInstance#handle-tick-time-event] signal.
+    /// ## `event`
+    /// An object derived from [`TickTimeEvent`][crate::TickTimeEvent].
     fn handle_tick_time_event(&self, user_instance: &Self::Type, event: &TickTimeEvent) {
         self.parent_handle_tick_time_event(user_instance, event)
     }
 
+    /// Class closure for the [`handle-real-time-event`][struct@crate::UserInstance#handle-real-time-event] signal.
+    /// ## `event`
+    /// An object derived from [`RealTimeEvent`][crate::RealTimeEvent].
     fn handle_real_time_event(&self, user_instance: &Self::Type, event: &RealTimeEvent) {
         self.parent_handle_real_time_event(user_instance, event)
     }
 
+    /// Class closure for the [`handle-disconnection`][struct@crate::UserInstance#handle-disconnection] signal.
     fn handle_disconnection(&self, user_instance: &Self::Type) {
         self.parent_handle_disconnection(user_instance)
     }

@@ -37,8 +37,7 @@ impl RealTimeEvent {
         unsafe {
             let mut event = mem::MaybeUninit::uninit();
             ffi::alsatimer_real_time_event_get_event(self.to_glib_none().0, event.as_mut_ptr());
-            let event = event.assume_init();
-            from_glib(event)
+            from_glib(event.assume_init())
         }
     }
 
@@ -55,8 +54,7 @@ impl RealTimeEvent {
         unsafe {
             let mut val = mem::MaybeUninit::uninit();
             ffi::alsatimer_real_time_event_get_val(self.to_glib_none().0, val.as_mut_ptr());
-            let val = val.assume_init();
-            val
+            val.assume_init()
         }
     }
 }

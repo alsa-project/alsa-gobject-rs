@@ -3,21 +3,13 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::DeviceId;
-use crate::EventType;
-use crate::InstanceInfo;
-use crate::RealTimeEvent;
-use crate::SlaveClass;
-use crate::TickTimeEvent;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
-use std::ptr;
+use crate::{DeviceId, EventType, InstanceInfo, RealTimeEvent, SlaveClass, TickTimeEvent};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute, ptr};
 
 glib::wrapper! {
     /// A GObject-derived object to express user instance.
@@ -27,6 +19,28 @@ glib::wrapper! {
     /// [`UserInstanceExt::open()`][crate::prelude::UserInstanceExt::open()], the object maintains file descriptor till object destruction. After
     /// calling [`UserInstanceExt::attach()`][crate::prelude::UserInstanceExt::attach()] or [`UserInstanceExt::attach_as_slave()`][crate::prelude::UserInstanceExt::attach_as_slave()], the user instance
     /// is attached to any timer device or the other instance as slave.
+    ///
+    /// ## Signals
+    ///
+    ///
+    /// #### `handle-disconnection`
+    ///  Emitted when the attached timer device is not available anymore due to unbinding driver or
+    /// hot unplugging. The owner of this object should call `GObject::Object::unref()` as quickly
+    /// as possible to release ALSA timer character device.
+    ///
+    ///
+    ///
+    ///
+    /// #### `handle-real-time-event`
+    ///  Emitted when event occurs to notify real time.
+    ///
+    ///
+    ///
+    ///
+    /// #### `handle-tick-time-event`
+    ///  Emitted when event occurs to notify tick time.
+    ///
+    ///
     ///
     /// # Implements
     ///
@@ -59,12 +73,17 @@ impl Default for UserInstance {
     }
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::UserInstance>> Sealed for T {}
+}
+
 /// Trait containing the part of [`struct@UserInstance`] methods.
 ///
 /// # Implementors
 ///
 /// [`UserInstance`][struct@crate::UserInstance]
-pub trait UserInstanceExt: 'static {
+pub trait UserInstanceExt: IsA<UserInstance> + sealed::Sealed + 'static {
     /// Attach the instance to the timer device. If the given device_id is for absent timer device, the
     /// instance can be detached with error.
     ///
@@ -77,7 +96,22 @@ pub trait UserInstanceExt: 'static {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsatimer_user_instance_attach")]
-    fn attach(&self, device_id: &mut DeviceId) -> Result<(), glib::Error>;
+    fn attach(&self, device_id: &mut DeviceId) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsatimer_user_instance_attach(
+                self.as_ref().to_glib_none().0,
+                device_id.to_glib_none_mut().0,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Attach the instance as an slave to another instance indicated by a pair of slave_class and
     /// slave_id. If the slave_class is `SlaveClass:APPLICATION`, the slave_id is for the PID of
@@ -95,15 +129,31 @@ pub trait UserInstanceExt: 'static {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsatimer_user_instance_attach_as_slave")]
-    fn attach_as_slave(&self, slave_class: SlaveClass, slave_id: i32) -> Result<(), glib::Error>;
+    fn attach_as_slave(&self, slave_class: SlaveClass, slave_id: i32) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsatimer_user_instance_attach_as_slave(
+                self.as_ref().to_glib_none().0,
+                slave_class.into_glib(),
+                slave_id,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Choose the type of event data to receive.
     ///
     /// The call of function is successful just before call of [`attach()`][Self::attach()].
     /// [`EventType`][crate::EventType].TICK_TIME is used as a default if the function is not called for
     /// [`EventType`][crate::EventType].REAL_TIME explicitly. When the former is configured, event for tick time is
-    /// available for `signal::UserInstance::handle_tick_time_event`. When the latter is configured,
-    /// event for real time is available for `signal::UserInstance::handle_real_time_event`.
+    /// available for [`handle_tick_time_event`][struct@crate::UserInstance#handle_tick_time_event]. When the latter is configured,
+    /// event for real time is available for [`handle_real_time_event`][struct@crate::UserInstance#handle_real_time_event].
     ///
     /// The call of function executes `ioctl(2)` system call with `SNDRV_TIMER_IOCTL_TREAD` command
     /// for ALSA timer character device.
@@ -114,24 +164,43 @@ pub trait UserInstanceExt: 'static {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsatimer_user_instance_choose_event_type")]
-    fn choose_event_type(&self, event_type: EventType) -> Result<(), glib::Error>;
+    fn choose_event_type(&self, event_type: EventType) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsatimer_user_instance_choose_event_type(
+                self.as_ref().to_glib_none().0,
+                event_type.into_glib(),
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
-    /// Continue timer event emission paused by [`pause()`][Self::pause()].
-    ///
-    /// The call of function executes `ioctl(2)` system call with `SNDRV_TIMER_IOCTL_CONTINUE`
-    /// command for ALSA timer character device.
-    ///
-    /// # Returns
-    ///
-    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsatimer_user_instance_continue")]
     #[doc(alias = "continue")]
-    fn continue_(&self) -> Result<(), glib::Error>;
+    fn continue_(&self) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok =
+                ffi::alsatimer_user_instance_continue(self.as_ref().to_glib_none().0, &mut error);
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Allocate [`glib::Source`][crate::glib::Source] structure to handle events from ALSA timer character device. In
     /// each iteration of `GLib::MainContext`, the `read(2)` system call is executed to dispatch
-    /// timer event for either `signal::UserInstance::handle-tick-time-event` or
-    /// `signal::UserInstance::handle-real-time-event` signals, according to the result of `poll(2)`
+    /// timer event for either [`handle-tick-time-event`][struct@crate::UserInstance#handle-tick-time-event] or
+    /// [`handle-real-time-event`][struct@crate::UserInstance#handle-real-time-event] signals, according to the result of `poll(2)`
     /// system call.
     ///
     /// # Returns
@@ -141,7 +210,23 @@ pub trait UserInstanceExt: 'static {
     /// ## `gsrc`
     /// A [`glib::Source`][crate::glib::Source] to handle events from ALSA timer character device.
     #[doc(alias = "alsatimer_user_instance_create_source")]
-    fn create_source(&self) -> Result<glib::Source, glib::Error>;
+    fn create_source(&self) -> Result<glib::Source, glib::Error> {
+        unsafe {
+            let mut gsrc = ptr::null_mut();
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsatimer_user_instance_create_source(
+                self.as_ref().to_glib_none().0,
+                &mut gsrc,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(from_glib_full(gsrc))
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Return the information of device if attached to the instance.
     ///
@@ -156,7 +241,23 @@ pub trait UserInstanceExt: 'static {
     /// A [`InstanceInfo`][crate::InstanceInfo].
     #[doc(alias = "alsatimer_user_instance_get_info")]
     #[doc(alias = "get_info")]
-    fn info(&self) -> Result<InstanceInfo, glib::Error>;
+    fn info(&self) -> Result<InstanceInfo, glib::Error> {
+        unsafe {
+            let mut instance_info = ptr::null_mut();
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsatimer_user_instance_get_info(
+                self.as_ref().to_glib_none().0,
+                &mut instance_info,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(from_glib_full(instance_info))
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Open ALSA Timer character device to allocate queue.
     ///
@@ -168,7 +269,22 @@ pub trait UserInstanceExt: 'static {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsatimer_user_instance_open")]
-    fn open(&self, open_flag: i32) -> Result<(), glib::Error>;
+    fn open(&self, open_flag: i32) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsatimer_user_instance_open(
+                self.as_ref().to_glib_none().0,
+                open_flag,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Pause timer event emission.
     ///
@@ -179,7 +295,19 @@ pub trait UserInstanceExt: 'static {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsatimer_user_instance_pause")]
-    fn pause(&self) -> Result<(), glib::Error>;
+    fn pause(&self) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok =
+                ffi::alsatimer_user_instance_pause(self.as_ref().to_glib_none().0, &mut error);
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Start timer event emission.
     ///
@@ -190,7 +318,19 @@ pub trait UserInstanceExt: 'static {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsatimer_user_instance_start")]
-    fn start(&self) -> Result<(), glib::Error>;
+    fn start(&self) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok =
+                ffi::alsatimer_user_instance_start(self.as_ref().to_glib_none().0, &mut error);
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Stop timer event emission.
     ///
@@ -201,187 +341,12 @@ pub trait UserInstanceExt: 'static {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsatimer_user_instance_stop")]
-    fn stop(&self) -> Result<(), glib::Error>;
-
-    /// Emitted when the attached timer device is not available anymore due to unbinding driver or
-    /// hot unplugging. The owner of this object should call `GObject::Object::unref()` as quickly
-    /// as possible to release ALSA timer character device.
-    #[doc(alias = "handle-disconnection")]
-    fn connect_handle_disconnection<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    /// Emitted when event occurs to notify real time.
-    /// ## `event`
-    /// The instance of [`RealTimeEvent`][crate::RealTimeEvent].
-    #[doc(alias = "handle-real-time-event")]
-    fn connect_handle_real_time_event<F: Fn(&Self, &RealTimeEvent) + 'static>(
-        &self,
-        f: F,
-    ) -> SignalHandlerId;
-
-    /// Emitted when event occurs to notify tick time.
-    /// ## `event`
-    /// The instance of [`TickTimeEvent`][crate::TickTimeEvent].
-    #[doc(alias = "handle-tick-time-event")]
-    fn connect_handle_tick_time_event<F: Fn(&Self, &TickTimeEvent) + 'static>(
-        &self,
-        f: F,
-    ) -> SignalHandlerId;
-}
-
-impl<O: IsA<UserInstance>> UserInstanceExt for O {
-    fn attach(&self, device_id: &mut DeviceId) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsatimer_user_instance_attach(
-                self.as_ref().to_glib_none().0,
-                device_id.to_glib_none_mut().0,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn attach_as_slave(&self, slave_class: SlaveClass, slave_id: i32) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsatimer_user_instance_attach_as_slave(
-                self.as_ref().to_glib_none().0,
-                slave_class.into_glib(),
-                slave_id,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn choose_event_type(&self, event_type: EventType) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsatimer_user_instance_choose_event_type(
-                self.as_ref().to_glib_none().0,
-                event_type.into_glib(),
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn continue_(&self) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok =
-                ffi::alsatimer_user_instance_continue(self.as_ref().to_glib_none().0, &mut error);
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn create_source(&self) -> Result<glib::Source, glib::Error> {
-        unsafe {
-            let mut gsrc = ptr::null_mut();
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsatimer_user_instance_create_source(
-                self.as_ref().to_glib_none().0,
-                &mut gsrc,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(from_glib_full(gsrc))
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn info(&self) -> Result<InstanceInfo, glib::Error> {
-        unsafe {
-            let mut instance_info = ptr::null_mut();
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsatimer_user_instance_get_info(
-                self.as_ref().to_glib_none().0,
-                &mut instance_info,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(from_glib_full(instance_info))
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn open(&self, open_flag: i32) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsatimer_user_instance_open(
-                self.as_ref().to_glib_none().0,
-                open_flag,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn pause(&self) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok =
-                ffi::alsatimer_user_instance_pause(self.as_ref().to_glib_none().0, &mut error);
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn start(&self) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok =
-                ffi::alsatimer_user_instance_start(self.as_ref().to_glib_none().0, &mut error);
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
     fn stop(&self) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
             let is_ok =
                 ffi::alsatimer_user_instance_stop(self.as_ref().to_glib_none().0, &mut error);
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -390,6 +355,10 @@ impl<O: IsA<UserInstance>> UserInstanceExt for O {
         }
     }
 
+    /// Emitted when the attached timer device is not available anymore due to unbinding driver or
+    /// hot unplugging. The owner of this object should call `GObject::Object::unref()` as quickly
+    /// as possible to release ALSA timer character device.
+    #[doc(alias = "handle-disconnection")]
     fn connect_handle_disconnection<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn handle_disconnection_trampoline<
             P: IsA<UserInstance>,
@@ -414,6 +383,10 @@ impl<O: IsA<UserInstance>> UserInstanceExt for O {
         }
     }
 
+    /// Emitted when event occurs to notify real time.
+    /// ## `event`
+    /// The instance of [`RealTimeEvent`][crate::RealTimeEvent].
+    #[doc(alias = "handle-real-time-event")]
     fn connect_handle_real_time_event<F: Fn(&Self, &RealTimeEvent) + 'static>(
         &self,
         f: F,
@@ -445,6 +418,10 @@ impl<O: IsA<UserInstance>> UserInstanceExt for O {
         }
     }
 
+    /// Emitted when event occurs to notify tick time.
+    /// ## `event`
+    /// The instance of [`TickTimeEvent`][crate::TickTimeEvent].
+    #[doc(alias = "handle-tick-time-event")]
     fn connect_handle_tick_time_event<F: Fn(&Self, &TickTimeEvent) + 'static>(
         &self,
         f: F,
@@ -476,6 +453,8 @@ impl<O: IsA<UserInstance>> UserInstanceExt for O {
         }
     }
 }
+
+impl<O: IsA<UserInstance>> UserInstanceExt for O {}
 
 impl fmt::Display for UserInstance {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

@@ -4,14 +4,12 @@
 // DO NOT EDIT
 
 use crate::DeviceInfoFlag;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
     /// A GObject-derived object to express information of timer device.
@@ -21,6 +19,56 @@ glib::wrapper! {
     /// identifier of timer device.
     ///
     /// The object wraps `struct snd_timer_ginfo` in UAPI of Linux sound subsystem.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `card-id`
+    ///  The numeric ID of sound card.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `flags`
+    ///  The flags of timer, one of [`DeviceInfoFlag`][crate::DeviceInfoFlag].
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `id`
+    ///  The string ID of timer.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `instance-count`
+    ///  The number of instances for the timer.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `name`
+    ///  The name of timer.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `resolution`
+    ///  The resolution in nano seconds.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `resolution-max`
+    ///  The maximum resolution in nano seconds.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `resolution-min`
+    ///  The minimum resolution in nano seconds.
+    ///
+    /// Readable
     ///
     /// # Implements
     ///
@@ -37,98 +85,62 @@ impl DeviceInfo {
     pub const NONE: Option<&'static DeviceInfo> = None;
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::DeviceInfo>> Sealed for T {}
+}
+
 /// Trait containing all [`struct@DeviceInfo`] methods.
 ///
 /// # Implementors
 ///
 /// [`DeviceInfo`][struct@crate::DeviceInfo]
-pub trait DeviceInfoExt: 'static {
+pub trait DeviceInfoExt: IsA<DeviceInfo> + sealed::Sealed + 'static {
     /// The numeric ID of sound card.
     #[doc(alias = "card-id")]
-    fn card_id(&self) -> i32;
+    fn card_id(&self) -> i32 {
+        ObjectExt::property(self.as_ref(), "card-id")
+    }
 
     /// The flags of timer, one of [`DeviceInfoFlag`][crate::DeviceInfoFlag].
-    fn flags(&self) -> DeviceInfoFlag;
+    fn flags(&self) -> DeviceInfoFlag {
+        ObjectExt::property(self.as_ref(), "flags")
+    }
 
     /// The string ID of timer.
-    fn id(&self) -> Option<glib::GString>;
+    fn id(&self) -> Option<glib::GString> {
+        ObjectExt::property(self.as_ref(), "id")
+    }
 
     /// The number of instances for the timer.
     #[doc(alias = "instance-count")]
-    fn instance_count(&self) -> u32;
+    fn instance_count(&self) -> u32 {
+        ObjectExt::property(self.as_ref(), "instance-count")
+    }
 
     /// The name of timer.
-    fn name(&self) -> Option<glib::GString>;
+    fn name(&self) -> Option<glib::GString> {
+        ObjectExt::property(self.as_ref(), "name")
+    }
 
     /// The resolution in nano seconds.
-    fn resolution(&self) -> u64;
+    fn resolution(&self) -> u64 {
+        ObjectExt::property(self.as_ref(), "resolution")
+    }
 
     /// The maximum resolution in nano seconds.
     #[doc(alias = "resolution-max")]
-    fn resolution_max(&self) -> u64;
+    fn resolution_max(&self) -> u64 {
+        ObjectExt::property(self.as_ref(), "resolution-max")
+    }
 
     /// The minimum resolution in nano seconds.
     #[doc(alias = "resolution-min")]
-    fn resolution_min(&self) -> u64;
+    fn resolution_min(&self) -> u64 {
+        ObjectExt::property(self.as_ref(), "resolution-min")
+    }
 
     #[doc(alias = "card-id")]
-    fn connect_card_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "flags")]
-    fn connect_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "id")]
-    fn connect_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "instance-count")]
-    fn connect_instance_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "name")]
-    fn connect_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "resolution")]
-    fn connect_resolution_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "resolution-max")]
-    fn connect_resolution_max_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "resolution-min")]
-    fn connect_resolution_min_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<DeviceInfo>> DeviceInfoExt for O {
-    fn card_id(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "card-id")
-    }
-
-    fn flags(&self) -> DeviceInfoFlag {
-        glib::ObjectExt::property(self.as_ref(), "flags")
-    }
-
-    fn id(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self.as_ref(), "id")
-    }
-
-    fn instance_count(&self) -> u32 {
-        glib::ObjectExt::property(self.as_ref(), "instance-count")
-    }
-
-    fn name(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self.as_ref(), "name")
-    }
-
-    fn resolution(&self) -> u64 {
-        glib::ObjectExt::property(self.as_ref(), "resolution")
-    }
-
-    fn resolution_max(&self) -> u64 {
-        glib::ObjectExt::property(self.as_ref(), "resolution-max")
-    }
-
-    fn resolution_min(&self) -> u64 {
-        glib::ObjectExt::property(self.as_ref(), "resolution-min")
-    }
-
     fn connect_card_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_card_id_trampoline<P: IsA<DeviceInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSATimerDeviceInfo,
@@ -151,6 +163,7 @@ impl<O: IsA<DeviceInfo>> DeviceInfoExt for O {
         }
     }
 
+    #[doc(alias = "flags")]
     fn connect_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_flags_trampoline<P: IsA<DeviceInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSATimerDeviceInfo,
@@ -173,6 +186,7 @@ impl<O: IsA<DeviceInfo>> DeviceInfoExt for O {
         }
     }
 
+    #[doc(alias = "id")]
     fn connect_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_id_trampoline<P: IsA<DeviceInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSATimerDeviceInfo,
@@ -195,6 +209,7 @@ impl<O: IsA<DeviceInfo>> DeviceInfoExt for O {
         }
     }
 
+    #[doc(alias = "instance-count")]
     fn connect_instance_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_instance_count_trampoline<
             P: IsA<DeviceInfo>,
@@ -220,6 +235,7 @@ impl<O: IsA<DeviceInfo>> DeviceInfoExt for O {
         }
     }
 
+    #[doc(alias = "name")]
     fn connect_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_name_trampoline<P: IsA<DeviceInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSATimerDeviceInfo,
@@ -242,6 +258,7 @@ impl<O: IsA<DeviceInfo>> DeviceInfoExt for O {
         }
     }
 
+    #[doc(alias = "resolution")]
     fn connect_resolution_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_resolution_trampoline<
             P: IsA<DeviceInfo>,
@@ -267,6 +284,7 @@ impl<O: IsA<DeviceInfo>> DeviceInfoExt for O {
         }
     }
 
+    #[doc(alias = "resolution-max")]
     fn connect_resolution_max_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_resolution_max_trampoline<
             P: IsA<DeviceInfo>,
@@ -292,6 +310,7 @@ impl<O: IsA<DeviceInfo>> DeviceInfoExt for O {
         }
     }
 
+    #[doc(alias = "resolution-min")]
     fn connect_resolution_min_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_resolution_min_trampoline<
             P: IsA<DeviceInfo>,
@@ -317,6 +336,8 @@ impl<O: IsA<DeviceInfo>> DeviceInfoExt for O {
         }
     }
 }
+
+impl<O: IsA<DeviceInfo>> DeviceInfoExt for O {}
 
 impl fmt::Display for DeviceInfo {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

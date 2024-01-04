@@ -4,14 +4,12 @@
 // DO NOT EDIT
 
 use crate::InstanceParamFlag;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
     /// A GObject-derived object to express parameters of user instance.
@@ -21,6 +19,26 @@ glib::wrapper! {
     /// [`UserInstanceExtManual::set_params()`][crate::prelude::UserInstanceExtManual::set_params()] requires the instance of object.
     ///
     /// The object wraps `struct snd_timer_params` in UAPI of Linux sound subsystem.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `flags`
+    ///  The flags for user instance, as a set of [`InstanceParamFlag`][crate::InstanceParamFlag].
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `interval`
+    ///  The interval to generate event in tick count.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `queue-size`
+    ///  The size of queue.
+    ///
+    /// Readable | Writeable
     ///
     /// # Implements
     ///
@@ -53,67 +71,50 @@ impl Default for InstanceParams {
     }
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::InstanceParams>> Sealed for T {}
+}
+
 /// Trait containing the part of [`struct@InstanceParams`] methods.
 ///
 /// # Implementors
 ///
 /// [`InstanceParams`][struct@crate::InstanceParams]
-pub trait InstanceParamsExt: 'static {
+pub trait InstanceParamsExt: IsA<InstanceParams> + sealed::Sealed + 'static {
     /// The flags for user instance, as a set of [`InstanceParamFlag`][crate::InstanceParamFlag].
-    fn flags(&self) -> InstanceParamFlag;
+    fn flags(&self) -> InstanceParamFlag {
+        ObjectExt::property(self.as_ref(), "flags")
+    }
 
     /// The flags for user instance, as a set of [`InstanceParamFlag`][crate::InstanceParamFlag].
-    fn set_flags(&self, flags: InstanceParamFlag);
+    fn set_flags(&self, flags: InstanceParamFlag) {
+        ObjectExt::set_property(self.as_ref(), "flags", flags)
+    }
 
     /// The interval to generate event in tick count.
-    fn interval(&self) -> u32;
+    fn interval(&self) -> u32 {
+        ObjectExt::property(self.as_ref(), "interval")
+    }
 
     /// The interval to generate event in tick count.
-    fn set_interval(&self, interval: u32);
+    fn set_interval(&self, interval: u32) {
+        ObjectExt::set_property(self.as_ref(), "interval", interval)
+    }
 
     /// The size of queue.
     #[doc(alias = "queue-size")]
-    fn queue_size(&self) -> u32;
+    fn queue_size(&self) -> u32 {
+        ObjectExt::property(self.as_ref(), "queue-size")
+    }
 
     /// The size of queue.
     #[doc(alias = "queue-size")]
-    fn set_queue_size(&self, queue_size: u32);
+    fn set_queue_size(&self, queue_size: u32) {
+        ObjectExt::set_property(self.as_ref(), "queue-size", queue_size)
+    }
 
     #[doc(alias = "flags")]
-    fn connect_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "interval")]
-    fn connect_interval_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "queue-size")]
-    fn connect_queue_size_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<InstanceParams>> InstanceParamsExt for O {
-    fn flags(&self) -> InstanceParamFlag {
-        glib::ObjectExt::property(self.as_ref(), "flags")
-    }
-
-    fn set_flags(&self, flags: InstanceParamFlag) {
-        glib::ObjectExt::set_property(self.as_ref(), "flags", &flags)
-    }
-
-    fn interval(&self) -> u32 {
-        glib::ObjectExt::property(self.as_ref(), "interval")
-    }
-
-    fn set_interval(&self, interval: u32) {
-        glib::ObjectExt::set_property(self.as_ref(), "interval", &interval)
-    }
-
-    fn queue_size(&self) -> u32 {
-        glib::ObjectExt::property(self.as_ref(), "queue-size")
-    }
-
-    fn set_queue_size(&self, queue_size: u32) {
-        glib::ObjectExt::set_property(self.as_ref(), "queue-size", &queue_size)
-    }
-
     fn connect_flags_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_flags_trampoline<
             P: IsA<InstanceParams>,
@@ -139,6 +140,7 @@ impl<O: IsA<InstanceParams>> InstanceParamsExt for O {
         }
     }
 
+    #[doc(alias = "interval")]
     fn connect_interval_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_interval_trampoline<
             P: IsA<InstanceParams>,
@@ -164,6 +166,7 @@ impl<O: IsA<InstanceParams>> InstanceParamsExt for O {
         }
     }
 
+    #[doc(alias = "queue-size")]
     fn connect_queue_size_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_queue_size_trampoline<
             P: IsA<InstanceParams>,
@@ -189,6 +192,8 @@ impl<O: IsA<InstanceParams>> InstanceParamsExt for O {
         }
     }
 }
+
+impl<O: IsA<InstanceParams>> InstanceParamsExt for O {}
 
 impl fmt::Display for InstanceParams {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

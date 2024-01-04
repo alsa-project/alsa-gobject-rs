@@ -3,21 +3,17 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use bitflags::bitflags;
-use glib::translate::*;
-use glib::value::FromValue;
-use glib::value::ToValue;
-use glib::StaticType;
-use glib::Type;
+use glib::{bitflags::bitflags, prelude::*, translate::*};
 use std::fmt;
 
 bitflags! {
     /// A set of flags for the information of timer device.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
     #[doc(alias = "ALSATimerDeviceInfoFlag")]
     pub struct DeviceInfoFlag: u32 {
         /// The timer device is slave to any timer device.
         #[doc(alias = "ALSATIMER_DEVICE_INFO_FLAG_SLAVE")]
-        const SLAVE = ffi::ALSATIMER_DEVICE_INFO_FLAG_SLAVE as u32;
+        const SLAVE = ffi::ALSATIMER_DEVICE_INFO_FLAG_SLAVE as _;
     }
 }
 
@@ -31,6 +27,7 @@ impl fmt::Display for DeviceInfoFlag {
 impl IntoGlib for DeviceInfoFlag {
     type GlibType = ffi::ALSATimerDeviceInfoFlag;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSATimerDeviceInfoFlag {
         self.bits()
     }
@@ -38,14 +35,27 @@ impl IntoGlib for DeviceInfoFlag {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSATimerDeviceInfoFlag> for DeviceInfoFlag {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSATimerDeviceInfoFlag) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
 impl StaticType for DeviceInfoFlag {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsatimer_device_info_flag_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsatimer_device_info_flag_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for DeviceInfoFlag {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder
     }
 }
 
@@ -53,15 +63,17 @@ impl glib::value::ValueType for DeviceInfoFlag {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for DeviceInfoFlag {
+unsafe impl<'a> glib::value::FromValue<'a> for DeviceInfoFlag {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
 impl ToValue for DeviceInfoFlag {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -70,24 +82,33 @@ impl ToValue for DeviceInfoFlag {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+impl From<DeviceInfoFlag> for glib::Value {
+    #[inline]
+    fn from(v: DeviceInfoFlag) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 bitflags! {
     /// A set of flags for the parameters of user client.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
     #[doc(alias = "ALSATimerInstanceParamFlag")]
     pub struct InstanceParamFlag: u32 {
         /// The instance receives any events after configured.
         #[doc(alias = "ALSATIMER_INSTANCE_PARAM_FLAG_AUTO")]
-        const AUTO = ffi::ALSATIMER_INSTANCE_PARAM_FLAG_AUTO as u32;
+        const AUTO = ffi::ALSATIMER_INSTANCE_PARAM_FLAG_AUTO as _;
         /// The instance occupies the attached timer device.
         #[doc(alias = "ALSATIMER_INSTANCE_PARAM_FLAG_EXCLUSIVE")]
-        const EXCLUSIVE = ffi::ALSATIMER_INSTANCE_PARAM_FLAG_EXCLUSIVE as u32;
+        const EXCLUSIVE = ffi::ALSATIMER_INSTANCE_PARAM_FLAG_EXCLUSIVE as _;
         /// The instance receives early event after configured even if not started.
         #[doc(alias = "ALSATIMER_INSTANCE_PARAM_FLAG_EARLY_EVENT")]
-        const EARLY_EVENT = ffi::ALSATIMER_INSTANCE_PARAM_FLAG_EARLY_EVENT as u32;
+        const EARLY_EVENT = ffi::ALSATIMER_INSTANCE_PARAM_FLAG_EARLY_EVENT as _;
     }
 }
 
@@ -101,6 +122,7 @@ impl fmt::Display for InstanceParamFlag {
 impl IntoGlib for InstanceParamFlag {
     type GlibType = ffi::ALSATimerInstanceParamFlag;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSATimerInstanceParamFlag {
         self.bits()
     }
@@ -108,14 +130,27 @@ impl IntoGlib for InstanceParamFlag {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSATimerInstanceParamFlag> for InstanceParamFlag {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSATimerInstanceParamFlag) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
 impl StaticType for InstanceParamFlag {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsatimer_instance_param_flag_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsatimer_instance_param_flag_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for InstanceParamFlag {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder
     }
 }
 
@@ -123,15 +158,17 @@ impl glib::value::ValueType for InstanceParamFlag {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for InstanceParamFlag {
+unsafe impl<'a> glib::value::FromValue<'a> for InstanceParamFlag {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
 impl ToValue for InstanceParamFlag {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -140,7 +177,15 @@ impl ToValue for InstanceParamFlag {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<InstanceParamFlag> for glib::Value {
+    #[inline]
+    fn from(v: InstanceParamFlag) -> Self {
+        ToValue::to_value(&v)
     }
 }

@@ -45,7 +45,6 @@ mod flags;
 pub use self::flags::DeviceInfoFlag;
 pub use self::flags::InstanceParamFlag;
 
-/// Functions callable without instantiation.
 pub mod functions;
 
 #[doc(hidden)]

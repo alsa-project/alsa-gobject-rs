@@ -3,11 +3,9 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::DeviceId;
-use crate::DeviceInfo;
+use crate::{DeviceId, DeviceInfo};
 use glib::translate::*;
-use std::mem;
-use std::ptr;
+use std::{mem, ptr};
 
 /// Get the information of timer device.
 ///
@@ -33,7 +31,7 @@ pub fn device_info(device_id: &mut DeviceId) -> Result<DeviceInfo, glib::Error> 
             &mut device_info,
             &mut error,
         );
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(from_glib_full(device_info))
         } else {
@@ -41,12 +39,6 @@ pub fn device_info(device_id: &mut DeviceId) -> Result<DeviceInfo, glib::Error> 
         }
     }
 }
-
-//#[doc(alias = "alsatimer_get_device_status")]
-//#[doc(alias = "get_device_status")]
-//pub fn device_status(device_id: &mut DeviceId, device_status: impl IsA<DeviceStatus>) -> Result<(), glib::Error> {
-//    unsafe { TODO: call ffi:alsatimer_get_device_status() }
-//}
 
 /// Allocate string of devnode for ALSA Timer and return it if exists.
 ///
@@ -65,7 +57,7 @@ pub fn devnode() -> Result<glib::GString, glib::Error> {
         let mut devnode = ptr::null_mut();
         let mut error = ptr::null_mut();
         let is_ok = ffi::alsatimer_get_devnode(&mut devnode, &mut error);
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(from_glib_full(devnode))
         } else {
@@ -74,10 +66,8 @@ pub fn devnode() -> Result<glib::GString, glib::Error> {
     }
 }
 
-/// Get `clock_id` for real time.
-///
-/// The `clock_id` governs real time retrieved by both `RealTimeEvent::get_time()` and
-/// [`InstanceStatusExtManual::time()`][crate::prelude::InstanceStatusExtManual::time()].
+/// Get `clock_id` for real time. The `clock_id` governs real time retrieved by both
+/// [`RealTimeEvent::time()`][crate::RealTimeEvent::time()] and [`InstanceStatusExtManual::time()`][crate::prelude::InstanceStatusExtManual::time()].
 ///
 /// The call of function is just to refer to parameter of `snd-timer` kernel module. `0` means
 /// `CLOCK_REALTIME` is used. `1` means `CLOCK_MONOTONIC` is used.
@@ -90,7 +80,8 @@ pub fn devnode() -> Result<glib::GString, glib::Error> {
 /// [`true`] when the overall operation finishes successfully, else [`false`].
 ///
 /// ## `clock_id`
-/// The clock_id for real time. The value of `CLOCK_XXX` in UAPI of Linux kernel.
+/// The clock_id for real time. The value of `CLOCK_XXX` in UAPI of Linux
+///            kernel.
 #[doc(alias = "alsatimer_get_real_time_clock_id")]
 #[doc(alias = "get_real_time_clock_id")]
 pub fn real_time_clock_id() -> Result<i32, glib::Error> {
@@ -98,10 +89,9 @@ pub fn real_time_clock_id() -> Result<i32, glib::Error> {
         let mut clock_id = mem::MaybeUninit::uninit();
         let mut error = ptr::null_mut();
         let is_ok = ffi::alsatimer_get_real_time_clock_id(clock_id.as_mut_ptr(), &mut error);
-        let clock_id = clock_id.assume_init();
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
-            Ok(clock_id)
+            Ok(clock_id.assume_init())
         } else {
             Err(from_glib_full(error))
         }
@@ -125,7 +115,7 @@ pub fn sysname() -> Result<glib::GString, glib::Error> {
         let mut sysname = ptr::null_mut();
         let mut error = ptr::null_mut();
         let is_ok = ffi::alsatimer_get_sysname(&mut sysname, &mut error);
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(from_glib_full(sysname))
         } else {
