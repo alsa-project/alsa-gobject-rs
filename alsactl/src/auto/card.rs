@@ -3,19 +3,13 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::CardInfo;
-use crate::ElemEventMask;
-use crate::ElemId;
-use crate::ElemValue;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
-use std::ptr;
+use crate::{CardInfo, ElemEventMask, ElemId, ElemValue};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute, ptr};
 
 glib::wrapper! {
     /// An GObject-derived object to express sound card.
@@ -24,6 +18,36 @@ glib::wrapper! {
     /// instance of object to manipulate functionalities on sound card. After the call of
     /// [`CardExt::open()`][crate::prelude::CardExt::open()] for the numeric ID of sound card, the object maintains file descriptor till
     /// object destruction.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `devnode`
+    ///  The full path to special file of control character device.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `subscribed`
+    ///  Whether to be subscribed for event.
+    ///
+    /// Readable
+    ///
+    /// ## Signals
+    ///
+    ///
+    /// #### `handle-disconnection`
+    ///  Emitted when the sound card is not available anymore due to unbinding driver or hot
+    /// unplugging. The owner of this object should call `GObject::Object::unref()` as quickly
+    /// as possible to be going to release ALSA control character device.
+    ///
+    ///
+    ///
+    ///
+    /// #### `handle-elem-event`
+    ///  Emitted when event occurs for any element.
+    ///
+    ///
     ///
     /// # Implements
     ///
@@ -56,15 +80,20 @@ impl Default for Card {
     }
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::Card>> Sealed for T {}
+}
+
 /// Trait containing the part of [`struct@Card`] methods.
 ///
 /// # Implementors
 ///
 /// [`Card`][struct@crate::Card]
-pub trait CardExt: 'static {
+pub trait CardExt: IsA<Card> + sealed::Sealed + 'static {
     /// Allocate [`glib::Source`][crate::glib::Source] structure to handle events from ALSA control character device. In
     /// each iteration of `GLib::MainContext`, the `read(2)` system call is executed to dispatch
-    /// control event for `signal::Card::handle-elem-event` signal, according to the result of `poll(2)`
+    /// control event for [`handle-elem-event`][struct@crate::Card#handle-elem-event] signal, according to the result of `poll(2)`
     /// system call.
     ///
     /// # Returns
@@ -74,7 +103,23 @@ pub trait CardExt: 'static {
     /// ## `gsrc`
     /// A [`glib::Source`][crate::glib::Source] to handle events from ALSA control character device.
     #[doc(alias = "alsactl_card_create_source")]
-    fn create_source(&self) -> Result<glib::Source, glib::Error>;
+    fn create_source(&self) -> Result<glib::Source, glib::Error> {
+        unsafe {
+            let mut gsrc = ptr::null_mut();
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsactl_card_create_source(
+                self.as_ref().to_glib_none().0,
+                &mut gsrc,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(from_glib_full(gsrc))
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Get the information of sound card.
     ///
@@ -88,8 +133,23 @@ pub trait CardExt: 'static {
     /// ## `card_info`
     /// A [`Card`][crate::Card]Info for the sound card.
     #[doc(alias = "alsactl_card_get_info")]
-    #[doc(alias = "get_info")]
-    fn info(&self) -> Result<CardInfo, glib::Error>;
+    fn info(&self) -> Result<CardInfo, glib::Error> {
+        unsafe {
+            let mut card_info = ptr::null_mut();
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsactl_card_get_info(
+                self.as_ref().to_glib_none().0,
+                &mut card_info,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(from_glib_full(card_info))
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Lock/Unlock indicated element not to be written by the other processes.
     ///
@@ -104,7 +164,23 @@ pub trait CardExt: 'static {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsactl_card_lock_elem")]
-    fn lock_elem(&self, elem_id: &ElemId, lock: bool) -> Result<(), glib::Error>;
+    fn lock_elem(&self, elem_id: &ElemId, lock: bool) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsactl_card_lock_elem(
+                self.as_ref().to_glib_none().0,
+                elem_id.to_glib_none().0,
+                lock.into_glib(),
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Open ALSA control character device for the sound card.
     ///
@@ -118,7 +194,23 @@ pub trait CardExt: 'static {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsactl_card_open")]
-    fn open(&self, card_id: u32, open_flag: i32) -> Result<(), glib::Error>;
+    fn open(&self, card_id: u32, open_flag: i32) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsactl_card_open(
+                self.as_ref().to_glib_none().0,
+                card_id,
+                open_flag,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Remove user-defined elements pointed by the identifier.
     ///
@@ -131,7 +223,22 @@ pub trait CardExt: 'static {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsactl_card_remove_elems")]
-    fn remove_elems(&self, elem_id: &ElemId) -> Result<(), glib::Error>;
+    fn remove_elems(&self, elem_id: &ElemId) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsactl_card_remove_elems(
+                self.as_ref().to_glib_none().0,
+                elem_id.to_glib_none().0,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Write the given array of bytes as Type/Length/Value data for element pointed by the identifier.
     ///
@@ -146,7 +253,25 @@ pub trait CardExt: 'static {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsactl_card_write_elem_tlv")]
-    fn write_elem_tlv(&self, elem_id: &ElemId, container: &[u32]) -> Result<(), glib::Error>;
+    fn write_elem_tlv(&self, elem_id: &ElemId, container: &[u32]) -> Result<(), glib::Error> {
+        let container_count = container.len() as _;
+        unsafe {
+            let mut error = ptr::null_mut();
+            let is_ok = ffi::alsactl_card_write_elem_tlv(
+                self.as_ref().to_glib_none().0,
+                elem_id.to_glib_none().0,
+                container.to_glib_none().0,
+                container_count,
+                &mut error,
+            );
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            }
+        }
+    }
 
     /// Write given value to element indicated by the given identifier.
     ///
@@ -165,152 +290,6 @@ pub trait CardExt: 'static {
         &self,
         elem_id: &ElemId,
         elem_value: &impl IsA<ElemValue>,
-    ) -> Result<(), glib::Error>;
-
-    /// The full path to special file of control character device.
-    fn devnode(&self) -> Option<glib::GString>;
-
-    /// Whether to be subscribed for event.
-    fn is_subscribed(&self) -> bool;
-
-    /// Emitted when the sound card is not available anymore due to unbinding driver or hot
-    /// unplugging. The owner of this object should call `GObject::Object::unref()` as quickly
-    /// as possible to be going to release ALSA control character device.
-    #[doc(alias = "handle-disconnection")]
-    fn connect_handle_disconnection<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    /// Emitted when event occurs for any element.
-    /// ## `elem_id`
-    /// A [`ElemId`][crate::ElemId].
-    /// ## `events`
-    /// A set of [`ElemEventMask`][crate::ElemEventMask].
-    #[doc(alias = "handle-elem-event")]
-    fn connect_handle_elem_event<F: Fn(&Self, &ElemId, ElemEventMask) + 'static>(
-        &self,
-        f: F,
-    ) -> SignalHandlerId;
-
-    #[doc(alias = "devnode")]
-    fn connect_devnode_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "subscribed")]
-    fn connect_subscribed_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<Card>> CardExt for O {
-    fn create_source(&self) -> Result<glib::Source, glib::Error> {
-        unsafe {
-            let mut gsrc = ptr::null_mut();
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsactl_card_create_source(
-                self.as_ref().to_glib_none().0,
-                &mut gsrc,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(from_glib_full(gsrc))
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn info(&self) -> Result<CardInfo, glib::Error> {
-        unsafe {
-            let mut card_info = ptr::null_mut();
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsactl_card_get_info(
-                self.as_ref().to_glib_none().0,
-                &mut card_info,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(from_glib_full(card_info))
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn lock_elem(&self, elem_id: &ElemId, lock: bool) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsactl_card_lock_elem(
-                self.as_ref().to_glib_none().0,
-                elem_id.to_glib_none().0,
-                lock.into_glib(),
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn open(&self, card_id: u32, open_flag: i32) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsactl_card_open(
-                self.as_ref().to_glib_none().0,
-                card_id,
-                open_flag,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn remove_elems(&self, elem_id: &ElemId) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsactl_card_remove_elems(
-                self.as_ref().to_glib_none().0,
-                elem_id.to_glib_none().0,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn write_elem_tlv(&self, elem_id: &ElemId, container: &[u32]) -> Result<(), glib::Error> {
-        let container_count = container.len() as usize;
-        unsafe {
-            let mut error = ptr::null_mut();
-            let is_ok = ffi::alsactl_card_write_elem_tlv(
-                self.as_ref().to_glib_none().0,
-                elem_id.to_glib_none().0,
-                container.to_glib_none().0,
-                container_count,
-                &mut error,
-            );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
-            if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            }
-        }
-    }
-
-    fn write_elem_value(
-        &self,
-        elem_id: &ElemId,
-        elem_value: &impl IsA<ElemValue>,
     ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();
@@ -320,7 +299,7 @@ impl<O: IsA<Card>> CardExt for O {
                 elem_value.as_ref().to_glib_none().0,
                 &mut error,
             );
-            assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+            debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
             if error.is_null() {
                 Ok(())
             } else {
@@ -329,14 +308,20 @@ impl<O: IsA<Card>> CardExt for O {
         }
     }
 
+    /// The full path to special file of control character device.
     fn devnode(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self.as_ref(), "devnode")
+        ObjectExt::property(self.as_ref(), "devnode")
     }
 
+    /// Whether to be subscribed for event.
     fn is_subscribed(&self) -> bool {
-        glib::ObjectExt::property(self.as_ref(), "subscribed")
+        ObjectExt::property(self.as_ref(), "subscribed")
     }
 
+    /// Emitted when the sound card is not available anymore due to unbinding driver or hot
+    /// unplugging. The owner of this object should call `GObject::Object::unref()` as quickly
+    /// as possible to be going to release ALSA control character device.
+    #[doc(alias = "handle-disconnection")]
     fn connect_handle_disconnection<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn handle_disconnection_trampoline<P: IsA<Card>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSACtlCard,
@@ -358,6 +343,12 @@ impl<O: IsA<Card>> CardExt for O {
         }
     }
 
+    /// Emitted when event occurs for any element.
+    /// ## `elem_id`
+    /// A [`ElemId`][crate::ElemId].
+    /// ## `events`
+    /// A set of [`ElemEventMask`][crate::ElemEventMask].
+    #[doc(alias = "handle-elem-event")]
     fn connect_handle_elem_event<F: Fn(&Self, &ElemId, ElemEventMask) + 'static>(
         &self,
         f: F,
@@ -391,6 +382,7 @@ impl<O: IsA<Card>> CardExt for O {
         }
     }
 
+    #[doc(alias = "devnode")]
     fn connect_devnode_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_devnode_trampoline<P: IsA<Card>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSACtlCard,
@@ -413,6 +405,7 @@ impl<O: IsA<Card>> CardExt for O {
         }
     }
 
+    #[doc(alias = "subscribed")]
     fn connect_subscribed_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_subscribed_trampoline<P: IsA<Card>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSACtlCard,
@@ -435,6 +428,8 @@ impl<O: IsA<Card>> CardExt for O {
         }
     }
 }
+
+impl<O: IsA<Card>> CardExt for O {}
 
 impl fmt::Display for Card {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

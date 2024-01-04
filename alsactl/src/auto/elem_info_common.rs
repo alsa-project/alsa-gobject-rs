@@ -3,22 +3,44 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::ElemAccessFlag;
-use crate::ElemId;
-use crate::ElemType;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use crate::{ElemAccessFlag, ElemId, ElemType};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
     /// An interface to express common features of element information.
     ///
     /// A [`ElemInfoCommon`][crate::ElemInfoCommon] should be implemented by any type of element information.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `access`
+    ///  The access permission for the element with [`ElemAccessFlag`][crate::ElemAccessFlag].
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `elem-id`
+    ///  The identifier of element.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `elem-type`
+    ///  The type of element, one of [`ElemType`][crate::ElemType].
+    ///
+    /// Readable | Writeable | Construct Only
+    ///
+    ///
+    /// #### `owner`
+    ///  The value of PID for process to own the element.
+    ///
+    /// Readable
     ///
     /// # Implements
     ///
@@ -35,60 +57,45 @@ impl ElemInfoCommon {
     pub const NONE: Option<&'static ElemInfoCommon> = None;
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::ElemInfoCommon>> Sealed for T {}
+}
+
 /// Trait containing all [`struct@ElemInfoCommon`] methods.
 ///
 /// # Implementors
 ///
 /// [`ElemInfoBoolean`][struct@crate::ElemInfoBoolean], [`ElemInfoBytes`][struct@crate::ElemInfoBytes], [`ElemInfoCommon`][struct@crate::ElemInfoCommon], [`ElemInfoEnumerated`][struct@crate::ElemInfoEnumerated], [`ElemInfoIec60958`][struct@crate::ElemInfoIec60958], [`ElemInfoInteger64`][struct@crate::ElemInfoInteger64], [`ElemInfoInteger`][struct@crate::ElemInfoInteger], [`ElemInfoSingleArray`][struct@crate::ElemInfoSingleArray]
-pub trait ElemInfoCommonExt: 'static {
+pub trait ElemInfoCommonExt: IsA<ElemInfoCommon> + sealed::Sealed + 'static {
     /// The access permission for the element with [`ElemAccessFlag`][crate::ElemAccessFlag].
-    fn access(&self) -> ElemAccessFlag;
+    fn access(&self) -> ElemAccessFlag {
+        ObjectExt::property(self.as_ref(), "access")
+    }
 
     /// The access permission for the element with [`ElemAccessFlag`][crate::ElemAccessFlag].
-    fn set_access(&self, access: ElemAccessFlag);
+    fn set_access(&self, access: ElemAccessFlag) {
+        ObjectExt::set_property(self.as_ref(), "access", access)
+    }
 
     /// The identifier of element.
     #[doc(alias = "elem-id")]
-    fn elem_id(&self) -> Option<ElemId>;
+    fn elem_id(&self) -> Option<ElemId> {
+        ObjectExt::property(self.as_ref(), "elem-id")
+    }
 
     /// The type of element, one of [`ElemType`][crate::ElemType].
     #[doc(alias = "elem-type")]
-    fn elem_type(&self) -> ElemType;
+    fn elem_type(&self) -> ElemType {
+        ObjectExt::property(self.as_ref(), "elem-type")
+    }
 
     /// The value of PID for process to own the element.
-    fn owner(&self) -> i32;
+    fn owner(&self) -> i32 {
+        ObjectExt::property(self.as_ref(), "owner")
+    }
 
     #[doc(alias = "access")]
-    fn connect_access_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "elem-id")]
-    fn connect_elem_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "owner")]
-    fn connect_owner_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<ElemInfoCommon>> ElemInfoCommonExt for O {
-    fn access(&self) -> ElemAccessFlag {
-        glib::ObjectExt::property(self.as_ref(), "access")
-    }
-
-    fn set_access(&self, access: ElemAccessFlag) {
-        glib::ObjectExt::set_property(self.as_ref(), "access", &access)
-    }
-
-    fn elem_id(&self) -> Option<ElemId> {
-        glib::ObjectExt::property(self.as_ref(), "elem-id")
-    }
-
-    fn elem_type(&self) -> ElemType {
-        glib::ObjectExt::property(self.as_ref(), "elem-type")
-    }
-
-    fn owner(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "owner")
-    }
-
     fn connect_access_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_access_trampoline<
             P: IsA<ElemInfoCommon>,
@@ -114,6 +121,7 @@ impl<O: IsA<ElemInfoCommon>> ElemInfoCommonExt for O {
         }
     }
 
+    #[doc(alias = "elem-id")]
     fn connect_elem_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_elem_id_trampoline<
             P: IsA<ElemInfoCommon>,
@@ -139,6 +147,7 @@ impl<O: IsA<ElemInfoCommon>> ElemInfoCommonExt for O {
         }
     }
 
+    #[doc(alias = "owner")]
     fn connect_owner_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_owner_trampoline<
             P: IsA<ElemInfoCommon>,
@@ -164,6 +173,8 @@ impl<O: IsA<ElemInfoCommon>> ElemInfoCommonExt for O {
         }
     }
 }
+
+impl<O: IsA<ElemInfoCommon>> ElemInfoCommonExt for O {}
 
 impl fmt::Display for ElemInfoCommon {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

@@ -26,19 +26,19 @@ pub(crate) use glib;
 use crate::prelude::*;
 use glib::{object::IsA, translate::*, Cast};
 
-/// A set of enumerations for information of element.
+/// A set of information about control elements.
 pub enum ElemInfo {
-    /// For element with IEC 60958 data.
+    /// IEC 60958.
     Iec60958(ElemInfoIec60958),
-    /// For element with boolean values.
+    /// Array of boolean.
     Boolean(ElemInfoBoolean),
-    /// For element with unsigned 8 bit integer values.
+    /// Array of u8.
     Bytes(ElemInfoBytes),
-    /// For element with signed 32 bit integer values.
+    /// Array of u32.
     Integer(ElemInfoInteger),
-    /// For element with signed 64 bit integer values.
+    /// Array of u64.
     Integer64(ElemInfoInteger64),
-    /// For element with enumerated index values.
+    /// Array of enumerated items.
     Enumerated(ElemInfoEnumerated),
 }
 

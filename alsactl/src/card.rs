@@ -2,6 +2,10 @@
 use super::*;
 
 /// Trait containing the rest of [`struct@Card`] methods.
+///
+/// # Implementors
+///
+/// [`Card`][struct@crate::Card]
 pub trait CardExtManual {
     /// Get the version of control protocol currently used. The version is expressed as the array with
     /// three elements; major, minor, and micro version in the order. The length of major version is
@@ -12,12 +16,13 @@ pub trait CardExtManual {
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     ///
     /// ## `proto_ver_triplet`
-    /// The version of protocol currently used.
+    /// The version of protocol currently
+    ///                     used.
     #[doc(alias = "alsactl_card_get_protocol_version")]
     fn protocol_version(&self) -> Result<&[u16; 3], glib::Error>;
 
-    /// Generate a list of [`ElemId`][crate::ElemId] for ALSA control character device associated
-    /// to the sound card.
+    /// Generate a list of [`ElemId`][crate::ElemId] for ALSA control character device associated to the sound
+    /// card.
     ///
     /// The call of function executes several `ioctl(2)` system call with `SNDRV_CTL_IOCTL_ELEM_LIST`
     /// command for ALSA control character device.
@@ -55,7 +60,8 @@ pub trait CardExtManual {
     /// ## `elem_id`
     /// A [`ElemId`][crate::ElemId].
     /// ## `container`
-    /// The array with qudalets for Type-Length-Value data.
+    /// The array with qudalets for Type-Length-Value
+    ///             data.
     ///
     /// # Returns
     ///
@@ -71,7 +77,8 @@ pub trait CardExtManual {
     /// ## `elem_id`
     /// A [`ElemId`][crate::ElemId].
     /// ## `container`
-    /// The array with qudalets for Type-Length-Value data.
+    /// The array with qudalets for Type-Length-Value
+    ///             data.
     ///
     /// # Returns
     ///

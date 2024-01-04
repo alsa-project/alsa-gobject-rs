@@ -5,8 +5,7 @@
 
 use crate::ElemIfaceType;
 use glib::translate::*;
-use std::mem;
-use std::ptr;
+use std::{mem, ptr};
 
 glib::wrapper! {
     /// A boxed object to express the identifier of element.
@@ -97,8 +96,7 @@ impl ElemId {
         unsafe {
             let mut device_id = mem::MaybeUninit::uninit();
             ffi::alsactl_elem_id_get_device_id(self.to_glib_none().0, device_id.as_mut_ptr());
-            let device_id = device_id.assume_init();
-            device_id
+            device_id.assume_init()
         }
     }
 
@@ -115,8 +113,7 @@ impl ElemId {
         unsafe {
             let mut iface = mem::MaybeUninit::uninit();
             ffi::alsactl_elem_id_get_iface(self.to_glib_none().0, iface.as_mut_ptr());
-            let iface = iface.assume_init();
-            from_glib(iface)
+            from_glib(iface.assume_init())
         }
     }
 
@@ -133,8 +130,7 @@ impl ElemId {
         unsafe {
             let mut index = mem::MaybeUninit::uninit();
             ffi::alsactl_elem_id_get_index(self.to_glib_none().0, index.as_mut_ptr());
-            let index = index.assume_init();
-            index
+            index.assume_init()
         }
     }
 
@@ -168,8 +164,7 @@ impl ElemId {
         unsafe {
             let mut numid = mem::MaybeUninit::uninit();
             ffi::alsactl_elem_id_get_numid(self.to_glib_none().0, numid.as_mut_ptr());
-            let numid = numid.assume_init();
-            numid
+            numid.assume_init()
         }
     }
 
@@ -186,8 +181,7 @@ impl ElemId {
         unsafe {
             let mut subdevice_id = mem::MaybeUninit::uninit();
             ffi::alsactl_elem_id_get_subdevice_id(self.to_glib_none().0, subdevice_id.as_mut_ptr());
-            let subdevice_id = subdevice_id.assume_init();
-            subdevice_id
+            subdevice_id.assume_init()
         }
     }
 }

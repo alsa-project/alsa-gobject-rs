@@ -4,8 +4,7 @@
 // DO NOT EDIT
 
 use glib::translate::*;
-use std::mem;
-use std::ptr;
+use std::{mem, ptr};
 
 /// Get the list of numeric ID for available sound cards.
 ///
@@ -26,11 +25,11 @@ pub fn card_id_list() -> Result<Vec<u32>, glib::Error> {
         let mut error = ptr::null_mut();
         let is_ok =
             ffi::alsactl_get_card_id_list(&mut entries, entry_count.as_mut_ptr(), &mut error);
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(FromGlibContainer::from_glib_full_num(
                 entries,
-                entry_count.assume_init() as usize,
+                entry_count.assume_init() as _,
             ))
         } else {
             Err(from_glib_full(error))
@@ -57,7 +56,7 @@ pub fn card_sysname(card_id: u32) -> Result<glib::GString, glib::Error> {
         let mut sysname = ptr::null_mut();
         let mut error = ptr::null_mut();
         let is_ok = ffi::alsactl_get_card_sysname(card_id, &mut sysname, &mut error);
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(from_glib_full(sysname))
         } else {
@@ -85,7 +84,7 @@ pub fn control_devnode(card_id: u32) -> Result<glib::GString, glib::Error> {
         let mut devnode = ptr::null_mut();
         let mut error = ptr::null_mut();
         let is_ok = ffi::alsactl_get_control_devnode(card_id, &mut devnode, &mut error);
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(from_glib_full(devnode))
         } else {
@@ -113,7 +112,7 @@ pub fn control_sysname(card_id: u32) -> Result<glib::GString, glib::Error> {
         let mut sysname = ptr::null_mut();
         let mut error = ptr::null_mut();
         let is_ok = ffi::alsactl_get_control_sysname(card_id, &mut sysname, &mut error);
-        assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+        debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
             Ok(from_glib_full(sysname))
         } else {
@@ -123,6 +122,6 @@ pub fn control_sysname(card_id: u32) -> Result<glib::GString, glib::Error> {
 }
 
 //#[doc(alias = "alsactl_sigs_marshal_VOID__BOXED_FLAGS")]
-//pub fn sigs_marshal_VOID__BOXED_FLAGS(closure: /*Ignored*/&glib::Closure, return_value: /*Ignored*/&mut glib::Value, n_param_values: u32, param_values: /*Ignored*/&glib::Value, invocation_hint: /*Unimplemented*/Option<Fundamental: Pointer>, marshal_data: /*Unimplemented*/Option<Fundamental: Pointer>) {
+//pub fn sigs_marshal_VOID__BOXED_FLAGS(closure: /*Ignored*/&glib::Closure, return_value: /*Ignored*/&mut glib::Value, n_param_values: u32, param_values: /*Ignored*/&glib::Value, invocation_hint: /*Unimplemented*/Option<Basic: Pointer>, marshal_data: /*Unimplemented*/Option<Basic: Pointer>) {
 //    unsafe { TODO: call ffi:alsactl_sigs_marshal_VOID__BOXED_FLAGS() }
 //}

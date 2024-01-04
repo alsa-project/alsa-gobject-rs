@@ -3,51 +3,47 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use bitflags::bitflags;
-use glib::translate::*;
-use glib::value::FromValue;
-use glib::value::ToValue;
-use glib::StaticType;
-use glib::Type;
+use glib::{bitflags::bitflags, prelude::*, translate::*};
 use std::fmt;
 
 bitflags! {
     /// A set of flags for access information of the element.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
     #[doc(alias = "ALSACtlElemAccessFlag")]
     pub struct ElemAccessFlag: u32 {
         /// The element supports operation to get its values.
         #[doc(alias = "ALSACTL_ELEM_ACCESS_FLAG_READ")]
-        const READ = ffi::ALSACTL_ELEM_ACCESS_FLAG_READ as u32;
+        const READ = ffi::ALSACTL_ELEM_ACCESS_FLAG_READ as _;
         /// The element supports operation to change its values.
         #[doc(alias = "ALSACTL_ELEM_ACCESS_FLAG_WRITE")]
-        const WRITE = ffi::ALSACTL_ELEM_ACCESS_FLAG_WRITE as u32;
+        const WRITE = ffi::ALSACTL_ELEM_ACCESS_FLAG_WRITE as _;
         /// The state of element is mutable independent of operating system.
         #[doc(alias = "ALSACTL_ELEM_ACCESS_FLAG_VOLATILE")]
-        const VOLATILE = ffi::ALSACTL_ELEM_ACCESS_FLAG_VOLATILE as u32;
+        const VOLATILE = ffi::ALSACTL_ELEM_ACCESS_FLAG_VOLATILE as _;
         /// The element supports operation to get Type-Length-Value data.
         #[doc(alias = "ALSACTL_ELEM_ACCESS_FLAG_TLV_READ")]
-        const TLV_READ = ffi::ALSACTL_ELEM_ACCESS_FLAG_TLV_READ as u32;
+        const TLV_READ = ffi::ALSACTL_ELEM_ACCESS_FLAG_TLV_READ as _;
         /// The element supports operation to change Type-Length-Value data.
         #[doc(alias = "ALSACTL_ELEM_ACCESS_FLAG_TLV_WRITE")]
-        const TLV_WRITE = ffi::ALSACTL_ELEM_ACCESS_FLAG_TLV_WRITE as u32;
+        const TLV_WRITE = ffi::ALSACTL_ELEM_ACCESS_FLAG_TLV_WRITE as _;
         /// The element supports operation to use Type-Length-Value data as any command.
         #[doc(alias = "ALSACTL_ELEM_ACCESS_FLAG_TLV_COMMAND")]
-        const TLV_COMMAND = ffi::ALSACTL_ELEM_ACCESS_FLAG_TLV_COMMAND as u32;
+        const TLV_COMMAND = ffi::ALSACTL_ELEM_ACCESS_FLAG_TLV_COMMAND as _;
         /// The element is not activated yet.
         #[doc(alias = "ALSACTL_ELEM_ACCESS_FLAG_INACTIVE")]
-        const INACTIVE = ffi::ALSACTL_ELEM_ACCESS_FLAG_INACTIVE as u32;
+        const INACTIVE = ffi::ALSACTL_ELEM_ACCESS_FLAG_INACTIVE as _;
         /// The element is under locked state from any write operation.
         #[doc(alias = "ALSACTL_ELEM_ACCESS_FLAG_LOCK")]
-        const LOCK = ffi::ALSACTL_ELEM_ACCESS_FLAG_LOCK as u32;
+        const LOCK = ffi::ALSACTL_ELEM_ACCESS_FLAG_LOCK as _;
         /// The element is owned by the process.
         #[doc(alias = "ALSACTL_ELEM_ACCESS_FLAG_OWNER")]
-        const OWNER = ffi::ALSACTL_ELEM_ACCESS_FLAG_OWNER as u32;
+        const OWNER = ffi::ALSACTL_ELEM_ACCESS_FLAG_OWNER as _;
         /// The element supports specific operation to process Type-Length-Value data.
         #[doc(alias = "ALSACTL_ELEM_ACCESS_FLAG_TLV_CALLBACK")]
-        const TLV_CALLBACK = ffi::ALSACTL_ELEM_ACCESS_FLAG_TLV_CALLBACK as u32;
+        const TLV_CALLBACK = ffi::ALSACTL_ELEM_ACCESS_FLAG_TLV_CALLBACK as _;
         /// The element is maintained by any user application, instead of kernel driver.
         #[doc(alias = "ALSACTL_ELEM_ACCESS_FLAG_USER")]
-        const USER = ffi::ALSACTL_ELEM_ACCESS_FLAG_USER as u32;
+        const USER = ffi::ALSACTL_ELEM_ACCESS_FLAG_USER as _;
     }
 }
 
@@ -61,6 +57,7 @@ impl fmt::Display for ElemAccessFlag {
 impl IntoGlib for ElemAccessFlag {
     type GlibType = ffi::ALSACtlElemAccessFlag;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSACtlElemAccessFlag {
         self.bits()
     }
@@ -68,14 +65,27 @@ impl IntoGlib for ElemAccessFlag {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSACtlElemAccessFlag> for ElemAccessFlag {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSACtlElemAccessFlag) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
 impl StaticType for ElemAccessFlag {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsactl_elem_access_flag_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsactl_elem_access_flag_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for ElemAccessFlag {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder
     }
 }
 
@@ -83,15 +93,17 @@ impl glib::value::ValueType for ElemAccessFlag {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for ElemAccessFlag {
+unsafe impl<'a> glib::value::FromValue<'a> for ElemAccessFlag {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
 impl ToValue for ElemAccessFlag {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -100,30 +112,39 @@ impl ToValue for ElemAccessFlag {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
 }
 
+impl From<ElemAccessFlag> for glib::Value {
+    #[inline]
+    fn from(v: ElemAccessFlag) -> Self {
+        ToValue::to_value(&v)
+    }
+}
+
 bitflags! {
     /// A set of flags for the content of event for the element.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
     #[doc(alias = "ALSACtlElemEventMask")]
     pub struct ElemEventMask: u32 {
         /// The event notifies any change of value for the element.
         #[doc(alias = "ALSACTL_ELEM_EVENT_MASK_VALUE")]
-        const VALUE = ffi::ALSACTL_ELEM_EVENT_MASK_VALUE as u32;
+        const VALUE = ffi::ALSACTL_ELEM_EVENT_MASK_VALUE as _;
         /// The event notifies any change of information for the element.
         #[doc(alias = "ALSACTL_ELEM_EVENT_MASK_INFO")]
-        const INFO = ffi::ALSACTL_ELEM_EVENT_MASK_INFO as u32;
+        const INFO = ffi::ALSACTL_ELEM_EVENT_MASK_INFO as _;
         /// The element notifies addition of the element.
         #[doc(alias = "ALSACTL_ELEM_EVENT_MASK_ADD")]
-        const ADD = ffi::ALSACTL_ELEM_EVENT_MASK_ADD as u32;
+        const ADD = ffi::ALSACTL_ELEM_EVENT_MASK_ADD as _;
         /// The element notifies any change of Type-Length-Value data for the element.
         #[doc(alias = "ALSACTL_ELEM_EVENT_MASK_TLV")]
-        const TLV = ffi::ALSACTL_ELEM_EVENT_MASK_TLV as u32;
+        const TLV = ffi::ALSACTL_ELEM_EVENT_MASK_TLV as _;
         /// The element notifies removal of the element.
         #[doc(alias = "ALSACTL_ELEM_EVENT_MASK_REMOVE")]
-        const REMOVE = ffi::ALSACTL_ELEM_EVENT_MASK_REMOVE as u32;
+        const REMOVE = ffi::ALSACTL_ELEM_EVENT_MASK_REMOVE as _;
     }
 }
 
@@ -137,6 +158,7 @@ impl fmt::Display for ElemEventMask {
 impl IntoGlib for ElemEventMask {
     type GlibType = ffi::ALSACtlElemEventMask;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSACtlElemEventMask {
         self.bits()
     }
@@ -144,14 +166,27 @@ impl IntoGlib for ElemEventMask {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSACtlElemEventMask> for ElemEventMask {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSACtlElemEventMask) -> Self {
         Self::from_bits_truncate(value)
     }
 }
 
 impl StaticType for ElemEventMask {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsactl_elem_event_mask_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsactl_elem_event_mask_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for ElemEventMask {
+    type ParamSpec = glib::ParamSpecFlags;
+    type SetValue = Self;
+    type BuilderFn = fn(&str) -> glib::ParamSpecFlagsBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder
     }
 }
 
@@ -159,15 +194,17 @@ impl glib::value::ValueType for ElemEventMask {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for ElemEventMask {
+unsafe impl<'a> glib::value::FromValue<'a> for ElemEventMask {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_flags(value.to_glib_none().0))
     }
 }
 
 impl ToValue for ElemEventMask {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -176,7 +213,15 @@ impl ToValue for ElemEventMask {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<ElemEventMask> for glib::Value {
+    #[inline]
+    fn from(v: ElemEventMask) -> Self {
+        ToValue::to_value(&v)
     }
 }

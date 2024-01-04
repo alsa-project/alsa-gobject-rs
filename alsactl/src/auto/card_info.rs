@@ -3,14 +3,12 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
     /// A GObject-derived object to express information of sound card.
@@ -19,6 +17,50 @@ glib::wrapper! {
     /// instance of the object.
     ///
     /// The object wraps `struct snd_ctl_card_info` in UAPI of Linux sound subsystem.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `card-id`
+    ///  The numeric ID of sound card.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `components`
+    ///  The The string with space-separated components for the sound card.,
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `driver`
+    ///  The name of driver bound to the sound card.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `id`
+    ///  The string ID of sound card.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `long-name`
+    ///  The long name of sound card.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `mixer-name`
+    ///  The name of mixer for the sound card.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `name`
+    ///  The name of sound card.
+    ///
+    /// Readable
     ///
     /// # Implements
     ///
@@ -35,87 +77,56 @@ impl CardInfo {
     pub const NONE: Option<&'static CardInfo> = None;
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::CardInfo>> Sealed for T {}
+}
+
 /// Trait containing all [`struct@CardInfo`] methods.
 ///
 /// # Implementors
 ///
 /// [`CardInfo`][struct@crate::CardInfo]
-pub trait CardInfoExt: 'static {
+pub trait CardInfoExt: IsA<CardInfo> + sealed::Sealed + 'static {
     /// The numeric ID of sound card.
     #[doc(alias = "card-id")]
-    fn card_id(&self) -> i32;
+    fn card_id(&self) -> i32 {
+        ObjectExt::property(self.as_ref(), "card-id")
+    }
 
     /// The The string with space-separated components for the sound card.,
-    fn components(&self) -> Option<glib::GString>;
+    fn components(&self) -> Option<glib::GString> {
+        ObjectExt::property(self.as_ref(), "components")
+    }
 
     /// The name of driver bound to the sound card.
-    fn driver(&self) -> Option<glib::GString>;
+    fn driver(&self) -> Option<glib::GString> {
+        ObjectExt::property(self.as_ref(), "driver")
+    }
 
     /// The string ID of sound card.
-    fn id(&self) -> Option<glib::GString>;
+    fn id(&self) -> Option<glib::GString> {
+        ObjectExt::property(self.as_ref(), "id")
+    }
 
     /// The long name of sound card.
     #[doc(alias = "long-name")]
-    fn long_name(&self) -> Option<glib::GString>;
+    fn long_name(&self) -> Option<glib::GString> {
+        ObjectExt::property(self.as_ref(), "long-name")
+    }
 
     /// The name of mixer for the sound card.
     #[doc(alias = "mixer-name")]
-    fn mixer_name(&self) -> Option<glib::GString>;
+    fn mixer_name(&self) -> Option<glib::GString> {
+        ObjectExt::property(self.as_ref(), "mixer-name")
+    }
 
     /// The name of sound card.
-    fn name(&self) -> Option<glib::GString>;
+    fn name(&self) -> Option<glib::GString> {
+        ObjectExt::property(self.as_ref(), "name")
+    }
 
     #[doc(alias = "card-id")]
-    fn connect_card_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "components")]
-    fn connect_components_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "driver")]
-    fn connect_driver_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "id")]
-    fn connect_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "long-name")]
-    fn connect_long_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "mixer-name")]
-    fn connect_mixer_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "name")]
-    fn connect_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<CardInfo>> CardInfoExt for O {
-    fn card_id(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "card-id")
-    }
-
-    fn components(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self.as_ref(), "components")
-    }
-
-    fn driver(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self.as_ref(), "driver")
-    }
-
-    fn id(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self.as_ref(), "id")
-    }
-
-    fn long_name(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self.as_ref(), "long-name")
-    }
-
-    fn mixer_name(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self.as_ref(), "mixer-name")
-    }
-
-    fn name(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self.as_ref(), "name")
-    }
-
     fn connect_card_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_card_id_trampoline<P: IsA<CardInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSACtlCardInfo,
@@ -138,6 +149,7 @@ impl<O: IsA<CardInfo>> CardInfoExt for O {
         }
     }
 
+    #[doc(alias = "components")]
     fn connect_components_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_components_trampoline<P: IsA<CardInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSACtlCardInfo,
@@ -160,6 +172,7 @@ impl<O: IsA<CardInfo>> CardInfoExt for O {
         }
     }
 
+    #[doc(alias = "driver")]
     fn connect_driver_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_driver_trampoline<P: IsA<CardInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSACtlCardInfo,
@@ -182,6 +195,7 @@ impl<O: IsA<CardInfo>> CardInfoExt for O {
         }
     }
 
+    #[doc(alias = "id")]
     fn connect_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_id_trampoline<P: IsA<CardInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSACtlCardInfo,
@@ -204,6 +218,7 @@ impl<O: IsA<CardInfo>> CardInfoExt for O {
         }
     }
 
+    #[doc(alias = "long-name")]
     fn connect_long_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_long_name_trampoline<P: IsA<CardInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSACtlCardInfo,
@@ -226,6 +241,7 @@ impl<O: IsA<CardInfo>> CardInfoExt for O {
         }
     }
 
+    #[doc(alias = "mixer-name")]
     fn connect_mixer_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_mixer_name_trampoline<P: IsA<CardInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSACtlCardInfo,
@@ -248,6 +264,7 @@ impl<O: IsA<CardInfo>> CardInfoExt for O {
         }
     }
 
+    #[doc(alias = "name")]
     fn connect_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_name_trampoline<P: IsA<CardInfo>, F: Fn(&P) + 'static>(
             this: *mut ffi::ALSACtlCardInfo,
@@ -270,6 +287,8 @@ impl<O: IsA<CardInfo>> CardInfoExt for O {
         }
     }
 }
+
+impl<O: IsA<CardInfo>> CardInfoExt for O {}
 
 impl fmt::Display for CardInfo {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

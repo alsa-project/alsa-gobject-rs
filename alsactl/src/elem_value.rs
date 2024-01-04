@@ -2,6 +2,10 @@
 use super::*;
 
 /// Trait containing the rest of [`struct@ElemValue`] methods.
+///
+/// # Implementors
+///
+/// [`ElemValue`][struct@crate::ElemValue]
 pub trait ElemValueExtManual {
     // NOTE: conversion between gboolean(=i32) and bool(=uchar in most ABIs). Read:
     // https://gitlab.gnome.org/GNOME/gobject-introspection/-/issues/392
@@ -11,12 +15,6 @@ pub trait ElemValueExtManual {
     #[doc(alias = "alsactl_elem_value_set_bool")]
     fn set_bool(&self, values: &[bool]);
 
-    /// Refer to the array specific to [`ElemType`][crate::ElemType].BOOLEAN element in internal storage.
-    ///
-    /// # Returns
-    ///
-    /// ## `values`
-    /// The array for boolean values.
     #[doc(alias = "alsactl_elem_value_get_bool")]
     #[doc(alias = "get_bool")]
     fn boolean(&self) -> Vec<bool>;
@@ -27,7 +25,8 @@ pub trait ElemValueExtManual {
     ///
     ///
     /// ## `values`
-    /// The array for 8 bit unsigned integer values.
+    /// The array for 8 bit unsigned integer
+    ///          values.
     #[doc(alias = "alsactl_elem_value_get_bytes")]
     fn bytes(&self) -> &[u8];
 
@@ -37,18 +36,11 @@ pub trait ElemValueExtManual {
     ///
     ///
     /// ## `values`
-    /// The array for 32 bit signed integer values.
+    /// The array for 32 bit signed integer
+    ///          values.
     #[doc(alias = "alsactl_elem_value_get_int")]
     fn int(&self) -> &[i32];
 
-    /// Refer to the array specific to [`ElemType`][crate::ElemType].ENUMERATED element in internal
-    /// storage.
-    ///
-    /// # Returns
-    ///
-    ///
-    /// ## `values`
-    /// The array for enumeration index values.
     #[doc(alias = "alsactl_elem_value_get_enum")]
     #[doc(alias = "get_enum")]
     fn enumerated(&self) -> &[u32];
@@ -69,7 +61,8 @@ pub trait ElemValueExtManual {
     ///
     ///
     /// ## `status`
-    /// The array of byte data for channel status bits of IEC 60958.
+    /// The array of byte data for channel status
+    ///          bits of IEC 60958.
     #[doc(alias = "alsactl_elem_value_get_iec60958_channel_status")]
     fn iec60958_channel_status(&self) -> &[u8];
     /// Refer to the array specific to [`ElemType`][crate::ElemType].IEC60958 element in internal storage.
@@ -78,7 +71,8 @@ pub trait ElemValueExtManual {
     ///
     ///
     /// ## `data`
-    /// The array of byte data for user data bits of IEC 60958.
+    /// The array of byte data for user data bits of
+    ///        IEC 60958.
     #[doc(alias = "alsactl_elem_value_get_iec60958_user_data")]
     fn iec60958_user_data(&self) -> &[u8];
 }

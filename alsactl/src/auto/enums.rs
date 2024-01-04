@@ -3,37 +3,24 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use glib::error::ErrorDomain;
-use glib::translate::*;
-use glib::value::FromValue;
-use glib::value::ToValue;
-use glib::Quark;
-use glib::StaticType;
-use glib::Type;
+use glib::{prelude::*, translate::*};
 use std::fmt;
 
-/// A set of error code for [`glib::Error`][crate::glib::Error] with
-/// [`CardError`][crate::CardError] domain.
+/// A set of error code for [`glib::Error`][crate::glib::Error] with `ALSACtl.CardError` domain.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ALSACtlCardError")]
 pub enum CardError {
-    /// The system call failed.
     #[doc(alias = "ALSACTL_CARD_ERROR_FAILED")]
     Failed,
-    /// The card associated to the instance is in disconnect state.
     #[doc(alias = "ALSACTL_CARD_ERROR_DISCONNECTED")]
     Disconnected,
-    /// The control element not found in the card.
     #[doc(alias = "ALSACTL_CARD_ERROR_ELEM_NOT_FOUND")]
     ElemNotFound,
-    /// The operation is not supported by the control element.
     #[doc(alias = "ALSACTL_CARD_ERROR_ELEM_NOT_SUPPORTED")]
     ElemNotSupported,
-    /// The control element is owned by the other process.
     #[doc(alias = "ALSACTL_CARD_ERROR_ELEM_OWNED")]
     ElemOwned,
-    /// The control element already exists.
     #[doc(alias = "ALSACTL_CARD_ERROR_ELEM_EXIST")]
     ElemExist,
     #[doc(hidden)]
@@ -62,6 +49,7 @@ impl fmt::Display for CardError {
 impl IntoGlib for CardError {
     type GlibType = ffi::ALSACtlCardError;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSACtlCardError {
         match self {
             Self::Failed => ffi::ALSACTL_CARD_ERROR_FAILED,
@@ -77,6 +65,7 @@ impl IntoGlib for CardError {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSACtlCardError> for CardError {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSACtlCardError) -> Self {
         match value {
             ffi::ALSACTL_CARD_ERROR_FAILED => Self::Failed,
@@ -90,31 +79,42 @@ impl FromGlib<ffi::ALSACtlCardError> for CardError {
     }
 }
 
-impl ErrorDomain for CardError {
-    fn domain() -> Quark {
+impl glib::error::ErrorDomain for CardError {
+    #[inline]
+    fn domain() -> glib::Quark {
         unsafe { from_glib(ffi::alsactl_card_error_quark()) }
     }
 
+    #[inline]
     fn code(self) -> i32 {
         self.into_glib()
     }
 
+    #[inline]
+    #[allow(clippy::match_single_binding)]
     fn from(code: i32) -> Option<Self> {
-        match code {
-            ffi::ALSACTL_CARD_ERROR_FAILED => Some(Self::Failed),
-            ffi::ALSACTL_CARD_ERROR_DISCONNECTED => Some(Self::Disconnected),
-            ffi::ALSACTL_CARD_ERROR_ELEM_NOT_FOUND => Some(Self::ElemNotFound),
-            ffi::ALSACTL_CARD_ERROR_ELEM_NOT_SUPPORTED => Some(Self::ElemNotSupported),
-            ffi::ALSACTL_CARD_ERROR_ELEM_OWNED => Some(Self::ElemOwned),
-            ffi::ALSACTL_CARD_ERROR_ELEM_EXIST => Some(Self::ElemExist),
-            _ => Some(Self::Failed),
+        match unsafe { from_glib(code) } {
+            Self::__Unknown(_) => Some(Self::Failed),
+            value => Some(value),
         }
     }
 }
 
 impl StaticType for CardError {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsactl_card_error_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsactl_card_error_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for CardError {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -122,15 +122,17 @@ impl glib::value::ValueType for CardError {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for CardError {
+unsafe impl<'a> glib::value::FromValue<'a> for CardError {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for CardError {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -139,8 +141,16 @@ impl ToValue for CardError {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<CardError> for glib::Value {
+    #[inline]
+    fn from(v: CardError) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
@@ -149,25 +159,18 @@ impl ToValue for CardError {
 #[non_exhaustive]
 #[doc(alias = "ALSACtlElemIfaceType")]
 pub enum ElemIfaceType {
-    /// The element has effects to whole the sound card.
     #[doc(alias = "ALSACTL_ELEM_IFACE_TYPE_CARD")]
     Card,
-    /// The element has effects to hwdep device.
     #[doc(alias = "ALSACTL_ELEM_IFACE_TYPE_HWDEP")]
     Hwdep,
-    /// The element has effects to mixer device.
     #[doc(alias = "ALSACTL_ELEM_IFACE_TYPE_MIXER")]
     Mixer,
-    /// The element has effects to PCM device.
     #[doc(alias = "ALSACTL_ELEM_IFACE_TYPE_PCM")]
     Pcm,
-    /// The element has effects to Rawmidi device.
     #[doc(alias = "ALSACTL_ELEM_IFACE_TYPE_RAWMIDI")]
     Rawmidi,
-    /// The element has effects to Timer device.
     #[doc(alias = "ALSACTL_ELEM_IFACE_TYPE_TIMER")]
     Timer,
-    /// The element has effects to Sequencer device.
     #[doc(alias = "ALSACTL_ELEM_IFACE_TYPE_SEQUENCER")]
     Sequencer,
     #[doc(hidden)]
@@ -197,6 +200,7 @@ impl fmt::Display for ElemIfaceType {
 impl IntoGlib for ElemIfaceType {
     type GlibType = ffi::ALSACtlElemIfaceType;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSACtlElemIfaceType {
         match self {
             Self::Card => ffi::ALSACTL_ELEM_IFACE_TYPE_CARD,
@@ -213,6 +217,7 @@ impl IntoGlib for ElemIfaceType {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSACtlElemIfaceType> for ElemIfaceType {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSACtlElemIfaceType) -> Self {
         match value {
             ffi::ALSACTL_ELEM_IFACE_TYPE_CARD => Self::Card,
@@ -228,8 +233,20 @@ impl FromGlib<ffi::ALSACtlElemIfaceType> for ElemIfaceType {
 }
 
 impl StaticType for ElemIfaceType {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsactl_elem_iface_type_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsactl_elem_iface_type_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for ElemIfaceType {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -237,15 +254,17 @@ impl glib::value::ValueType for ElemIfaceType {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for ElemIfaceType {
+unsafe impl<'a> glib::value::FromValue<'a> for ElemIfaceType {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for ElemIfaceType {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -254,8 +273,16 @@ impl ToValue for ElemIfaceType {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<ElemIfaceType> for glib::Value {
+    #[inline]
+    fn from(v: ElemIfaceType) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
@@ -264,25 +291,18 @@ impl ToValue for ElemIfaceType {
 #[non_exhaustive]
 #[doc(alias = "ALSACtlElemType")]
 pub enum ElemType {
-    /// Unudentified type.
     #[doc(alias = "ALSACTL_ELEM_TYPE_NONE")]
     None,
-    /// The element has boolean values.
     #[doc(alias = "ALSACTL_ELEM_TYPE_BOOLEAN")]
     Boolean,
-    /// The element has integer values.
     #[doc(alias = "ALSACTL_ELEM_TYPE_INTEGER")]
     Integer,
-    /// The element has values for enumerated labels.
     #[doc(alias = "ALSACTL_ELEM_TYPE_ENUMERATED")]
     Enumerated,
-    /// The element has byte values.
     #[doc(alias = "ALSACTL_ELEM_TYPE_BYTES")]
     Bytes,
-    /// The element has parameters of IEC 60958.
     #[doc(alias = "ALSACTL_ELEM_TYPE_IEC60958")]
     Iec60958,
-    /// The element has 64 bit integer values.
     #[doc(alias = "ALSACTL_ELEM_TYPE_INTEGER64")]
     Integer64,
     #[doc(hidden)]
@@ -312,6 +332,7 @@ impl fmt::Display for ElemType {
 impl IntoGlib for ElemType {
     type GlibType = ffi::ALSACtlElemType;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSACtlElemType {
         match self {
             Self::None => ffi::ALSACTL_ELEM_TYPE_NONE,
@@ -328,6 +349,7 @@ impl IntoGlib for ElemType {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSACtlElemType> for ElemType {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSACtlElemType) -> Self {
         match value {
             ffi::ALSACTL_ELEM_TYPE_NONE => Self::None,
@@ -343,8 +365,20 @@ impl FromGlib<ffi::ALSACtlElemType> for ElemType {
 }
 
 impl StaticType for ElemType {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsactl_elem_type_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsactl_elem_type_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for ElemType {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -352,15 +386,17 @@ impl glib::value::ValueType for ElemType {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for ElemType {
+unsafe impl<'a> glib::value::FromValue<'a> for ElemType {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for ElemType {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -369,8 +405,16 @@ impl ToValue for ElemType {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<ElemType> for glib::Value {
+    #[inline]
+    fn from(v: ElemType) -> Self {
+        ToValue::to_value(&v)
     }
 }
 
@@ -379,7 +423,6 @@ impl ToValue for ElemType {
 #[non_exhaustive]
 #[doc(alias = "ALSACtlEventType")]
 pub enum EventType {
-    /// The event is related to any element.
     #[doc(alias = "ALSACTL_EVENT_TYPE_ELEM")]
     Elem,
     #[doc(hidden)]
@@ -403,6 +446,7 @@ impl fmt::Display for EventType {
 impl IntoGlib for EventType {
     type GlibType = ffi::ALSACtlEventType;
 
+    #[inline]
     fn into_glib(self) -> ffi::ALSACtlEventType {
         match self {
             Self::Elem => ffi::ALSACTL_EVENT_TYPE_ELEM,
@@ -413,6 +457,7 @@ impl IntoGlib for EventType {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ALSACtlEventType> for EventType {
+    #[inline]
     unsafe fn from_glib(value: ffi::ALSACtlEventType) -> Self {
         match value {
             ffi::ALSACTL_EVENT_TYPE_ELEM => Self::Elem,
@@ -422,8 +467,20 @@ impl FromGlib<ffi::ALSACtlEventType> for EventType {
 }
 
 impl StaticType for EventType {
-    fn static_type() -> Type {
+    #[inline]
+    #[doc(alias = "alsactl_event_type_get_type")]
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::alsactl_event_type_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for EventType {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        Self::ParamSpec::builder_with_default
     }
 }
 
@@ -431,15 +488,17 @@ impl glib::value::ValueType for EventType {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for EventType {
+unsafe impl<'a> glib::value::FromValue<'a> for EventType {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
     }
 }
 
 impl ToValue for EventType {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -448,7 +507,15 @@ impl ToValue for EventType {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
+    }
+}
+
+impl From<EventType> for glib::Value {
+    #[inline]
+    fn from(v: EventType) -> Self {
+        ToValue::to_value(&v)
     }
 }

@@ -4,20 +4,52 @@
 // DO NOT EDIT
 
 use crate::ElemInfoCommon;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
     /// An interface to express information of element which has single value array.
     ///
     /// A [`ElemInfoSingleArray`][crate::ElemInfoSingleArray] should be implemented by the type of information for element
     /// whieh has single value array.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `value-count`
+    ///  The count of elements in value array of the element.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>ElemInfoCommon</h4></summary>
+    ///
+    ///
+    /// #### `access`
+    ///  The access permission for the element with [`ElemAccessFlag`][crate::ElemAccessFlag].
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `elem-id`
+    ///  The identifier of element.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `elem-type`
+    ///  The type of element, one of [`ElemType`][crate::ElemType].
+    ///
+    /// Readable | Writeable | Construct Only
+    ///
+    ///
+    /// #### `owner`
+    ///  The value of PID for process to own the element.
+    ///
+    /// Readable
+    /// </details>
     ///
     /// # Implements
     ///
@@ -34,33 +66,30 @@ impl ElemInfoSingleArray {
     pub const NONE: Option<&'static ElemInfoSingleArray> = None;
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::ElemInfoSingleArray>> Sealed for T {}
+}
+
 /// Trait containing all [`struct@ElemInfoSingleArray`] methods.
 ///
 /// # Implementors
 ///
 /// [`ElemInfoBoolean`][struct@crate::ElemInfoBoolean], [`ElemInfoBytes`][struct@crate::ElemInfoBytes], [`ElemInfoEnumerated`][struct@crate::ElemInfoEnumerated], [`ElemInfoInteger64`][struct@crate::ElemInfoInteger64], [`ElemInfoInteger`][struct@crate::ElemInfoInteger], [`ElemInfoSingleArray`][struct@crate::ElemInfoSingleArray]
-pub trait ElemInfoSingleArrayExt: 'static {
+pub trait ElemInfoSingleArrayExt: IsA<ElemInfoSingleArray> + sealed::Sealed + 'static {
     /// The count of elements in value array of the element.
     #[doc(alias = "value-count")]
-    fn value_count(&self) -> u32;
-
-    /// The count of elements in value array of the element.
-    #[doc(alias = "value-count")]
-    fn set_value_count(&self, value_count: u32);
-
-    #[doc(alias = "value-count")]
-    fn connect_value_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<ElemInfoSingleArray>> ElemInfoSingleArrayExt for O {
     fn value_count(&self) -> u32 {
-        glib::ObjectExt::property(self.as_ref(), "value-count")
+        ObjectExt::property(self.as_ref(), "value-count")
     }
 
+    /// The count of elements in value array of the element.
+    #[doc(alias = "value-count")]
     fn set_value_count(&self, value_count: u32) {
-        glib::ObjectExt::set_property(self.as_ref(), "value-count", &value_count)
+        ObjectExt::set_property(self.as_ref(), "value-count", value_count)
     }
 
+    #[doc(alias = "value-count")]
     fn connect_value_count_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_value_count_trampoline<
             P: IsA<ElemInfoSingleArray>,
@@ -86,6 +115,8 @@ impl<O: IsA<ElemInfoSingleArray>> ElemInfoSingleArrayExt for O {
         }
     }
 }
+
+impl<O: IsA<ElemInfoSingleArray>> ElemInfoSingleArrayExt for O {}
 
 impl fmt::Display for ElemInfoSingleArray {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

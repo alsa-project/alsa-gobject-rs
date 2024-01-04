@@ -3,8 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::ElemInfoCommon;
-use crate::ElemInfoSingleArray;
+use crate::{ElemInfoCommon, ElemInfoSingleArray};
 use glib::translate::*;
 use std::fmt;
 

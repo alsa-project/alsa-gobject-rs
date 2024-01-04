@@ -3,16 +3,13 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::ElemInfoCommon;
-use crate::ElemInfoSingleArray;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
+use crate::{ElemInfoCommon, ElemInfoSingleArray};
+use glib::{
+    prelude::*,
+    signal::{connect_raw, SignalHandlerId},
+    translate::*,
+};
+use std::{boxed::Box as Box_, fmt, mem::transmute};
 
 glib::wrapper! {
     /// An object to express information for integer64 type of element.
@@ -20,6 +17,60 @@ glib::wrapper! {
     /// A `GObject::Object` derived object class for integer64 type of element.
     ///
     /// The object wraps `struct snd_ctl_elem_info` in UAPI of Linux sound subsystem.
+    ///
+    /// ## Properties
+    ///
+    ///
+    /// #### `value-max`
+    ///  The maximum value of element in value array for the element.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `value-min`
+    ///  The minimum value of element in value array for the element.
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `value-step`
+    ///  The step value of element in value array for the element.
+    ///
+    /// Readable | Writeable
+    /// <details><summary><h4>ElemInfoCommon</h4></summary>
+    ///
+    ///
+    /// #### `access`
+    ///  The access permission for the element with [`ElemAccessFlag`][crate::ElemAccessFlag].
+    ///
+    /// Readable | Writeable
+    ///
+    ///
+    /// #### `elem-id`
+    ///  The identifier of element.
+    ///
+    /// Readable
+    ///
+    ///
+    /// #### `elem-type`
+    ///  The type of element, one of [`ElemType`][crate::ElemType].
+    ///
+    /// Readable | Writeable | Construct Only
+    ///
+    ///
+    /// #### `owner`
+    ///  The value of PID for process to own the element.
+    ///
+    /// Readable
+    /// </details>
+    /// <details><summary><h4>ElemInfoSingleArray</h4></summary>
+    ///
+    ///
+    /// #### `value-count`
+    ///  The count of elements in value array of the element.
+    ///
+    /// Readable | Writeable
+    /// </details>
     ///
     /// # Implements
     ///
@@ -52,71 +103,54 @@ impl Default for ElemInfoInteger64 {
     }
 }
 
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::ElemInfoInteger64>> Sealed for T {}
+}
+
 /// Trait containing all [`struct@ElemInfoInteger64`] methods.
 ///
 /// # Implementors
 ///
 /// [`ElemInfoInteger64`][struct@crate::ElemInfoInteger64]
-pub trait ElemInfoInteger64Ext: 'static {
+pub trait ElemInfoInteger64Ext: IsA<ElemInfoInteger64> + sealed::Sealed + 'static {
     /// The maximum value of element in value array for the element.
     #[doc(alias = "value-max")]
-    fn value_max(&self) -> i64;
-
-    /// The maximum value of element in value array for the element.
-    #[doc(alias = "value-max")]
-    fn set_value_max(&self, value_max: i64);
-
-    /// The minimum value of element in value array for the element.
-    #[doc(alias = "value-min")]
-    fn value_min(&self) -> i64;
-
-    /// The minimum value of element in value array for the element.
-    #[doc(alias = "value-min")]
-    fn set_value_min(&self, value_min: i64);
-
-    /// The step value of element in value array for the element.
-    #[doc(alias = "value-step")]
-    fn value_step(&self) -> i64;
-
-    /// The step value of element in value array for the element.
-    #[doc(alias = "value-step")]
-    fn set_value_step(&self, value_step: i64);
-
-    #[doc(alias = "value-max")]
-    fn connect_value_max_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "value-min")]
-    fn connect_value_min_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "value-step")]
-    fn connect_value_step_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<ElemInfoInteger64>> ElemInfoInteger64Ext for O {
     fn value_max(&self) -> i64 {
-        glib::ObjectExt::property(self.as_ref(), "value-max")
+        ObjectExt::property(self.as_ref(), "value-max")
     }
 
+    /// The maximum value of element in value array for the element.
+    #[doc(alias = "value-max")]
     fn set_value_max(&self, value_max: i64) {
-        glib::ObjectExt::set_property(self.as_ref(), "value-max", &value_max)
+        ObjectExt::set_property(self.as_ref(), "value-max", value_max)
     }
 
+    /// The minimum value of element in value array for the element.
+    #[doc(alias = "value-min")]
     fn value_min(&self) -> i64 {
-        glib::ObjectExt::property(self.as_ref(), "value-min")
+        ObjectExt::property(self.as_ref(), "value-min")
     }
 
+    /// The minimum value of element in value array for the element.
+    #[doc(alias = "value-min")]
     fn set_value_min(&self, value_min: i64) {
-        glib::ObjectExt::set_property(self.as_ref(), "value-min", &value_min)
+        ObjectExt::set_property(self.as_ref(), "value-min", value_min)
     }
 
+    /// The step value of element in value array for the element.
+    #[doc(alias = "value-step")]
     fn value_step(&self) -> i64 {
-        glib::ObjectExt::property(self.as_ref(), "value-step")
+        ObjectExt::property(self.as_ref(), "value-step")
     }
 
+    /// The step value of element in value array for the element.
+    #[doc(alias = "value-step")]
     fn set_value_step(&self, value_step: i64) {
-        glib::ObjectExt::set_property(self.as_ref(), "value-step", &value_step)
+        ObjectExt::set_property(self.as_ref(), "value-step", value_step)
     }
 
+    #[doc(alias = "value-max")]
     fn connect_value_max_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_value_max_trampoline<
             P: IsA<ElemInfoInteger64>,
@@ -142,6 +176,7 @@ impl<O: IsA<ElemInfoInteger64>> ElemInfoInteger64Ext for O {
         }
     }
 
+    #[doc(alias = "value-min")]
     fn connect_value_min_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_value_min_trampoline<
             P: IsA<ElemInfoInteger64>,
@@ -167,6 +202,7 @@ impl<O: IsA<ElemInfoInteger64>> ElemInfoInteger64Ext for O {
         }
     }
 
+    #[doc(alias = "value-step")]
     fn connect_value_step_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_value_step_trampoline<
             P: IsA<ElemInfoInteger64>,
@@ -192,6 +228,8 @@ impl<O: IsA<ElemInfoInteger64>> ElemInfoInteger64Ext for O {
         }
     }
 }
+
+impl<O: IsA<ElemInfoInteger64>> ElemInfoInteger64Ext for O {}
 
 impl fmt::Display for ElemInfoInteger64 {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

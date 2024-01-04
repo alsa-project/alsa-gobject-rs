@@ -4,9 +4,15 @@ use super::*;
 
 /// Trait which should be implemented by subclass of [`Card`][crate::Card].
 pub trait CardImpl: ObjectImpl + CardImplExt {
+    /// Class closure for the [`handle-elem-event`][struct@crate::Card#handle-elem-event] signal.
+    /// ## `elem_id`
+    /// A [`ElemId`][crate::ElemId].
+    /// ## `events`
+    /// A set of [`ElemEventMask`][crate::ElemEventMask].
     fn handle_elem_event(&self, card: &Self::Type, elem_id: &ElemId, events: ElemEventMask) {
         self.parent_handle_elem_event(card, elem_id, events)
     }
+    /// Class closure for the [`handle-disconnection`][struct@crate::Card#handle-disconnection] signal.
     fn handle_disconnection(&self, card: &Self::Type) {
         self.parent_handle_disconnection(card)
     }

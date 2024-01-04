@@ -12,8 +12,10 @@ homepage = "https://alsa-project.github.io/gobject-introspection-docs/"
 keywords = ["music", "alsa", "linux", "glib"]
 license = "MIT"
 repository = "https://github.com/alsa-project/alsa-gobject-rs"
+
 [package.metadata.docs.rs]
-features = ["dox"]
+rustc-args = ["--cfg", "docsrs"]
+rustdoc-args = ["--cfg", "docsrs", "--generate-link-to-definition"]
 
 [lib]
 name = "alsactl"
@@ -21,12 +23,8 @@ name = "alsactl"
 [dependencies]
 libc = "0.2"
 bitflags = "1.0"
-glib = "0.15"
+glib = "0.18"
 ffi = {package = "alsactl-sys", version = "0.4.0" }
 
 [dev-dependencies]
 gir-format-check = "^0.1"
-
-[features]
-# To suppress linking to C library to generate documentation.
-dox = ["glib/dox"]
