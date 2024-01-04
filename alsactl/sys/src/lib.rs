@@ -11,7 +11,7 @@
     clippy::unreadable_literal,
     clippy::upper_case_acronyms
 )]
-#![cfg_attr(feature = "dox", feature(doc_cfg))]
+#![cfg_attr(docsrs, feature(doc_cfg))]
 
 #[allow(unused_imports)]
 use libc::{
@@ -85,7 +85,7 @@ pub struct ALSACtlCardClass {
 
 impl ::std::fmt::Debug for ALSACtlCardClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSACtlCardClass @ {:p}", self))
+        f.debug_struct(&format!("ALSACtlCardClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .field("handle_elem_event", &self.handle_elem_event)
             .field("handle_disconnection", &self.handle_disconnection)
@@ -101,7 +101,7 @@ pub struct ALSACtlCardInfoClass {
 
 impl ::std::fmt::Debug for ALSACtlCardInfoClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSACtlCardInfoClass @ {:p}", self))
+        f.debug_struct(&format!("ALSACtlCardInfoClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -115,7 +115,7 @@ pub struct ALSACtlElemId {
 
 impl ::std::fmt::Debug for ALSACtlElemId {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSACtlElemId @ {:p}", self))
+        f.debug_struct(&format!("ALSACtlElemId @ {self:p}"))
             .finish()
     }
 }
@@ -128,7 +128,7 @@ pub struct ALSACtlElemInfoBooleanClass {
 
 impl ::std::fmt::Debug for ALSACtlElemInfoBooleanClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSACtlElemInfoBooleanClass @ {:p}", self))
+        f.debug_struct(&format!("ALSACtlElemInfoBooleanClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -142,7 +142,7 @@ pub struct ALSACtlElemInfoBytesClass {
 
 impl ::std::fmt::Debug for ALSACtlElemInfoBytesClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSACtlElemInfoBytesClass @ {:p}", self))
+        f.debug_struct(&format!("ALSACtlElemInfoBytesClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -156,7 +156,7 @@ pub struct ALSACtlElemInfoCommonInterface {
 
 impl ::std::fmt::Debug for ALSACtlElemInfoCommonInterface {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSACtlElemInfoCommonInterface @ {:p}", self))
+        f.debug_struct(&format!("ALSACtlElemInfoCommonInterface @ {self:p}"))
             .field("parent_iface", &self.parent_iface)
             .finish()
     }
@@ -170,7 +170,7 @@ pub struct ALSACtlElemInfoEnumeratedClass {
 
 impl ::std::fmt::Debug for ALSACtlElemInfoEnumeratedClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSACtlElemInfoEnumeratedClass @ {:p}", self))
+        f.debug_struct(&format!("ALSACtlElemInfoEnumeratedClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -184,7 +184,7 @@ pub struct ALSACtlElemInfoIec60958Class {
 
 impl ::std::fmt::Debug for ALSACtlElemInfoIec60958Class {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSACtlElemInfoIec60958Class @ {:p}", self))
+        f.debug_struct(&format!("ALSACtlElemInfoIec60958Class @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -198,7 +198,7 @@ pub struct ALSACtlElemInfoInteger64Class {
 
 impl ::std::fmt::Debug for ALSACtlElemInfoInteger64Class {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSACtlElemInfoInteger64Class @ {:p}", self))
+        f.debug_struct(&format!("ALSACtlElemInfoInteger64Class @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -212,7 +212,7 @@ pub struct ALSACtlElemInfoIntegerClass {
 
 impl ::std::fmt::Debug for ALSACtlElemInfoIntegerClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSACtlElemInfoIntegerClass @ {:p}", self))
+        f.debug_struct(&format!("ALSACtlElemInfoIntegerClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -226,7 +226,7 @@ pub struct ALSACtlElemInfoSingleArrayInterface {
 
 impl ::std::fmt::Debug for ALSACtlElemInfoSingleArrayInterface {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSACtlElemInfoSingleArrayInterface @ {:p}", self))
+        f.debug_struct(&format!("ALSACtlElemInfoSingleArrayInterface @ {self:p}"))
             .field("parent_iface", &self.parent_iface)
             .finish()
     }
@@ -240,7 +240,7 @@ pub struct ALSACtlElemValueClass {
 
 impl ::std::fmt::Debug for ALSACtlElemValueClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSACtlElemValueClass @ {:p}", self))
+        f.debug_struct(&format!("ALSACtlElemValueClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -255,7 +255,7 @@ pub struct ALSACtlCard {
 
 impl ::std::fmt::Debug for ALSACtlCard {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSACtlCard @ {:p}", self))
+        f.debug_struct(&format!("ALSACtlCard @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -269,7 +269,7 @@ pub struct ALSACtlCardInfo {
 
 impl ::std::fmt::Debug for ALSACtlCardInfo {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSACtlCardInfo @ {:p}", self))
+        f.debug_struct(&format!("ALSACtlCardInfo @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -283,7 +283,7 @@ pub struct ALSACtlElemInfoBoolean {
 
 impl ::std::fmt::Debug for ALSACtlElemInfoBoolean {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSACtlElemInfoBoolean @ {:p}", self))
+        f.debug_struct(&format!("ALSACtlElemInfoBoolean @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -297,7 +297,7 @@ pub struct ALSACtlElemInfoBytes {
 
 impl ::std::fmt::Debug for ALSACtlElemInfoBytes {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSACtlElemInfoBytes @ {:p}", self))
+        f.debug_struct(&format!("ALSACtlElemInfoBytes @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -311,7 +311,7 @@ pub struct ALSACtlElemInfoEnumerated {
 
 impl ::std::fmt::Debug for ALSACtlElemInfoEnumerated {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSACtlElemInfoEnumerated @ {:p}", self))
+        f.debug_struct(&format!("ALSACtlElemInfoEnumerated @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -325,7 +325,7 @@ pub struct ALSACtlElemInfoIec60958 {
 
 impl ::std::fmt::Debug for ALSACtlElemInfoIec60958 {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSACtlElemInfoIec60958 @ {:p}", self))
+        f.debug_struct(&format!("ALSACtlElemInfoIec60958 @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -339,7 +339,7 @@ pub struct ALSACtlElemInfoInteger {
 
 impl ::std::fmt::Debug for ALSACtlElemInfoInteger {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSACtlElemInfoInteger @ {:p}", self))
+        f.debug_struct(&format!("ALSACtlElemInfoInteger @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -353,7 +353,7 @@ pub struct ALSACtlElemInfoInteger64 {
 
 impl ::std::fmt::Debug for ALSACtlElemInfoInteger64 {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSACtlElemInfoInteger64 @ {:p}", self))
+        f.debug_struct(&format!("ALSACtlElemInfoInteger64 @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -367,7 +367,7 @@ pub struct ALSACtlElemValue {
 
 impl ::std::fmt::Debug for ALSACtlElemValue {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("ALSACtlElemValue @ {:p}", self))
+        f.debug_struct(&format!("ALSACtlElemValue @ {self:p}"))
             .field("parent_instance", &self.parent_instance)
             .finish()
     }
@@ -382,7 +382,7 @@ pub struct ALSACtlElemInfoCommon {
 
 impl ::std::fmt::Debug for ALSACtlElemInfoCommon {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        write!(f, "ALSACtlElemInfoCommon @ {:p}", self)
+        write!(f, "ALSACtlElemInfoCommon @ {self:p}")
     }
 }
 
@@ -394,7 +394,7 @@ pub struct ALSACtlElemInfoSingleArray {
 
 impl ::std::fmt::Debug for ALSACtlElemInfoSingleArray {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        write!(f, "ALSACtlElemInfoSingleArray @ {:p}", self)
+        write!(f, "ALSACtlElemInfoSingleArray @ {self:p}")
     }
 }
 

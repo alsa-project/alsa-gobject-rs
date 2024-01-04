@@ -18,13 +18,6 @@ The alsactl-sys crate is released under [MIT license](https://spdx.org/licenses/
 The alsactl-sys crate depends on FFI crates provided by [gtk-rs project](https://gtk-rs.org/) for
 type/object system, event loop, and dispacher.
 
-## Features
-
-* dox
-
-   * Suppress probing alsactl library. It's automatically enabled when generating documentation
-     in docs.rs.
-
 ## Repository
 
 The alsactl-sys crate is the part of ALSA project and maintained by
