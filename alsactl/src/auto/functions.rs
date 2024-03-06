@@ -4,7 +4,6 @@
 // DO NOT EDIT
 
 use glib::translate::*;
-use std::{mem, ptr};
 
 /// Get the list of numeric ID for available sound cards.
 ///
@@ -20,9 +19,9 @@ use std::{mem, ptr};
 #[doc(alias = "get_card_id_list")]
 pub fn card_id_list() -> Result<Vec<u32>, glib::Error> {
     unsafe {
-        let mut entries = ptr::null_mut();
-        let mut entry_count = mem::MaybeUninit::uninit();
-        let mut error = ptr::null_mut();
+        let mut entries = std::ptr::null_mut();
+        let mut entry_count = std::mem::MaybeUninit::uninit();
+        let mut error = std::ptr::null_mut();
         let is_ok =
             ffi::alsactl_get_card_id_list(&mut entries, entry_count.as_mut_ptr(), &mut error);
         debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
@@ -53,8 +52,8 @@ pub fn card_id_list() -> Result<Vec<u32>, glib::Error> {
 #[doc(alias = "get_card_sysname")]
 pub fn card_sysname(card_id: u32) -> Result<glib::GString, glib::Error> {
     unsafe {
-        let mut sysname = ptr::null_mut();
-        let mut error = ptr::null_mut();
+        let mut sysname = std::ptr::null_mut();
+        let mut error = std::ptr::null_mut();
         let is_ok = ffi::alsactl_get_card_sysname(card_id, &mut sysname, &mut error);
         debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
@@ -81,8 +80,8 @@ pub fn card_sysname(card_id: u32) -> Result<glib::GString, glib::Error> {
 #[doc(alias = "get_control_devnode")]
 pub fn control_devnode(card_id: u32) -> Result<glib::GString, glib::Error> {
     unsafe {
-        let mut devnode = ptr::null_mut();
-        let mut error = ptr::null_mut();
+        let mut devnode = std::ptr::null_mut();
+        let mut error = std::ptr::null_mut();
         let is_ok = ffi::alsactl_get_control_devnode(card_id, &mut devnode, &mut error);
         debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
@@ -109,8 +108,8 @@ pub fn control_devnode(card_id: u32) -> Result<glib::GString, glib::Error> {
 #[doc(alias = "get_control_sysname")]
 pub fn control_sysname(card_id: u32) -> Result<glib::GString, glib::Error> {
     unsafe {
-        let mut sysname = ptr::null_mut();
-        let mut error = ptr::null_mut();
+        let mut sysname = std::ptr::null_mut();
+        let mut error = std::ptr::null_mut();
         let is_ok = ffi::alsactl_get_control_sysname(card_id, &mut sysname, &mut error);
         debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {

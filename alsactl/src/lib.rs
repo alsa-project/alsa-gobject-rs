@@ -24,7 +24,7 @@ pub use ffi;
 pub(crate) use glib;
 
 use crate::prelude::*;
-use glib::{object::IsA, translate::*, Cast};
+use glib::{object::IsA, prelude::Cast, translate::*};
 
 /// A set of information about control elements.
 pub enum ElemInfo {

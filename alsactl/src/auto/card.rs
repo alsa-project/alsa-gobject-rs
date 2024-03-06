@@ -9,7 +9,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem::transmute, ptr};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     /// An GObject-derived object to express sound card.
@@ -105,8 +105,8 @@ pub trait CardExt: IsA<Card> + sealed::Sealed + 'static {
     #[doc(alias = "alsactl_card_create_source")]
     fn create_source(&self) -> Result<glib::Source, glib::Error> {
         unsafe {
-            let mut gsrc = ptr::null_mut();
-            let mut error = ptr::null_mut();
+            let mut gsrc = std::ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsactl_card_create_source(
                 self.as_ref().to_glib_none().0,
                 &mut gsrc,
@@ -133,10 +133,11 @@ pub trait CardExt: IsA<Card> + sealed::Sealed + 'static {
     /// ## `card_info`
     /// A [`Card`][crate::Card]Info for the sound card.
     #[doc(alias = "alsactl_card_get_info")]
+    #[doc(alias = "get_info")]
     fn info(&self) -> Result<CardInfo, glib::Error> {
         unsafe {
-            let mut card_info = ptr::null_mut();
-            let mut error = ptr::null_mut();
+            let mut card_info = std::ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsactl_card_get_info(
                 self.as_ref().to_glib_none().0,
                 &mut card_info,
@@ -166,7 +167,7 @@ pub trait CardExt: IsA<Card> + sealed::Sealed + 'static {
     #[doc(alias = "alsactl_card_lock_elem")]
     fn lock_elem(&self, elem_id: &ElemId, lock: bool) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsactl_card_lock_elem(
                 self.as_ref().to_glib_none().0,
                 elem_id.to_glib_none().0,
@@ -196,7 +197,7 @@ pub trait CardExt: IsA<Card> + sealed::Sealed + 'static {
     #[doc(alias = "alsactl_card_open")]
     fn open(&self, card_id: u32, open_flag: i32) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsactl_card_open(
                 self.as_ref().to_glib_none().0,
                 card_id,
@@ -225,7 +226,7 @@ pub trait CardExt: IsA<Card> + sealed::Sealed + 'static {
     #[doc(alias = "alsactl_card_remove_elems")]
     fn remove_elems(&self, elem_id: &ElemId) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsactl_card_remove_elems(
                 self.as_ref().to_glib_none().0,
                 elem_id.to_glib_none().0,
@@ -256,7 +257,7 @@ pub trait CardExt: IsA<Card> + sealed::Sealed + 'static {
     fn write_elem_tlv(&self, elem_id: &ElemId, container: &[u32]) -> Result<(), glib::Error> {
         let container_count = container.len() as _;
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsactl_card_write_elem_tlv(
                 self.as_ref().to_glib_none().0,
                 elem_id.to_glib_none().0,
@@ -292,7 +293,7 @@ pub trait CardExt: IsA<Card> + sealed::Sealed + 'static {
         elem_value: &impl IsA<ElemValue>,
     ) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsactl_card_write_elem_value(
                 self.as_ref().to_glib_none().0,
                 elem_id.to_glib_none().0,
@@ -335,7 +336,7 @@ pub trait CardExt: IsA<Card> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"handle-disconnection\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     handle_disconnection_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -374,7 +375,7 @@ pub trait CardExt: IsA<Card> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"handle-elem-event\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     handle_elem_event_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -397,7 +398,7 @@ pub trait CardExt: IsA<Card> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::devnode\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_devnode_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -420,7 +421,7 @@ pub trait CardExt: IsA<Card> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::subscribed\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_subscribed_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -430,9 +431,3 @@ pub trait CardExt: IsA<Card> + sealed::Sealed + 'static {
 }
 
 impl<O: IsA<Card>> CardExt for O {}
-
-impl fmt::Display for Card {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("Card")
-    }
-}

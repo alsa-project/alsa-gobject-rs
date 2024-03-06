@@ -5,7 +5,6 @@
 
 use crate::ElemInfoCommon;
 use glib::translate::*;
-use std::fmt;
 
 glib::wrapper! {
     /// An object to express information for iec60958 type of element.
@@ -42,11 +41,5 @@ impl ElemInfoIec60958 {
 impl Default for ElemInfoIec60958 {
     fn default() -> Self {
         Self::new()
-    }
-}
-
-impl fmt::Display for ElemInfoIec60958 {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("ElemInfoIec60958")
     }
 }
