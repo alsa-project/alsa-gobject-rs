@@ -15,7 +15,7 @@ Add the following line to your Cargo.toml file:
 
 ```toml
 [dependencies]
-alsahwdep = "0.5"
+alsahwdep = "0.6"
 ```
 
 The API documentation is available in <https://docs.rs/alsahwdep/>.

@@ -1,7 +1,7 @@
 [package]
 edition = "2021"
 name = "alsactl"
-version = "0.5.0"
+version = "0.6.0"
 # For publishing.
 authors = ["Takashi Sakamoto"]
 categories = ["api-bindings", "hardware-support", "os::linux-apis"]
@@ -25,7 +25,7 @@ name = "alsactl"
 libc = "0.2"
 bitflags = "1.0"
 glib = "0.19"
-ffi = {package = "alsactl-sys", version = "0.5.0" }
+ffi = {package = "alsactl-sys", version = "0.6.0" }
 
 [dev-dependencies]
 gir-format-check = "^0.1"
