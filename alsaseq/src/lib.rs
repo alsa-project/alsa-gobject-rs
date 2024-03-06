@@ -18,11 +18,6 @@ mod user_client;
 // For convenience to provide structures and functions.
 pub use {
     auto::{functions::*, *},
-    enums::*,
-    event::*,
-    event_cntr::*,
-    event_data_connect::*,
-    event_data_queue::*,
     functions::*,
 };
 
@@ -43,7 +38,7 @@ pub use ffi;
 // For links in documentation.
 pub(crate) use glib;
 
-use glib::{object::IsA, translate::*, Cast, Error, StaticType, Value};
+use glib::{object::IsA, prelude::Cast, translate::*, types::StaticType, Error, Value};
 
 use crate::prelude::*;
 

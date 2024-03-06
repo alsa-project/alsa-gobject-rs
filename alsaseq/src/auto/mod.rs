@@ -85,10 +85,9 @@ pub use self::flags::PortAttrFlag;
 pub use self::flags::PortCapFlag;
 pub use self::flags::RemoveFilterFlag;
 
-pub mod functions;
+pub(crate) mod functions;
 
-#[doc(hidden)]
-pub mod traits {
+pub(crate) mod traits {
     pub use super::client_info::ClientInfoExt;
     pub use super::client_pool::ClientPoolExt;
     pub use super::port_info::PortInfoExt;

@@ -4,7 +4,6 @@
 // DO NOT EDIT
 
 use glib::{prelude::*, translate::*};
-use std::fmt;
 
 /// A set of enumerations for the type of client.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
@@ -19,21 +18,6 @@ pub enum ClientType {
     Kernel,
     #[doc(hidden)]
     __Unknown(i32),
-}
-
-impl fmt::Display for ClientType {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "ClientType::{}",
-            match *self {
-                Self::None => "None",
-                Self::User => "User",
-                Self::Kernel => "Kernel",
-                _ => "Unknown",
-            }
-        )
-    }
 }
 
 #[doc(hidden)]
@@ -133,22 +117,6 @@ pub enum EventError {
     InvalidTstampMode,
     #[doc(hidden)]
     __Unknown(i32),
-}
-
-impl fmt::Display for EventError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "EventError::{}",
-            match *self {
-                Self::Failed => "Failed",
-                Self::InvalidDataType => "InvalidDataType",
-                Self::InvalidLengthMode => "InvalidLengthMode",
-                Self::InvalidTstampMode => "InvalidTstampMode",
-                _ => "Unknown",
-            }
-        )
-    }
 }
 
 #[doc(hidden)]
@@ -271,21 +239,6 @@ pub enum EventLengthMode {
     __Unknown(i32),
 }
 
-impl fmt::Display for EventLengthMode {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "EventLengthMode::{}",
-            match *self {
-                Self::Fixed => "Fixed",
-                Self::Variable => "Variable",
-                Self::Pointer => "Pointer",
-                _ => "Unknown",
-            }
-        )
-    }
-}
-
 #[doc(hidden)]
 impl IntoGlib for EventLengthMode {
     type GlibType = ffi::ALSASeqEventLengthMode;
@@ -381,20 +334,6 @@ pub enum EventPriorityMode {
     __Unknown(i32),
 }
 
-impl fmt::Display for EventPriorityMode {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "EventPriorityMode::{}",
-            match *self {
-                Self::Normal => "Normal",
-                Self::High => "High",
-                _ => "Unknown",
-            }
-        )
-    }
-}
-
 #[doc(hidden)]
 impl IntoGlib for EventPriorityMode {
     type GlibType = ffi::ALSASeqEventPriorityMode;
@@ -488,20 +427,6 @@ pub enum EventTimeMode {
     __Unknown(i32),
 }
 
-impl fmt::Display for EventTimeMode {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "EventTimeMode::{}",
-            match *self {
-                Self::Abs => "Abs",
-                Self::Rel => "Rel",
-                _ => "Unknown",
-            }
-        )
-    }
-}
-
 #[doc(hidden)]
 impl IntoGlib for EventTimeMode {
     type GlibType = ffi::ALSASeqEventTimeMode;
@@ -593,20 +518,6 @@ pub enum EventTstampMode {
     Real,
     #[doc(hidden)]
     __Unknown(i32),
-}
-
-impl fmt::Display for EventTstampMode {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "EventTstampMode::{}",
-            match *self {
-                Self::Tick => "Tick",
-                Self::Real => "Real",
-                _ => "Unknown",
-            }
-        )
-    }
 }
 
 #[doc(hidden)]
@@ -814,76 +725,6 @@ pub enum EventType {
     __Unknown(i32),
 }
 
-impl fmt::Display for EventType {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "EventType::{}",
-            match *self {
-                Self::System => "System",
-                Self::Result => "Result",
-                Self::Note => "Note",
-                Self::Noteon => "Noteon",
-                Self::Noteoff => "Noteoff",
-                Self::Keypress => "Keypress",
-                Self::Controller => "Controller",
-                Self::Pgmchange => "Pgmchange",
-                Self::Chanpress => "Chanpress",
-                Self::Pitchbend => "Pitchbend",
-                Self::Control14 => "Control14",
-                Self::Nonregparam => "Nonregparam",
-                Self::Regparam => "Regparam",
-                Self::Songpos => "Songpos",
-                Self::Songsel => "Songsel",
-                Self::Qframe => "Qframe",
-                Self::Timesign => "Timesign",
-                Self::Keysign => "Keysign",
-                Self::Start => "Start",
-                Self::Continue => "Continue",
-                Self::Stop => "Stop",
-                Self::SetposTick => "SetposTick",
-                Self::SetposTime => "SetposTime",
-                Self::Tempo => "Tempo",
-                Self::Clock => "Clock",
-                Self::Tick => "Tick",
-                Self::QueueSkew => "QueueSkew",
-                Self::TuneRequest => "TuneRequest",
-                Self::Reset => "Reset",
-                Self::Sensing => "Sensing",
-                Self::Echo => "Echo",
-                Self::Oss => "Oss",
-                Self::ClientStart => "ClientStart",
-                Self::ClientExit => "ClientExit",
-                Self::ClientChange => "ClientChange",
-                Self::PortStart => "PortStart",
-                Self::PortExit => "PortExit",
-                Self::PortChange => "PortChange",
-                Self::PortSubscribed => "PortSubscribed",
-                Self::PortUnsubscribed => "PortUnsubscribed",
-                Self::Usr0 => "Usr0",
-                Self::Usr1 => "Usr1",
-                Self::Usr2 => "Usr2",
-                Self::Usr3 => "Usr3",
-                Self::Usr4 => "Usr4",
-                Self::Usr5 => "Usr5",
-                Self::Usr6 => "Usr6",
-                Self::Usr7 => "Usr7",
-                Self::Usr8 => "Usr8",
-                Self::Usr9 => "Usr9",
-                Self::Sysex => "Sysex",
-                Self::Bounce => "Bounce",
-                Self::UsrVar0 => "UsrVar0",
-                Self::UsrVar1 => "UsrVar1",
-                Self::UsrVar2 => "UsrVar2",
-                Self::UsrVar3 => "UsrVar3",
-                Self::UsrVar4 => "UsrVar4",
-                Self::None => "None",
-                _ => "Unknown",
-            }
-        )
-    }
-}
-
 #[doc(hidden)]
 impl IntoGlib for EventType {
     type GlibType = ffi::ALSASeqEventType;
@@ -1087,20 +928,6 @@ pub enum QuerySubscribeType {
     __Unknown(i32),
 }
 
-impl fmt::Display for QuerySubscribeType {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "QuerySubscribeType::{}",
-            match *self {
-                Self::Read => "Read",
-                Self::Write => "Write",
-                _ => "Unknown",
-            }
-        )
-    }
-}
-
 #[doc(hidden)]
 impl IntoGlib for QuerySubscribeType {
     type GlibType = ffi::ALSASeqQuerySubscribeType;
@@ -1190,19 +1017,6 @@ pub enum QueueTimerType {
     Alsa,
     #[doc(hidden)]
     __Unknown(i32),
-}
-
-impl fmt::Display for QueueTimerType {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "QueueTimerType::{}",
-            match *self {
-                Self::Alsa => "Alsa",
-                _ => "Unknown",
-            }
-        )
-    }
 }
 
 #[doc(hidden)]
@@ -1296,21 +1110,6 @@ pub enum SpecificAddress {
     Broadcast,
     #[doc(hidden)]
     __Unknown(i32),
-}
-
-impl fmt::Display for SpecificAddress {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "SpecificAddress::{}",
-            match *self {
-                Self::Unknown => "Unknown",
-                Self::Subscribers => "Subscribers",
-                Self::Broadcast => "Broadcast",
-                _ => "Unknown",
-            }
-        )
-    }
 }
 
 #[doc(hidden)]
@@ -1410,21 +1209,6 @@ pub enum SpecificClientId {
     __Unknown(i32),
 }
 
-impl fmt::Display for SpecificClientId {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "SpecificClientId::{}",
-            match *self {
-                Self::System => "System",
-                Self::Dummy => "Dummy",
-                Self::Oss => "Oss",
-                _ => "Unknown",
-            }
-        )
-    }
-}
-
 #[doc(hidden)]
 impl IntoGlib for SpecificClientId {
     type GlibType = ffi::ALSASeqSpecificClientId;
@@ -1520,20 +1304,6 @@ pub enum SpecificPortId {
     __Unknown(i32),
 }
 
-impl fmt::Display for SpecificPortId {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "SpecificPortId::{}",
-            match *self {
-                Self::Timer => "Timer",
-                Self::Announce => "Announce",
-                _ => "Unknown",
-            }
-        )
-    }
-}
-
 #[doc(hidden)]
 impl IntoGlib for SpecificPortId {
     type GlibType = ffi::ALSASeqSpecificPortId;
@@ -1623,19 +1393,6 @@ pub enum SpecificQueueId {
     Direct,
     #[doc(hidden)]
     __Unknown(i32),
-}
-
-impl fmt::Display for SpecificQueueId {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "SpecificQueueId::{}",
-            match *self {
-                Self::Direct => "Direct",
-                _ => "Unknown",
-            }
-        )
-    }
 }
 
 #[doc(hidden)]
@@ -1731,22 +1488,6 @@ pub enum UserClientError {
     EventUndeliverable,
     #[doc(hidden)]
     __Unknown(i32),
-}
-
-impl fmt::Display for UserClientError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "UserClientError::{}",
-            match *self {
-                Self::Failed => "Failed",
-                Self::PortPermission => "PortPermission",
-                Self::QueuePermission => "QueuePermission",
-                Self::EventUndeliverable => "EventUndeliverable",
-                _ => "Unknown",
-            }
-        )
-    }
 }
 
 #[doc(hidden)]

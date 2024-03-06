@@ -4,7 +4,6 @@
 // DO NOT EDIT
 
 use glib::translate::*;
-use std::mem;
 
 glib::wrapper! {
     /// A boxed object to express data of note event.
@@ -35,7 +34,7 @@ impl EventDataNote {
     #[doc(alias = "get_channel")]
     pub fn channel(&self) -> u8 {
         unsafe {
-            let mut channel = mem::MaybeUninit::uninit();
+            let mut channel = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_event_data_note_get_channel(self.to_glib_none().0, channel.as_mut_ptr());
             channel.assume_init()
         }
@@ -52,7 +51,7 @@ impl EventDataNote {
     #[doc(alias = "get_duration")]
     pub fn duration(&self) -> u8 {
         unsafe {
-            let mut duration = mem::MaybeUninit::uninit();
+            let mut duration = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_event_data_note_get_duration(self.to_glib_none().0, duration.as_mut_ptr());
             duration.assume_init()
         }
@@ -69,7 +68,7 @@ impl EventDataNote {
     #[doc(alias = "get_note")]
     pub fn note(&self) -> u8 {
         unsafe {
-            let mut note = mem::MaybeUninit::uninit();
+            let mut note = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_event_data_note_get_note(self.to_glib_none().0, note.as_mut_ptr());
             note.assume_init()
         }
@@ -86,7 +85,7 @@ impl EventDataNote {
     #[doc(alias = "get_off_velocity")]
     pub fn off_velocity(&self) -> u8 {
         unsafe {
-            let mut off_velocity = mem::MaybeUninit::uninit();
+            let mut off_velocity = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_event_data_note_get_off_velocity(
                 self.to_glib_none().0,
                 off_velocity.as_mut_ptr(),
@@ -106,7 +105,7 @@ impl EventDataNote {
     #[doc(alias = "get_velocity")]
     pub fn velocity(&self) -> u8 {
         unsafe {
-            let mut velocity = mem::MaybeUninit::uninit();
+            let mut velocity = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_event_data_note_get_velocity(self.to_glib_none().0, velocity.as_mut_ptr());
             velocity.assume_init()
         }

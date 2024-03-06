@@ -4,7 +4,6 @@
 // DO NOT EDIT
 
 use glib::translate::*;
-use std::mem;
 
 glib::wrapper! {
     /// A boxed object to express data of control event.
@@ -35,7 +34,7 @@ impl EventDataCtl {
     #[doc(alias = "get_channel")]
     pub fn channel(&self) -> u8 {
         unsafe {
-            let mut channel = mem::MaybeUninit::uninit();
+            let mut channel = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_event_data_ctl_get_channel(self.to_glib_none().0, channel.as_mut_ptr());
             channel.assume_init()
         }
@@ -52,7 +51,7 @@ impl EventDataCtl {
     #[doc(alias = "get_param")]
     pub fn param(&self) -> u32 {
         unsafe {
-            let mut param = mem::MaybeUninit::uninit();
+            let mut param = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_event_data_ctl_get_param(self.to_glib_none().0, param.as_mut_ptr());
             param.assume_init()
         }
@@ -69,7 +68,7 @@ impl EventDataCtl {
     #[doc(alias = "get_value")]
     pub fn value(&self) -> i32 {
         unsafe {
-            let mut value = mem::MaybeUninit::uninit();
+            let mut value = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_event_data_ctl_get_value(self.to_glib_none().0, value.as_mut_ptr());
             value.assume_init()
         }

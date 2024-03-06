@@ -4,6 +4,10 @@ use super::*;
 
 /// Trait which should be implemented by subclass of [`UserClient`][crate::UserClient].
 pub trait UserClientImpl: ObjectImpl + UserClientImplExt {
+    /// When event occurs, this signal is emit with the instance of object which includes batch of
+    /// events.
+    /// ## `ev_cntr`
+    /// The instance of [`EventCntr`][crate::EventCntr] which includes batch of events.
     fn handle_event(&self, user_client: &Self::Type, event_cntr: &EventCntr) {
         self.parent_handle_event(user_client, event_cntr)
     }

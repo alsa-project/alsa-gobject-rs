@@ -76,6 +76,96 @@ fn prepare_queue(client: &UserClient, port: &PortInfo, name: &str) -> Result<Que
     Ok(info)
 }
 
+fn client_type_to_str(client_type: &ClientType) -> &str {
+    match client_type {
+        ClientType::None => "None",
+        ClientType::User => "User",
+        ClientType::Kernel => "Kernel",
+        _ => "Unknown",
+    }
+}
+
+fn event_tstamp_mode_to_str(event_tstamp_mode: &EventTstampMode) -> &str {
+    match event_tstamp_mode {
+        EventTstampMode::Tick => "Tick",
+        EventTstampMode::Real => "Real",
+        _ => "Unknown",
+    }
+}
+
+fn event_type_to_str(event_type: &EventType) -> &str {
+    match event_type {
+        EventType::System => "System",
+        EventType::Result => "Result",
+        EventType::Note => "Note",
+        EventType::Noteon => "Noteon",
+        EventType::Noteoff => "Noteoff",
+        EventType::Keypress => "Keypress",
+        EventType::Controller => "Controller",
+        EventType::Pgmchange => "Pgmchange",
+        EventType::Chanpress => "Chanpress",
+        EventType::Pitchbend => "Pitchbend",
+        EventType::Control14 => "Control14",
+        EventType::Nonregparam => "Nonregparam",
+        EventType::Regparam => "Regparam",
+        EventType::Songpos => "Songpos",
+        EventType::Songsel => "Songsel",
+        EventType::Qframe => "Qframe",
+        EventType::Timesign => "Timesign",
+        EventType::Keysign => "Keysign",
+        EventType::Start => "Start",
+        EventType::Continue => "Continue",
+        EventType::Stop => "Stop",
+        EventType::SetposTick => "SetposTick",
+        EventType::SetposTime => "SetposTime",
+        EventType::Tempo => "Tempo",
+        EventType::Clock => "Clock",
+        EventType::Tick => "Tick",
+        EventType::QueueSkew => "QueueSkew",
+        EventType::TuneRequest => "TuneRequest",
+        EventType::Reset => "Reset",
+        EventType::Sensing => "Sensing",
+        EventType::Echo => "Echo",
+        EventType::Oss => "Oss",
+        EventType::ClientStart => "ClientStart",
+        EventType::ClientExit => "ClientExit",
+        EventType::ClientChange => "ClientChange",
+        EventType::PortStart => "PortStart",
+        EventType::PortExit => "PortExit",
+        EventType::PortChange => "PortChange",
+        EventType::PortSubscribed => "PortSubscribed",
+        EventType::PortUnsubscribed => "PortUnsubscribed",
+        EventType::Usr0 => "Usr0",
+        EventType::Usr1 => "Usr1",
+        EventType::Usr2 => "Usr2",
+        EventType::Usr3 => "Usr3",
+        EventType::Usr4 => "Usr4",
+        EventType::Usr5 => "Usr5",
+        EventType::Usr6 => "Usr6",
+        EventType::Usr7 => "Usr7",
+        EventType::Usr8 => "Usr8",
+        EventType::Usr9 => "Usr9",
+        EventType::Sysex => "Sysex",
+        EventType::Bounce => "Bounce",
+        EventType::UsrVar0 => "UsrVar0",
+        EventType::UsrVar1 => "UsrVar1",
+        EventType::UsrVar2 => "UsrVar2",
+        EventType::UsrVar3 => "UsrVar3",
+        EventType::UsrVar4 => "UsrVar4",
+        EventType::None => "None",
+        _ => "Unknown",
+    }
+}
+
+fn event_length_mode_to_str(event_length_mode: &EventLengthMode) -> &str {
+    match event_length_mode {
+        EventLengthMode::Fixed => "Fixed",
+        EventLengthMode::Variable => "Variable",
+        EventLengthMode::Pointer => "Pointer",
+        _ => "Unknown",
+    }
+}
+
 fn dump_info(client: &ClientInfo, port: &PortInfo, queue: &QueueInfo) {
     println!("Client: {}", client.name().expect(""));
     println!("  card-id:                {}", client.card_id());
@@ -84,7 +174,10 @@ fn dump_info(client: &ClientInfo, port: &PortInfo, queue: &QueueInfo) {
     println!("  lost-count:             {}", client.lost_count());
     println!("  port-count:             {}", client.port_count());
     println!("  process-id:             {}", client.process_id());
-    println!("  type:                   {}", client.type_());
+    println!(
+        "  type:                   {}",
+        client_type_to_str(&client.type_())
+    );
     println!("  use-filter:             {}", client.uses_filter());
 
     println!("Port: {}", port.name().expect(""));
@@ -99,7 +192,10 @@ fn dump_info(client: &ClientInfo, port: &PortInfo, queue: &QueueInfo) {
     println!("  queue-id:               {}", port.queue_id());
     println!("  read users:             {}", port.read_users());
     println!("  synth voices:           {}", port.synth_voices());
-    println!("  tstamp-mode:         {}", port.tstamp_mode());
+    println!(
+        "  tstamp-mode:         {}",
+        event_tstamp_mode_to_str(&port.tstamp_mode())
+    );
     println!("  tstamp-overwrite:    {}", port.is_tstamp_overwrite());
     println!("  write users:            {}", port.write_users());
 
@@ -107,6 +203,22 @@ fn dump_info(client: &ClientInfo, port: &PortInfo, queue: &QueueInfo) {
     println!("  client-id:              {}", queue.client_id());
     println!("  locked:                 {}", queue.is_locked());
     println!("  queue-id:               {}", queue.queue_id());
+}
+
+fn event_priority_mode_to_str(event_priority_mode: &EventPriorityMode) -> &str {
+    match event_priority_mode {
+        EventPriorityMode::Normal => "Normal",
+        EventPriorityMode::High => "High",
+        _ => "Unknown",
+    }
+}
+
+fn event_time_mode_to_str(event_time_mode: &EventTimeMode) -> &str {
+    match event_time_mode {
+        EventTimeMode::Abs => "Abs",
+        EventTimeMode::Rel => "Rel",
+        _ => "Unknown",
+    }
 }
 
 fn run_dispatcher(client: &UserClient) -> Result<(), Error> {
@@ -139,11 +251,23 @@ fn run_dispatcher(client: &UserClient) -> Result<(), Error> {
             .try_for_each(|(i, ev)| {
                 let ev_type = ev.event_type();
                 let tstamp_mode = ev.tstamp_mode();
-                println!("  Event {}:           {}", i, ev_type);
-                println!("    length-mode:      {}", ev.length_mode());
-                println!("    priority-mode:    {}", ev.priority_mode());
-                println!("    time-mode:        {}", ev.time_mode());
-                println!("    tstamp-mode:      {}", tstamp_mode);
+                println!("  Event {}:           {}", i, event_type_to_str(&ev_type));
+                println!(
+                    "    length-mode:      {}",
+                    event_length_mode_to_str(&ev.length_mode())
+                );
+                println!(
+                    "    priority-mode:    {}",
+                    event_priority_mode_to_str(&ev.priority_mode())
+                );
+                println!(
+                    "    time-mode:        {}",
+                    event_time_mode_to_str(&ev.time_mode())
+                );
+                println!(
+                    "    tstamp-mode:      {}",
+                    event_tstamp_mode_to_str(&tstamp_mode)
+                );
                 println!("    queue-id:         {}", ev.queue_id());
                 println!("    tag:              {}", ev.tag());
 

@@ -4,7 +4,6 @@
 // DO NOT EDIT
 
 use glib::translate::*;
-use std::mem;
 
 glib::wrapper! {
     /// A boxed object to express address in ALSA Sequencer.
@@ -59,7 +58,7 @@ impl Addr {
     #[doc(alias = "get_client_id")]
     pub fn client_id(&self) -> u8 {
         unsafe {
-            let mut client_id = mem::MaybeUninit::uninit();
+            let mut client_id = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_addr_get_client_id(self.to_glib_none().0, client_id.as_mut_ptr());
             client_id.assume_init()
         }
@@ -76,7 +75,7 @@ impl Addr {
     #[doc(alias = "get_port_id")]
     pub fn port_id(&self) -> u8 {
         unsafe {
-            let mut port_id = mem::MaybeUninit::uninit();
+            let mut port_id = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_addr_get_port_id(self.to_glib_none().0, port_id.as_mut_ptr());
             port_id.assume_init()
         }

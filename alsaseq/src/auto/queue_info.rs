@@ -8,7 +8,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem::transmute};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     /// A GObject-derived object to express information of queue.
@@ -147,7 +147,7 @@ pub trait QueueInfoExt: IsA<QueueInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::client-id\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_client_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -170,7 +170,7 @@ pub trait QueueInfoExt: IsA<QueueInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::locked\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_locked_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -193,7 +193,7 @@ pub trait QueueInfoExt: IsA<QueueInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::name\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_name_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -216,7 +216,7 @@ pub trait QueueInfoExt: IsA<QueueInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::queue-id\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_queue_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -226,9 +226,3 @@ pub trait QueueInfoExt: IsA<QueueInfo> + sealed::Sealed + 'static {
 }
 
 impl<O: IsA<QueueInfo>> QueueInfoExt for O {}
-
-impl fmt::Display for QueueInfo {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("QueueInfo")
-    }
-}

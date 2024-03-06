@@ -9,7 +9,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem::transmute};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     /// A GObject-derived object to express data for subscription between ports.
@@ -186,7 +186,7 @@ pub trait SubscribeDataExt: IsA<SubscribeData> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::dest\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_dest_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -212,7 +212,7 @@ pub trait SubscribeDataExt: IsA<SubscribeData> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::has-tstamp\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_has_tstamp_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -238,7 +238,7 @@ pub trait SubscribeDataExt: IsA<SubscribeData> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::is-exclusive\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_is_exclusive_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -264,7 +264,7 @@ pub trait SubscribeDataExt: IsA<SubscribeData> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::queue-id\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_queue_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -290,7 +290,7 @@ pub trait SubscribeDataExt: IsA<SubscribeData> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::sender\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_sender_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -316,7 +316,7 @@ pub trait SubscribeDataExt: IsA<SubscribeData> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::tstamp-mode\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_tstamp_mode_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -326,9 +326,3 @@ pub trait SubscribeDataExt: IsA<SubscribeData> + sealed::Sealed + 'static {
 }
 
 impl<O: IsA<SubscribeData>> SubscribeDataExt for O {}
-
-impl fmt::Display for SubscribeData {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("SubscribeData")
-    }
-}

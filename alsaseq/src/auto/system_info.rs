@@ -8,7 +8,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem::transmute};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     /// A GObject-derived object to express information of ALSA Sequencer.
@@ -136,7 +136,7 @@ pub trait SystemInfoExt: IsA<SystemInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::current-client-count\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_current_client_count_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -162,7 +162,7 @@ pub trait SystemInfoExt: IsA<SystemInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::current-queue-count\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_current_queue_count_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -191,7 +191,7 @@ pub trait SystemInfoExt: IsA<SystemInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::maximum-channel-count\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_maximum_channel_count_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -217,7 +217,7 @@ pub trait SystemInfoExt: IsA<SystemInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::maximum-client-count\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_maximum_client_count_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -243,7 +243,7 @@ pub trait SystemInfoExt: IsA<SystemInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::maximum-port-count\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_maximum_port_count_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -269,7 +269,7 @@ pub trait SystemInfoExt: IsA<SystemInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::maximum-queue-count\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_maximum_queue_count_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -279,9 +279,3 @@ pub trait SystemInfoExt: IsA<SystemInfo> + sealed::Sealed + 'static {
 }
 
 impl<O: IsA<SystemInfo>> SystemInfoExt for O {}
-
-impl fmt::Display for SystemInfo {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("SystemInfo")
-    }
-}

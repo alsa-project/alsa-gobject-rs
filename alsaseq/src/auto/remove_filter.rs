@@ -9,7 +9,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem, mem::transmute};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     /// An object to express filter to remove scheduled event in queue.
@@ -121,7 +121,7 @@ pub trait RemoveFilterExt: IsA<RemoveFilter> + sealed::Sealed + 'static {
     #[doc(alias = "get_tick_time")]
     fn tick_time(&self) -> u32 {
         unsafe {
-            let mut tick_time = mem::MaybeUninit::uninit();
+            let mut tick_time = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_remove_filter_get_tick_time(
                 self.as_ref().to_glib_none().0,
                 tick_time.as_mut_ptr(),
@@ -225,7 +225,7 @@ pub trait RemoveFilterExt: IsA<RemoveFilter> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::channel\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_channel_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -251,7 +251,7 @@ pub trait RemoveFilterExt: IsA<RemoveFilter> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::destination\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_destination_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -277,7 +277,7 @@ pub trait RemoveFilterExt: IsA<RemoveFilter> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::event-type\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_event_type_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -303,7 +303,7 @@ pub trait RemoveFilterExt: IsA<RemoveFilter> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::flags\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -329,7 +329,7 @@ pub trait RemoveFilterExt: IsA<RemoveFilter> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::queue-id\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_queue_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -339,9 +339,3 @@ pub trait RemoveFilterExt: IsA<RemoveFilter> + sealed::Sealed + 'static {
 }
 
 impl<O: IsA<RemoveFilter>> RemoveFilterExt for O {}
-
-impl fmt::Display for RemoveFilter {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("RemoveFilter")
-    }
-}

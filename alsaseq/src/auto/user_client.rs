@@ -12,7 +12,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem, mem::transmute, ptr};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     /// A GObject-derived object to express user client.
@@ -100,8 +100,8 @@ pub trait UserClientExt: IsA<UserClient> + sealed::Sealed + 'static {
     #[doc(alias = "alsaseq_user_client_create_source")]
     fn create_source(&self) -> Result<glib::Source, glib::Error> {
         unsafe {
-            let mut gsrc = ptr::null_mut();
-            let mut error = ptr::null_mut();
+            let mut gsrc = std::ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_user_client_create_source(
                 self.as_ref().to_glib_none().0,
                 &mut gsrc,
@@ -129,7 +129,7 @@ pub trait UserClientExt: IsA<UserClient> + sealed::Sealed + 'static {
     #[doc(alias = "alsaseq_user_client_delete_port")]
     fn delete_port(&self, port_id: u8) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_user_client_delete_port(
                 self.as_ref().to_glib_none().0,
                 port_id,
@@ -157,7 +157,7 @@ pub trait UserClientExt: IsA<UserClient> + sealed::Sealed + 'static {
     #[doc(alias = "alsaseq_user_client_delete_queue")]
     fn delete_queue(&self, queue_id: u8) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_user_client_delete_queue(
                 self.as_ref().to_glib_none().0,
                 queue_id,
@@ -189,8 +189,8 @@ pub trait UserClientExt: IsA<UserClient> + sealed::Sealed + 'static {
     #[doc(alias = "get_queue_tempo")]
     fn queue_tempo(&self, queue_id: u8) -> Result<QueueTempo, glib::Error> {
         unsafe {
-            let mut queue_tempo = ptr::null_mut();
-            let mut error = ptr::null_mut();
+            let mut queue_tempo = std::ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_user_client_get_queue_tempo(
                 self.as_ref().to_glib_none().0,
                 queue_id,
@@ -223,8 +223,8 @@ pub trait UserClientExt: IsA<UserClient> + sealed::Sealed + 'static {
     #[doc(alias = "get_queue_usage")]
     fn queue_usage(&self, queue_id: u8) -> Result<bool, glib::Error> {
         unsafe {
-            let mut use_ = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
+            let mut use_ = std::mem::MaybeUninit::uninit();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_user_client_get_queue_usage(
                 self.as_ref().to_glib_none().0,
                 queue_id,
@@ -253,7 +253,7 @@ pub trait UserClientExt: IsA<UserClient> + sealed::Sealed + 'static {
     #[doc(alias = "alsaseq_user_client_open")]
     fn open(&self, open_flag: i32) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_user_client_open(
                 self.as_ref().to_glib_none().0,
                 open_flag,
@@ -287,7 +287,7 @@ pub trait UserClientExt: IsA<UserClient> + sealed::Sealed + 'static {
         establish: bool,
     ) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_user_client_operate_subscription(
                 self.as_ref().to_glib_none().0,
                 subs_data.as_ref().to_glib_none().0,
@@ -316,7 +316,7 @@ pub trait UserClientExt: IsA<UserClient> + sealed::Sealed + 'static {
     #[doc(alias = "alsaseq_user_client_remove_events")]
     fn remove_events(&self, filter: &impl IsA<RemoveFilter>) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_user_client_remove_events(
                 self.as_ref().to_glib_none().0,
                 filter.as_ref().to_glib_none().0,
@@ -346,7 +346,7 @@ pub trait UserClientExt: IsA<UserClient> + sealed::Sealed + 'static {
     #[doc(alias = "alsaseq_user_client_schedule_event")]
     fn schedule_event(&self, event: &Event) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_user_client_schedule_event(
                 self.as_ref().to_glib_none().0,
                 event.to_glib_none().0,
@@ -374,7 +374,7 @@ pub trait UserClientExt: IsA<UserClient> + sealed::Sealed + 'static {
     #[doc(alias = "alsaseq_user_client_set_info")]
     fn set_info(&self, client_info: &impl IsA<ClientInfo>) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_user_client_set_info(
                 self.as_ref().to_glib_none().0,
                 client_info.as_ref().to_glib_none().0,
@@ -402,7 +402,7 @@ pub trait UserClientExt: IsA<UserClient> + sealed::Sealed + 'static {
     #[doc(alias = "alsaseq_user_client_set_pool")]
     fn set_pool(&self, client_pool: &impl IsA<ClientPool>) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_user_client_set_pool(
                 self.as_ref().to_glib_none().0,
                 client_pool.as_ref().to_glib_none().0,
@@ -436,7 +436,7 @@ pub trait UserClientExt: IsA<UserClient> + sealed::Sealed + 'static {
         queue_tempo: &impl IsA<QueueTempo>,
     ) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_user_client_set_queue_tempo(
                 self.as_ref().to_glib_none().0,
                 queue_id,
@@ -467,7 +467,7 @@ pub trait UserClientExt: IsA<UserClient> + sealed::Sealed + 'static {
     #[doc(alias = "alsaseq_user_client_set_queue_usage")]
     fn set_queue_usage(&self, queue_id: u8, use_: bool) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_user_client_set_queue_usage(
                 self.as_ref().to_glib_none().0,
                 queue_id,
@@ -498,7 +498,7 @@ pub trait UserClientExt: IsA<UserClient> + sealed::Sealed + 'static {
     #[doc(alias = "alsaseq_user_client_update_port")]
     fn update_port(&self, port_info: &impl IsA<PortInfo>, port_id: u8) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_user_client_update_port(
                 self.as_ref().to_glib_none().0,
                 port_info.as_ref().to_glib_none().0,
@@ -527,7 +527,7 @@ pub trait UserClientExt: IsA<UserClient> + sealed::Sealed + 'static {
     #[doc(alias = "alsaseq_user_client_update_queue")]
     fn update_queue(&self, queue_info: &impl IsA<QueueInfo>) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_user_client_update_queue(
                 self.as_ref().to_glib_none().0,
                 queue_info.as_ref().to_glib_none().0,
@@ -573,7 +573,7 @@ pub trait UserClientExt: IsA<UserClient> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"handle-event\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     handle_event_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -599,7 +599,7 @@ pub trait UserClientExt: IsA<UserClient> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::client-id\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_client_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -609,9 +609,3 @@ pub trait UserClientExt: IsA<UserClient> + sealed::Sealed + 'static {
 }
 
 impl<O: IsA<UserClient>> UserClientExt for O {}
-
-impl fmt::Display for UserClient {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("UserClient")
-    }
-}
