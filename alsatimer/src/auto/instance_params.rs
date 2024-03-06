@@ -9,7 +9,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem::transmute};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     /// A GObject-derived object to express parameters of user instance.
@@ -132,7 +132,7 @@ pub trait InstanceParamsExt: IsA<InstanceParams> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::flags\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -158,7 +158,7 @@ pub trait InstanceParamsExt: IsA<InstanceParams> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::interval\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_interval_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -184,7 +184,7 @@ pub trait InstanceParamsExt: IsA<InstanceParams> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::queue-size\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_queue_size_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -194,9 +194,3 @@ pub trait InstanceParamsExt: IsA<InstanceParams> + sealed::Sealed + 'static {
 }
 
 impl<O: IsA<InstanceParams>> InstanceParamsExt for O {}
-
-impl fmt::Display for InstanceParams {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("InstanceParams")
-    }
-}

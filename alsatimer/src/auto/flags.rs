@@ -4,7 +4,6 @@
 // DO NOT EDIT
 
 use glib::{bitflags::bitflags, prelude::*, translate::*};
-use std::fmt;
 
 bitflags! {
     /// A set of flags for the information of timer device.
@@ -14,12 +13,6 @@ bitflags! {
         /// The timer device is slave to any timer device.
         #[doc(alias = "ALSATIMER_DEVICE_INFO_FLAG_SLAVE")]
         const SLAVE = ffi::ALSATIMER_DEVICE_INFO_FLAG_SLAVE as _;
-    }
-}
-
-impl fmt::Display for DeviceInfoFlag {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        <Self as fmt::Debug>::fmt(self, f)
     }
 }
 
@@ -109,12 +102,6 @@ bitflags! {
         /// The instance receives early event after configured even if not started.
         #[doc(alias = "ALSATIMER_INSTANCE_PARAM_FLAG_EARLY_EVENT")]
         const EARLY_EVENT = ffi::ALSATIMER_INSTANCE_PARAM_FLAG_EARLY_EVENT as _;
-    }
-}
-
-impl fmt::Display for InstanceParamFlag {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        <Self as fmt::Debug>::fmt(self, f)
     }
 }
 

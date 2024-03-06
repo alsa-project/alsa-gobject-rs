@@ -9,7 +9,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem::transmute, ptr};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     /// A GObject-derived object to express user instance.
@@ -98,7 +98,7 @@ pub trait UserInstanceExt: IsA<UserInstance> + sealed::Sealed + 'static {
     #[doc(alias = "alsatimer_user_instance_attach")]
     fn attach(&self, device_id: &mut DeviceId) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsatimer_user_instance_attach(
                 self.as_ref().to_glib_none().0,
                 device_id.to_glib_none_mut().0,
@@ -131,7 +131,7 @@ pub trait UserInstanceExt: IsA<UserInstance> + sealed::Sealed + 'static {
     #[doc(alias = "alsatimer_user_instance_attach_as_slave")]
     fn attach_as_slave(&self, slave_class: SlaveClass, slave_id: i32) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsatimer_user_instance_attach_as_slave(
                 self.as_ref().to_glib_none().0,
                 slave_class.into_glib(),
@@ -166,7 +166,7 @@ pub trait UserInstanceExt: IsA<UserInstance> + sealed::Sealed + 'static {
     #[doc(alias = "alsatimer_user_instance_choose_event_type")]
     fn choose_event_type(&self, event_type: EventType) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsatimer_user_instance_choose_event_type(
                 self.as_ref().to_glib_none().0,
                 event_type.into_glib(),
@@ -185,7 +185,7 @@ pub trait UserInstanceExt: IsA<UserInstance> + sealed::Sealed + 'static {
     #[doc(alias = "continue")]
     fn continue_(&self) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok =
                 ffi::alsatimer_user_instance_continue(self.as_ref().to_glib_none().0, &mut error);
             debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
@@ -212,8 +212,8 @@ pub trait UserInstanceExt: IsA<UserInstance> + sealed::Sealed + 'static {
     #[doc(alias = "alsatimer_user_instance_create_source")]
     fn create_source(&self) -> Result<glib::Source, glib::Error> {
         unsafe {
-            let mut gsrc = ptr::null_mut();
-            let mut error = ptr::null_mut();
+            let mut gsrc = std::ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsatimer_user_instance_create_source(
                 self.as_ref().to_glib_none().0,
                 &mut gsrc,
@@ -243,8 +243,8 @@ pub trait UserInstanceExt: IsA<UserInstance> + sealed::Sealed + 'static {
     #[doc(alias = "get_info")]
     fn info(&self) -> Result<InstanceInfo, glib::Error> {
         unsafe {
-            let mut instance_info = ptr::null_mut();
-            let mut error = ptr::null_mut();
+            let mut instance_info = std::ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsatimer_user_instance_get_info(
                 self.as_ref().to_glib_none().0,
                 &mut instance_info,
@@ -271,7 +271,7 @@ pub trait UserInstanceExt: IsA<UserInstance> + sealed::Sealed + 'static {
     #[doc(alias = "alsatimer_user_instance_open")]
     fn open(&self, open_flag: i32) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsatimer_user_instance_open(
                 self.as_ref().to_glib_none().0,
                 open_flag,
@@ -297,7 +297,7 @@ pub trait UserInstanceExt: IsA<UserInstance> + sealed::Sealed + 'static {
     #[doc(alias = "alsatimer_user_instance_pause")]
     fn pause(&self) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok =
                 ffi::alsatimer_user_instance_pause(self.as_ref().to_glib_none().0, &mut error);
             debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
@@ -320,7 +320,7 @@ pub trait UserInstanceExt: IsA<UserInstance> + sealed::Sealed + 'static {
     #[doc(alias = "alsatimer_user_instance_start")]
     fn start(&self) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok =
                 ffi::alsatimer_user_instance_start(self.as_ref().to_glib_none().0, &mut error);
             debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
@@ -343,7 +343,7 @@ pub trait UserInstanceExt: IsA<UserInstance> + sealed::Sealed + 'static {
     #[doc(alias = "alsatimer_user_instance_stop")]
     fn stop(&self) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok =
                 ffi::alsatimer_user_instance_stop(self.as_ref().to_glib_none().0, &mut error);
             debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
@@ -375,7 +375,7 @@ pub trait UserInstanceExt: IsA<UserInstance> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"handle-disconnection\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     handle_disconnection_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -410,7 +410,7 @@ pub trait UserInstanceExt: IsA<UserInstance> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"handle-real-time-event\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     handle_real_time_event_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -445,7 +445,7 @@ pub trait UserInstanceExt: IsA<UserInstance> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"handle-tick-time-event\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     handle_tick_time_event_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -455,9 +455,3 @@ pub trait UserInstanceExt: IsA<UserInstance> + sealed::Sealed + 'static {
 }
 
 impl<O: IsA<UserInstance>> UserInstanceExt for O {}
-
-impl fmt::Display for UserInstance {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("UserInstance")
-    }
-}

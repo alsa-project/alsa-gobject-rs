@@ -8,7 +8,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem::transmute};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     /// A GObject-derived object to express status of user instance.
@@ -126,7 +126,7 @@ pub trait InstanceStatusExt: IsA<InstanceStatus> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::interval\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_interval_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -149,7 +149,7 @@ pub trait InstanceStatusExt: IsA<InstanceStatus> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::lost\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_lost_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -175,7 +175,7 @@ pub trait InstanceStatusExt: IsA<InstanceStatus> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::overrun\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_overrun_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -201,7 +201,7 @@ pub trait InstanceStatusExt: IsA<InstanceStatus> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::queue-size\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_queue_size_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -211,9 +211,3 @@ pub trait InstanceStatusExt: IsA<InstanceStatus> + sealed::Sealed + 'static {
 }
 
 impl<O: IsA<InstanceStatus>> InstanceStatusExt for O {}
-
-impl fmt::Display for InstanceStatus {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("InstanceStatus")
-    }
-}

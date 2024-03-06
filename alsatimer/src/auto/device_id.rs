@@ -5,7 +5,6 @@
 
 use crate::Class;
 use glib::translate::*;
-use std::mem;
 
 glib::wrapper! {
     /// A boxed object to express the identifier of timer device.
@@ -62,7 +61,7 @@ impl DeviceId {
     #[doc(alias = "get_card_id")]
     pub fn card_id(&self) -> i32 {
         unsafe {
-            let mut card_id = mem::MaybeUninit::uninit();
+            let mut card_id = std::mem::MaybeUninit::uninit();
             ffi::alsatimer_device_id_get_card_id(self.to_glib_none().0, card_id.as_mut_ptr());
             card_id.assume_init()
         }
@@ -79,7 +78,7 @@ impl DeviceId {
     #[doc(alias = "get_class")]
     pub fn class(&self) -> Class {
         unsafe {
-            let mut class = mem::MaybeUninit::uninit();
+            let mut class = std::mem::MaybeUninit::uninit();
             ffi::alsatimer_device_id_get_class(self.to_glib_none().0, class.as_mut_ptr());
             from_glib(class.assume_init())
         }
@@ -96,7 +95,7 @@ impl DeviceId {
     #[doc(alias = "get_device_id")]
     pub fn device_id(&self) -> i32 {
         unsafe {
-            let mut device_id = mem::MaybeUninit::uninit();
+            let mut device_id = std::mem::MaybeUninit::uninit();
             ffi::alsatimer_device_id_get_device_id(self.to_glib_none().0, device_id.as_mut_ptr());
             device_id.assume_init()
         }
@@ -113,7 +112,7 @@ impl DeviceId {
     #[doc(alias = "get_subdevice_id")]
     pub fn subdevice_id(&self) -> i32 {
         unsafe {
-            let mut subdevice_id = mem::MaybeUninit::uninit();
+            let mut subdevice_id = std::mem::MaybeUninit::uninit();
             ffi::alsatimer_device_id_get_subdevice_id(
                 self.to_glib_none().0,
                 subdevice_id.as_mut_ptr(),

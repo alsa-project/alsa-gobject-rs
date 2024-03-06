@@ -8,7 +8,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem::transmute};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     /// A GObject-derived object to express status of timer device.
@@ -115,7 +115,7 @@ pub trait DeviceStatusExt: IsA<DeviceStatus> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::resolution\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_resolution_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -144,7 +144,7 @@ pub trait DeviceStatusExt: IsA<DeviceStatus> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::resolution-denominator\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_resolution_denominator_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -170,7 +170,7 @@ pub trait DeviceStatusExt: IsA<DeviceStatus> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::resolution-numerator\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_resolution_numerator_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -180,9 +180,3 @@ pub trait DeviceStatusExt: IsA<DeviceStatus> + sealed::Sealed + 'static {
 }
 
 impl<O: IsA<DeviceStatus>> DeviceStatusExt for O {}
-
-impl fmt::Display for DeviceStatus {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("DeviceStatus")
-    }
-}

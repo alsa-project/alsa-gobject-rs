@@ -4,7 +4,6 @@
 // DO NOT EDIT
 
 use glib::{prelude::*, translate::*};
-use std::fmt;
 
 /// A set of enumerations for the class of timer device.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
@@ -21,22 +20,6 @@ pub enum Class {
     Pcm,
     #[doc(hidden)]
     __Unknown(i32),
-}
-
-impl fmt::Display for Class {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "Class::{}",
-            match *self {
-                Self::None => "None",
-                Self::Global => "Global",
-                Self::Card => "Card",
-                Self::Pcm => "Pcm",
-                _ => "Unknown",
-            }
-        )
-    }
 }
 
 #[doc(hidden)]
@@ -134,20 +117,6 @@ pub enum EventType {
     RealTime,
     #[doc(hidden)]
     __Unknown(i32),
-}
-
-impl fmt::Display for EventType {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "EventType::{}",
-            match *self {
-                Self::TickTime => "TickTime",
-                Self::RealTime => "RealTime",
-                _ => "Unknown",
-            }
-        )
-    }
 }
 
 #[doc(hidden)]
@@ -269,33 +238,6 @@ pub enum RealTimeEventType {
     __Unknown(i32),
 }
 
-impl fmt::Display for RealTimeEventType {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "RealTimeEventType::{}",
-            match *self {
-                Self::Resolution => "Resolution",
-                Self::Tick => "Tick",
-                Self::Start => "Start",
-                Self::Stop => "Stop",
-                Self::Continue => "Continue",
-                Self::Pause => "Pause",
-                Self::Early => "Early",
-                Self::Suspend => "Suspend",
-                Self::Resume => "Resume",
-                Self::Mstart => "Mstart",
-                Self::Mstop => "Mstop",
-                Self::Mcontinue => "Mcontinue",
-                Self::Mpause => "Mpause",
-                Self::Msuspend => "Msuspend",
-                Self::Mresume => "Mresume",
-                _ => "Unknown",
-            }
-        )
-    }
-}
-
 #[doc(hidden)]
 impl IntoGlib for RealTimeEventType {
     type GlibType = ffi::ALSATimerRealTimeEventType;
@@ -415,21 +357,6 @@ pub enum SlaveClass {
     __Unknown(i32),
 }
 
-impl fmt::Display for SlaveClass {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "SlaveClass::{}",
-            match *self {
-                Self::None => "None",
-                Self::Application => "Application",
-                Self::Sequencer => "Sequencer",
-                _ => "Unknown",
-            }
-        )
-    }
-}
-
 #[doc(hidden)]
 impl IntoGlib for SlaveClass {
     type GlibType = ffi::ALSATimerSlaveClass;
@@ -523,20 +450,6 @@ pub enum SpecificGlobalDevice {
     Hrtimer,
     #[doc(hidden)]
     __Unknown(i32),
-}
-
-impl fmt::Display for SpecificGlobalDevice {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "SpecificGlobalDevice::{}",
-            match *self {
-                Self::System => "System",
-                Self::Hrtimer => "Hrtimer",
-                _ => "Unknown",
-            }
-        )
-    }
 }
 
 #[doc(hidden)]
@@ -634,22 +547,6 @@ pub enum UserInstanceError {
     Attached,
     #[doc(hidden)]
     __Unknown(i32),
-}
-
-impl fmt::Display for UserInstanceError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "UserInstanceError::{}",
-            match *self {
-                Self::Failed => "Failed",
-                Self::TimerNotFound => "TimerNotFound",
-                Self::NotAttached => "NotAttached",
-                Self::Attached => "Attached",
-                _ => "Unknown",
-            }
-        )
-    }
 }
 
 #[doc(hidden)]

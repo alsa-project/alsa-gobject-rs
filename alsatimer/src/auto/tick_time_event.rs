@@ -4,7 +4,6 @@
 // DO NOT EDIT
 
 use glib::translate::*;
-use std::mem;
 
 glib::wrapper! {
     /// A boxed object to express event of timer with tick count.
@@ -34,7 +33,7 @@ impl TickTimeEvent {
     #[doc(alias = "get_count")]
     pub fn count(&self) -> u32 {
         unsafe {
-            let mut count = mem::MaybeUninit::uninit();
+            let mut count = std::mem::MaybeUninit::uninit();
             ffi::alsatimer_tick_time_event_get_count(self.to_glib_none().0, count.as_mut_ptr());
             count.assume_init()
         }
@@ -51,7 +50,7 @@ impl TickTimeEvent {
     #[doc(alias = "get_resolution")]
     pub fn resolution(&self) -> u32 {
         unsafe {
-            let mut resolution = mem::MaybeUninit::uninit();
+            let mut resolution = std::mem::MaybeUninit::uninit();
             ffi::alsatimer_tick_time_event_get_resolution(
                 self.to_glib_none().0,
                 resolution.as_mut_ptr(),

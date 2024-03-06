@@ -17,10 +17,7 @@ pub use {
 
 /// For convenience to provide auto-generated/manual traits, and their blanket implementations.
 pub mod prelude {
-    pub use crate::{
-        auto::traits::*, instance_params::*, instance_status::*, real_time_event::*,
-        user_instance::*,
-    };
+    pub use crate::{auto::traits::*, instance_params::*, instance_status::*, user_instance::*};
 }
 
 /// For subclass implementations derived from provided class.
@@ -32,4 +29,4 @@ pub use ffi;
 // For links in documentation.
 pub(crate) use glib;
 
-use glib::{object::IsA, translate::*, Cast};
+use glib::{object::IsA, prelude::Cast, translate::*};
