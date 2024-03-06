@@ -11,6 +11,7 @@ exclude = ["Gir.toml"]
 homepage = "https://alsa-project.github.io/gobject-introspection-docs/"
 keywords = ["music", "alsa", "linux", "glib"]
 license = "MIT"
+readme = "README.md"
 repository = "https://github.com/alsa-project/alsa-gobject-rs"
 
 [package.metadata.docs.rs]
@@ -23,7 +24,7 @@ name = "alsarawmidi"
 [dependencies]
 libc = "0.2"
 bitflags = "1.0"
-glib = "0.18"
+glib = "0.19"
 
 ffi = {package = "alsarawmidi-sys", version = "0.5.0" }
 

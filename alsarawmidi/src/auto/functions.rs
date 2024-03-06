@@ -5,7 +5,6 @@
 
 use crate::{StreamDirection, SubstreamInfo};
 use glib::translate::*;
-use std::{mem, ptr};
 
 /// Get the list of numeric identifier for available rawmidi devices of sound card.
 ///
@@ -23,9 +22,9 @@ use std::{mem, ptr};
 #[doc(alias = "get_device_id_list")]
 pub fn device_id_list(card_id: u32) -> Result<Vec<u32>, glib::Error> {
     unsafe {
-        let mut entries = ptr::null_mut();
-        let mut entry_count = mem::MaybeUninit::uninit();
-        let mut error = ptr::null_mut();
+        let mut entries = std::ptr::null_mut();
+        let mut entry_count = std::mem::MaybeUninit::uninit();
+        let mut error = std::ptr::null_mut();
         let is_ok = ffi::alsarawmidi_get_device_id_list(
             card_id,
             &mut entries,
@@ -62,8 +61,8 @@ pub fn device_id_list(card_id: u32) -> Result<Vec<u32>, glib::Error> {
 #[doc(alias = "get_rawmidi_devnode")]
 pub fn rawmidi_devnode(card_id: u32, device_id: u32) -> Result<glib::GString, glib::Error> {
     unsafe {
-        let mut devnode = ptr::null_mut();
-        let mut error = ptr::null_mut();
+        let mut devnode = std::ptr::null_mut();
+        let mut error = std::ptr::null_mut();
         let is_ok =
             ffi::alsarawmidi_get_rawmidi_devnode(card_id, device_id, &mut devnode, &mut error);
         debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
@@ -93,8 +92,8 @@ pub fn rawmidi_devnode(card_id: u32, device_id: u32) -> Result<glib::GString, gl
 #[doc(alias = "get_rawmidi_sysname")]
 pub fn rawmidi_sysname(card_id: u32, device_id: u32) -> Result<glib::GString, glib::Error> {
     unsafe {
-        let mut sysname = ptr::null_mut();
-        let mut error = ptr::null_mut();
+        let mut sysname = std::ptr::null_mut();
+        let mut error = std::ptr::null_mut();
         let is_ok =
             ffi::alsarawmidi_get_rawmidi_sysname(card_id, device_id, &mut sysname, &mut error);
         debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
@@ -132,9 +131,9 @@ pub fn subdevice_id_list(
     direction: StreamDirection,
 ) -> Result<Vec<u32>, glib::Error> {
     unsafe {
-        let mut entries = ptr::null_mut();
-        let mut entry_count = mem::MaybeUninit::uninit();
-        let mut error = ptr::null_mut();
+        let mut entries = std::ptr::null_mut();
+        let mut entry_count = std::mem::MaybeUninit::uninit();
+        let mut error = std::ptr::null_mut();
         let is_ok = ffi::alsarawmidi_get_subdevice_id_list(
             card_id,
             device_id,
@@ -184,8 +183,8 @@ pub fn substream_info(
     subdevice_id: u32,
 ) -> Result<SubstreamInfo, glib::Error> {
     unsafe {
-        let mut substream_info = ptr::null_mut();
-        let mut error = ptr::null_mut();
+        let mut substream_info = std::ptr::null_mut();
+        let mut error = std::ptr::null_mut();
         let is_ok = ffi::alsarawmidi_get_substream_info(
             card_id,
             device_id,

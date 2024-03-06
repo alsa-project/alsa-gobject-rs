@@ -9,7 +9,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem::transmute, ptr};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     /// GObject-derived object to express a pair of Rawmidi stream.
@@ -108,8 +108,8 @@ pub trait StreamPairExt: IsA<StreamPair> + sealed::Sealed + 'static {
     #[doc(alias = "alsarawmidi_stream_pair_create_source")]
     fn create_source(&self) -> Result<glib::Source, glib::Error> {
         unsafe {
-            let mut gsrc = ptr::null_mut();
-            let mut error = ptr::null_mut();
+            let mut gsrc = std::ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsarawmidi_stream_pair_create_source(
                 self.as_ref().to_glib_none().0,
                 &mut gsrc,
@@ -127,7 +127,7 @@ pub trait StreamPairExt: IsA<StreamPair> + sealed::Sealed + 'static {
     #[doc(alias = "alsarawmidi_stream_pair_drain_substream")]
     fn drain_substream(&self, direction: StreamDirection) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsarawmidi_stream_pair_drain_substream(
                 self.as_ref().to_glib_none().0,
                 direction.into_glib(),
@@ -145,7 +145,7 @@ pub trait StreamPairExt: IsA<StreamPair> + sealed::Sealed + 'static {
     #[doc(alias = "alsarawmidi_stream_pair_drop_substream")]
     fn drop_substream(&self, direction: StreamDirection) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsarawmidi_stream_pair_drop_substream(
                 self.as_ref().to_glib_none().0,
                 direction.into_glib(),
@@ -177,8 +177,8 @@ pub trait StreamPairExt: IsA<StreamPair> + sealed::Sealed + 'static {
     #[doc(alias = "get_substream_info")]
     fn substream_info(&self, direction: StreamDirection) -> Result<SubstreamInfo, glib::Error> {
         unsafe {
-            let mut substream_info = ptr::null_mut();
-            let mut error = ptr::null_mut();
+            let mut substream_info = std::ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsarawmidi_stream_pair_get_substream_info(
                 self.as_ref().to_glib_none().0,
                 direction.into_glib(),
@@ -223,7 +223,7 @@ pub trait StreamPairExt: IsA<StreamPair> + sealed::Sealed + 'static {
         open_flag: i32,
     ) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsarawmidi_stream_pair_open(
                 self.as_ref().to_glib_none().0,
                 card_id,
@@ -261,7 +261,7 @@ pub trait StreamPairExt: IsA<StreamPair> + sealed::Sealed + 'static {
         substream_params: &impl IsA<SubstreamParams>,
     ) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsarawmidi_stream_pair_set_substream_params(
                 self.as_ref().to_glib_none().0,
                 direction.into_glib(),
@@ -292,7 +292,7 @@ pub trait StreamPairExt: IsA<StreamPair> + sealed::Sealed + 'static {
     fn write_to_substream(&self, buf: &[u8]) -> Result<(), glib::Error> {
         let buf_size = buf.len() as _;
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsarawmidi_stream_pair_write_to_substream(
                 self.as_ref().to_glib_none().0,
                 buf.to_glib_none().0,
@@ -333,7 +333,7 @@ pub trait StreamPairExt: IsA<StreamPair> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"handle-disconnection\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     handle_disconnection_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -356,7 +356,7 @@ pub trait StreamPairExt: IsA<StreamPair> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"handle-messages\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     handle_messages_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -379,7 +379,7 @@ pub trait StreamPairExt: IsA<StreamPair> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::devnode\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_devnode_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -389,9 +389,3 @@ pub trait StreamPairExt: IsA<StreamPair> + sealed::Sealed + 'static {
 }
 
 impl<O: IsA<StreamPair>> StreamPairExt for O {}
-
-impl fmt::Display for StreamPair {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("StreamPair")
-    }
-}
