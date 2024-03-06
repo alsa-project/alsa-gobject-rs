@@ -4,7 +4,6 @@
 // DO NOT EDIT
 
 use glib::{prelude::*, translate::*};
-use std::fmt;
 
 /// A set of enumerations for code of ALSAHwDep.DeviceCommonError error domain.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
@@ -25,24 +24,6 @@ pub enum DeviceCommonError {
     IsDisconnected,
     #[doc(hidden)]
     __Unknown(i32),
-}
-
-impl fmt::Display for DeviceCommonError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "DeviceCommonError::{}",
-            match *self {
-                Self::Failed => "Failed",
-                Self::IsOpened => "IsOpened",
-                Self::IsNotOpened => "IsNotOpened",
-                Self::IsUsed => "IsUsed",
-                Self::IsNotSupported => "IsNotSupported",
-                Self::IsDisconnected => "IsDisconnected",
-                _ => "Unknown",
-            }
-        )
-    }
 }
 
 #[doc(hidden)]
@@ -215,45 +196,6 @@ pub enum IfaceType {
     FwFireface,
     #[doc(hidden)]
     __Unknown(i32),
-}
-
-impl fmt::Display for IfaceType {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "IfaceType::{}",
-            match *self {
-                Self::Opl2 => "Opl2",
-                Self::Opl3 => "Opl3",
-                Self::Opl4 => "Opl4",
-                Self::Sb16csp => "Sb16csp",
-                Self::Emu10k1 => "Emu10k1",
-                Self::Yss225 => "Yss225",
-                Self::Ics2115 => "Ics2115",
-                Self::Sscape => "Sscape",
-                Self::Vx => "Vx",
-                Self::Mixart => "Mixart",
-                Self::Usx2y => "Usx2y",
-                Self::EmuxWavetable => "EmuxWavetable",
-                Self::Bluetooth => "Bluetooth",
-                Self::Usx2yPcm => "Usx2yPcm",
-                Self::Pcxhr => "Pcxhr",
-                Self::SbRc => "SbRc",
-                Self::Hda => "Hda",
-                Self::UsbStream => "UsbStream",
-                Self::FwDice => "FwDice",
-                Self::FwFireworks => "FwFireworks",
-                Self::FwBebob => "FwBebob",
-                Self::FwOxfw => "FwOxfw",
-                Self::FwDigi00x => "FwDigi00x",
-                Self::FwTascam => "FwTascam",
-                Self::Line6 => "Line6",
-                Self::FwMotu => "FwMotu",
-                Self::FwFireface => "FwFireface",
-                _ => "Unknown",
-            }
-        )
-    }
 }
 
 #[doc(hidden)]

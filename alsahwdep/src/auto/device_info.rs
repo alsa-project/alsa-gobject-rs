@@ -5,7 +5,6 @@
 
 use crate::IfaceType;
 use glib::prelude::*;
-use std::fmt;
 
 glib::wrapper! {
     /// A GObject-derived object to express information of ALSA hwdep device.
@@ -102,9 +101,3 @@ pub trait DeviceInfoExt: IsA<DeviceInfo> + sealed::Sealed + 'static {
 }
 
 impl<O: IsA<DeviceInfo>> DeviceInfoExt for O {}
-
-impl fmt::Display for DeviceInfo {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("DeviceInfo")
-    }
-}

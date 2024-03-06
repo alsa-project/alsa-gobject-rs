@@ -7,7 +7,6 @@
 
 use crate::DeviceInfo;
 use glib::translate::*;
-use std::{mem, ptr};
 
 /// Get the list of numeric ID for available hwdep devices of sound card.
 ///
@@ -25,9 +24,9 @@ use std::{mem, ptr};
 #[doc(alias = "get_device_id_list")]
 pub fn device_id_list(card_id: u32) -> Result<Vec<u32>, glib::Error> {
     unsafe {
-        let mut entries = ptr::null_mut();
-        let mut entry_count = mem::MaybeUninit::uninit();
-        let mut error = ptr::null_mut();
+        let mut entries = std::ptr::null_mut();
+        let mut entry_count = std::mem::MaybeUninit::uninit();
+        let mut error = std::ptr::null_mut();
         let is_ok = ffi::alsahwdep_get_device_id_list(
             card_id,
             &mut entries,
@@ -65,8 +64,8 @@ pub fn device_id_list(card_id: u32) -> Result<Vec<u32>, glib::Error> {
 #[doc(alias = "get_device_info")]
 pub fn device_info(card_id: u32, device_id: u32) -> Result<DeviceInfo, glib::Error> {
     unsafe {
-        let mut device_info = ptr::null_mut();
-        let mut error = ptr::null_mut();
+        let mut device_info = std::ptr::null_mut();
+        let mut error = std::ptr::null_mut();
         let is_ok =
             ffi::alsahwdep_get_device_info(card_id, device_id, &mut device_info, &mut error);
         debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
@@ -96,8 +95,8 @@ pub fn device_info(card_id: u32, device_id: u32) -> Result<DeviceInfo, glib::Err
 #[doc(alias = "get_hwdep_devnode")]
 pub fn hwdep_devnode(card_id: u32, device_id: u32) -> Result<glib::GString, glib::Error> {
     unsafe {
-        let mut devnode = ptr::null_mut();
-        let mut error = ptr::null_mut();
+        let mut devnode = std::ptr::null_mut();
+        let mut error = std::ptr::null_mut();
         let is_ok = ffi::alsahwdep_get_hwdep_devnode(card_id, device_id, &mut devnode, &mut error);
         debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
@@ -126,8 +125,8 @@ pub fn hwdep_devnode(card_id: u32, device_id: u32) -> Result<glib::GString, glib
 #[doc(alias = "get_hwdep_sysname")]
 pub fn hwdep_sysname(card_id: u32, device_id: u32) -> Result<glib::GString, glib::Error> {
     unsafe {
-        let mut sysname = ptr::null_mut();
-        let mut error = ptr::null_mut();
+        let mut sysname = std::ptr::null_mut();
+        let mut error = std::ptr::null_mut();
         let is_ok = ffi::alsahwdep_get_hwdep_sysname(card_id, device_id, &mut sysname, &mut error);
         debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {

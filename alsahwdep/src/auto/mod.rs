@@ -13,10 +13,9 @@ mod enums;
 pub use self::enums::DeviceCommonError;
 pub use self::enums::IfaceType;
 
-pub mod functions;
+pub(crate) mod functions;
 
-#[doc(hidden)]
-pub mod traits {
+pub(crate) mod traits {
     pub use super::device_common::DeviceCommonExt;
     pub use super::device_info::DeviceInfoExt;
 }
