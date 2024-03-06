@@ -4,7 +4,6 @@
 // DO NOT EDIT
 
 use glib::{bitflags::bitflags, prelude::*, translate::*};
-use std::fmt;
 
 bitflags! {
     /// A set of flags for attributes of event filter.
@@ -20,12 +19,6 @@ bitflags! {
         /// The client is going to handle bounce events.
         #[doc(alias = "ALSASEQ_FILTER_ATTR_FLAG_BOUNCE")]
         const BOUNCE = ffi::ALSASEQ_FILTER_ATTR_FLAG_BOUNCE as _;
-    }
-}
-
-impl fmt::Display for FilterAttrFlag {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        <Self as fmt::Debug>::fmt(self, f)
     }
 }
 
@@ -145,12 +138,6 @@ bitflags! {
     }
 }
 
-impl fmt::Display for PortAttrFlag {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        <Self as fmt::Debug>::fmt(self, f)
-    }
-}
-
 #[doc(hidden)]
 impl IntoGlib for PortAttrFlag {
     type GlibType = ffi::ALSASeqPortAttrFlag;
@@ -246,12 +233,6 @@ bitflags! {
         /// Only owners of the port can maintain subscription.
         #[doc(alias = "ALSASEQ_PORT_CAP_FLAG_NO_EXPORT")]
         const NO_EXPORT = ffi::ALSASEQ_PORT_CAP_FLAG_NO_EXPORT as _;
-    }
-}
-
-impl fmt::Display for PortCapFlag {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        <Self as fmt::Debug>::fmt(self, f)
     }
 }
 
@@ -364,12 +345,6 @@ bitflags! {
         /// Flush events with the given tag.
         #[doc(alias = "ALSASEQ_REMOVE_FILTER_FLAG_TAG_MATCH")]
         const TAG_MATCH = ffi::ALSASEQ_REMOVE_FILTER_FLAG_TAG_MATCH as _;
-    }
-}
-
-impl fmt::Display for RemoveFilterFlag {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        <Self as fmt::Debug>::fmt(self, f)
     }
 }
 

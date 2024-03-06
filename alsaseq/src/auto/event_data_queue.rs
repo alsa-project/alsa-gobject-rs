@@ -4,7 +4,6 @@
 // DO NOT EDIT
 
 use glib::translate::*;
-use std::mem;
 
 glib::wrapper! {
     /// A boxed object to express data of queue event.
@@ -35,7 +34,7 @@ impl EventDataQueue {
     #[doc(alias = "get_position_param")]
     pub fn position_param(&self) -> u32 {
         unsafe {
-            let mut position = mem::MaybeUninit::uninit();
+            let mut position = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_event_data_queue_get_position_param(
                 self.to_glib_none().0,
                 position.as_mut_ptr(),
@@ -55,7 +54,7 @@ impl EventDataQueue {
     #[doc(alias = "get_queue_id")]
     pub fn queue_id(&self) -> u8 {
         unsafe {
-            let mut queue_id = mem::MaybeUninit::uninit();
+            let mut queue_id = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_event_data_queue_get_queue_id(
                 self.to_glib_none().0,
                 queue_id.as_mut_ptr(),
@@ -75,7 +74,7 @@ impl EventDataQueue {
     #[doc(alias = "get_tick_time_param")]
     pub fn tick_time_param(&self) -> u32 {
         unsafe {
-            let mut tick_time = mem::MaybeUninit::uninit();
+            let mut tick_time = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_event_data_queue_get_tick_time_param(
                 self.to_glib_none().0,
                 tick_time.as_mut_ptr(),
@@ -95,7 +94,7 @@ impl EventDataQueue {
     #[doc(alias = "get_value_param")]
     pub fn value_param(&self) -> i32 {
         unsafe {
-            let mut value = mem::MaybeUninit::uninit();
+            let mut value = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_event_data_queue_get_value_param(
                 self.to_glib_none().0,
                 value.as_mut_ptr(),

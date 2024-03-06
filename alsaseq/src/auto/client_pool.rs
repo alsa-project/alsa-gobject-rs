@@ -8,7 +8,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem::transmute};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     /// A GObject-derived object to express information of pool owned by client.
@@ -196,7 +196,7 @@ pub trait ClientPoolExt: IsA<ClientPool> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::client-id\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_client_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -222,7 +222,7 @@ pub trait ClientPoolExt: IsA<ClientPool> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::input-free\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_input_free_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -248,7 +248,7 @@ pub trait ClientPoolExt: IsA<ClientPool> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::input-pool\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_input_pool_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -274,7 +274,7 @@ pub trait ClientPoolExt: IsA<ClientPool> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::output-free\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_output_free_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -300,7 +300,7 @@ pub trait ClientPoolExt: IsA<ClientPool> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::output-pool\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_output_pool_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -326,7 +326,7 @@ pub trait ClientPoolExt: IsA<ClientPool> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::output-room\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_output_room_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -336,9 +336,3 @@ pub trait ClientPoolExt: IsA<ClientPool> + sealed::Sealed + 'static {
 }
 
 impl<O: IsA<ClientPool>> ClientPoolExt for O {}
-
-impl fmt::Display for ClientPool {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("ClientPool")
-    }
-}

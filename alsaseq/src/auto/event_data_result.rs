@@ -5,7 +5,6 @@
 
 use crate::EventType;
 use glib::translate::*;
-use std::mem;
 
 glib::wrapper! {
     /// A boxed object to express data of result event.
@@ -36,7 +35,7 @@ impl EventDataResult {
     #[doc(alias = "get_event")]
     pub fn event(&self) -> EventType {
         unsafe {
-            let mut event_type = mem::MaybeUninit::uninit();
+            let mut event_type = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_event_data_result_get_event(
                 self.to_glib_none().0,
                 event_type.as_mut_ptr(),
@@ -56,7 +55,7 @@ impl EventDataResult {
     #[doc(alias = "get_result")]
     pub fn result(&self) -> i32 {
         unsafe {
-            let mut result = mem::MaybeUninit::uninit();
+            let mut result = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_event_data_result_get_result(self.to_glib_none().0, result.as_mut_ptr());
             result.assume_init()
         }

@@ -8,7 +8,6 @@ use crate::{
     EventLengthMode, EventPriorityMode, EventTimeMode, EventTstampMode, EventType,
 };
 use glib::translate::*;
-use std::{mem, ptr};
 
 glib::wrapper! {
     /// A boxed structure for sequencer event.
@@ -91,7 +90,7 @@ impl Event {
     #[doc(alias = "alsaseq_event_calculate_pool_consumption")]
     pub fn calculate_pool_consumption(&self) -> u32 {
         unsafe {
-            let mut cells = mem::MaybeUninit::uninit();
+            let mut cells = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_event_calculate_pool_consumption(
                 self.to_glib_none().0,
                 cells.as_mut_ptr(),
@@ -111,7 +110,7 @@ impl Event {
     #[doc(alias = "get_event_type")]
     pub fn event_type(&self) -> EventType {
         unsafe {
-            let mut event_type = mem::MaybeUninit::uninit();
+            let mut event_type = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_event_get_event_type(self.to_glib_none().0, event_type.as_mut_ptr());
             from_glib(event_type.assume_init())
         }
@@ -128,7 +127,7 @@ impl Event {
     #[doc(alias = "get_length_mode")]
     pub fn length_mode(&self) -> EventLengthMode {
         unsafe {
-            let mut length_mode = mem::MaybeUninit::uninit();
+            let mut length_mode = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_event_get_length_mode(self.to_glib_none().0, length_mode.as_mut_ptr());
             from_glib(length_mode.assume_init())
         }
@@ -145,7 +144,7 @@ impl Event {
     #[doc(alias = "get_priority_mode")]
     pub fn priority_mode(&self) -> EventPriorityMode {
         unsafe {
-            let mut priority_mode = mem::MaybeUninit::uninit();
+            let mut priority_mode = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_event_get_priority_mode(self.to_glib_none().0, priority_mode.as_mut_ptr());
             from_glib(priority_mode.assume_init())
         }
@@ -162,7 +161,7 @@ impl Event {
     #[doc(alias = "get_queue_id")]
     pub fn queue_id(&self) -> u8 {
         unsafe {
-            let mut queue_id = mem::MaybeUninit::uninit();
+            let mut queue_id = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_event_get_queue_id(self.to_glib_none().0, queue_id.as_mut_ptr());
             queue_id.assume_init()
         }
@@ -179,7 +178,7 @@ impl Event {
     #[doc(alias = "get_tag")]
     pub fn tag(&self) -> i8 {
         unsafe {
-            let mut tag = mem::MaybeUninit::uninit();
+            let mut tag = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_event_get_tag(self.to_glib_none().0, tag.as_mut_ptr());
             tag.assume_init()
         }
@@ -196,7 +195,7 @@ impl Event {
     #[doc(alias = "get_time_mode")]
     pub fn time_mode(&self) -> EventTimeMode {
         unsafe {
-            let mut time_mode = mem::MaybeUninit::uninit();
+            let mut time_mode = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_event_get_time_mode(self.to_glib_none().0, time_mode.as_mut_ptr());
             from_glib(time_mode.assume_init())
         }
@@ -213,7 +212,7 @@ impl Event {
     #[doc(alias = "get_tstamp_mode")]
     pub fn tstamp_mode(&self) -> EventTstampMode {
         unsafe {
-            let mut tstamp_mode = mem::MaybeUninit::uninit();
+            let mut tstamp_mode = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_event_get_tstamp_mode(self.to_glib_none().0, tstamp_mode.as_mut_ptr());
             from_glib(tstamp_mode.assume_init())
         }
@@ -246,7 +245,7 @@ impl Event {
     #[doc(alias = "alsaseq_event_set_addr_data")]
     pub fn set_addr_data(&mut self, data: &Addr) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_event_set_addr_data(
                 self.to_glib_none_mut().0,
                 data.to_glib_none().0,
@@ -280,7 +279,7 @@ impl Event {
     pub fn set_blob_data(&mut self, data: &[u8]) -> Result<(), glib::Error> {
         let length = data.len() as _;
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_event_set_blob_data(
                 self.to_glib_none_mut().0,
                 data.to_glib_none().0,
@@ -319,7 +318,7 @@ impl Event {
     #[doc(alias = "alsaseq_event_set_connect_data")]
     pub fn set_connect_data(&mut self, data: &EventDataConnect) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_event_set_connect_data(
                 self.to_glib_none_mut().0,
                 data.to_glib_none().0,
@@ -367,7 +366,7 @@ impl Event {
     #[doc(alias = "alsaseq_event_set_ctl_data")]
     pub fn set_ctl_data(&mut self, data: &EventDataCtl) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_event_set_ctl_data(
                 self.to_glib_none_mut().0,
                 data.to_glib_none().0,
@@ -417,7 +416,7 @@ impl Event {
     #[doc(alias = "alsaseq_event_set_note_data")]
     pub fn set_note_data(&mut self, data: &EventDataNote) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_event_set_note_data(
                 self.to_glib_none_mut().0,
                 data.to_glib_none().0,
@@ -475,7 +474,7 @@ impl Event {
     #[doc(alias = "alsaseq_event_set_queue_data")]
     pub fn set_queue_data(&mut self, data: &EventDataQueue) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_event_set_queue_data(
                 self.to_glib_none_mut().0,
                 data.to_glib_none().0,
@@ -523,7 +522,7 @@ impl Event {
     #[doc(alias = "alsaseq_event_set_result_data")]
     pub fn set_result_data(&mut self, data: &EventDataResult) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_event_set_result_data(
                 self.to_glib_none_mut().0,
                 data.to_glib_none().0,
@@ -568,7 +567,7 @@ impl Event {
     #[doc(alias = "alsaseq_event_set_tick_time")]
     pub fn set_tick_time(&mut self, tick_time: u32) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok =
                 ffi::alsaseq_event_set_tick_time(self.to_glib_none_mut().0, tick_time, &mut error);
             debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
@@ -602,7 +601,7 @@ impl Event {
     #[doc(alias = "alsaseq_event_set_tick_time_data")]
     pub fn set_tick_time_data(&mut self, tick_time: u32) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_event_set_tick_time_data(
                 self.to_glib_none_mut().0,
                 tick_time,

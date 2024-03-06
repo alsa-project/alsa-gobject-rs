@@ -8,7 +8,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem, mem::transmute};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     /// A GObject-derived object to express status of queue.
@@ -91,7 +91,7 @@ pub trait QueueStatusExt: IsA<QueueStatus> + sealed::Sealed + 'static {
     #[doc(alias = "get_tick_time")]
     fn tick_time(&self) -> u32 {
         unsafe {
-            let mut tick_time = mem::MaybeUninit::uninit();
+            let mut tick_time = std::mem::MaybeUninit::uninit();
             ffi::alsaseq_queue_status_get_tick_time(
                 self.as_ref().to_glib_none().0,
                 tick_time.as_mut_ptr(),
@@ -135,7 +135,7 @@ pub trait QueueStatusExt: IsA<QueueStatus> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::event-count\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_event_count_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -161,7 +161,7 @@ pub trait QueueStatusExt: IsA<QueueStatus> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::queue-id\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_queue_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -184,7 +184,7 @@ pub trait QueueStatusExt: IsA<QueueStatus> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::running\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_running_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -194,9 +194,3 @@ pub trait QueueStatusExt: IsA<QueueStatus> + sealed::Sealed + 'static {
 }
 
 impl<O: IsA<QueueStatus>> QueueStatusExt for O {}
-
-impl fmt::Display for QueueStatus {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("QueueStatus")
-    }
-}

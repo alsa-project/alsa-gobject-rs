@@ -5,7 +5,6 @@
 
 use crate::{ClientInfo, ClientPool, PortInfo, QueueInfo, SystemInfo};
 use glib::translate::*;
-use std::{mem, ptr};
 
 /// Get the list of clients as the numeric identifier.
 ///
@@ -25,9 +24,9 @@ use std::{mem, ptr};
 #[doc(alias = "get_client_id_list")]
 pub fn client_id_list() -> Result<Vec<u8>, glib::Error> {
     unsafe {
-        let mut entries = ptr::null_mut();
-        let mut entry_count = mem::MaybeUninit::uninit();
-        let mut error = ptr::null_mut();
+        let mut entries = std::ptr::null_mut();
+        let mut entry_count = std::mem::MaybeUninit::uninit();
+        let mut error = std::ptr::null_mut();
         let is_ok =
             ffi::alsaseq_get_client_id_list(&mut entries, entry_count.as_mut_ptr(), &mut error);
         debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
@@ -60,8 +59,8 @@ pub fn client_id_list() -> Result<Vec<u8>, glib::Error> {
 #[doc(alias = "get_client_info")]
 pub fn client_info(client_id: u8) -> Result<ClientInfo, glib::Error> {
     unsafe {
-        let mut client_info = ptr::null_mut();
-        let mut error = ptr::null_mut();
+        let mut client_info = std::ptr::null_mut();
+        let mut error = std::ptr::null_mut();
         let is_ok = ffi::alsaseq_get_client_info(client_id, &mut client_info, &mut error);
         debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
@@ -90,8 +89,8 @@ pub fn client_info(client_id: u8) -> Result<ClientInfo, glib::Error> {
 #[doc(alias = "get_client_pool")]
 pub fn client_pool(client_id: u8) -> Result<ClientPool, glib::Error> {
     unsafe {
-        let mut client_pool = ptr::null_mut();
-        let mut error = ptr::null_mut();
+        let mut client_pool = std::ptr::null_mut();
+        let mut error = std::ptr::null_mut();
         let is_ok = ffi::alsaseq_get_client_pool(client_id, &mut client_pool, &mut error);
         debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
@@ -121,9 +120,9 @@ pub fn client_pool(client_id: u8) -> Result<ClientPool, glib::Error> {
 #[doc(alias = "get_port_id_list")]
 pub fn port_id_list(client_id: u8) -> Result<Vec<u8>, glib::Error> {
     unsafe {
-        let mut entries = ptr::null_mut();
-        let mut entry_count = mem::MaybeUninit::uninit();
-        let mut error = ptr::null_mut();
+        let mut entries = std::ptr::null_mut();
+        let mut entry_count = std::mem::MaybeUninit::uninit();
+        let mut error = std::ptr::null_mut();
         let is_ok = ffi::alsaseq_get_port_id_list(
             client_id,
             &mut entries,
@@ -163,8 +162,8 @@ pub fn port_id_list(client_id: u8) -> Result<Vec<u8>, glib::Error> {
 #[doc(alias = "get_port_info")]
 pub fn port_info(client_id: u8, port_id: u8) -> Result<PortInfo, glib::Error> {
     unsafe {
-        let mut port_info = ptr::null_mut();
-        let mut error = ptr::null_mut();
+        let mut port_info = std::ptr::null_mut();
+        let mut error = std::ptr::null_mut();
         let is_ok = ffi::alsaseq_get_port_info(client_id, port_id, &mut port_info, &mut error);
         debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
@@ -191,9 +190,9 @@ pub fn port_info(client_id: u8, port_id: u8) -> Result<PortInfo, glib::Error> {
 #[doc(alias = "get_queue_id_list")]
 pub fn queue_id_list() -> Result<Vec<u8>, glib::Error> {
     unsafe {
-        let mut entries = ptr::null_mut();
-        let mut entry_count = mem::MaybeUninit::uninit();
-        let mut error = ptr::null_mut();
+        let mut entries = std::ptr::null_mut();
+        let mut entry_count = std::mem::MaybeUninit::uninit();
+        let mut error = std::ptr::null_mut();
         let is_ok =
             ffi::alsaseq_get_queue_id_list(&mut entries, entry_count.as_mut_ptr(), &mut error);
         debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
@@ -225,8 +224,8 @@ pub fn queue_id_list() -> Result<Vec<u8>, glib::Error> {
 #[doc(alias = "get_queue_info_by_id")]
 pub fn queue_info_by_id(queue_id: u8) -> Result<QueueInfo, glib::Error> {
     unsafe {
-        let mut queue_info = ptr::null_mut();
-        let mut error = ptr::null_mut();
+        let mut queue_info = std::ptr::null_mut();
+        let mut error = std::ptr::null_mut();
         let is_ok = ffi::alsaseq_get_queue_info_by_id(queue_id, &mut queue_info, &mut error);
         debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
@@ -254,8 +253,8 @@ pub fn queue_info_by_id(queue_id: u8) -> Result<QueueInfo, glib::Error> {
 #[doc(alias = "get_queue_info_by_name")]
 pub fn queue_info_by_name(name: &str) -> Result<QueueInfo, glib::Error> {
     unsafe {
-        let mut queue_info = ptr::null_mut();
-        let mut error = ptr::null_mut();
+        let mut queue_info = std::ptr::null_mut();
+        let mut error = std::ptr::null_mut();
         let is_ok =
             ffi::alsaseq_get_queue_info_by_name(name.to_glib_none().0, &mut queue_info, &mut error);
         debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
@@ -281,8 +280,8 @@ pub fn queue_info_by_name(name: &str) -> Result<QueueInfo, glib::Error> {
 #[doc(alias = "get_seq_devnode")]
 pub fn seq_devnode() -> Result<glib::GString, glib::Error> {
     unsafe {
-        let mut devnode = ptr::null_mut();
-        let mut error = ptr::null_mut();
+        let mut devnode = std::ptr::null_mut();
+        let mut error = std::ptr::null_mut();
         let is_ok = ffi::alsaseq_get_seq_devnode(&mut devnode, &mut error);
         debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
@@ -307,8 +306,8 @@ pub fn seq_devnode() -> Result<glib::GString, glib::Error> {
 #[doc(alias = "get_seq_sysname")]
 pub fn seq_sysname() -> Result<glib::GString, glib::Error> {
     unsafe {
-        let mut sysname = ptr::null_mut();
-        let mut error = ptr::null_mut();
+        let mut sysname = std::ptr::null_mut();
+        let mut error = std::ptr::null_mut();
         let is_ok = ffi::alsaseq_get_seq_sysname(&mut sysname, &mut error);
         debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
@@ -334,8 +333,8 @@ pub fn seq_sysname() -> Result<glib::GString, glib::Error> {
 #[doc(alias = "get_system_info")]
 pub fn system_info() -> Result<SystemInfo, glib::Error> {
     unsafe {
-        let mut system_info = ptr::null_mut();
-        let mut error = ptr::null_mut();
+        let mut system_info = std::ptr::null_mut();
+        let mut error = std::ptr::null_mut();
         let is_ok = ffi::alsaseq_get_system_info(&mut system_info, &mut error);
         debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
