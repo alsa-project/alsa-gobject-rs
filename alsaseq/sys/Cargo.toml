@@ -3,7 +3,7 @@ build = "build.rs"
 edition = "2021"
 links = "alsaseq"
 name = "alsaseq-sys"
-version = "0.5.0"
+version = "0.6.0"
 authors = ["Takashi Sakamoto"]
 categories = ["external-ffi-bindings", "hardware-support", "os::linux-apis"]
 description = "FFI binding for alsaseq library"
@@ -35,7 +35,7 @@ system-deps = "6"
 libc = "0.2"
 glib-sys = "0.19"
 gobject-sys = "0.19"
-alsatimer-sys = "0.5.0"
+alsatimer-sys = "0.6.0"
 
 [dev-dependencies]
 shell-words = "1.0.0"
