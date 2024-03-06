@@ -257,7 +257,7 @@ unsafe extern "C" fn device_common_handle_disconnection<T: DeviceCommonImpl>(
 #[cfg(test)]
 mod test {
     use crate::{prelude::*, subclass::prelude::*, *};
-    use glib::{subclass::prelude::*, Error, Object, ObjectExt, Properties, Source};
+    use glib::{prelude::ObjectExt, subclass::prelude::*, Error, Object, Properties, Source};
 
     const NAME: &str = "MyName";
 

@@ -9,7 +9,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem::transmute, ptr};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     /// An interface to express common features of ALSA HwDep device.
@@ -65,8 +65,8 @@ pub trait DeviceCommonExt: IsA<DeviceCommon> + sealed::Sealed + 'static {
     #[doc(alias = "alsahwdep_device_common_create_source")]
     fn create_source(&self) -> Result<glib::Source, glib::Error> {
         unsafe {
-            let mut source = ptr::null_mut();
-            let mut error = ptr::null_mut();
+            let mut source = std::ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsahwdep_device_common_create_source(
                 self.as_ref().to_glib_none().0,
                 &mut source,
@@ -95,8 +95,8 @@ pub trait DeviceCommonExt: IsA<DeviceCommon> + sealed::Sealed + 'static {
     #[doc(alias = "get_device_info")]
     fn device_info(&self) -> Result<DeviceInfo, glib::Error> {
         unsafe {
-            let mut device_info = ptr::null_mut();
-            let mut error = ptr::null_mut();
+            let mut device_info = std::ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsahwdep_device_common_get_device_info(
                 self.as_ref().to_glib_none().0,
                 &mut device_info,
@@ -128,7 +128,7 @@ pub trait DeviceCommonExt: IsA<DeviceCommon> + sealed::Sealed + 'static {
     #[doc(alias = "alsahwdep_device_common_open")]
     fn open(&self, card_id: u32, device_id: u32, open_flag: i32) -> Result<(), glib::Error> {
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsahwdep_device_common_open(
                 self.as_ref().to_glib_none().0,
                 card_id,
@@ -165,7 +165,7 @@ pub trait DeviceCommonExt: IsA<DeviceCommon> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"handle-disconnection\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     handle_disconnection_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -179,9 +179,3 @@ pub trait DeviceCommonExt: IsA<DeviceCommon> + sealed::Sealed + 'static {
 }
 
 impl<O: IsA<DeviceCommon>> DeviceCommonExt for O {}
-
-impl fmt::Display for DeviceCommon {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("DeviceCommon")
-    }
-}

@@ -7,10 +7,7 @@ mod device_common;
 mod enums;
 
 // For convenience to provide structures and functions.
-pub use {
-    auto::{functions::*, *},
-    enums::*,
-};
+pub use auto::{functions::*, *};
 
 /// For convenience to provide auto-generated/manual traits, and their blanket implementations.
 pub mod prelude {
@@ -26,4 +23,4 @@ pub use ffi;
 // For links in documentation.
 pub(crate) use glib;
 
-use glib::{translate::*, IsA};
+use glib::{prelude::IsA, translate::*};
