@@ -4,7 +4,6 @@
 // DO NOT EDIT
 
 use glib::{bitflags::bitflags, prelude::*, translate::*};
-use std::fmt;
 
 bitflags! {
     /// A set of flags for information of the pair of streams.
@@ -20,12 +19,6 @@ bitflags! {
         /// Both directions of stream are available at the same time.
         #[doc(alias = "ALSARAWMIDI_STREAM_PAIR_INFO_FLAG_DUPLEX")]
         const DUPLEX = ffi::ALSARAWMIDI_STREAM_PAIR_INFO_FLAG_DUPLEX as _;
-    }
-}
-
-impl fmt::Display for StreamPairInfoFlag {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        <Self as fmt::Debug>::fmt(self, f)
     }
 }
 

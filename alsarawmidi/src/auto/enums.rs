@@ -4,7 +4,6 @@
 // DO NOT EDIT
 
 use glib::{prelude::*, translate::*};
-use std::fmt;
 
 /// A set of enumerations for the direction of stream.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
@@ -17,20 +16,6 @@ pub enum StreamDirection {
     Input,
     #[doc(hidden)]
     __Unknown(i32),
-}
-
-impl fmt::Display for StreamDirection {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "StreamDirection::{}",
-            match *self {
-                Self::Output => "Output",
-                Self::Input => "Input",
-                _ => "Unknown",
-            }
-        )
-    }
 }
 
 #[doc(hidden)]
@@ -126,21 +111,6 @@ pub enum StreamPairError {
     Unreadable,
     #[doc(hidden)]
     __Unknown(i32),
-}
-
-impl fmt::Display for StreamPairError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "StreamPairError::{}",
-            match *self {
-                Self::Failed => "Failed",
-                Self::Disconnected => "Disconnected",
-                Self::Unreadable => "Unreadable",
-                _ => "Unknown",
-            }
-        )
-    }
 }
 
 #[doc(hidden)]

@@ -22,11 +22,9 @@ pub use self::enums::StreamPairError;
 mod flags;
 pub use self::flags::StreamPairInfoFlag;
 
-/// For functions available globally.
-pub mod functions;
+pub(crate) mod functions;
 
-#[doc(hidden)]
-pub mod traits {
+pub(crate) mod traits {
     pub use super::stream_pair::StreamPairExt;
     pub use super::substream_info::SubstreamInfoExt;
     pub use super::substream_params::SubstreamParamsExt;

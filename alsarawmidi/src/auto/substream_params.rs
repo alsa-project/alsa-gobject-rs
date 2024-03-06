@@ -8,7 +8,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem::transmute};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     /// A GObject-derived object to express parameters of substream.
@@ -135,7 +135,7 @@ pub trait SubstreamParamsExt: IsA<SubstreamParams> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::active-sensing\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_active_sensing_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -161,7 +161,7 @@ pub trait SubstreamParamsExt: IsA<SubstreamParams> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::avail-min\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_avail_min_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -187,7 +187,7 @@ pub trait SubstreamParamsExt: IsA<SubstreamParams> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::buffer-size\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_buffer_size_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -197,9 +197,3 @@ pub trait SubstreamParamsExt: IsA<SubstreamParams> + sealed::Sealed + 'static {
 }
 
 impl<O: IsA<SubstreamParams>> SubstreamParamsExt for O {}
-
-impl fmt::Display for SubstreamParams {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("SubstreamParams")
-    }
-}
