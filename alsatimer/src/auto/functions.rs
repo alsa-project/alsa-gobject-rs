@@ -5,7 +5,6 @@
 
 use crate::{DeviceId, DeviceInfo};
 use glib::translate::*;
-use std::{mem, ptr};
 
 /// Get the information of timer device.
 ///
@@ -24,8 +23,8 @@ use std::{mem, ptr};
 #[doc(alias = "get_device_info")]
 pub fn device_info(device_id: &mut DeviceId) -> Result<DeviceInfo, glib::Error> {
     unsafe {
-        let mut device_info = ptr::null_mut();
-        let mut error = ptr::null_mut();
+        let mut device_info = std::ptr::null_mut();
+        let mut error = std::ptr::null_mut();
         let is_ok = ffi::alsatimer_get_device_info(
             device_id.to_glib_none_mut().0,
             &mut device_info,
@@ -54,8 +53,8 @@ pub fn device_info(device_id: &mut DeviceId) -> Result<DeviceInfo, glib::Error> 
 #[doc(alias = "get_devnode")]
 pub fn devnode() -> Result<glib::GString, glib::Error> {
     unsafe {
-        let mut devnode = ptr::null_mut();
-        let mut error = ptr::null_mut();
+        let mut devnode = std::ptr::null_mut();
+        let mut error = std::ptr::null_mut();
         let is_ok = ffi::alsatimer_get_devnode(&mut devnode, &mut error);
         debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
@@ -66,8 +65,11 @@ pub fn devnode() -> Result<glib::GString, glib::Error> {
     }
 }
 
-/// Get `clock_id` for real time. The `clock_id` governs real time retrieved by both
-/// [`RealTimeEvent::time()`][crate::RealTimeEvent::time()] and [`InstanceStatusExtManual::time()`][crate::prelude::InstanceStatusExtManual::time()].
+/// Get `clock_id` for real time.
+///
+/// The `clock_id` governs real time retrieved by both
+/// [`RealTimeEvent::time()`][crate::RealTimeEvent::time()] and
+/// [`InstanceStatusExtManual::time()`][crate::prelude::InstanceStatusExtManual::time()].
 ///
 /// The call of function is just to refer to parameter of `snd-timer` kernel module. `0` means
 /// `CLOCK_REALTIME` is used. `1` means `CLOCK_MONOTONIC` is used.
@@ -86,8 +88,8 @@ pub fn devnode() -> Result<glib::GString, glib::Error> {
 #[doc(alias = "get_real_time_clock_id")]
 pub fn real_time_clock_id() -> Result<i32, glib::Error> {
     unsafe {
-        let mut clock_id = mem::MaybeUninit::uninit();
-        let mut error = ptr::null_mut();
+        let mut clock_id = std::mem::MaybeUninit::uninit();
+        let mut error = std::ptr::null_mut();
         let is_ok = ffi::alsatimer_get_real_time_clock_id(clock_id.as_mut_ptr(), &mut error);
         debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {
@@ -112,8 +114,8 @@ pub fn real_time_clock_id() -> Result<i32, glib::Error> {
 #[doc(alias = "get_sysname")]
 pub fn sysname() -> Result<glib::GString, glib::Error> {
     unsafe {
-        let mut sysname = ptr::null_mut();
-        let mut error = ptr::null_mut();
+        let mut sysname = std::ptr::null_mut();
+        let mut error = std::ptr::null_mut();
         let is_ok = ffi::alsatimer_get_sysname(&mut sysname, &mut error);
         debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
         if error.is_null() {

@@ -45,10 +45,9 @@ mod flags;
 pub use self::flags::DeviceInfoFlag;
 pub use self::flags::InstanceParamFlag;
 
-pub mod functions;
+pub(crate) mod functions;
 
-#[doc(hidden)]
-pub mod traits {
+pub(crate) mod traits {
     pub use super::device_info::DeviceInfoExt;
     pub use super::device_params::DeviceParamsExt;
     pub use super::device_status::DeviceStatusExt;

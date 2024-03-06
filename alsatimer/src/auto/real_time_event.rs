@@ -5,7 +5,6 @@
 
 use crate::RealTimeEventType;
 use glib::translate::*;
-use std::mem;
 
 glib::wrapper! {
     /// A boxed object to express event of timer with real time.
@@ -35,7 +34,7 @@ impl RealTimeEvent {
     #[doc(alias = "get_event")]
     pub fn event(&self) -> RealTimeEventType {
         unsafe {
-            let mut event = mem::MaybeUninit::uninit();
+            let mut event = std::mem::MaybeUninit::uninit();
             ffi::alsatimer_real_time_event_get_event(self.to_glib_none().0, event.as_mut_ptr());
             from_glib(event.assume_init())
         }
@@ -52,7 +51,7 @@ impl RealTimeEvent {
     #[doc(alias = "get_val")]
     pub fn val(&self) -> u32 {
         unsafe {
-            let mut val = mem::MaybeUninit::uninit();
+            let mut val = std::mem::MaybeUninit::uninit();
             ffi::alsatimer_real_time_event_get_val(self.to_glib_none().0, val.as_mut_ptr());
             val.assume_init()
         }

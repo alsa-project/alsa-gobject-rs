@@ -8,7 +8,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem::transmute};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     /// A GObject-derived object to express parameter of timer device.
@@ -116,7 +116,7 @@ pub trait DeviceParamsExt: IsA<DeviceParams> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::period-denominator\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_period_denominator_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -142,7 +142,7 @@ pub trait DeviceParamsExt: IsA<DeviceParams> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::period-numerator\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_period_numerator_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -152,9 +152,3 @@ pub trait DeviceParamsExt: IsA<DeviceParams> + sealed::Sealed + 'static {
 }
 
 impl<O: IsA<DeviceParams>> DeviceParamsExt for O {}
-
-impl fmt::Display for DeviceParams {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("DeviceParams")
-    }
-}
