@@ -5,7 +5,6 @@
 
 use crate::ElemIfaceType;
 use glib::translate::*;
-use std::{mem, ptr};
 
 glib::wrapper! {
     /// A boxed object to express the identifier of element.
@@ -94,7 +93,7 @@ impl ElemId {
     #[doc(alias = "get_device_id")]
     pub fn device_id(&self) -> u32 {
         unsafe {
-            let mut device_id = mem::MaybeUninit::uninit();
+            let mut device_id = std::mem::MaybeUninit::uninit();
             ffi::alsactl_elem_id_get_device_id(self.to_glib_none().0, device_id.as_mut_ptr());
             device_id.assume_init()
         }
@@ -111,7 +110,7 @@ impl ElemId {
     #[doc(alias = "get_iface")]
     pub fn iface(&self) -> ElemIfaceType {
         unsafe {
-            let mut iface = mem::MaybeUninit::uninit();
+            let mut iface = std::mem::MaybeUninit::uninit();
             ffi::alsactl_elem_id_get_iface(self.to_glib_none().0, iface.as_mut_ptr());
             from_glib(iface.assume_init())
         }
@@ -128,7 +127,7 @@ impl ElemId {
     #[doc(alias = "get_index")]
     pub fn index(&self) -> u32 {
         unsafe {
-            let mut index = mem::MaybeUninit::uninit();
+            let mut index = std::mem::MaybeUninit::uninit();
             ffi::alsactl_elem_id_get_index(self.to_glib_none().0, index.as_mut_ptr());
             index.assume_init()
         }
@@ -145,7 +144,7 @@ impl ElemId {
     #[doc(alias = "get_name")]
     pub fn name(&self) -> glib::GString {
         unsafe {
-            let mut name = ptr::null();
+            let mut name = std::ptr::null();
             ffi::alsactl_elem_id_get_name(self.to_glib_none().0, &mut name);
             from_glib_none(name)
         }
@@ -162,7 +161,7 @@ impl ElemId {
     #[doc(alias = "get_numid")]
     pub fn numid(&self) -> u32 {
         unsafe {
-            let mut numid = mem::MaybeUninit::uninit();
+            let mut numid = std::mem::MaybeUninit::uninit();
             ffi::alsactl_elem_id_get_numid(self.to_glib_none().0, numid.as_mut_ptr());
             numid.assume_init()
         }
@@ -179,7 +178,7 @@ impl ElemId {
     #[doc(alias = "get_subdevice_id")]
     pub fn subdevice_id(&self) -> u32 {
         unsafe {
-            let mut subdevice_id = mem::MaybeUninit::uninit();
+            let mut subdevice_id = std::mem::MaybeUninit::uninit();
             ffi::alsactl_elem_id_get_subdevice_id(self.to_glib_none().0, subdevice_id.as_mut_ptr());
             subdevice_id.assume_init()
         }

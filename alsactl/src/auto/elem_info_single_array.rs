@@ -9,7 +9,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem::transmute};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     /// An interface to express information of element which has single value array.
@@ -107,7 +107,7 @@ pub trait ElemInfoSingleArrayExt: IsA<ElemInfoSingleArray> + sealed::Sealed + 's
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::value-count\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_value_count_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -117,9 +117,3 @@ pub trait ElemInfoSingleArrayExt: IsA<ElemInfoSingleArray> + sealed::Sealed + 's
 }
 
 impl<O: IsA<ElemInfoSingleArray>> ElemInfoSingleArrayExt for O {}
-
-impl fmt::Display for ElemInfoSingleArray {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("ElemInfoSingleArray")
-    }
-}

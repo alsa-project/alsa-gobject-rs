@@ -4,7 +4,6 @@
 // DO NOT EDIT
 
 use glib::{bitflags::bitflags, prelude::*, translate::*};
-use std::fmt;
 
 bitflags! {
     /// A set of flags for access information of the element.
@@ -44,12 +43,6 @@ bitflags! {
         /// The element is maintained by any user application, instead of kernel driver.
         #[doc(alias = "ALSACTL_ELEM_ACCESS_FLAG_USER")]
         const USER = ffi::ALSACTL_ELEM_ACCESS_FLAG_USER as _;
-    }
-}
-
-impl fmt::Display for ElemAccessFlag {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        <Self as fmt::Debug>::fmt(self, f)
     }
 }
 
@@ -145,12 +138,6 @@ bitflags! {
         /// The element notifies removal of the element.
         #[doc(alias = "ALSACTL_ELEM_EVENT_MASK_REMOVE")]
         const REMOVE = ffi::ALSACTL_ELEM_EVENT_MASK_REMOVE as _;
-    }
-}
-
-impl fmt::Display for ElemEventMask {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        <Self as fmt::Debug>::fmt(self, f)
     }
 }
 

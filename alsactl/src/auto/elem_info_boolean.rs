@@ -5,7 +5,6 @@
 
 use crate::{ElemInfoCommon, ElemInfoSingleArray};
 use glib::translate::*;
-use std::fmt;
 
 glib::wrapper! {
     /// An object to express information for boolean type of element.
@@ -42,11 +41,5 @@ impl ElemInfoBoolean {
 impl Default for ElemInfoBoolean {
     fn default() -> Self {
         Self::new()
-    }
-}
-
-impl fmt::Display for ElemInfoBoolean {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("ElemInfoBoolean")
     }
 }

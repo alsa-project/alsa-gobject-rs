@@ -2,12 +2,41 @@
 use alsactl::{prelude::*, *};
 use glib::Error;
 
+fn elem_iface_type_to_str(elem_iface_type: &ElemIfaceType) -> &str {
+    match elem_iface_type {
+        ElemIfaceType::Card => "Card",
+        ElemIfaceType::Hwdep => "Hwdep",
+        ElemIfaceType::Mixer => "Mixer",
+        ElemIfaceType::Pcm => "Pcm",
+        ElemIfaceType::Rawmidi => "Rawmidi",
+        ElemIfaceType::Timer => "Timer",
+        ElemIfaceType::Sequencer => "Sequencer",
+        _ => "Unknown",
+    }
+}
+
+fn elem_type_to_str(elem_type: &ElemType) -> &str {
+    match elem_type {
+        ElemType::None => "None",
+        ElemType::Boolean => "Boolean",
+        ElemType::Integer => "Integer",
+        ElemType::Enumerated => "Enumerated",
+        ElemType::Bytes => "Bytes",
+        ElemType::Iec60958 => "Iec60958",
+        ElemType::Integer64 => "Integer64",
+        _ => "Unknown",
+    }
+}
+
 fn dump_elem_data(card: &alsactl::Card, elem_id: &alsactl::ElemId) -> Result<(), Error> {
     println!("Element {}:", elem_id.numid());
     println!("  device_id:      {}", elem_id.device_id());
     println!("  subdevice_id:   {}", elem_id.subdevice_id());
     println!("  name :          {}", elem_id.name());
-    println!("  iface:          {}", elem_id.iface());
+    println!(
+        "  iface:          {}",
+        elem_iface_type_to_str(&elem_id.iface())
+    );
     println!("  index:          {}", elem_id.index());
 
     let elem_info = card.elem_info(elem_id)?;
@@ -22,7 +51,7 @@ fn dump_elem_data(card: &alsactl::Card, elem_id: &alsactl::ElemId) -> Result<(),
     };
     println!("  access:         {:?}", elem_access);
     println!("  owner:          {}", elem_owner);
-    println!("  type:           {}", elem_type);
+    println!("  type:           {}", elem_type_to_str(&elem_type));
 
     let value_count = match &elem_info {
         ElemInfo::Iec60958(_) => 0,
@@ -108,7 +137,7 @@ fn dump_elem_data(card: &alsactl::Card, elem_id: &alsactl::ElemId) -> Result<(),
 }
 
 fn main() {
-    let card_id_list = match alsactl::functions::card_id_list() {
+    let card_id_list = match alsactl::card_id_list() {
         Ok(entries) => entries,
         Err(_) => {
             eprintln!("Fail to get the list of sound card.");

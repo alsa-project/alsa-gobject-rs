@@ -9,7 +9,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem::transmute};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     /// An object to express information for integer type of element.
@@ -168,7 +168,7 @@ pub trait ElemInfoIntegerExt: IsA<ElemInfoInteger> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::value-max\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_value_max_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -194,7 +194,7 @@ pub trait ElemInfoIntegerExt: IsA<ElemInfoInteger> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::value-min\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_value_min_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -220,7 +220,7 @@ pub trait ElemInfoIntegerExt: IsA<ElemInfoInteger> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::value-step\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_value_step_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -230,9 +230,3 @@ pub trait ElemInfoIntegerExt: IsA<ElemInfoInteger> + sealed::Sealed + 'static {
 }
 
 impl<O: IsA<ElemInfoInteger>> ElemInfoIntegerExt for O {}
-
-impl fmt::Display for ElemInfoInteger {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("ElemInfoInteger")
-    }
-}

@@ -4,7 +4,6 @@
 // DO NOT EDIT
 
 use glib::{prelude::*, translate::*};
-use std::fmt;
 
 /// A set of error code for [`glib::Error`][crate::glib::Error] with `ALSACtl.CardError` domain.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
@@ -25,24 +24,6 @@ pub enum CardError {
     ElemExist,
     #[doc(hidden)]
     __Unknown(i32),
-}
-
-impl fmt::Display for CardError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "CardError::{}",
-            match *self {
-                Self::Failed => "Failed",
-                Self::Disconnected => "Disconnected",
-                Self::ElemNotFound => "ElemNotFound",
-                Self::ElemNotSupported => "ElemNotSupported",
-                Self::ElemOwned => "ElemOwned",
-                Self::ElemExist => "ElemExist",
-                _ => "Unknown",
-            }
-        )
-    }
 }
 
 #[doc(hidden)]
@@ -177,25 +158,6 @@ pub enum ElemIfaceType {
     __Unknown(i32),
 }
 
-impl fmt::Display for ElemIfaceType {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "ElemIfaceType::{}",
-            match *self {
-                Self::Card => "Card",
-                Self::Hwdep => "Hwdep",
-                Self::Mixer => "Mixer",
-                Self::Pcm => "Pcm",
-                Self::Rawmidi => "Rawmidi",
-                Self::Timer => "Timer",
-                Self::Sequencer => "Sequencer",
-                _ => "Unknown",
-            }
-        )
-    }
-}
-
 #[doc(hidden)]
 impl IntoGlib for ElemIfaceType {
     type GlibType = ffi::ALSACtlElemIfaceType;
@@ -309,25 +271,6 @@ pub enum ElemType {
     __Unknown(i32),
 }
 
-impl fmt::Display for ElemType {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "ElemType::{}",
-            match *self {
-                Self::None => "None",
-                Self::Boolean => "Boolean",
-                Self::Integer => "Integer",
-                Self::Enumerated => "Enumerated",
-                Self::Bytes => "Bytes",
-                Self::Iec60958 => "Iec60958",
-                Self::Integer64 => "Integer64",
-                _ => "Unknown",
-            }
-        )
-    }
-}
-
 #[doc(hidden)]
 impl IntoGlib for ElemType {
     type GlibType = ffi::ALSACtlElemType;
@@ -427,19 +370,6 @@ pub enum EventType {
     Elem,
     #[doc(hidden)]
     __Unknown(i32),
-}
-
-impl fmt::Display for EventType {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "EventType::{}",
-            match *self {
-                Self::Elem => "Elem",
-                _ => "Unknown",
-            }
-        )
-    }
 }
 
 #[doc(hidden)]

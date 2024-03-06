@@ -8,7 +8,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem::transmute};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     /// A GObject-derived object to express information of sound card.
@@ -141,7 +141,7 @@ pub trait CardInfoExt: IsA<CardInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::card-id\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_card_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -164,7 +164,7 @@ pub trait CardInfoExt: IsA<CardInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::components\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_components_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -187,7 +187,7 @@ pub trait CardInfoExt: IsA<CardInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::driver\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_driver_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -210,7 +210,7 @@ pub trait CardInfoExt: IsA<CardInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::id\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -233,7 +233,7 @@ pub trait CardInfoExt: IsA<CardInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::long-name\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_long_name_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -256,7 +256,7 @@ pub trait CardInfoExt: IsA<CardInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::mixer-name\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_mixer_name_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -279,7 +279,7 @@ pub trait CardInfoExt: IsA<CardInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::name\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_name_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -289,9 +289,3 @@ pub trait CardInfoExt: IsA<CardInfo> + sealed::Sealed + 'static {
 }
 
 impl<O: IsA<CardInfo>> CardInfoExt for O {}
-
-impl fmt::Display for CardInfo {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("CardInfo")
-    }
-}

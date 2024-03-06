@@ -49,11 +49,9 @@ mod flags;
 pub use self::flags::ElemAccessFlag;
 pub use self::flags::ElemEventMask;
 
-/// Functions callable without instantiation.
-pub mod functions;
+pub(crate) mod functions;
 
-#[doc(hidden)]
-pub mod traits {
+pub(crate) mod traits {
     pub use super::card::CardExt;
     pub use super::card_info::CardInfoExt;
     pub use super::elem_info_common::ElemInfoCommonExt;

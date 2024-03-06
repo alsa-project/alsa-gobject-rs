@@ -5,7 +5,6 @@
 
 use crate::{ElemInfoCommon, ElemInfoSingleArray};
 use glib::translate::*;
-use std::fmt;
 
 glib::wrapper! {
     /// An object to express information for bytes type of element.
@@ -42,11 +41,5 @@ impl ElemInfoBytes {
 impl Default for ElemInfoBytes {
     fn default() -> Self {
         Self::new()
-    }
-}
-
-impl fmt::Display for ElemInfoBytes {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("ElemInfoBytes")
     }
 }
