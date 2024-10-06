@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::ElemInfoCommon;
+use crate::{ffi, ElemInfoCommon};
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -107,7 +107,7 @@ pub trait ElemInfoSingleArrayExt: IsA<ElemInfoSingleArray> + sealed::Sealed + 's
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::value-count\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_value_count_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),

@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::{ElemAccessFlag, ElemId, ElemType};
+use crate::{ffi, ElemAccessFlag, ElemId, ElemType};
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -113,7 +113,7 @@ pub trait ElemInfoCommonExt: IsA<ElemInfoCommon> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::access\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_access_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -139,7 +139,7 @@ pub trait ElemInfoCommonExt: IsA<ElemInfoCommon> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::elem-id\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_elem_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -165,7 +165,7 @@ pub trait ElemInfoCommonExt: IsA<ElemInfoCommon> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::owner\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_owner_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),

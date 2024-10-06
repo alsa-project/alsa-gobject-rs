@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::{CardInfo, ElemEventMask, ElemId, ElemValue};
+use crate::{ffi, CardInfo, ElemEventMask, ElemId, ElemValue};
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -336,7 +336,7 @@ pub trait CardExt: IsA<Card> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"handle-disconnection\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     handle_disconnection_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -375,7 +375,7 @@ pub trait CardExt: IsA<Card> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"handle-elem-event\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     handle_elem_event_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -398,7 +398,7 @@ pub trait CardExt: IsA<Card> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::devnode\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_devnode_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -421,7 +421,7 @@ pub trait CardExt: IsA<Card> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::subscribed\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_subscribed_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),

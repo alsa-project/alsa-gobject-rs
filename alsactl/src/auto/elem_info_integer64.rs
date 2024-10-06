@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::{ElemInfoCommon, ElemInfoSingleArray};
+use crate::{ffi, ElemInfoCommon, ElemInfoSingleArray};
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -168,7 +168,7 @@ pub trait ElemInfoInteger64Ext: IsA<ElemInfoInteger64> + sealed::Sealed + 'stati
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::value-max\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_value_max_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -194,7 +194,7 @@ pub trait ElemInfoInteger64Ext: IsA<ElemInfoInteger64> + sealed::Sealed + 'stati
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::value-min\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_value_min_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -220,7 +220,7 @@ pub trait ElemInfoInteger64Ext: IsA<ElemInfoInteger64> + sealed::Sealed + 'stati
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::value-step\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_value_step_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
