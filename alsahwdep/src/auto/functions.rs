@@ -3,9 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-//! For functions available globally.
-
-use crate::DeviceInfo;
+use crate::{ffi, DeviceInfo};
 use glib::translate::*;
 
 /// Get the list of numeric ID for available hwdep devices of sound card.

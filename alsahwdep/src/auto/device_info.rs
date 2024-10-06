@@ -3,8 +3,8 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::IfaceType;
-use glib::prelude::*;
+use crate::{ffi, IfaceType};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
     /// A GObject-derived object to express information of ALSA hwdep device.
