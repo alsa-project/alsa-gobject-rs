@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::{StreamDirection, SubstreamInfo};
+use crate::{ffi, StreamDirection, SubstreamInfo};
 use glib::translate::*;
 
 /// Get the list of numeric identifier for available rawmidi devices of sound card.
