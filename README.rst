@@ -2,7 +2,7 @@
 Rust bindings for libraries in alsa-gobject
 ===========================================
 
-2023/03/05
+2024/10/06
 Takashi Sakamoto
 
 Introduction
@@ -14,7 +14,7 @@ Introduction
 
 * The crates are available in `crates.io <https://crates.io/>`_ as well.
 
-* The latest release is version 0.6.0.
+* The latest release is version 0.7.0.
 
 Crates
 ======
