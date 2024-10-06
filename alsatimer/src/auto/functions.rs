@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::{DeviceId, DeviceInfo};
+use crate::{ffi, DeviceId, DeviceInfo};
 use glib::translate::*;
 
 /// Get the information of timer device.

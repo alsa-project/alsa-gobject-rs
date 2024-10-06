@@ -3,6 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::ffi;
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -116,7 +117,7 @@ pub trait DeviceParamsExt: IsA<DeviceParams> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::period-denominator\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_period_denominator_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -142,7 +143,7 @@ pub trait DeviceParamsExt: IsA<DeviceParams> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::period-numerator\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_period_numerator_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
