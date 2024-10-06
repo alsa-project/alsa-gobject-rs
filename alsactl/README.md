@@ -15,7 +15,7 @@ Add the following line to your Cargo.toml file:
 
 ```toml
 [dependencies]
-alsactl = "0.6"
+alsactl = "0.7"
 ```
 
 The API documentation is available in <https://docs.rs/alsactl/>.
