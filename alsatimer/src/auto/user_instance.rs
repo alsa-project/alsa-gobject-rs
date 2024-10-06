@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::{DeviceId, EventType, InstanceInfo, RealTimeEvent, SlaveClass, TickTimeEvent};
+use crate::{ffi, DeviceId, EventType, InstanceInfo, RealTimeEvent, SlaveClass, TickTimeEvent};
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -181,6 +181,14 @@ pub trait UserInstanceExt: IsA<UserInstance> + sealed::Sealed + 'static {
         }
     }
 
+    /// Continue timer event emission paused by [`pause()`][Self::pause()].
+    ///
+    /// The call of function executes `ioctl(2)` system call with `SNDRV_TIMER_IOCTL_CONTINUE` command
+    /// for ALSA timer character device.
+    ///
+    /// # Returns
+    ///
+    /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsatimer_user_instance_continue")]
     #[doc(alias = "continue")]
     fn continue_(&self) -> Result<(), glib::Error> {
@@ -375,7 +383,7 @@ pub trait UserInstanceExt: IsA<UserInstance> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"handle-disconnection\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     handle_disconnection_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -410,7 +418,7 @@ pub trait UserInstanceExt: IsA<UserInstance> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"handle-real-time-event\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     handle_real_time_event_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -445,7 +453,7 @@ pub trait UserInstanceExt: IsA<UserInstance> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"handle-tick-time-event\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     handle_tick_time_event_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),

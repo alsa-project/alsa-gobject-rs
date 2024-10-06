@@ -3,6 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::ffi;
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -126,7 +127,7 @@ pub trait InstanceStatusExt: IsA<InstanceStatus> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::interval\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_interval_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -149,7 +150,7 @@ pub trait InstanceStatusExt: IsA<InstanceStatus> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::lost\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_lost_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -175,7 +176,7 @@ pub trait InstanceStatusExt: IsA<InstanceStatus> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::overrun\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_overrun_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -201,7 +202,7 @@ pub trait InstanceStatusExt: IsA<InstanceStatus> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::queue-size\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_queue_size_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
