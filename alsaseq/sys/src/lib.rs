@@ -16,10 +16,14 @@
 use glib_sys as glib;
 use gobject_sys as gobject;
 
+#[cfg(unix)]
 #[allow(unused_imports)]
-use libc::{
+use libc::{dev_t, gid_t, pid_t, socklen_t, uid_t};
+#[allow(unused_imports)]
+use libc::{intptr_t, off_t, size_t, ssize_t, time_t, uintptr_t, FILE};
+#[allow(unused_imports)]
+use std::ffi::{
     c_char, c_double, c_float, c_int, c_long, c_short, c_uchar, c_uint, c_ulong, c_ushort, c_void,
-    intptr_t, size_t, ssize_t, uintptr_t, FILE,
 };
 
 #[allow(unused_imports)]
@@ -186,6 +190,7 @@ pub const ALSASEQ_REMOVE_FILTER_FLAG_TAG_MATCH: ALSASeqRemoveFilterFlag = 512;
 
 // Records
 #[repr(C)]
+#[allow(dead_code)]
 pub struct ALSASeqAddr {
     _data: [u8; 0],
     _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
@@ -226,6 +231,7 @@ impl ::std::fmt::Debug for ALSASeqClientPoolClass {
 }
 
 #[repr(C)]
+#[allow(dead_code)]
 pub struct ALSASeqEvent {
     _data: [u8; 0],
     _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
@@ -253,6 +259,7 @@ impl ::std::fmt::Debug for ALSASeqEventCntr {
 }
 
 #[repr(C)]
+#[allow(dead_code)]
 pub struct ALSASeqEventDataConnect {
     _data: [u8; 0],
     _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
@@ -266,6 +273,7 @@ impl ::std::fmt::Debug for ALSASeqEventDataConnect {
 }
 
 #[repr(C)]
+#[allow(dead_code)]
 pub struct ALSASeqEventDataCtl {
     _data: [u8; 0],
     _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
@@ -279,6 +287,7 @@ impl ::std::fmt::Debug for ALSASeqEventDataCtl {
 }
 
 #[repr(C)]
+#[allow(dead_code)]
 pub struct ALSASeqEventDataNote {
     _data: [u8; 0],
     _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
@@ -292,6 +301,7 @@ impl ::std::fmt::Debug for ALSASeqEventDataNote {
 }
 
 #[repr(C)]
+#[allow(dead_code)]
 pub struct ALSASeqEventDataQueue {
     _data: [u8; 0],
     _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
@@ -305,6 +315,7 @@ impl ::std::fmt::Debug for ALSASeqEventDataQueue {
 }
 
 #[repr(C)]
+#[allow(dead_code)]
 pub struct ALSASeqEventDataResult {
     _data: [u8; 0],
     _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
@@ -616,6 +627,7 @@ impl ::std::fmt::Debug for ALSASeqUserClient {
 
 // Interfaces
 #[repr(C)]
+#[allow(dead_code)]
 pub struct ALSASeqQueueTimerCommon {
     _data: [u8; 0],
     _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
@@ -627,7 +639,6 @@ impl ::std::fmt::Debug for ALSASeqQueueTimerCommon {
     }
 }
 
-#[link(name = "alsaseq")]
 extern "C" {
 
     //=========================================================================
