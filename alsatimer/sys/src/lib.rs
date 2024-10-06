@@ -16,10 +16,14 @@
 use glib_sys as glib;
 use gobject_sys as gobject;
 
+#[cfg(unix)]
 #[allow(unused_imports)]
-use libc::{
+use libc::{dev_t, gid_t, pid_t, socklen_t, uid_t};
+#[allow(unused_imports)]
+use libc::{intptr_t, off_t, size_t, ssize_t, time_t, uintptr_t, FILE};
+#[allow(unused_imports)]
+use std::ffi::{
     c_char, c_double, c_float, c_int, c_long, c_short, c_uchar, c_uint, c_ulong, c_ushort, c_void,
-    intptr_t, size_t, ssize_t, uintptr_t, FILE,
 };
 
 #[allow(unused_imports)]
@@ -79,6 +83,7 @@ pub const ALSATIMER_INSTANCE_PARAM_FLAG_EARLY_EVENT: ALSATimerInstanceParamFlag 
 
 // Records
 #[repr(C)]
+#[allow(dead_code)]
 pub struct ALSATimerDeviceId {
     _data: [u8; 0],
     _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
@@ -176,6 +181,7 @@ impl ::std::fmt::Debug for ALSATimerInstanceStatusClass {
 }
 
 #[repr(C)]
+#[allow(dead_code)]
 pub struct ALSATimerRealTimeEvent {
     _data: [u8; 0],
     _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
@@ -189,6 +195,7 @@ impl ::std::fmt::Debug for ALSATimerRealTimeEvent {
 }
 
 #[repr(C)]
+#[allow(dead_code)]
 pub struct ALSATimerTickTimeEvent {
     _data: [u8; 0],
     _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
@@ -322,7 +329,6 @@ impl ::std::fmt::Debug for ALSATimerUserInstance {
     }
 }
 
-#[link(name = "alsatimer")]
 extern "C" {
 
     //=========================================================================
