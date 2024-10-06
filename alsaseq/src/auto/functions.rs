@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::{ClientInfo, ClientPool, PortInfo, QueueInfo, SystemInfo};
+use crate::{ffi, ClientInfo, ClientPool, PortInfo, QueueInfo, SystemInfo};
 use glib::translate::*;
 
 /// Get the list of clients as the numeric identifier.

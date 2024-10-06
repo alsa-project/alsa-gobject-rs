@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::{Addr, EventTstampMode};
+use crate::{ffi, Addr, EventTstampMode};
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -186,7 +186,7 @@ pub trait SubscribeDataExt: IsA<SubscribeData> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::dest\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_dest_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -212,7 +212,7 @@ pub trait SubscribeDataExt: IsA<SubscribeData> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::has-tstamp\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_has_tstamp_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -238,7 +238,7 @@ pub trait SubscribeDataExt: IsA<SubscribeData> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::is-exclusive\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_is_exclusive_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -264,7 +264,7 @@ pub trait SubscribeDataExt: IsA<SubscribeData> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::queue-id\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_queue_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -290,7 +290,7 @@ pub trait SubscribeDataExt: IsA<SubscribeData> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::sender\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_sender_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -316,7 +316,7 @@ pub trait SubscribeDataExt: IsA<SubscribeData> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::tstamp-mode\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_tstamp_mode_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),

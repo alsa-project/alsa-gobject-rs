@@ -3,6 +3,8 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use crate::ffi;
+
 glib::wrapper! {
     /// A boxed structure for container which includes batch of events.
     ///

@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::{ClientType, FilterAttrFlag};
+use crate::{ffi, ClientType, FilterAttrFlag};
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -224,7 +224,7 @@ pub trait ClientInfoExt: IsA<ClientInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::card-id\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_card_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -250,7 +250,7 @@ pub trait ClientInfoExt: IsA<ClientInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::client-id\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_client_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -276,7 +276,7 @@ pub trait ClientInfoExt: IsA<ClientInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::filter-attributes\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_filter_attributes_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -302,7 +302,7 @@ pub trait ClientInfoExt: IsA<ClientInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::lost-count\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_lost_count_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -325,7 +325,7 @@ pub trait ClientInfoExt: IsA<ClientInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::name\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_name_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -351,7 +351,7 @@ pub trait ClientInfoExt: IsA<ClientInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::port-count\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_port_count_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -377,7 +377,7 @@ pub trait ClientInfoExt: IsA<ClientInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::process-id\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_process_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -400,7 +400,7 @@ pub trait ClientInfoExt: IsA<ClientInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::type\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_type_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -426,7 +426,7 @@ pub trait ClientInfoExt: IsA<ClientInfo> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::use-filter\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_use_filter_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),

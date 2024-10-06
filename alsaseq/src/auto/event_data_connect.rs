@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::Addr;
+use crate::{ffi, Addr};
 use glib::translate::*;
 
 glib::wrapper! {
