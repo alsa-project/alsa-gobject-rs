@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::{Addr, EventType, RemoveFilterFlag};
+use crate::{ffi, Addr, EventType, RemoveFilterFlag};
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -101,7 +101,7 @@ mod sealed {
     impl<T: super::IsA<super::RemoveFilter>> Sealed for T {}
 }
 
-/// Trait containing the part of [`struct@RemoveFilter`] methods.
+/// Trait containing all [`struct@RemoveFilter`] methods.
 ///
 /// # Implementors
 ///
@@ -225,7 +225,7 @@ pub trait RemoveFilterExt: IsA<RemoveFilter> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::channel\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_channel_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -251,7 +251,7 @@ pub trait RemoveFilterExt: IsA<RemoveFilter> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::destination\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_destination_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -277,7 +277,7 @@ pub trait RemoveFilterExt: IsA<RemoveFilter> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::event-type\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_event_type_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -303,7 +303,7 @@ pub trait RemoveFilterExt: IsA<RemoveFilter> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::flags\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_flags_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -329,7 +329,7 @@ pub trait RemoveFilterExt: IsA<RemoveFilter> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::queue-id\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_queue_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),

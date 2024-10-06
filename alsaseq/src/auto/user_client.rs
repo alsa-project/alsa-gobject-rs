@@ -4,7 +4,7 @@
 // DO NOT EDIT
 
 use crate::{
-    ClientInfo, ClientPool, Event, EventCntr, PortInfo, QueueInfo, QueueTempo, RemoveFilter,
+    ffi, ClientInfo, ClientPool, Event, EventCntr, PortInfo, QueueInfo, QueueTempo, RemoveFilter,
     SubscribeData,
 };
 use glib::{
@@ -573,7 +573,7 @@ pub trait UserClientExt: IsA<UserClient> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"handle-event\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     handle_event_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -599,7 +599,7 @@ pub trait UserClientExt: IsA<UserClient> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::client-id\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_client_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),

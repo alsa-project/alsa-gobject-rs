@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use crate::QueueTimerCommon;
+use crate::{ffi, QueueTimerCommon};
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -129,7 +129,7 @@ pub trait QueueTimerAlsaExt: IsA<QueueTimerAlsa> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::device-id\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_device_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -155,7 +155,7 @@ pub trait QueueTimerAlsaExt: IsA<QueueTimerAlsa> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::resolution-ticks\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_resolution_ticks_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),

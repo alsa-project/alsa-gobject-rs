@@ -4,7 +4,7 @@
 // DO NOT EDIT
 
 use crate::{
-    Addr, EventDataConnect, EventDataCtl, EventDataNote, EventDataQueue, EventDataResult,
+    ffi, Addr, EventDataConnect, EventDataCtl, EventDataNote, EventDataQueue, EventDataResult,
     EventLengthMode, EventPriorityMode, EventTimeMode, EventTstampMode, EventType,
 };
 use glib::translate::*;
