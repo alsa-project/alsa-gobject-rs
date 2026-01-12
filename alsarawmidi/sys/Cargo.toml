@@ -16,8 +16,7 @@ readme = "README.md"
 repository = "https://github.com/alsa-project/alsa-gobject-rs"
 
 [package.metadata.docs.rs]
-rustc-args = ["--cfg", "docsrs"]
-rustdoc-args = ["--cfg", "docsrs", "--generate-link-to-definition"]
+rustdoc-args = ["--generate-link-to-definition"]
 all-features = true
 
 [package.metadata.system-deps.alsarawmidi]
@@ -37,7 +36,7 @@ glib-sys.workspace = true
 gobject-sys.workspace = true
 
 [dev-dependencies]
-shell-words = "1.0"
+shell-words = "1.1"
 tempfile = "3.12"
 
 [features]
