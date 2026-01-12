@@ -1,7 +1,7 @@
 [package]
 edition = "2021"
 name = "alsarawmidi"
-version = "0.7.0"
+version = "0.8.0"
 # For publishing.
 authors = ["Takashi Sakamoto"]
 categories = ["api-bindings", "hardware-support", "os::linux-apis"]
