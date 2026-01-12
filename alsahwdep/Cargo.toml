@@ -22,10 +22,10 @@ rustdoc-args = ["--cfg", "docsrs", "--generate-link-to-definition"]
 name = "alsahwdep"
 
 [dependencies]
-libc = "0.2"
-bitflags = "2.6"
-glib = "0.20"
-alsahwdep-sys = "0.7.0"
+libc.workspace = true
+bitflags.workspace = true
+glib.workspace = true
+alsahwdep-sys.workspace = true
 
 [dev-dependencies]
 gir-format-check = "0.1"
