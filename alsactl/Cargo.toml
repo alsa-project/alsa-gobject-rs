@@ -25,7 +25,7 @@ name = "alsactl"
 libc = "0.2"
 bitflags = "1.0"
 glib = "0.20"
-ffi = {package = "alsactl-sys", version = "0.7.0" }
+alsactl-sys = "0.7.0"
 
 [dev-dependencies]
 gir-format-check = "0.1"
