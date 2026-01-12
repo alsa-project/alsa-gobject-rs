@@ -61,17 +61,12 @@ impl DeviceInfo {
     pub const NONE: Option<&'static DeviceInfo> = None;
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::DeviceInfo>> Sealed for T {}
-}
-
 /// Trait containing all [`struct@DeviceInfo`] methods.
 ///
 /// # Implementors
 ///
 /// [`DeviceInfo`][struct@crate::DeviceInfo]
-pub trait DeviceInfoExt: IsA<DeviceInfo> + sealed::Sealed + 'static {
+pub trait DeviceInfoExt: IsA<DeviceInfo> + 'static {
     /// The numeric ID of sound card.
     #[doc(alias = "card-id")]
     fn card_id(&self) -> i32 {

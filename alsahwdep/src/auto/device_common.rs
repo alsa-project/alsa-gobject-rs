@@ -41,17 +41,12 @@ impl DeviceCommon {
     pub const NONE: Option<&'static DeviceCommon> = None;
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::DeviceCommon>> Sealed for T {}
-}
-
 /// Trait containing the part of [`struct@DeviceCommon`] methods.
 ///
 /// # Implementors
 ///
 /// [`DeviceCommon`][struct@crate::DeviceCommon]
-pub trait DeviceCommonExt: IsA<DeviceCommon> + sealed::Sealed + 'static {
+pub trait DeviceCommonExt: IsA<DeviceCommon> + 'static {
     /// Allocate [`glib::Source`][crate::glib::Source] structure to handle events from ALSA hwdep character device. In
     /// each iteration of `GLib::MainContext`, the `read(2)` system call is executed to dispatch
     /// hwdep event, according to the result of `poll(2)` system call.
@@ -164,7 +159,7 @@ pub trait DeviceCommonExt: IsA<DeviceCommon> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"handle-disconnection\0".as_ptr() as *const _,
+                c"handle-disconnection".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     handle_disconnection_trampoline::<Self, F> as *const (),
                 )),

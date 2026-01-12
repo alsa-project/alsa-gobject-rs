@@ -3,33 +3,43 @@ use super::*;
 
 /// Trait which should be implemented by subclass of [`DeviceCommon`][crate::DeviceCommon].
 pub trait DeviceCommonImpl: ObjectImpl + ObjectSubclass {
-    fn open(&self, device: &Self::Type, path: &str, open_flag: i32) -> Result<(), Error>;
+    fn open(&self, device: &Self::Type, path: &str, open_flag: i32) -> Result<(), glib::Error>;
     fn get_protocol_version(
         &self,
         device: &Self::Type,
         proto_ver_triplet: &mut [u16; 3],
-    ) -> Result<(), Error>;
-    fn get_device_info(&self, device: &Self::Type) -> Result<DeviceInfo, Error>;
-    fn create_source(&self, device: &Self::Type) -> Result<Source, Error>;
+    ) -> Result<(), glib::Error>;
+    fn get_device_info(&self, device: &Self::Type) -> Result<DeviceInfo, glib::Error>;
+    fn create_source(&self, device: &Self::Type) -> Result<glib::Source, glib::Error>;
     fn handle_disconnection(&self, device: &Self::Type);
 }
 
 /// Trait which is automatically implemented to implementator of
 /// [`DeviceCommonImpl`][self::DeviceCommonImpl].
 pub trait DeviceCommonImplExt: ObjectSubclass {
-    fn parent_open(&self, device: &Self::Type, path: &str, open_flag: i32) -> Result<(), Error>;
+    fn parent_open(
+        &self,
+        device: &Self::Type,
+        path: &str,
+        open_flag: i32,
+    ) -> Result<(), glib::Error>;
     fn parent_get_protocol_version(
         &self,
         device: &Self::Type,
         proto_ver_triplet: &mut [u16; 3],
-    ) -> Result<(), Error>;
-    fn parent_get_device_info(&self, device: &Self::Type) -> Result<DeviceInfo, Error>;
-    fn parent_create_source(&self, device: &Self::Type) -> Result<Source, Error>;
+    ) -> Result<(), glib::Error>;
+    fn parent_get_device_info(&self, device: &Self::Type) -> Result<DeviceInfo, glib::Error>;
+    fn parent_create_source(&self, device: &Self::Type) -> Result<glib::Source, glib::Error>;
     fn parent_handle_disconnection(&self, device: &Self::Type);
 }
 
 impl<T: DeviceCommonImpl> DeviceCommonImplExt for T {
-    fn parent_open(&self, device: &Self::Type, path: &str, open_flag: i32) -> Result<(), Error> {
+    fn parent_open(
+        &self,
+        device: &Self::Type,
+        path: &str,
+        open_flag: i32,
+    ) -> Result<(), glib::Error> {
         unsafe {
             let data = T::type_data();
             let parent_class =
@@ -58,7 +68,7 @@ impl<T: DeviceCommonImpl> DeviceCommonImplExt for T {
         &self,
         device: &Self::Type,
         proto_ver_triplet: &mut [u16; 3],
-    ) -> Result<(), Error> {
+    ) -> Result<(), glib::Error> {
         unsafe {
             let data = T::type_data();
             let parent_class =
@@ -83,7 +93,7 @@ impl<T: DeviceCommonImpl> DeviceCommonImplExt for T {
         }
     }
 
-    fn parent_get_device_info(&self, device: &Self::Type) -> Result<DeviceInfo, Error> {
+    fn parent_get_device_info(&self, device: &Self::Type) -> Result<DeviceInfo, glib::Error> {
         unsafe {
             let data = T::type_data();
             let parent_class =
@@ -108,7 +118,7 @@ impl<T: DeviceCommonImpl> DeviceCommonImplExt for T {
         }
     }
 
-    fn parent_create_source(&self, device: &Self::Type) -> Result<Source, Error> {
+    fn parent_create_source(&self, device: &Self::Type) -> Result<glib::Source, glib::Error> {
         unsafe {
             let data = T::type_data();
             let parent_class =
@@ -148,7 +158,7 @@ impl<T: DeviceCommonImpl> DeviceCommonImplExt for T {
 }
 
 unsafe impl<T: DeviceCommonImpl> IsImplementable<T> for DeviceCommon {
-    fn interface_init(iface: &mut Interface<Self>) {
+    fn interface_init(iface: &mut glib::Interface<Self>) {
         let iface = iface.as_mut();
         iface.open = Some(device_common_open::<T>);
         iface.get_protocol_version = Some(device_common_get_protocol_version::<T>);
@@ -160,8 +170,8 @@ unsafe impl<T: DeviceCommonImpl> IsImplementable<T> for DeviceCommon {
 
 unsafe extern "C" fn device_common_open<T: DeviceCommonImpl>(
     device: *mut ffi::ALSAHwdepDeviceCommon,
-    path: *const c_char,
-    open_flag: c_int,
+    path: *const std::ffi::c_char,
+    open_flag: std::ffi::c_int,
     error: *mut *mut glib::ffi::GError,
 ) -> glib::ffi::gboolean {
     let instance = &*(device as *mut T::Instance);
@@ -257,7 +267,7 @@ unsafe extern "C" fn device_common_handle_disconnection<T: DeviceCommonImpl>(
 #[cfg(test)]
 mod test {
     use crate::{prelude::*, subclass::prelude::*, *};
-    use glib::{prelude::ObjectExt, subclass::prelude::*, Error, Object, Properties, Source};
+    use glib::{prelude::ObjectExt, subclass::prelude::*, Object, Properties};
 
     const NAME: &str = "MyName";
 
@@ -292,7 +302,7 @@ mod test {
         impl ObjectImpl for DeviceCommonTestPrivate {}
 
         impl DeviceCommonImpl for DeviceCommonTestPrivate {
-            fn open(&self, _: &Self::Type, _: &str, _: i32) -> Result<(), Error> {
+            fn open(&self, _: &Self::Type, _: &str, _: i32) -> Result<(), glib::Error> {
                 Ok(())
             }
 
@@ -300,20 +310,20 @@ mod test {
                 &self,
                 _: &Self::Type,
                 proto_ver_triplet: &mut [u16; 3],
-            ) -> Result<(), Error> {
+            ) -> Result<(), glib::Error> {
                 proto_ver_triplet.copy_from_slice(&[1, 2, 3]);
                 Ok(())
             }
 
-            fn get_device_info(&self, _: &Self::Type) -> Result<DeviceInfo, Error> {
+            fn get_device_info(&self, _: &Self::Type) -> Result<DeviceInfo, glib::Error> {
                 let device_info = Object::builder::<DeviceInfo>()
                     .property("name", NAME)
                     .build();
                 Ok(device_info)
             }
 
-            fn create_source(&self, _: &Self::Type) -> Result<Source, Error> {
-                Err(Error::new(DeviceCommonError::IsOpened, "expected"))
+            fn create_source(&self, _: &Self::Type) -> Result<glib::Source, glib::Error> {
+                Err(glib::Error::new(DeviceCommonError::IsOpened, "expected"))
             }
 
             fn handle_disconnection(&self, _: &Self::Type) {
