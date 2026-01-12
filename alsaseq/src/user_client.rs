@@ -20,7 +20,7 @@ pub trait UserClientExtManual {
     ///                     used.
     #[doc(alias = "alsaseq_user_client_get_protocol_version")]
     #[doc(alias = "get_protocol_version")]
-    fn protocol_version(&self) -> Result<&[u16; 3], Error>;
+    fn protocol_version(&self) -> Result<&[u16; 3], glib::Error>;
 
     /// Create a port into the client.
     ///
@@ -33,7 +33,7 @@ pub trait UserClientExtManual {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_create_port")]
-    fn create_port<P: IsA<PortInfo>>(&self, port_info: &mut P) -> Result<(), Error>;
+    fn create_port<P: IsA<PortInfo>>(&self, port_info: &mut P) -> Result<(), glib::Error>;
 
     /// Create a port into the client with the given numeric port ID.
     ///
@@ -48,8 +48,11 @@ pub trait UserClientExtManual {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_create_port_at")]
-    fn create_port_at<P: IsA<PortInfo>>(&self, port_info: &mut P, port_id: u8)
-        -> Result<(), Error>;
+    fn create_port_at<P: IsA<PortInfo>>(
+        &self,
+        port_info: &mut P,
+        port_id: u8,
+    ) -> Result<(), glib::Error>;
 
     /// Create a new queue owned by the client. The content of information is updated if success.
     ///
@@ -62,7 +65,7 @@ pub trait UserClientExtManual {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_create_queue")]
-    fn create_queue<P: IsA<QueueInfo>>(&self, queue_info: &mut P) -> Result<(), Error>;
+    fn create_queue<P: IsA<QueueInfo>>(&self, queue_info: &mut P) -> Result<(), glib::Error>;
 
     /// Set client information.
     ///
@@ -76,7 +79,7 @@ pub trait UserClientExtManual {
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_get_info")]
     #[doc(alias = "get_info")]
-    fn info<P: IsA<ClientInfo>>(&self, client_info: &mut P) -> Result<(), Error>;
+    fn info<P: IsA<ClientInfo>>(&self, client_info: &mut P) -> Result<(), glib::Error>;
 
     /// Get information of memory pool in the client.
     ///
@@ -90,7 +93,7 @@ pub trait UserClientExtManual {
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_get_pool")]
     #[doc(alias = "get_pool")]
-    fn pool<P: IsA<ClientPool>>(&self, client_pool: &mut P) -> Result<(), Error>;
+    fn pool<P: IsA<ClientPool>>(&self, client_pool: &mut P) -> Result<(), glib::Error>;
 
     /// Get the data of timer for the queue.
     ///
@@ -107,7 +110,7 @@ pub trait UserClientExtManual {
     /// The data of timer for queue, which implements [`QueueTimerCommon`][crate::QueueTimerCommon].
     #[doc(alias = "alsaseq_user_client_get_queue_timer")]
     #[doc(alias = "get_queue_timer")]
-    fn queue_timer(&self, queue_id: u8) -> Result<QueueTimer, Error>;
+    fn queue_timer(&self, queue_id: u8) -> Result<QueueTimer, glib::Error>;
 
     /// Set the data of timer for the queue.
     ///
@@ -122,7 +125,7 @@ pub trait UserClientExtManual {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_user_client_set_queue_timer")]
-    fn set_queue_timer(&self, queue_id: u8, queue_timer: &QueueTimer) -> Result<(), Error>;
+    fn set_queue_timer(&self, queue_id: u8, queue_timer: &QueueTimer) -> Result<(), glib::Error>;
 
     /// Deliver the events immediately, or schedule it into memory pool of the client.
     ///
@@ -140,11 +143,11 @@ pub trait UserClientExtManual {
     /// ## `count`
     /// The number of events to be scheduled.
     #[doc(alias = "alsaseq_user_client_schedule_events")]
-    fn schedule_events(&self, events: &[Event]) -> Result<usize, Error>;
+    fn schedule_events(&self, events: &[Event]) -> Result<usize, glib::Error>;
 }
 
 impl<O: IsA<UserClient>> UserClientExtManual for O {
-    fn protocol_version(&self) -> Result<&[u16; 3], Error> {
+    fn protocol_version(&self) -> Result<&[u16; 3], glib::Error> {
         unsafe {
             let mut triplet = std::ptr::null_mut() as *const [u16; 3];
             let mut error = std::ptr::null_mut();
@@ -164,7 +167,7 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
         }
     }
 
-    fn create_port<P: IsA<PortInfo>>(&self, port_info: &mut P) -> Result<(), Error> {
+    fn create_port<P: IsA<PortInfo>>(&self, port_info: &mut P) -> Result<(), glib::Error> {
         unsafe {
             let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_user_client_create_port(
@@ -186,7 +189,7 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
         &self,
         port_info: &mut P,
         port_id: u8,
-    ) -> Result<(), Error> {
+    ) -> Result<(), glib::Error> {
         unsafe {
             let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_user_client_create_port_at(
@@ -205,7 +208,7 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
         }
     }
 
-    fn create_queue<P: IsA<QueueInfo>>(&self, queue_info: &mut P) -> Result<(), Error> {
+    fn create_queue<P: IsA<QueueInfo>>(&self, queue_info: &mut P) -> Result<(), glib::Error> {
         unsafe {
             let mut error = std::ptr::null_mut();
 
@@ -224,7 +227,7 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
         }
     }
 
-    fn info<P: IsA<ClientInfo>>(&self, client_info: &mut P) -> Result<(), Error> {
+    fn info<P: IsA<ClientInfo>>(&self, client_info: &mut P) -> Result<(), glib::Error> {
         unsafe {
             let mut error = std::ptr::null_mut();
 
@@ -243,7 +246,7 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
         }
     }
 
-    fn pool<P: IsA<ClientPool>>(&self, client_pool: &mut P) -> Result<(), Error> {
+    fn pool<P: IsA<ClientPool>>(&self, client_pool: &mut P) -> Result<(), glib::Error> {
         unsafe {
             let mut error = std::ptr::null_mut();
 
@@ -262,7 +265,7 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
         }
     }
 
-    fn queue_timer(&self, queue_id: u8) -> Result<QueueTimer, Error> {
+    fn queue_timer(&self, queue_id: u8) -> Result<QueueTimer, glib::Error> {
         unsafe {
             let mut queue_timer = std::ptr::null_mut();
             let mut error = std::ptr::null_mut();
@@ -290,7 +293,7 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
         }
     }
 
-    fn set_queue_timer(&self, queue_id: u8, queue_timer: &QueueTimer) -> Result<(), Error> {
+    fn set_queue_timer(&self, queue_id: u8, queue_timer: &QueueTimer) -> Result<(), glib::Error> {
         let inst = match &queue_timer {
             QueueTimer::Alsa(inst) => inst.upcast_ref::<QueueTimerCommon>(),
         };
@@ -315,7 +318,7 @@ impl<O: IsA<UserClient>> UserClientExtManual for O {
 
     // MEMO: the issue #42 in gtk-rs-core affects the conversion to `*const GList`. See:
     // https://github.com/gtk-rs/gtk-rs-core/issues/42.
-    fn schedule_events(&self, events: &[Event]) -> Result<usize, Error> {
+    fn schedule_events(&self, events: &[Event]) -> Result<usize, glib::Error> {
         unsafe {
             let mut entries: *mut glib::ffi::GList = std::ptr::null_mut();
             let mut count = std::mem::MaybeUninit::uninit();

@@ -96,17 +96,12 @@ impl Default for RemoveFilter {
 
 unsafe impl Send for RemoveFilter {}
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::RemoveFilter>> Sealed for T {}
-}
-
 /// Trait containing all [`struct@RemoveFilter`] methods.
 ///
 /// # Implementors
 ///
 /// [`RemoveFilter`][struct@crate::RemoveFilter]
-pub trait RemoveFilterExt: IsA<RemoveFilter> + sealed::Sealed + 'static {
+pub trait RemoveFilterExt: IsA<RemoveFilter> + 'static {
     /// Refer to tick count in internal storage. The call works expectedly as long as
     /// [`flags`][struct@crate::RemoveFilter#flags] contains [`RemoveFilterFlag`][crate::RemoveFilterFlag].TICK. This is evaluated with
     /// [`RemoveFilterFlag`][crate::RemoveFilterFlag].TIME_BEFORE and [`RemoveFilterFlag`][crate::RemoveFilterFlag].TIME_AFTER at call of
@@ -224,7 +219,7 @@ pub trait RemoveFilterExt: IsA<RemoveFilter> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::channel\0".as_ptr() as *const _,
+                c"notify::channel".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_channel_trampoline::<Self, F> as *const (),
                 )),
@@ -250,7 +245,7 @@ pub trait RemoveFilterExt: IsA<RemoveFilter> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::destination\0".as_ptr() as *const _,
+                c"notify::destination".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_destination_trampoline::<Self, F> as *const (),
                 )),
@@ -276,7 +271,7 @@ pub trait RemoveFilterExt: IsA<RemoveFilter> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::event-type\0".as_ptr() as *const _,
+                c"notify::event-type".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_event_type_trampoline::<Self, F> as *const (),
                 )),
@@ -302,7 +297,7 @@ pub trait RemoveFilterExt: IsA<RemoveFilter> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::flags\0".as_ptr() as *const _,
+                c"notify::flags".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_flags_trampoline::<Self, F> as *const (),
                 )),
@@ -328,7 +323,7 @@ pub trait RemoveFilterExt: IsA<RemoveFilter> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::queue-id\0".as_ptr() as *const _,
+                c"notify::queue-id".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_queue_id_trampoline::<Self, F> as *const (),
                 )),

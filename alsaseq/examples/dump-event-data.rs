@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: MIT
 use alsaseq::{prelude::*, *};
-use glib::{source, translate::*, ControlFlow, Error, MainLoop};
-use nix::sys::signal;
-use std::sync::Arc;
+use glib::translate::*;
 
-fn prepare_client(name: &str) -> Result<(UserClient, ClientInfo), Error> {
+fn prepare_client(name: &str) -> Result<(UserClient, ClientInfo), glib::Error> {
     let client = UserClient::new();
     if client.open(0).is_err() {
         eprintln!("Fail to open ALSA Sequencer character device.");
@@ -26,7 +24,7 @@ fn prepare_client(name: &str) -> Result<(UserClient, ClientInfo), Error> {
     Ok((client, info))
 }
 
-fn prepare_port(client: &UserClient, name: &str) -> Result<PortInfo, Error> {
+fn prepare_port(client: &UserClient, name: &str) -> Result<PortInfo, glib::Error> {
     let mut info = PortInfo::new();
 
     info.set_name(Some(name));
@@ -46,7 +44,11 @@ fn prepare_port(client: &UserClient, name: &str) -> Result<PortInfo, Error> {
     Ok(info)
 }
 
-fn prepare_queue(client: &UserClient, port: &PortInfo, name: &str) -> Result<QueueInfo, Error> {
+fn prepare_queue(
+    client: &UserClient,
+    port: &PortInfo,
+    name: &str,
+) -> Result<QueueInfo, glib::Error> {
     let mut info = QueueInfo::new();
 
     info.set_name(Some(name));
@@ -221,20 +223,20 @@ fn event_time_mode_to_str(event_time_mode: &EventTimeMode) -> &str {
     }
 }
 
-fn run_dispatcher(client: &UserClient) -> Result<(), Error> {
-    let dispatcher = MainLoop::new(None, false);
+fn run_dispatcher(client: &UserClient) -> Result<(), glib::Error> {
+    let dispatcher = glib::MainLoop::new(None, false);
     let ctx = dispatcher.context();
 
-    let dispatcher_cntr = Arc::new(dispatcher);
+    let dispatcher_cntr = std::sync::Arc::new(dispatcher);
     let d = dispatcher_cntr.clone();
 
-    let src = source::unix_signal_source_new(
-        signal::Signal::SIGINT as i32,
+    let src = glib::source::unix_signal_source_new(
+        nix::sys::signal::Signal::SIGINT as i32,
         None,
-        source::Priority::DEFAULT_IDLE,
+        glib::source::Priority::DEFAULT_IDLE,
         move || {
             d.quit();
-            ControlFlow::Continue
+            glib::ControlFlow::Continue
         },
     );
     src.attach(Some(&ctx));
@@ -322,7 +324,7 @@ fn run_dispatcher(client: &UserClient) -> Result<(), Error> {
                     _ => (),
                 }
 
-                Ok::<(), Error>(())
+                Ok::<(), glib::Error>(())
             })
             .unwrap();
     });

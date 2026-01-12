@@ -48,11 +48,17 @@ impl<O: IsA<ClientInfo>> ClientInfoExtManual for O {
             assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 
             if error.is_null() {
-                let array = std::slice::from_raw_parts(ptr, len);
                 let mut entries = Vec::new();
-                for &entry in array {
-                    entries.push(EventType::from_glib(entry));
+
+                // Avoid unsafe precondition violation. The slice::from_raw_parts() requires the
+                // non-null pointer.
+                if len > 0 {
+                    let array = std::slice::from_raw_parts(ptr, len);
+                    for &entry in array {
+                        entries.push(EventType::from_glib(entry));
+                    }
                 }
+
                 Ok(entries)
             } else {
                 Err(from_glib_full(error))

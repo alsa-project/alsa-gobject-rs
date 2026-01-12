@@ -127,17 +127,12 @@ impl Default for PortInfo {
     }
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::PortInfo>> Sealed for T {}
-}
-
 /// Trait containing all [`struct@PortInfo`] methods.
 ///
 /// # Implementors
 ///
 /// [`PortInfo`][struct@crate::PortInfo]
-pub trait PortInfoExt: IsA<PortInfo> + sealed::Sealed + 'static {
+pub trait PortInfoExt: IsA<PortInfo> + 'static {
     /// The address of port.
     fn addr(&self) -> Option<Addr> {
         ObjectExt::property(self.as_ref(), "addr")
@@ -275,7 +270,7 @@ pub trait PortInfoExt: IsA<PortInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::attrs\0".as_ptr() as *const _,
+                c"notify::attrs".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_attrs_trampoline::<Self, F> as *const (),
                 )),
@@ -298,7 +293,7 @@ pub trait PortInfoExt: IsA<PortInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::caps\0".as_ptr() as *const _,
+                c"notify::caps".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_caps_trampoline::<Self, F> as *const (),
                 )),
@@ -324,7 +319,7 @@ pub trait PortInfoExt: IsA<PortInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::midi-channels\0".as_ptr() as *const _,
+                c"notify::midi-channels".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_midi_channels_trampoline::<Self, F> as *const (),
                 )),
@@ -350,7 +345,7 @@ pub trait PortInfoExt: IsA<PortInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::midi-voices\0".as_ptr() as *const _,
+                c"notify::midi-voices".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_midi_voices_trampoline::<Self, F> as *const (),
                 )),
@@ -373,7 +368,7 @@ pub trait PortInfoExt: IsA<PortInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::name\0".as_ptr() as *const _,
+                c"notify::name".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_name_trampoline::<Self, F> as *const (),
                 )),
@@ -396,7 +391,7 @@ pub trait PortInfoExt: IsA<PortInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::queue-id\0".as_ptr() as *const _,
+                c"notify::queue-id".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_queue_id_trampoline::<Self, F> as *const (),
                 )),
@@ -419,7 +414,7 @@ pub trait PortInfoExt: IsA<PortInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::read-users\0".as_ptr() as *const _,
+                c"notify::read-users".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_read_users_trampoline::<Self, F> as *const (),
                 )),
@@ -445,7 +440,7 @@ pub trait PortInfoExt: IsA<PortInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::synth-voices\0".as_ptr() as *const _,
+                c"notify::synth-voices".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_synth_voices_trampoline::<Self, F> as *const (),
                 )),
@@ -471,7 +466,7 @@ pub trait PortInfoExt: IsA<PortInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::tstamp-mode\0".as_ptr() as *const _,
+                c"notify::tstamp-mode".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_tstamp_mode_trampoline::<Self, F> as *const (),
                 )),
@@ -497,7 +492,7 @@ pub trait PortInfoExt: IsA<PortInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::tstamp-overwrite\0".as_ptr() as *const _,
+                c"notify::tstamp-overwrite".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_tstamp_overwrite_trampoline::<Self, F> as *const (),
                 )),
@@ -523,7 +518,7 @@ pub trait PortInfoExt: IsA<PortInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::write-users\0".as_ptr() as *const _,
+                c"notify::write-users".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_write_users_trampoline::<Self, F> as *const (),
                 )),

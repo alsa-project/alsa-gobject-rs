@@ -47,17 +47,12 @@ impl QueueTimerCommon {
     pub const NONE: Option<&'static QueueTimerCommon> = None;
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::QueueTimerCommon>> Sealed for T {}
-}
-
 /// Trait containing all [`struct@QueueTimerCommon`] methods.
 ///
 /// # Implementors
 ///
 /// [`QueueTimerAlsa`][struct@crate::QueueTimerAlsa], [`QueueTimerCommon`][struct@crate::QueueTimerCommon]
-pub trait QueueTimerCommonExt: IsA<QueueTimerCommon> + sealed::Sealed + 'static {
+pub trait QueueTimerCommonExt: IsA<QueueTimerCommon> + 'static {
     /// The numeric identifier of queue. An entry of [`SpecificClientId`][crate::SpecificClientId] is available as well.
     #[doc(alias = "queue-id")]
     fn queue_id(&self) -> u8 {
@@ -87,7 +82,7 @@ pub trait QueueTimerCommonExt: IsA<QueueTimerCommon> + sealed::Sealed + 'static 
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::queue-id\0".as_ptr() as *const _,
+                c"notify::queue-id".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_queue_id_trampoline::<Self, F> as *const (),
                 )),
@@ -113,7 +108,7 @@ pub trait QueueTimerCommonExt: IsA<QueueTimerCommon> + sealed::Sealed + 'static 
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::timer-type\0".as_ptr() as *const _,
+                c"notify::timer-type".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_timer_type_trampoline::<Self, F> as *const (),
                 )),

@@ -108,17 +108,12 @@ impl Default for ClientInfo {
     }
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::ClientInfo>> Sealed for T {}
-}
-
 /// Trait containing the part of [`struct@ClientInfo`] methods.
 ///
 /// # Implementors
 ///
 /// [`ClientInfo`][struct@crate::ClientInfo]
-pub trait ClientInfoExt: IsA<ClientInfo> + sealed::Sealed + 'static {
+pub trait ClientInfoExt: IsA<ClientInfo> + 'static {
     /// The numeric ID of sound card. Available in Linux kernel 4.6.0 or later.
     #[doc(alias = "card-id")]
     fn card_id(&self) -> i32 {
@@ -223,7 +218,7 @@ pub trait ClientInfoExt: IsA<ClientInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::card-id\0".as_ptr() as *const _,
+                c"notify::card-id".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_card_id_trampoline::<Self, F> as *const (),
                 )),
@@ -249,7 +244,7 @@ pub trait ClientInfoExt: IsA<ClientInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::client-id\0".as_ptr() as *const _,
+                c"notify::client-id".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_client_id_trampoline::<Self, F> as *const (),
                 )),
@@ -275,7 +270,7 @@ pub trait ClientInfoExt: IsA<ClientInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::filter-attributes\0".as_ptr() as *const _,
+                c"notify::filter-attributes".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_filter_attributes_trampoline::<Self, F> as *const (),
                 )),
@@ -301,7 +296,7 @@ pub trait ClientInfoExt: IsA<ClientInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::lost-count\0".as_ptr() as *const _,
+                c"notify::lost-count".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_lost_count_trampoline::<Self, F> as *const (),
                 )),
@@ -324,7 +319,7 @@ pub trait ClientInfoExt: IsA<ClientInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::name\0".as_ptr() as *const _,
+                c"notify::name".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_name_trampoline::<Self, F> as *const (),
                 )),
@@ -350,7 +345,7 @@ pub trait ClientInfoExt: IsA<ClientInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::port-count\0".as_ptr() as *const _,
+                c"notify::port-count".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_port_count_trampoline::<Self, F> as *const (),
                 )),
@@ -376,7 +371,7 @@ pub trait ClientInfoExt: IsA<ClientInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::process-id\0".as_ptr() as *const _,
+                c"notify::process-id".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_process_id_trampoline::<Self, F> as *const (),
                 )),
@@ -399,7 +394,7 @@ pub trait ClientInfoExt: IsA<ClientInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::type\0".as_ptr() as *const _,
+                c"notify::type".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_type_trampoline::<Self, F> as *const (),
                 )),
@@ -425,7 +420,7 @@ pub trait ClientInfoExt: IsA<ClientInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::use-filter\0".as_ptr() as *const _,
+                c"notify::use-filter".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_use_filter_trampoline::<Self, F> as *const (),
                 )),

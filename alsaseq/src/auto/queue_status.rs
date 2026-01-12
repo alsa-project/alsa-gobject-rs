@@ -70,17 +70,12 @@ impl Default for QueueStatus {
     }
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::QueueStatus>> Sealed for T {}
-}
-
 /// Trait containing the part of [`struct@QueueStatus`] methods.
 ///
 /// # Implementors
 ///
 /// [`QueueStatus`][struct@crate::QueueStatus]
-pub trait QueueStatusExt: IsA<QueueStatus> + sealed::Sealed + 'static {
+pub trait QueueStatusExt: IsA<QueueStatus> + 'static {
     /// Get time as MIDI ticks.
     ///
     /// # Returns
@@ -135,7 +130,7 @@ pub trait QueueStatusExt: IsA<QueueStatus> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::event-count\0".as_ptr() as *const _,
+                c"notify::event-count".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_event_count_trampoline::<Self, F> as *const (),
                 )),
@@ -161,7 +156,7 @@ pub trait QueueStatusExt: IsA<QueueStatus> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::queue-id\0".as_ptr() as *const _,
+                c"notify::queue-id".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_queue_id_trampoline::<Self, F> as *const (),
                 )),
@@ -184,7 +179,7 @@ pub trait QueueStatusExt: IsA<QueueStatus> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::running\0".as_ptr() as *const _,
+                c"notify::running".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_running_trampoline::<Self, F> as *const (),
                 )),

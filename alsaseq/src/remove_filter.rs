@@ -38,10 +38,10 @@ pub trait RemoveFilterExtManual: 'static {
 impl<O: IsA<RemoveFilter>> RemoveFilterExtManual for O {
     fn tag(&self) -> i8 {
         unsafe {
-            let mut value = Value::from_type(<i8 as StaticType>::static_type());
+            let mut value = glib::Value::from_type(<i8 as StaticType>::static_type());
             glib::gobject_ffi::g_object_get_property(
                 self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"tag\0".as_ptr() as *const _,
+                c"tag".as_ptr() as *const _,
                 value.to_glib_none_mut().0,
             );
             value
@@ -54,8 +54,8 @@ impl<O: IsA<RemoveFilter>> RemoveFilterExtManual for O {
         unsafe {
             glib::gobject_ffi::g_object_set_property(
                 self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"tag\0".as_ptr() as *const _,
-                Value::from(&tag).to_glib_none().0,
+                c"tag".as_ptr() as *const _,
+                glib::Value::from(&tag).to_glib_none().0,
             );
         }
     }

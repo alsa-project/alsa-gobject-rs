@@ -35,12 +35,12 @@ pub mod subclass;
 // For applications to handle stuffs in the sys crate.
 pub use alsaseq_sys as ffi;
 
-// For links in documentation.
-pub(crate) use glib;
-
-use glib::{object::IsA, prelude::Cast, translate::*, types::StaticType, Error, Value};
+// For documentation links to external crates in docs.rs.
+#[allow(unused_imports)]
+pub(crate) use {alsatimer, glib};
 
 use crate::prelude::*;
+use glib::{object::IsA, prelude::Cast, translate::*, types::StaticType};
 
 /// A set of timer which drives queue.
 pub enum QueueTimer {

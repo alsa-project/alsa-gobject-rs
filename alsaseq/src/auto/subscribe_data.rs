@@ -90,17 +90,12 @@ impl Default for SubscribeData {
     }
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::SubscribeData>> Sealed for T {}
-}
-
 /// Trait containing all [`struct@SubscribeData`] methods.
 ///
 /// # Implementors
 ///
 /// [`SubscribeData`][struct@crate::SubscribeData]
-pub trait SubscribeDataExt: IsA<SubscribeData> + sealed::Sealed + 'static {
+pub trait SubscribeDataExt: IsA<SubscribeData> + 'static {
     /// The address of destination.
     fn dest(&self) -> Option<Addr> {
         ObjectExt::property(self.as_ref(), "dest")
@@ -185,7 +180,7 @@ pub trait SubscribeDataExt: IsA<SubscribeData> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::dest\0".as_ptr() as *const _,
+                c"notify::dest".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_dest_trampoline::<Self, F> as *const (),
                 )),
@@ -211,7 +206,7 @@ pub trait SubscribeDataExt: IsA<SubscribeData> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::has-tstamp\0".as_ptr() as *const _,
+                c"notify::has-tstamp".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_has_tstamp_trampoline::<Self, F> as *const (),
                 )),
@@ -237,7 +232,7 @@ pub trait SubscribeDataExt: IsA<SubscribeData> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::is-exclusive\0".as_ptr() as *const _,
+                c"notify::is-exclusive".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_is_exclusive_trampoline::<Self, F> as *const (),
                 )),
@@ -263,7 +258,7 @@ pub trait SubscribeDataExt: IsA<SubscribeData> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::queue-id\0".as_ptr() as *const _,
+                c"notify::queue-id".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_queue_id_trampoline::<Self, F> as *const (),
                 )),
@@ -289,7 +284,7 @@ pub trait SubscribeDataExt: IsA<SubscribeData> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::sender\0".as_ptr() as *const _,
+                c"notify::sender".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_sender_trampoline::<Self, F> as *const (),
                 )),
@@ -315,7 +310,7 @@ pub trait SubscribeDataExt: IsA<SubscribeData> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::tstamp-mode\0".as_ptr() as *const _,
+                c"notify::tstamp-mode".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_tstamp_mode_trampoline::<Self, F> as *const (),
                 )),

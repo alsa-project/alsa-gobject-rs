@@ -69,18 +69,13 @@ impl Default for QueueTempo {
     }
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::QueueTempo>> Sealed for T {}
-}
-
 /// Trait containing the part of [`struct@QueueTempo`] methods.
 ///
 /// # Implementors
 ///
 /// [`QueueTempo`][struct@crate::QueueTempo]
-pub trait QueueTempoExt: IsA<QueueTempo> + sealed::Sealed + 'static {
-    /// The numeric ID of queue. An entry of ALSASeqSpecificClientId is available as well,
+pub trait QueueTempoExt: IsA<QueueTempo> + 'static {
+    /// The numeric ID of queue. An entry of ALSASeqSpecificClientId is available as well.
     #[doc(alias = "queue-id")]
     fn queue_id(&self) -> u8 {
         ObjectExt::property(self.as_ref(), "queue-id")
@@ -126,7 +121,7 @@ pub trait QueueTempoExt: IsA<QueueTempo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::queue-id\0".as_ptr() as *const _,
+                c"notify::queue-id".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_queue_id_trampoline::<Self, F> as *const (),
                 )),
@@ -152,7 +147,7 @@ pub trait QueueTempoExt: IsA<QueueTempo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::resolution\0".as_ptr() as *const _,
+                c"notify::resolution".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_resolution_trampoline::<Self, F> as *const (),
                 )),
@@ -175,7 +170,7 @@ pub trait QueueTempoExt: IsA<QueueTempo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::tempo\0".as_ptr() as *const _,
+                c"notify::tempo".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_tempo_trampoline::<Self, F> as *const (),
                 )),

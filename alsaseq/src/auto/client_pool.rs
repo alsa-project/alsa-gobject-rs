@@ -91,17 +91,12 @@ impl Default for ClientPool {
     }
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::ClientPool>> Sealed for T {}
-}
-
 /// Trait containing all [`struct@ClientPool`] methods.
 ///
 /// # Implementors
 ///
 /// [`ClientPool`][struct@crate::ClientPool]
-pub trait ClientPoolExt: IsA<ClientPool> + sealed::Sealed + 'static {
+pub trait ClientPoolExt: IsA<ClientPool> + 'static {
     /// The numeric ID of client. One of [`SpecificClientId`][crate::SpecificClientId] is available as well as any
     /// numeric value.
     #[doc(alias = "client-id")]
@@ -196,7 +191,7 @@ pub trait ClientPoolExt: IsA<ClientPool> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::client-id\0".as_ptr() as *const _,
+                c"notify::client-id".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_client_id_trampoline::<Self, F> as *const (),
                 )),
@@ -222,7 +217,7 @@ pub trait ClientPoolExt: IsA<ClientPool> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::input-free\0".as_ptr() as *const _,
+                c"notify::input-free".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_input_free_trampoline::<Self, F> as *const (),
                 )),
@@ -248,7 +243,7 @@ pub trait ClientPoolExt: IsA<ClientPool> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::input-pool\0".as_ptr() as *const _,
+                c"notify::input-pool".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_input_pool_trampoline::<Self, F> as *const (),
                 )),
@@ -274,7 +269,7 @@ pub trait ClientPoolExt: IsA<ClientPool> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::output-free\0".as_ptr() as *const _,
+                c"notify::output-free".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_output_free_trampoline::<Self, F> as *const (),
                 )),
@@ -300,7 +295,7 @@ pub trait ClientPoolExt: IsA<ClientPool> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::output-pool\0".as_ptr() as *const _,
+                c"notify::output-pool".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_output_pool_trampoline::<Self, F> as *const (),
                 )),
@@ -326,7 +321,7 @@ pub trait ClientPoolExt: IsA<ClientPool> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::output-room\0".as_ptr() as *const _,
+                c"notify::output-room".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_output_room_trampoline::<Self, F> as *const (),
                 )),

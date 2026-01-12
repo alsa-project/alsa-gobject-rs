@@ -78,17 +78,12 @@ impl Default for QueueInfo {
     }
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::QueueInfo>> Sealed for T {}
-}
-
 /// Trait containing all [`struct@QueueInfo`] methods.
 ///
 /// # Implementors
 ///
 /// [`QueueInfo`][struct@crate::QueueInfo]
-pub trait QueueInfoExt: IsA<QueueInfo> + sealed::Sealed + 'static {
+pub trait QueueInfoExt: IsA<QueueInfo> + 'static {
     /// The numeric ID of client which owns the queue, including one of ALSASeqSpecificClientId.
     #[doc(alias = "client-id")]
     fn client_id(&self) -> u8 {
@@ -147,7 +142,7 @@ pub trait QueueInfoExt: IsA<QueueInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::client-id\0".as_ptr() as *const _,
+                c"notify::client-id".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_client_id_trampoline::<Self, F> as *const (),
                 )),
@@ -170,7 +165,7 @@ pub trait QueueInfoExt: IsA<QueueInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::locked\0".as_ptr() as *const _,
+                c"notify::locked".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_locked_trampoline::<Self, F> as *const (),
                 )),
@@ -193,7 +188,7 @@ pub trait QueueInfoExt: IsA<QueueInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::name\0".as_ptr() as *const _,
+                c"notify::name".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_name_trampoline::<Self, F> as *const (),
                 )),
@@ -216,7 +211,7 @@ pub trait QueueInfoExt: IsA<QueueInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::queue-id\0".as_ptr() as *const _,
+                c"notify::queue-id".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_queue_id_trampoline::<Self, F> as *const (),
                 )),

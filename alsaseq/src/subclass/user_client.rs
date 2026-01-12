@@ -36,7 +36,7 @@ impl<T: UserClientImpl> UserClientImplExt for T {
 }
 
 unsafe impl<T: UserClientImpl> IsSubclassable<T> for UserClient {
-    fn class_init(class: &mut Class<Self>) {
+    fn class_init(class: &mut glib::Class<Self>) {
         Self::parent_class_init::<T>(class);
 
         let klass = class.as_mut();

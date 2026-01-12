@@ -72,17 +72,12 @@ impl SystemInfo {
     pub const NONE: Option<&'static SystemInfo> = None;
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::SystemInfo>> Sealed for T {}
-}
-
 /// Trait containing all [`struct@SystemInfo`] methods.
 ///
 /// # Implementors
 ///
 /// [`SystemInfo`][struct@crate::SystemInfo]
-pub trait SystemInfoExt: IsA<SystemInfo> + sealed::Sealed + 'static {
+pub trait SystemInfoExt: IsA<SystemInfo> + 'static {
     /// The current number of clients.
     #[doc(alias = "current-client-count")]
     fn current_client_count(&self) -> i32 {
@@ -136,7 +131,7 @@ pub trait SystemInfoExt: IsA<SystemInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::current-client-count\0".as_ptr() as *const _,
+                c"notify::current-client-count".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_current_client_count_trampoline::<Self, F> as *const (),
                 )),
@@ -162,7 +157,7 @@ pub trait SystemInfoExt: IsA<SystemInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::current-queue-count\0".as_ptr() as *const _,
+                c"notify::current-queue-count".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_current_queue_count_trampoline::<Self, F> as *const (),
                 )),
@@ -191,7 +186,7 @@ pub trait SystemInfoExt: IsA<SystemInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::maximum-channel-count\0".as_ptr() as *const _,
+                c"notify::maximum-channel-count".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_maximum_channel_count_trampoline::<Self, F> as *const (),
                 )),
@@ -217,7 +212,7 @@ pub trait SystemInfoExt: IsA<SystemInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::maximum-client-count\0".as_ptr() as *const _,
+                c"notify::maximum-client-count".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_maximum_client_count_trampoline::<Self, F> as *const (),
                 )),
@@ -243,7 +238,7 @@ pub trait SystemInfoExt: IsA<SystemInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::maximum-port-count\0".as_ptr() as *const _,
+                c"notify::maximum-port-count".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_maximum_port_count_trampoline::<Self, F> as *const (),
                 )),
@@ -269,7 +264,7 @@ pub trait SystemInfoExt: IsA<SystemInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::maximum-queue-count\0".as_ptr() as *const _,
+                c"notify::maximum-queue-count".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_maximum_queue_count_trampoline::<Self, F> as *const (),
                 )),

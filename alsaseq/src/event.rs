@@ -29,7 +29,7 @@ impl Event {
     /// The address data of event.
     #[doc(alias = "alsaseq_event_get_addr_data")]
     #[doc(alias = "get_addr_data")]
-    pub fn addr_data(&self) -> Result<Addr, Error> {
+    pub fn addr_data(&self) -> Result<Addr, glib::Error> {
         unsafe {
             let mut data = std::ptr::null_mut() as *const ffi::ALSASeqAddr;
             let mut error = std::ptr::null_mut();
@@ -63,7 +63,7 @@ impl Event {
     /// The pointer to blob data.
     #[doc(alias = "alsaseq_event_get_blob_data")]
     #[doc(alias = "get_blob_data")]
-    pub fn blob_data(&self) -> Result<&[u8], Error> {
+    pub fn blob_data(&self) -> Result<&[u8], glib::Error> {
         unsafe {
             let mut data = std::ptr::null_mut() as *const u8;
             let mut length = 0;
@@ -105,7 +105,7 @@ impl Event {
     /// The byte data of event.
     #[doc(alias = "alsaseq_event_get_byte_data")]
     #[doc(alias = "get_byte_data")]
-    pub fn byte_data(&self) -> Result<&[u8], Error> {
+    pub fn byte_data(&self) -> Result<&[u8], glib::Error> {
         unsafe {
             let mut data = std::ptr::null_mut() as *const [u8; 12];
             let mut error = std::ptr::null_mut();
@@ -144,7 +144,7 @@ impl Event {
     /// The connect data of event.
     #[doc(alias = "alsaseq_event_get_connect_data")]
     #[doc(alias = "get_connect_data")]
-    pub fn connect_data(&self) -> Result<EventDataConnect, Error> {
+    pub fn connect_data(&self) -> Result<EventDataConnect, glib::Error> {
         unsafe {
             let mut data = std::ptr::null_mut() as *const ffi::ALSASeqEventDataConnect;
             let mut error = std::ptr::null_mut();
@@ -193,7 +193,7 @@ impl Event {
     /// The control data of event.
     #[doc(alias = "alsaseq_event_get_ctl_data")]
     #[doc(alias = "get_ctl_data")]
-    pub fn ctl_data(&self) -> Result<EventDataCtl, Error> {
+    pub fn ctl_data(&self) -> Result<EventDataCtl, glib::Error> {
         unsafe {
             let mut data = std::ptr::null_mut() as *const ffi::ALSASeqEventDataCtl;
             let mut error = std::ptr::null_mut();
@@ -251,7 +251,7 @@ impl Event {
     /// The note data of event.
     #[doc(alias = "alsaseq_event_get_note_data")]
     #[doc(alias = "get_note_data")]
-    pub fn note_data(&self) -> Result<EventDataNote, Error> {
+    pub fn note_data(&self) -> Result<EventDataNote, glib::Error> {
         unsafe {
             let mut data = std::ptr::null_mut() as *const ffi::ALSASeqEventDataNote;
             let mut error = std::ptr::null_mut();
@@ -288,7 +288,7 @@ impl Event {
     /// The quadlet data of event.
     #[doc(alias = "alsaseq_event_get_quadlet_data")]
     #[doc(alias = "get_quadlet_data")]
-    pub fn quadlet_data(&self) -> Result<&[u32], Error> {
+    pub fn quadlet_data(&self) -> Result<&[u32], glib::Error> {
         unsafe {
             let mut data = std::ptr::null_mut() as *const [u32; 3];
             let mut error = std::ptr::null_mut();
@@ -334,7 +334,7 @@ impl Event {
     /// The queue data of event.
     #[doc(alias = "alsaseq_event_get_queue_data")]
     #[doc(alias = "get_queue_data")]
-    pub fn queue_data(&self) -> Result<EventDataQueue, Error> {
+    pub fn queue_data(&self) -> Result<EventDataQueue, glib::Error> {
         unsafe {
             let mut data = std::ptr::null_mut() as *const ffi::ALSASeqEventDataQueue;
             let mut error = std::ptr::null_mut();
@@ -361,7 +361,7 @@ impl Event {
     /// The real time of event.
     #[doc(alias = "alsaseq_event_get_real_time")]
     #[doc(alias = "get_real_time")]
-    pub fn real_time(&self) -> Result<[u32; 2], Error> {
+    pub fn real_time(&self) -> Result<[u32; 2], glib::Error> {
         unsafe {
             let mut data = std::ptr::null_mut() as *const [u32; 2];
             let mut error = std::ptr::null_mut();
@@ -401,7 +401,7 @@ impl Event {
     /// The real time data of event.
     #[doc(alias = "alsaseq_event_get_real_time_data")]
     #[doc(alias = "get_real_time_data")]
-    pub fn real_time_data(&self) -> Result<[u32; 2], Error> {
+    pub fn real_time_data(&self) -> Result<[u32; 2], glib::Error> {
         unsafe {
             let mut data = std::ptr::null_mut() as *const [u32; 2];
             let mut error = std::ptr::null_mut();
@@ -442,7 +442,7 @@ impl Event {
     /// The result data of event.
     #[doc(alias = "alsaseq_event_get_result_data")]
     #[doc(alias = "get_result_data")]
-    pub fn result_data(&self) -> Result<EventDataResult, Error> {
+    pub fn result_data(&self) -> Result<EventDataResult, glib::Error> {
         unsafe {
             let mut data = std::ptr::null_mut() as *const ffi::ALSASeqEventDataResult;
             let mut error = std::ptr::null_mut();
@@ -486,7 +486,7 @@ impl Event {
     /// The tick time of event.
     #[doc(alias = "alsaseq_event_get_tick_time")]
     #[doc(alias = "get_tick_time")]
-    pub fn tick_time(&self) -> Result<u32, Error> {
+    pub fn tick_time(&self) -> Result<u32, glib::Error> {
         unsafe {
             let mut tick_time = std::mem::MaybeUninit::uninit();
             let mut error = std::ptr::null_mut();
@@ -527,7 +527,7 @@ impl Event {
     /// The tick time data of event.
     #[doc(alias = "alsaseq_event_get_tick_time_data")]
     #[doc(alias = "get_tick_time_data")]
-    pub fn tick_time_data(&self) -> Result<u32, Error> {
+    pub fn tick_time_data(&self) -> Result<u32, glib::Error> {
         unsafe {
             let mut tick_time = std::mem::MaybeUninit::uninit();
             let mut error = std::ptr::null_mut();
@@ -565,7 +565,7 @@ impl Event {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_event_set_byte_data")]
-    pub fn set_byte_data(&mut self, data: &[u8; 12]) -> Result<(), Error> {
+    pub fn set_byte_data(&mut self, data: &[u8; 12]) -> Result<(), glib::Error> {
         unsafe {
             let mut error = std::ptr::null_mut();
             let is_ok =
@@ -599,7 +599,7 @@ impl Event {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_event_set_quadlet_data")]
-    pub fn set_quadlet_data(&mut self, data: &[u32; 3]) -> Result<(), Error> {
+    pub fn set_quadlet_data(&mut self, data: &[u32; 3]) -> Result<(), glib::Error> {
         unsafe {
             let mut error = std::ptr::null_mut();
             let is_ok =
@@ -622,7 +622,7 @@ impl Event {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_event_set_real_time")]
-    pub fn set_real_time(&mut self, real_time: &[u32; 2]) -> Result<(), Error> {
+    pub fn set_real_time(&mut self, real_time: &[u32; 2]) -> Result<(), glib::Error> {
         unsafe {
             let mut error = std::ptr::null_mut();
             let is_ok =
@@ -657,7 +657,7 @@ impl Event {
     ///
     /// [`true`] when the overall operation finishes successfully, else [`false`].
     #[doc(alias = "alsaseq_event_set_real_time_data")]
-    pub fn set_real_time_data(&mut self, real_time: &[u32; 2]) -> Result<(), Error> {
+    pub fn set_real_time_data(&mut self, real_time: &[u32; 2]) -> Result<(), glib::Error> {
         unsafe {
             let mut error = std::ptr::null_mut();
             let is_ok = ffi::alsaseq_event_set_real_time_data(

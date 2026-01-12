@@ -75,17 +75,12 @@ impl Default for UserClient {
     }
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::UserClient>> Sealed for T {}
-}
-
 /// Trait containing the part of [`struct@UserClient`] methods.
 ///
 /// # Implementors
 ///
 /// [`UserClient`][struct@crate::UserClient]
-pub trait UserClientExt: IsA<UserClient> + sealed::Sealed + 'static {
+pub trait UserClientExt: IsA<UserClient> + 'static {
     /// Allocate [`glib::Source`][crate::glib::Source] structure to handle events from ALSA seq character device. In each
     /// iteration of `GLib::MainContext`, the `read(2)` system call is exected to dispatch
     /// sequencer event for [`handle-event`][struct@crate::UserClient#handle-event] signal, according to the result of
@@ -572,7 +567,7 @@ pub trait UserClientExt: IsA<UserClient> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"handle-event\0".as_ptr() as *const _,
+                c"handle-event".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     handle_event_trampoline::<Self, F> as *const (),
                 )),
@@ -598,7 +593,7 @@ pub trait UserClientExt: IsA<UserClient> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::client-id\0".as_ptr() as *const _,
+                c"notify::client-id".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_client_id_trampoline::<Self, F> as *const (),
                 )),

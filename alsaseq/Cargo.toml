@@ -15,14 +15,13 @@ readme = "README.md"
 repository = "https://github.com/alsa-project/alsa-gobject-rs"
 
 [package.metadata.docs.rs]
-rustc-args = ["--cfg", "docsrs"]
-rustdoc-args = ["--cfg", "docsrs", "--generate-link-to-definition"]
+rustdoc-args = ["--generate-link-to-definition"]
+all-features = true
 
 [lib]
 name = "alsaseq"
 
 [dependencies]
-libc.workspace = true
 bitflags.workspace = true
 glib.workspace = true
 alsatimer.workspace = true
@@ -30,4 +29,4 @@ alsaseq-sys.workspace = true
 
 [dev-dependencies]
 gir-format-check = "0.1"
-nix = { version = "0.29", features = ["signal"] }
+nix = { version = "0.30", features = ["signal"] }

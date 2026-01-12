@@ -14,14 +14,14 @@ use std::boxed::Box as Box_;
 glib::wrapper! {
     /// An object to express queue timer specific to instance in ALSA Timer.
     ///
-    /// A `GObject::Object` derived object class for queue timer specific to any instance in ALSA
+    /// A [`glib::object::Object`][crate::glib::object::Object] derived object class for queue timer specific to any instance in ALSA
     /// Timer.
     ///
     /// ## Properties
     ///
     ///
     /// #### `device-id`
-    ///  The identifier of associated timer instance in ALSA Timer.
+    /// [`alsatimer::DeviceId`][crate::alsatimer::DeviceId] for the associated timer instance in ALSA Timer.
     ///
     /// Readable | Writeable
     ///
@@ -76,24 +76,19 @@ impl Default for QueueTimerAlsa {
     }
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::QueueTimerAlsa>> Sealed for T {}
-}
-
 /// Trait containing all [`struct@QueueTimerAlsa`] methods.
 ///
 /// # Implementors
 ///
 /// [`QueueTimerAlsa`][struct@crate::QueueTimerAlsa]
-pub trait QueueTimerAlsaExt: IsA<QueueTimerAlsa> + sealed::Sealed + 'static {
-    /// The identifier of associated timer instance in ALSA Timer.
+pub trait QueueTimerAlsaExt: IsA<QueueTimerAlsa> + 'static {
+    /// [`alsatimer::DeviceId`][crate::alsatimer::DeviceId] for the associated timer instance in ALSA Timer.
     #[doc(alias = "device-id")]
     fn device_id(&self) -> Option<alsatimer::DeviceId> {
         ObjectExt::property(self.as_ref(), "device-id")
     }
 
-    /// The identifier of associated timer instance in ALSA Timer.
+    /// [`alsatimer::DeviceId`][crate::alsatimer::DeviceId] for the associated timer instance in ALSA Timer.
     #[doc(alias = "device-id")]
     fn set_device_id(&self, device_id: Option<&alsatimer::DeviceId>) {
         ObjectExt::set_property(self.as_ref(), "device-id", device_id)
@@ -128,7 +123,7 @@ pub trait QueueTimerAlsaExt: IsA<QueueTimerAlsa> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::device-id\0".as_ptr() as *const _,
+                c"notify::device-id".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_device_id_trampoline::<Self, F> as *const (),
                 )),
@@ -154,7 +149,7 @@ pub trait QueueTimerAlsaExt: IsA<QueueTimerAlsa> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::resolution-ticks\0".as_ptr() as *const _,
+                c"notify::resolution-ticks".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_resolution_ticks_trampoline::<Self, F> as *const (),
                 )),
