@@ -66,17 +66,12 @@ impl ElemInfoSingleArray {
     pub const NONE: Option<&'static ElemInfoSingleArray> = None;
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::ElemInfoSingleArray>> Sealed for T {}
-}
-
 /// Trait containing all [`struct@ElemInfoSingleArray`] methods.
 ///
 /// # Implementors
 ///
 /// [`ElemInfoBoolean`][struct@crate::ElemInfoBoolean], [`ElemInfoBytes`][struct@crate::ElemInfoBytes], [`ElemInfoEnumerated`][struct@crate::ElemInfoEnumerated], [`ElemInfoInteger64`][struct@crate::ElemInfoInteger64], [`ElemInfoInteger`][struct@crate::ElemInfoInteger], [`ElemInfoSingleArray`][struct@crate::ElemInfoSingleArray]
-pub trait ElemInfoSingleArrayExt: IsA<ElemInfoSingleArray> + sealed::Sealed + 'static {
+pub trait ElemInfoSingleArrayExt: IsA<ElemInfoSingleArray> + 'static {
     /// The count of elements in value array of the element.
     #[doc(alias = "value-count")]
     fn value_count(&self) -> u32 {
@@ -106,7 +101,7 @@ pub trait ElemInfoSingleArrayExt: IsA<ElemInfoSingleArray> + sealed::Sealed + 's
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::value-count\0".as_ptr() as *const _,
+                c"notify::value-count".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_value_count_trampoline::<Self, F> as *const (),
                 )),

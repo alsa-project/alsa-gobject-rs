@@ -80,17 +80,12 @@ impl Default for Card {
     }
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::Card>> Sealed for T {}
-}
-
 /// Trait containing the part of [`struct@Card`] methods.
 ///
 /// # Implementors
 ///
 /// [`Card`][struct@crate::Card]
-pub trait CardExt: IsA<Card> + sealed::Sealed + 'static {
+pub trait CardExt: IsA<Card> + 'static {
     /// Allocate [`glib::Source`][crate::glib::Source] structure to handle events from ALSA control character device. In
     /// each iteration of `GLib::MainContext`, the `read(2)` system call is executed to dispatch
     /// control event for [`handle-elem-event`][struct@crate::Card#handle-elem-event] signal, according to the result of `poll(2)`
@@ -335,7 +330,7 @@ pub trait CardExt: IsA<Card> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"handle-disconnection\0".as_ptr() as *const _,
+                c"handle-disconnection".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     handle_disconnection_trampoline::<Self, F> as *const (),
                 )),
@@ -374,7 +369,7 @@ pub trait CardExt: IsA<Card> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"handle-elem-event\0".as_ptr() as *const _,
+                c"handle-elem-event".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     handle_elem_event_trampoline::<Self, F> as *const (),
                 )),
@@ -397,7 +392,7 @@ pub trait CardExt: IsA<Card> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::devnode\0".as_ptr() as *const _,
+                c"notify::devnode".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_devnode_trampoline::<Self, F> as *const (),
                 )),
@@ -420,7 +415,7 @@ pub trait CardExt: IsA<Card> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::subscribed\0".as_ptr() as *const _,
+                c"notify::subscribed".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_subscribed_trampoline::<Self, F> as *const (),
                 )),

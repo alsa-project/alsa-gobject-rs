@@ -57,17 +57,12 @@ impl ElemInfoCommon {
     pub const NONE: Option<&'static ElemInfoCommon> = None;
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::ElemInfoCommon>> Sealed for T {}
-}
-
 /// Trait containing all [`struct@ElemInfoCommon`] methods.
 ///
 /// # Implementors
 ///
 /// [`ElemInfoBoolean`][struct@crate::ElemInfoBoolean], [`ElemInfoBytes`][struct@crate::ElemInfoBytes], [`ElemInfoCommon`][struct@crate::ElemInfoCommon], [`ElemInfoEnumerated`][struct@crate::ElemInfoEnumerated], [`ElemInfoIec60958`][struct@crate::ElemInfoIec60958], [`ElemInfoInteger64`][struct@crate::ElemInfoInteger64], [`ElemInfoInteger`][struct@crate::ElemInfoInteger], [`ElemInfoSingleArray`][struct@crate::ElemInfoSingleArray]
-pub trait ElemInfoCommonExt: IsA<ElemInfoCommon> + sealed::Sealed + 'static {
+pub trait ElemInfoCommonExt: IsA<ElemInfoCommon> + 'static {
     /// The access permission for the element with [`ElemAccessFlag`][crate::ElemAccessFlag].
     fn access(&self) -> ElemAccessFlag {
         ObjectExt::property(self.as_ref(), "access")
@@ -112,7 +107,7 @@ pub trait ElemInfoCommonExt: IsA<ElemInfoCommon> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::access\0".as_ptr() as *const _,
+                c"notify::access".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_access_trampoline::<Self, F> as *const (),
                 )),
@@ -138,7 +133,7 @@ pub trait ElemInfoCommonExt: IsA<ElemInfoCommon> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::elem-id\0".as_ptr() as *const _,
+                c"notify::elem-id".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_elem_id_trampoline::<Self, F> as *const (),
                 )),
@@ -164,7 +159,7 @@ pub trait ElemInfoCommonExt: IsA<ElemInfoCommon> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::owner\0".as_ptr() as *const _,
+                c"notify::owner".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_owner_trampoline::<Self, F> as *const (),
                 )),

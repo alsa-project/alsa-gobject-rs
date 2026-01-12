@@ -94,17 +94,12 @@ impl Default for ElemInfoEnumerated {
     }
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::ElemInfoEnumerated>> Sealed for T {}
-}
-
 /// Trait containing all [`struct@ElemInfoEnumerated`] methods.
 ///
 /// # Implementors
 ///
 /// [`ElemInfoEnumerated`][struct@crate::ElemInfoEnumerated]
-pub trait ElemInfoEnumeratedExt: IsA<ElemInfoEnumerated> + sealed::Sealed + 'static {
+pub trait ElemInfoEnumeratedExt: IsA<ElemInfoEnumerated> + 'static {
     /// The list of indexed labels for the element. There is limitation that:
     ///
     ///  - The length of label including terminator should be within 64 bytes.
@@ -138,7 +133,7 @@ pub trait ElemInfoEnumeratedExt: IsA<ElemInfoEnumerated> + sealed::Sealed + 'sta
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::labels\0".as_ptr() as *const _,
+                c"notify::labels".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_labels_trampoline::<Self, F> as *const (),
                 )),

@@ -60,17 +60,12 @@ impl Default for ElemValue {
     }
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::ElemValue>> Sealed for T {}
-}
-
 /// Trait containing the part of [`struct@ElemValue`] methods.
 ///
 /// # Implementors
 ///
 /// [`ElemValue`][struct@crate::ElemValue]
-pub trait ElemValueExt: IsA<ElemValue> + sealed::Sealed + 'static {
+pub trait ElemValueExt: IsA<ElemValue> + 'static {
     #[doc(alias = "alsactl_elem_value_equal")]
     fn equal(&self, target: &impl IsA<ElemValue>) -> bool {
         unsafe {
@@ -191,7 +186,7 @@ pub trait ElemValueExt: IsA<ElemValue> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::elem-id\0".as_ptr() as *const _,
+                c"notify::elem-id".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_elem_id_trampoline::<Self, F> as *const (),
                 )),

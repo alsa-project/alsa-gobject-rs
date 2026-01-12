@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MIT
 use alsactl::{prelude::*, *};
-use glib::Error;
 
 fn elem_iface_type_to_str(elem_iface_type: &ElemIfaceType) -> &str {
     match elem_iface_type {
@@ -28,7 +27,7 @@ fn elem_type_to_str(elem_type: &ElemType) -> &str {
     }
 }
 
-fn dump_elem_data(card: &alsactl::Card, elem_id: &alsactl::ElemId) -> Result<(), Error> {
+fn dump_elem_data(card: &alsactl::Card, elem_id: &alsactl::ElemId) -> Result<(), glib::Error> {
     println!("Element {}:", elem_id.numid());
     println!("  device_id:      {}", elem_id.device_id());
     println!("  subdevice_id:   {}", elem_id.subdevice_id());

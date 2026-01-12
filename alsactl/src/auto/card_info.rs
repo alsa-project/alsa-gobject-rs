@@ -78,17 +78,12 @@ impl CardInfo {
     pub const NONE: Option<&'static CardInfo> = None;
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::CardInfo>> Sealed for T {}
-}
-
 /// Trait containing all [`struct@CardInfo`] methods.
 ///
 /// # Implementors
 ///
 /// [`CardInfo`][struct@crate::CardInfo]
-pub trait CardInfoExt: IsA<CardInfo> + sealed::Sealed + 'static {
+pub trait CardInfoExt: IsA<CardInfo> + 'static {
     /// The numeric ID of sound card.
     #[doc(alias = "card-id")]
     fn card_id(&self) -> i32 {
@@ -141,7 +136,7 @@ pub trait CardInfoExt: IsA<CardInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::card-id\0".as_ptr() as *const _,
+                c"notify::card-id".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_card_id_trampoline::<Self, F> as *const (),
                 )),
@@ -164,7 +159,7 @@ pub trait CardInfoExt: IsA<CardInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::components\0".as_ptr() as *const _,
+                c"notify::components".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_components_trampoline::<Self, F> as *const (),
                 )),
@@ -187,7 +182,7 @@ pub trait CardInfoExt: IsA<CardInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::driver\0".as_ptr() as *const _,
+                c"notify::driver".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_driver_trampoline::<Self, F> as *const (),
                 )),
@@ -210,7 +205,7 @@ pub trait CardInfoExt: IsA<CardInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::id\0".as_ptr() as *const _,
+                c"notify::id".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_id_trampoline::<Self, F> as *const (),
                 )),
@@ -233,7 +228,7 @@ pub trait CardInfoExt: IsA<CardInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::long-name\0".as_ptr() as *const _,
+                c"notify::long-name".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_long_name_trampoline::<Self, F> as *const (),
                 )),
@@ -256,7 +251,7 @@ pub trait CardInfoExt: IsA<CardInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::mixer-name\0".as_ptr() as *const _,
+                c"notify::mixer-name".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_mixer_name_trampoline::<Self, F> as *const (),
                 )),
@@ -279,7 +274,7 @@ pub trait CardInfoExt: IsA<CardInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::name\0".as_ptr() as *const _,
+                c"notify::name".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_name_trampoline::<Self, F> as *const (),
                 )),

@@ -103,17 +103,12 @@ impl Default for ElemInfoInteger {
     }
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::ElemInfoInteger>> Sealed for T {}
-}
-
 /// Trait containing all [`struct@ElemInfoInteger`] methods.
 ///
 /// # Implementors
 ///
 /// [`ElemInfoInteger`][struct@crate::ElemInfoInteger]
-pub trait ElemInfoIntegerExt: IsA<ElemInfoInteger> + sealed::Sealed + 'static {
+pub trait ElemInfoIntegerExt: IsA<ElemInfoInteger> + 'static {
     /// The maximum value of element in value array for the element.
     #[doc(alias = "value-max")]
     fn value_max(&self) -> i32 {
@@ -167,7 +162,7 @@ pub trait ElemInfoIntegerExt: IsA<ElemInfoInteger> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::value-max\0".as_ptr() as *const _,
+                c"notify::value-max".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_value_max_trampoline::<Self, F> as *const (),
                 )),
@@ -193,7 +188,7 @@ pub trait ElemInfoIntegerExt: IsA<ElemInfoInteger> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::value-min\0".as_ptr() as *const _,
+                c"notify::value-min".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_value_min_trampoline::<Self, F> as *const (),
                 )),
@@ -219,7 +214,7 @@ pub trait ElemInfoIntegerExt: IsA<ElemInfoInteger> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::value-step\0".as_ptr() as *const _,
+                c"notify::value-step".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_value_step_trampoline::<Self, F> as *const (),
                 )),
