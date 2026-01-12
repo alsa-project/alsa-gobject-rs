@@ -73,17 +73,12 @@ impl Default for UserInstance {
     }
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::UserInstance>> Sealed for T {}
-}
-
 /// Trait containing the part of [`struct@UserInstance`] methods.
 ///
 /// # Implementors
 ///
 /// [`UserInstance`][struct@crate::UserInstance]
-pub trait UserInstanceExt: IsA<UserInstance> + sealed::Sealed + 'static {
+pub trait UserInstanceExt: IsA<UserInstance> + 'static {
     /// Attach the instance to the timer device. If the given device_id is for absent timer device, the
     /// instance can be detached with error.
     ///
@@ -382,7 +377,7 @@ pub trait UserInstanceExt: IsA<UserInstance> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"handle-disconnection\0".as_ptr() as *const _,
+                c"handle-disconnection".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     handle_disconnection_trampoline::<Self, F> as *const (),
                 )),
@@ -417,7 +412,7 @@ pub trait UserInstanceExt: IsA<UserInstance> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"handle-real-time-event\0".as_ptr() as *const _,
+                c"handle-real-time-event".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     handle_real_time_event_trampoline::<Self, F> as *const (),
                 )),
@@ -452,7 +447,7 @@ pub trait UserInstanceExt: IsA<UserInstance> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"handle-tick-time-event\0".as_ptr() as *const _,
+                c"handle-tick-time-event".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     handle_tick_time_event_trampoline::<Self, F> as *const (),
                 )),

@@ -67,17 +67,12 @@ impl InstanceInfo {
     pub const NONE: Option<&'static InstanceInfo> = None;
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::InstanceInfo>> Sealed for T {}
-}
-
 /// Trait containing all [`struct@InstanceInfo`] methods.
 ///
 /// # Implementors
 ///
 /// [`InstanceInfo`][struct@crate::InstanceInfo]
-pub trait InstanceInfoExt: IsA<InstanceInfo> + sealed::Sealed + 'static {
+pub trait InstanceInfoExt: IsA<InstanceInfo> + 'static {
     /// The numeric ID of sound card for attached timer.
     #[doc(alias = "card-id")]
     fn card_id(&self) -> i32 {
@@ -121,7 +116,7 @@ pub trait InstanceInfoExt: IsA<InstanceInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::card-id\0".as_ptr() as *const _,
+                c"notify::card-id".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_card_id_trampoline::<Self, F> as *const (),
                 )),
@@ -144,7 +139,7 @@ pub trait InstanceInfoExt: IsA<InstanceInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::flags\0".as_ptr() as *const _,
+                c"notify::flags".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_flags_trampoline::<Self, F> as *const (),
                 )),
@@ -167,7 +162,7 @@ pub trait InstanceInfoExt: IsA<InstanceInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::id\0".as_ptr() as *const _,
+                c"notify::id".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_id_trampoline::<Self, F> as *const (),
                 )),
@@ -190,7 +185,7 @@ pub trait InstanceInfoExt: IsA<InstanceInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::name\0".as_ptr() as *const _,
+                c"notify::name".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_name_trampoline::<Self, F> as *const (),
                 )),
@@ -216,7 +211,7 @@ pub trait InstanceInfoExt: IsA<InstanceInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::resolution\0".as_ptr() as *const _,
+                c"notify::resolution".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_resolution_trampoline::<Self, F> as *const (),
                 )),

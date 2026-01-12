@@ -71,17 +71,12 @@ impl Default for InstanceParams {
     }
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::InstanceParams>> Sealed for T {}
-}
-
 /// Trait containing the part of [`struct@InstanceParams`] methods.
 ///
 /// # Implementors
 ///
 /// [`InstanceParams`][struct@crate::InstanceParams]
-pub trait InstanceParamsExt: IsA<InstanceParams> + sealed::Sealed + 'static {
+pub trait InstanceParamsExt: IsA<InstanceParams> + 'static {
     /// The flags for user instance, as a set of [`InstanceParamFlag`][crate::InstanceParamFlag].
     fn flags(&self) -> InstanceParamFlag {
         ObjectExt::property(self.as_ref(), "flags")
@@ -131,7 +126,7 @@ pub trait InstanceParamsExt: IsA<InstanceParams> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::flags\0".as_ptr() as *const _,
+                c"notify::flags".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_flags_trampoline::<Self, F> as *const (),
                 )),
@@ -157,7 +152,7 @@ pub trait InstanceParamsExt: IsA<InstanceParams> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::interval\0".as_ptr() as *const _,
+                c"notify::interval".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_interval_trampoline::<Self, F> as *const (),
                 )),
@@ -183,7 +178,7 @@ pub trait InstanceParamsExt: IsA<InstanceParams> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::queue-size\0".as_ptr() as *const _,
+                c"notify::queue-size".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_queue_size_trampoline::<Self, F> as *const (),
                 )),

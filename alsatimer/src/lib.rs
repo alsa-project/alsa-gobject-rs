@@ -26,7 +26,7 @@ pub mod subclass;
 // For applications to handle stuffs in the sys crate.
 pub use alsatimer_sys as ffi;
 
-// For links in documentation.
+// For documentation links to external crates in docs.rs.
 pub(crate) use glib;
 
 use glib::{object::IsA, prelude::Cast, translate::*};

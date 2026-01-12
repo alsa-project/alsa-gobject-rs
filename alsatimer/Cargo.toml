@@ -15,14 +15,13 @@ readme = "README.md"
 repository = "https://github.com/alsa-project/alsa-gobject-rs"
 
 [package.metadata.docs.rs]
-rustc-args = ["--cfg", "docsrs"]
-rustdoc-args = ["--cfg", "docsrs", "--generate-link-to-definition"]
+rustdoc-args = ["--generate-link-to-definition"]
+all-features = true
 
 [lib]
 name = "alsatimer"
 
 [dependencies]
-libc.workspace = true
 bitflags.workspace = true
 glib.workspace = true
 alsatimer-sys.workspace = true

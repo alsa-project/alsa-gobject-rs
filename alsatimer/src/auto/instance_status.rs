@@ -77,17 +77,12 @@ impl Default for InstanceStatus {
     }
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::InstanceStatus>> Sealed for T {}
-}
-
 /// Trait containing the part of [`struct@InstanceStatus`] methods.
 ///
 /// # Implementors
 ///
 /// [`InstanceStatus`][struct@crate::InstanceStatus]
-pub trait InstanceStatusExt: IsA<InstanceStatus> + sealed::Sealed + 'static {
+pub trait InstanceStatusExt: IsA<InstanceStatus> + 'static {
     /// The current interval in nano second.
     fn interval(&self) -> u32 {
         ObjectExt::property(self.as_ref(), "interval")
@@ -126,7 +121,7 @@ pub trait InstanceStatusExt: IsA<InstanceStatus> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::interval\0".as_ptr() as *const _,
+                c"notify::interval".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_interval_trampoline::<Self, F> as *const (),
                 )),
@@ -149,7 +144,7 @@ pub trait InstanceStatusExt: IsA<InstanceStatus> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::lost\0".as_ptr() as *const _,
+                c"notify::lost".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_lost_trampoline::<Self, F> as *const (),
                 )),
@@ -175,7 +170,7 @@ pub trait InstanceStatusExt: IsA<InstanceStatus> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::overrun\0".as_ptr() as *const _,
+                c"notify::overrun".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_overrun_trampoline::<Self, F> as *const (),
                 )),
@@ -201,7 +196,7 @@ pub trait InstanceStatusExt: IsA<InstanceStatus> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::queue-size\0".as_ptr() as *const _,
+                c"notify::queue-size".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_queue_size_trampoline::<Self, F> as *const (),
                 )),

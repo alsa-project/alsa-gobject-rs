@@ -64,17 +64,12 @@ impl Default for DeviceParams {
     }
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::DeviceParams>> Sealed for T {}
-}
-
 /// Trait containing all [`struct@DeviceParams`] methods.
 ///
 /// # Implementors
 ///
 /// [`DeviceParams`][struct@crate::DeviceParams]
-pub trait DeviceParamsExt: IsA<DeviceParams> + sealed::Sealed + 'static {
+pub trait DeviceParamsExt: IsA<DeviceParams> + 'static {
     /// The denominator of period for timer.
     #[doc(alias = "period-denominator")]
     fn period_denominator(&self) -> u64 {
@@ -116,7 +111,7 @@ pub trait DeviceParamsExt: IsA<DeviceParams> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::period-denominator\0".as_ptr() as *const _,
+                c"notify::period-denominator".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_period_denominator_trampoline::<Self, F> as *const (),
                 )),
@@ -142,7 +137,7 @@ pub trait DeviceParamsExt: IsA<DeviceParams> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::period-numerator\0".as_ptr() as *const _,
+                c"notify::period-numerator".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_period_numerator_trampoline::<Self, F> as *const (),
                 )),

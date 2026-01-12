@@ -70,17 +70,12 @@ impl Default for DeviceStatus {
     }
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::DeviceStatus>> Sealed for T {}
-}
-
 /// Trait containing all [`struct@DeviceStatus`] methods.
 ///
 /// # Implementors
 ///
 /// [`DeviceStatus`][struct@crate::DeviceStatus]
-pub trait DeviceStatusExt: IsA<DeviceStatus> + sealed::Sealed + 'static {
+pub trait DeviceStatusExt: IsA<DeviceStatus> + 'static {
     /// The current resolution in nano seconds.
     fn resolution(&self) -> u64 {
         ObjectExt::property(self.as_ref(), "resolution")
@@ -115,7 +110,7 @@ pub trait DeviceStatusExt: IsA<DeviceStatus> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::resolution\0".as_ptr() as *const _,
+                c"notify::resolution".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_resolution_trampoline::<Self, F> as *const (),
                 )),
@@ -144,7 +139,7 @@ pub trait DeviceStatusExt: IsA<DeviceStatus> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::resolution-denominator\0".as_ptr() as *const _,
+                c"notify::resolution-denominator".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_resolution_denominator_trampoline::<Self, F> as *const (),
                 )),
@@ -170,7 +165,7 @@ pub trait DeviceStatusExt: IsA<DeviceStatus> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::resolution-numerator\0".as_ptr() as *const _,
+                c"notify::resolution-numerator".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_resolution_numerator_trampoline::<Self, F> as *const (),
                 )),
