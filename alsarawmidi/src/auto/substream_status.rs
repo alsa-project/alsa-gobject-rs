@@ -65,17 +65,12 @@ impl Default for SubstreamStatus {
     }
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::SubstreamStatus>> Sealed for T {}
-}
-
 /// Trait containing all [`struct@SubstreamStatus`] methods.
 ///
 /// # Implementors
 ///
 /// [`SubstreamStatus`][struct@crate::SubstreamStatus]
-pub trait SubstreamStatusExt: IsA<SubstreamStatus> + sealed::Sealed + 'static {
+pub trait SubstreamStatusExt: IsA<SubstreamStatus> + 'static {
     /// The size of available space in intermediate buffer.
     fn avail(&self) -> u64 {
         ObjectExt::property(self.as_ref(), "avail")
@@ -103,7 +98,7 @@ pub trait SubstreamStatusExt: IsA<SubstreamStatus> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::avail\0".as_ptr() as *const _,
+                c"notify::avail".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_avail_trampoline::<Self, F> as *const (),
                 )),
@@ -129,7 +124,7 @@ pub trait SubstreamStatusExt: IsA<SubstreamStatus> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::xruns\0".as_ptr() as *const _,
+                c"notify::xruns".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_xruns_trampoline::<Self, F> as *const (),
                 )),

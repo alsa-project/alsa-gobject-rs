@@ -95,17 +95,12 @@ impl SubstreamInfo {
     pub const NONE: Option<&'static SubstreamInfo> = None;
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::SubstreamInfo>> Sealed for T {}
-}
-
 /// Trait containing all [`struct@SubstreamInfo`] methods.
 ///
 /// # Implementors
 ///
 /// [`SubstreamInfo`][struct@crate::SubstreamInfo]
-pub trait SubstreamInfoExt: IsA<SubstreamInfo> + sealed::Sealed + 'static {
+pub trait SubstreamInfoExt: IsA<SubstreamInfo> + 'static {
     /// The numeric identifier of sound card.
     #[doc(alias = "card-id")]
     fn card_id(&self) -> i32 {
@@ -178,7 +173,7 @@ pub trait SubstreamInfoExt: IsA<SubstreamInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::card-id\0".as_ptr() as *const _,
+                c"notify::card-id".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_card_id_trampoline::<Self, F> as *const (),
                 )),
@@ -204,7 +199,7 @@ pub trait SubstreamInfoExt: IsA<SubstreamInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::device-id\0".as_ptr() as *const _,
+                c"notify::device-id".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_device_id_trampoline::<Self, F> as *const (),
                 )),
@@ -230,7 +225,7 @@ pub trait SubstreamInfoExt: IsA<SubstreamInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::direction\0".as_ptr() as *const _,
+                c"notify::direction".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_direction_trampoline::<Self, F> as *const (),
                 )),
@@ -253,7 +248,7 @@ pub trait SubstreamInfoExt: IsA<SubstreamInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::flags\0".as_ptr() as *const _,
+                c"notify::flags".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_flags_trampoline::<Self, F> as *const (),
                 )),
@@ -276,7 +271,7 @@ pub trait SubstreamInfoExt: IsA<SubstreamInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::id\0".as_ptr() as *const _,
+                c"notify::id".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_id_trampoline::<Self, F> as *const (),
                 )),
@@ -299,7 +294,7 @@ pub trait SubstreamInfoExt: IsA<SubstreamInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::name\0".as_ptr() as *const _,
+                c"notify::name".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_name_trampoline::<Self, F> as *const (),
                 )),
@@ -325,7 +320,7 @@ pub trait SubstreamInfoExt: IsA<SubstreamInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::subdevice-id\0".as_ptr() as *const _,
+                c"notify::subdevice-id".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_subdevice_id_trampoline::<Self, F> as *const (),
                 )),
@@ -351,7 +346,7 @@ pub trait SubstreamInfoExt: IsA<SubstreamInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::subdevice-name\0".as_ptr() as *const _,
+                c"notify::subdevice-name".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_subdevice_name_trampoline::<Self, F> as *const (),
                 )),
@@ -377,7 +372,7 @@ pub trait SubstreamInfoExt: IsA<SubstreamInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::subdevices-avail\0".as_ptr() as *const _,
+                c"notify::subdevices-avail".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_subdevices_avail_trampoline::<Self, F> as *const (),
                 )),
@@ -403,7 +398,7 @@ pub trait SubstreamInfoExt: IsA<SubstreamInfo> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::subdevices-count\0".as_ptr() as *const _,
+                c"notify::subdevices-count".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_subdevices_count_trampoline::<Self, F> as *const (),
                 )),

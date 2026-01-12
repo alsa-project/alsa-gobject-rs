@@ -46,7 +46,7 @@ impl<T: StreamPairImpl> StreamPairImplExt for T {
 }
 
 unsafe impl<T: StreamPairImpl> IsSubclassable<T> for StreamPair {
-    fn class_init(class: &mut Class<Self>) {
+    fn class_init(class: &mut glib::Class<Self>) {
         Self::parent_class_init::<T>(class);
         let klass = class.as_mut();
         klass.handle_messages = Some(stream_pair_handle_messages::<T>);

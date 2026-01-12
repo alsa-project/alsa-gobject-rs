@@ -83,17 +83,12 @@ impl Default for StreamPair {
     }
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::StreamPair>> Sealed for T {}
-}
-
 /// Trait containing the part of [`struct@StreamPair`] methods.
 ///
 /// # Implementors
 ///
 /// [`StreamPair`][struct@crate::StreamPair]
-pub trait StreamPairExt: IsA<StreamPair> + sealed::Sealed + 'static {
+pub trait StreamPairExt: IsA<StreamPair> + 'static {
     /// Allocate [`glib::Source`][crate::glib::Source] structure to handle events from ALSA rawmidi character device for
     /// input substream. In each iteration of `GLib::MainContext`, the `read(2)` system call is
     /// executed to dispatch control event for [`handle-messages`][struct@crate::StreamPair#handle-messages] signal, according to
@@ -332,7 +327,7 @@ pub trait StreamPairExt: IsA<StreamPair> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"handle-disconnection\0".as_ptr() as *const _,
+                c"handle-disconnection".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     handle_disconnection_trampoline::<Self, F> as *const (),
                 )),
@@ -355,7 +350,7 @@ pub trait StreamPairExt: IsA<StreamPair> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"handle-messages\0".as_ptr() as *const _,
+                c"handle-messages".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     handle_messages_trampoline::<Self, F> as *const (),
                 )),
@@ -378,7 +373,7 @@ pub trait StreamPairExt: IsA<StreamPair> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::devnode\0".as_ptr() as *const _,
+                c"notify::devnode".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_devnode_trampoline::<Self, F> as *const (),
                 )),

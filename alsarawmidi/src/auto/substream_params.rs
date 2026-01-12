@@ -71,17 +71,12 @@ impl Default for SubstreamParams {
     }
 }
 
-mod sealed {
-    pub trait Sealed {}
-    impl<T: super::IsA<super::SubstreamParams>> Sealed for T {}
-}
-
 /// Trait containing all [`struct@SubstreamParams`] methods.
 ///
 /// # Implementors
 ///
 /// [`SubstreamParams`][struct@crate::SubstreamParams]
-pub trait SubstreamParamsExt: IsA<SubstreamParams> + sealed::Sealed + 'static {
+pub trait SubstreamParamsExt: IsA<SubstreamParams> + 'static {
     /// Whether to emit 0xfe one time when closing substream.
     #[doc(alias = "active-sensing")]
     fn is_active_sensing(&self) -> bool {
@@ -135,7 +130,7 @@ pub trait SubstreamParamsExt: IsA<SubstreamParams> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::active-sensing\0".as_ptr() as *const _,
+                c"notify::active-sensing".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_active_sensing_trampoline::<Self, F> as *const (),
                 )),
@@ -161,7 +156,7 @@ pub trait SubstreamParamsExt: IsA<SubstreamParams> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::avail-min\0".as_ptr() as *const _,
+                c"notify::avail-min".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_avail_min_trampoline::<Self, F> as *const (),
                 )),
@@ -187,7 +182,7 @@ pub trait SubstreamParamsExt: IsA<SubstreamParams> + sealed::Sealed + 'static {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::buffer-size\0".as_ptr() as *const _,
+                c"notify::buffer-size".as_ptr() as *const _,
                 Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_buffer_size_trampoline::<Self, F> as *const (),
                 )),
