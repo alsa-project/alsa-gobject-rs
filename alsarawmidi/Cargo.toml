@@ -25,8 +25,7 @@ name = "alsarawmidi"
 libc = "0.2"
 bitflags = "2.6"
 glib = "0.20"
-
-ffi = {package = "alsarawmidi-sys", version = "0.7.0" }
+alsarawmidi-sys = "0.7.0"
 
 [dev-dependencies]
 gir-format-check = "0.1"

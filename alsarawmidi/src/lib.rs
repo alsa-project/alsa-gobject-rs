@@ -16,8 +16,8 @@ pub mod prelude {
 /// For subclass implementations derived from provided class.
 pub mod subclass;
 
-// To access to alsarawmidi-sys crate for FFI.
-pub use ffi;
+// For applications to handle stuffs in the sys crate.
+pub use alsarawmidi_sys as ffi;
 
 // For links in documentation.
 pub(crate) use glib;
